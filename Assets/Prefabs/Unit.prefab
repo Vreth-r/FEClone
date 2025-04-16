@@ -147,6 +147,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   team: 0
   movementRange: 3
+  attackRange: 1
   currentHP: 10
   attack: 3
   defense: 1
@@ -175,4 +176,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightTilemap: {fileID: 0}
-  highlightTile: {fileID: 11400000, guid: 5ae9f093cc0756d429811f9798848eab, type: 2}
+  movementTile: {fileID: 11400000, guid: 5ae9f093cc0756d429811f9798848eab, type: 2}
+  attackTile: {fileID: 11400000, guid: c4a6acc8a458fb74f8bfafc82ea6c39a, type: 2}

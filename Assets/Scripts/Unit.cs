@@ -17,7 +17,7 @@ public class Unit : MonoBehaviour
     private void Start()
     {
         GridPosition = (Vector2Int)GridManager.Instance.WorldToCell(transform.position);
-        UnitManager.Instance.RegisterUnit(this);
+        UnitManager.Instance.RegisterUnit(this); // Tell the unit manager this thing exists
     }
 
 }

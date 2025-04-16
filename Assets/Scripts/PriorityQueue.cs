@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Helper class for Pathfinding.cs, implemenets a priority queue (dont ask)
+
 public class PriorityQueue<T> where T : Pathfinding.Node
 {
     private readonly List<T> nodes = new();

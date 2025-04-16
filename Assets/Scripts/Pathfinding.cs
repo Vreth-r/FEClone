@@ -2,6 +2,10 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
+// pathfinding alg for showing movement/attack ranges
+// was built on A* but that was insane and not neccessary so its modified to be Dijkstra
+// you prob dont need to change this unless you know what youre doing
+
 public class Pathfinding
 {
     public class Node

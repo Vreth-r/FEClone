@@ -12,13 +12,10 @@ public class MovementRange : MonoBehaviour
     public static MovementRange Instance;
 
     public Tilemap highlightTilemap; // assigned in editor, tilemap for highlight tiles
-    public TileBase highlightTile; // assigned in editor, tile for movement (blue)
+    public TileBase movementTile; // assigned in editor, tile for movement (blue)
     public TileBase attackTile; // assigned in editor, tile for attack range (red)
 
-    private void Awake()
-    {
-        Instance = this; // declare this instance for external ref
-    }
+    private void Awake() => Instance = this; // declare this instance for external ref
 
 
     // shows movement range (blue tiles) given a start and a range
@@ -35,7 +32,14 @@ public class MovementRange : MonoBehaviour
         while (frontier.Count > 0)
         {
             Vector2Int current = frontier.Dequeue(); // grab current tile (duh)
-            highlightTilemap.SetTile((Vector3Int)current, highlightTile); // highlight the tile in blue
+            if(IsWalkable(current))
+            {
+                highlightTilemap.SetTile((Vector3Int)current, movementTile); // highlight the tile in blue, anything past the origin will be checked for correctness when fed to the queue
+            }
+            else
+            {
+                highlightTilemap.SetTile((Vector3Int)current, attackTile);
+            }
 
             foreach (Vector2Int dir in Directions) // sprawl out up down left right
             {
@@ -73,7 +77,7 @@ public class MovementRange : MonoBehaviour
             for (int i = 1; i <= attackRange; i++) // for every tile of attack range
             {
                 Vector2Int pos = origin + dir * i; // get attack range for that direction
-                if(highlightTilemap.GetTile((Vector3Int)pos) == null)
+                if(!isHighlighted(pos))
                 {
                     highlightTilemap.SetTile((Vector3Int)pos, attackTile); // set the red tiles on empty tiles in this tilemap
                 }
@@ -88,7 +92,18 @@ public class MovementRange : MonoBehaviour
 
     public bool isHighlighted(Vector2Int pos)
     {
-        return highlightTilemap.GetTile((Vector3Int)pos) != null;
+        return highlightTilemap.GetTile((Vector3Int)pos) != null; // returns if tile is populated at all
+    }
+
+    public bool isMoveableTo(Vector2Int pos)
+    {
+        return highlightTilemap.GetTile((Vector3Int)pos) == movementTile && IsWalkable(pos); // returns if tile is blue and not occupied
+    }
+
+    public bool isAttackable(Vector2Int pos)
+    {
+        return highlightTilemap.GetTile((Vector3Int)pos) == movementTile || attackTile && !IsWalkable(pos); // returns if tile is blue or red and theres a unit in it
+        // Semantics may change later to account for difference between units team and the enemy
     }
 
     private bool IsWalkable(Vector2Int pos)

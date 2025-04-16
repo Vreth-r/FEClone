@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Handles unit movement, a complex endeavor apparently
+// To be attached to each unit instance
+
 public class UnitMovement : MonoBehaviour
 {
     private Unit unit;
@@ -47,13 +50,12 @@ public class UnitMovement : MonoBehaviour
             Vector2Int gridPos = new(cell.x, cell.y);
             Vector2Int oldPos = unit.GridPosition; // get units old position b4 move
 
-            if(!MovementRange.Instance.isHighlighted(gridPos))
+            if(!MovementRange.Instance.isMoveableTo(gridPos))
             {
                 Debug.Log("Invalid Move.");
                 return;
             }
 
-            
             Vector3 targetWorld = GridManager.Instance.CellToWorld(cell) + new Vector3(0.5f, 0.5f, 0); // get the proper coords according to that cell, offset for centering
             transform.position = new Vector3(targetWorld.x, targetWorld.y, transform.position.z); // move the unit
             unit.GridPosition = gridPos; // update its grid position

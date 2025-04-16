@@ -1,0 +1,31 @@
+Im not doing anything crazy production wise until a prototype is done
+
+art will be done later otherwise im just using dev assets
+
+DEV TRACKER:
+
+- This is sparse until the prototype is ready
+
+1. movement (including terrain)
+2. combat
+3. menus
+4. more
+
+BUG TRACKER:
+
+"A bug doesnt exist if its squashed before others see or before you leave your desk, unless it was really funny."
+- Vreth
+
+[FIXED] 1. Tiles with units in the sometimes get highlighted in red (intentional but not sporadically)
+and the moving unit can move into that tile.
+	FIX: 
+		The actual movement method allowed the unit to move to ANY highlighted tile, made two methods 
+		isMoveableToand isAttackble to differentiate between only blue and red and blue highlights,
+		changed the method to only allow units to move to isMoveableTo tiles, since tile highlights 
+		semantically will always be enabled when the method is executing.
+
+[LOW] 2. Tiles with units in them are not being highlighted in red (before team implementation) sporadically,
+has something to do with position of selected unit in relation, and seems to alternate being on and off depending
+on whether the selected unit is 1, 2, 3 ... etc spaces away from the unit
+		
+		
