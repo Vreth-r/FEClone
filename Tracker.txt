@@ -7,13 +7,25 @@ DEV TRACKER:
 - This is sparse until the prototype is ready
 
 1. movement (including terrain)
-2. combat
-3. menus
-4. more
+2. menus
+3. combat
+	- weapons
+	- expansion of unit types
+4. enemies
+	- bulk of work will be done in combat
+5. animations
+6. more im thinkin wait up
+	
+	Future Features for way later that seem easy enough:
+		- Swap to different arrow styles for different units or movement types on path preview
+		- Blue highlight tiles gently on the path preview
 
-	Future Features:
-		- movement range highlight includes a "fastest path" in like light blue that follows the mouse
-
+	Things Added so far:
+		- Unit class
+		- Tiles including basic terrain and highlight tiles for movement/attacking
+		- movement/attack range preview for units
+		- actually moving the unit with proper logic (not moving into other units or where it already is, etc)
+		- Action menu when a unit is done its move with options for attacking, waiting, item use, and cancelling the move.
 BUG TRACKER:
 
 "A bug doesnt exist if its squashed before others see or before you leave your desk, unless it was really funny."
@@ -34,17 +46,31 @@ on whether the selected unit is 1, 2, 3 ... etc spaces away from the unit
 		The alg that placed highlight tiles was skipping tiles that were occupied (intentional) but a semantic
 		error had it not placing attack tiles either on occupied tiles.
 
-[HIGH] 3. The path preview on the movement preview sometimes freezes the editor, not nailed down but is seemingly 
+[SUPER EXTREME/FIXED] 3. The path preview on the movement preview sometimes freezes the editor, not nailed down but is seemingly 
 connected to movinging the preview into non moveable range. Im guessing its overcounting tiles it doesnt need to.
 	FIX:
-		Not confirmed but i set the path alg  to only pathfind to blue tiles and not red ones, seems to have
+		Not confirmed but i set the path alg to only pathfind to blue tiles and not red ones, seems to have
 		stopped it for now but my intuition tells me its still there somewhere.
 		
 		Tested with like movement range 10 and still wasnt doing it, still keeping this open just in case.
 
-[LOW] 4. The selected units tile is red when selected.
+[FIXED] 4. The selected units tile is red when selected.
+	FIX:
+		Added exception for a walkable tile if its the origin for placing a red tile, since as of writing
+		red tiles are placed on in range tiles that are not walkable.
 
-[MEDIUM] 5. The physical movement of the unit moves it out of line with the tile, might have something to do with
+[FIXED] 5. The physical movement of the unit moves it out of line with the tile, might have something to do with
 acceleration.
+	FIX:
+		Parameter issue, was set to > 0.01 instead of 0 which like, why did i do that.
+
+[FIXED] 6. When cancelling a move with the action menu, the tile the unit was moved to stays red for any subsequent movements
+including when deselecting and reselecting the unit AND when selecting a different unit. i have feeling its to do with the
+unit manager.
+	FIX: 
+		Was updating the unit manager wrong. Was telling it to replace the old position with the old position, so the 
+		new position was never wiped.
+
+[LOW] 7. You can click the unit when the action menu is showing (unintentional)
 		
 		

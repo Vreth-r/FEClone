@@ -10,6 +10,8 @@ public class UnitMovement : MonoBehaviour
     private Unit unit; // unit reference this script is related to
     private bool isSelected = false; // selection status
     private Vector3 positionOffset = new Vector3(0.5f, 0.5f, 0f);
+    private Vector3 preMovePosition; // just in case the player wants to cancel move
+    private Vector2Int preMoveGridPos; // ^
     
     // for path previewing:
     private LineRenderer pathLine; // Line renderer for the path preview line
@@ -18,6 +20,9 @@ public class UnitMovement : MonoBehaviour
     private float moveSpeed = 5f; 
     [SerializeField] private GameObject arrowPrefab; // set in editor, the arrow at the end of the path preview
     private GameObject arrowInstance; 
+
+    // for menus
+    [SerializeField] private ActionMenuController actionMenu; // set in editor, the ref for the action menu controller script
 
     private void Start()
     {
@@ -94,6 +99,8 @@ public class UnitMovement : MonoBehaviour
                 return; // return if not
             }
 
+            preMovePosition = transform.position; // cache pre move coords for cancelling
+            preMoveGridPos = unit.GridPosition; // ^
             StartCoroutine(MoveAlongPath(currentPath)); // Sets the unit to move along the path set smoothly in a co-routine yeah bro we use co-routines get used to it
             isSelected = false; // TURN THAT SHIT OFF CUH
             UnitManager.Instance.deselectedUnit(); // tell the unit manager whats up
@@ -144,7 +151,7 @@ public class UnitMovement : MonoBehaviour
             Vector3Int cell = (Vector3Int)path[i]; // ref it so were not list accessing a ton (good performance)
             Vector3 targetWorld = GridManager.Instance.CellToWorld(cell) + positionOffset; // get its world pos with offset
 
-            while ((transform.position - targetWorld).sqrMagnitude > 0.01f) // while the length of the vec betwix the unit position and the target is non zero
+            while ((transform.position - targetWorld).sqrMagnitude > 0) // while the length of the vec betwix the unit position and the target is non zero
             {
                 transform.position = Vector3.MoveTowards(transform.position, targetWorld, moveSpeed * Time.deltaTime); // move the unit according to movespeed and time
                 yield return null; // insane backend shit but basically: wait for the next frame and continue execution from this line to give control back to editor
@@ -156,10 +163,41 @@ public class UnitMovement : MonoBehaviour
         UnitManager.Instance.UpdateUnitPosition(unit, oldPos, unit.GridPosition); // tell the unit manager whats going on
         isMoving = false; // set the flag once its done to do it all over again
         if(arrowInstance != null) arrowInstance.SetActive(false);
+
+        Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
+        actionMenu.Show(this, menuWorldPos); // show the action menu on move completion
     }
 
     private bool IsWalkable(Vector2Int pos)
     {
         return !UnitManager.Instance.IsOccupied(pos) || pos == unit.GridPosition; // i know theres another method named this but i needed the ref in this file
+    }
+
+    public void OnMenuSelect(UnitActionType action)
+    {
+        switch(action)
+        {
+            case UnitActionType.Attack:
+                break; // still thinking of what to put here
+
+            case UnitActionType.Wait:
+                Debug.Log("Unit waits.");
+                // TurnManager.Instance.EndTurn(); // fo l8r
+                break;
+
+            case UnitActionType.Item:
+                Debug.Log("Show item UI (WIP).");
+                break;
+            
+            case UnitActionType.Cancel:
+                Debug.Log("Cancelling move in unitmovement.");
+                UnitManager.Instance.UpdateUnitPosition(unit, unit.GridPosition, preMoveGridPos); // tell unit manager whats up
+                transform.position = preMovePosition; // return to pre move coords
+                unit.GridPosition = preMoveGridPos; // ^
+                MovementRange.Instance.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // show the movement range again
+                isSelected = true; // select that shit
+                // we are NOT animating the move back lmao
+                break;
+        }
     }
 }

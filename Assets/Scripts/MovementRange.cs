@@ -32,7 +32,7 @@ public class MovementRange : MonoBehaviour
         while (frontier.Count > 0)
         {
             Vector2Int current = frontier.Dequeue(); // grab current tile (duh)
-            if(IsWalkable(current))
+            if(IsWalkable(current) || current == origin)
             {
                 highlightTilemap.SetTile((Vector3Int)current, movementTile); // highlight the tile in blue, anything past the origin will be checked for correctness when fed to the queue
             }

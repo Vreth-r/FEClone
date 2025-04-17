@@ -146,7 +146,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
-  movementRange: 3
+  movementRange: 10
   attackRange: 1
   currentHP: 10
   attack: 3
@@ -163,6 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd856eddff69d4c4ba1a1852c8ed22b5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  arrowPrefab: {fileID: 3171108599037668712, guid: dd8f9832dfe586240b75577a42426a90, type: 3}
 --- !u!114 &4536577457962426672
 MonoBehaviour:
   m_ObjectHideFlags: 0
