@@ -195,6 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b1d89cd39a223b4aa02e7d8ffcadb30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  selectedUnit: {fileID: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -4572,8 +4573,12 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: movementRange
-      value: 3
+      value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 3715088351686450520, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: arrowPrefab
+      value: 
+      objectReference: {fileID: 3171108599037668712, guid: dd8f9832dfe586240b75577a42426a90, type: 3}
     - target: {fileID: 4536577457962426672, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: highlightTilemap
       value: 

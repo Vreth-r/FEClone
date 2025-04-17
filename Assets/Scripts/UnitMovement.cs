@@ -7,32 +7,54 @@ using UnityEngine;
 
 public class UnitMovement : MonoBehaviour
 {
-    private Unit unit;
-    private bool isSelected = false;
+    private Unit unit; // unit reference this script is related to
+    private bool isSelected = false; // selection status
+    private Vector3 positionOffset = new Vector3(0.5f, 0.5f, 0f);
+    
+    // for path previewing:
+    private LineRenderer pathLine; // Line renderer for the path preview line
+    private List<Vector2Int> currentPath = new(); // keeps track of the cells in the path preview
+    private bool isMoving = false;
+    private float moveSpeed = 5f; 
+    [SerializeField] private GameObject arrowPrefab; // set in editor, the arrow at the end of the path preview
+    private GameObject arrowInstance; 
 
     private void Start()
     {
         unit = GetComponent<Unit>(); // grab unit reference on the prefab
+        pathLine = gameObject.AddComponent<LineRenderer>(); // might change this in editor later
+        pathLine.positionCount = 0;
+        pathLine.material = new Material(Shader.Find("Sprites/Default")); // to be changed l8r prob i dunno it looks decent enough
+        pathLine.widthMultiplier = 0.1f;
+        pathLine.startColor = pathLine.endColor = Color.cyan;
+        if(arrowPrefab != null)
+        {
+            arrowInstance = Instantiate(arrowPrefab, transform); // declare instance for ref, creates ref-able game object
+            arrowInstance.SetActive(false); // set that to off so its not on screen
+        }
     }
 
     private void OnMouseDown()
     {
-        if(unit.team != Team.Player || TurnManager.Instance.currentTurn != TurnState.Player)
+        if(unit.team != Team.Player || TurnManager.Instance.currentTurn != TurnState.Player || (UnitManager.Instance.isAUnitSelected() && !UnitManager.Instance.isUnitSelected(unit)))
         {
-            return; // dont select it if its not the players unit or turn
+            return; // you cant click on it if its not the player's unit OR turn OR if another unit is selected (holy logic i should write a fucking case statement here)
         }
 
         isSelected = !isSelected; // toggle selection state
+
         Debug.Log(isSelected ? "Unit Selected" : "Unit Deselected");
         Debug.Log($"position: {unit.GridPosition}");
 
-        if (isSelected) // if selected, show movement range tiles
+        if (isSelected) // if selected
         {
-            MovementRange.Instance.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange);  
+            UnitManager.Instance.selectUnit(unit); // tell the unit manager the unit is selected
+            MovementRange.Instance.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // Show move/attack range preview tiles
         }
         else // otherwise hide them
         {
-            MovementRange.Instance.ClearHighlights();
+            UnitManager.Instance.deselectedUnit(); // tell the unit manager to wipe its selected unit
+            MovementRange.Instance.ClearHighlights(); // clear the range preview
         }
     }
 
@@ -43,26 +65,101 @@ public class UnitMovement : MonoBehaviour
             return; // if not selected, dont do anything
         }
 
-        if(Input.GetMouseButtonDown(1)) // on right click
+        if(!isMoving) // if not moving
+        {
+            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition); // get mouse world coords
+            Vector3Int cell = GridManager.Instance.WorldToCell(mouseWorld); // get the cell the mouse is over
+            Vector2Int targetPos = new(cell.x, cell.y); // set that as the target
+
+            if(MovementRange.Instance.isMoveableTo(targetPos) && targetPos != unit.GridPosition) // if the target cell is blue and its not the selected units space
+            {
+                currentPath = Pathfinding.FindPath(unit.GridPosition, targetPos, IsWalkable); // find a path between the unit and the target thats walkable
+                if(currentPath != null) DrawPath(currentPath); // if a path is found, draw it
+            }
+            else
+            {
+                pathLine.positionCount = 0; // otherwise, clear the line
+                if(arrowInstance != null) arrowInstance.SetActive(false); // set the arrow to invisible
+            }
+        }
+
+        if(Input.GetMouseButtonDown(1) && currentPath != null && currentPath.Count > 0) // if right clicked and theres a non 0 path
         {
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition); // get mouse world coords
             Vector3Int cell = GridManager.Instance.WorldToCell(worldPos); // get the cell according to those cords
-            Vector2Int gridPos = new(cell.x, cell.y);
-            Vector2Int oldPos = unit.GridPosition; // get units old position b4 move
-
-            if(!MovementRange.Instance.isMoveableTo(gridPos))
+            Vector2Int gridPos = new(cell.x, cell.y); // set grid pos based off cell
+            if(!MovementRange.Instance.isMoveableTo(gridPos)) // check if its moveable to
             {
                 Debug.Log("Invalid Move.");
-                return;
+                return; // return if not
             }
 
-            Vector3 targetWorld = GridManager.Instance.CellToWorld(cell) + new Vector3(0.5f, 0.5f, 0); // get the proper coords according to that cell, offset for centering
-            transform.position = new Vector3(targetWorld.x, targetWorld.y, transform.position.z); // move the unit
-            unit.GridPosition = gridPos; // update its grid position
-            UnitManager.Instance.UpdateUnitPosition(unit, oldPos, gridPos); // check in with the unit manager
-
-            isSelected = false; // turn that shit off
-            MovementRange.Instance.ClearHighlights();
+            StartCoroutine(MoveAlongPath(currentPath)); // Sets the unit to move along the path set smoothly in a co-routine yeah bro we use co-routines get used to it
+            isSelected = false; // TURN THAT SHIT OFF CUH
+            UnitManager.Instance.deselectedUnit(); // tell the unit manager whats up
+            pathLine.positionCount = 0; // reset the line renderer
+            if(arrowInstance != null) arrowInstance.SetActive(false); // set the arrow to invisible
+            MovementRange.Instance.ClearHighlights(); // clear all the tiles
         }
+    }
+
+    private void DrawPath(List<Vector2Int> path)
+    {
+        // Draws a path line based of a given path 
+        pathLine.positionCount = path.Count; // sets the number of verticies in the linerenderer based of the found path
+
+        for (int i = 0; i < path.Count; i++) // for every cell in the path
+        {
+            Vector3 worldPos = GridManager.Instance.CellToWorld((Vector3Int)path[i]); // get its world pos
+            pathLine.SetPosition(i, new Vector3(worldPos.x + positionOffset.x, worldPos.y + positionOffset.y, transform.position.z - 0.1f)); // draw the line with offset, in front of everything (z axis)
+        }
+
+        if (arrowInstance != null && path.Count > 1) // if the arrow exists (insurance, it will usually) and the path has at least a line
+        {
+            Vector2Int last = path[^1]; // last cell
+            Vector2Int beforeLast = path[^2]; // second last cell
+
+            Vector3 lastWorld = GridManager.Instance.CellToWorld((Vector3Int)last) + positionOffset; // grab the last cell world pos with offset
+            Vector3 beforeWorld = GridManager.Instance.CellToWorld((Vector3Int)beforeLast) + positionOffset; // ^ second last cell
+            Vector3 dir = (lastWorld - beforeWorld).normalized; // get the direction of the overall movement
+
+            arrowInstance.transform.position = lastWorld; // set the arrow position
+            arrowInstance.transform.rotation = Quaternion.LookRotation(Vector3.forward, dir); // rotate it in the overall movement dir
+            arrowInstance.SetActive(true); // make it visible
+        }
+        else if (arrowInstance != null)
+        {
+            arrowInstance.SetActive(false); // make it invisible if no path
+        }
+    }
+
+    private IEnumerator MoveAlongPath(List<Vector2Int> path)
+    {
+        // Moves the unit smoothly along a given path
+        isMoving = true; // set flag so update() doesnt shit itself
+        Vector2Int oldPos = unit.GridPosition; // keep track of the old position
+
+        for(int i = 1; i < path.Count; i++) // for every cell in the path
+        {
+            Vector3Int cell = (Vector3Int)path[i]; // ref it so were not list accessing a ton (good performance)
+            Vector3 targetWorld = GridManager.Instance.CellToWorld(cell) + positionOffset; // get its world pos with offset
+
+            while ((transform.position - targetWorld).sqrMagnitude > 0.01f) // while the length of the vec betwix the unit position and the target is non zero
+            {
+                transform.position = Vector3.MoveTowards(transform.position, targetWorld, moveSpeed * Time.deltaTime); // move the unit according to movespeed and time
+                yield return null; // insane backend shit but basically: wait for the next frame and continue execution from this line to give control back to editor
+            }
+
+            unit.GridPosition = path[i]; // sets its grid position for the interim
+        }
+
+        UnitManager.Instance.UpdateUnitPosition(unit, oldPos, unit.GridPosition); // tell the unit manager whats going on
+        isMoving = false; // set the flag once its done to do it all over again
+        if(arrowInstance != null) arrowInstance.SetActive(false);
+    }
+
+    private bool IsWalkable(Vector2Int pos)
+    {
+        return !UnitManager.Instance.IsOccupied(pos) || pos == unit.GridPosition; // i know theres another method named this but i needed the ref in this file
     }
 }

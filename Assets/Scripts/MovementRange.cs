@@ -46,14 +46,11 @@ public class MovementRange : MonoBehaviour
                 Vector2Int neighbor = current + dir; // grab neighbor
                 int newCost = costSoFar[current] + 1; // Assume flat movement cost (1 per tile), will change later for terrain types
 
-                if (newCost > moveRange) // skip the rest if the unit cant move anymore
+                if (newCost > moveRange || !IsWalkable(neighbor)) // skip the rest if the unit cant move anymore or if its neighbor is occupied
                 {
                     ShowAttackRange(current, attackRange);
                     continue;
                 }
-
-                if (!IsWalkable(neighbor)) // skip the rest if the tile is occupied
-                    continue;
                 
                 // if the neighbor isnt tracked yet 
                 // OR 
@@ -109,7 +106,7 @@ public class MovementRange : MonoBehaviour
     private bool IsWalkable(Vector2Int pos)
     {
         // checks if the tile is not occupied and hence can be "walked" through
-        // add check if its inside tilemap bounds later
+        // add check if its inside tilemap bounds later (maybe)
         return !UnitManager.Instance.IsOccupied(pos);
     }
 

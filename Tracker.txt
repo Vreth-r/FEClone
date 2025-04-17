@@ -11,6 +11,9 @@ DEV TRACKER:
 3. menus
 4. more
 
+	Future Features:
+		- movement range highlight includes a "fastest path" in like light blue that follows the mouse
+
 BUG TRACKER:
 
 "A bug doesnt exist if its squashed before others see or before you leave your desk, unless it was really funny."
@@ -24,8 +27,24 @@ and the moving unit can move into that tile.
 		changed the method to only allow units to move to isMoveableTo tiles, since tile highlights 
 		semantically will always be enabled when the method is executing.
 
-[LOW] 2. Tiles with units in them are not being highlighted in red (before team implementation) sporadically,
+[FIXED] 2. Tiles with units in them are not being highlighted in red (before team implementation),
 has something to do with position of selected unit in relation, and seems to alternate being on and off depending
 on whether the selected unit is 1, 2, 3 ... etc spaces away from the unit
+	FIX:
+		The alg that placed highlight tiles was skipping tiles that were occupied (intentional) but a semantic
+		error had it not placing attack tiles either on occupied tiles.
+
+[HIGH] 3. The path preview on the movement preview sometimes freezes the editor, not nailed down but is seemingly 
+connected to movinging the preview into non moveable range. Im guessing its overcounting tiles it doesnt need to.
+	FIX:
+		Not confirmed but i set the path alg  to only pathfind to blue tiles and not red ones, seems to have
+		stopped it for now but my intuition tells me its still there somewhere.
+		
+		Tested with like movement range 10 and still wasnt doing it, still keeping this open just in case.
+
+[LOW] 4. The selected units tile is red when selected.
+
+[MEDIUM] 5. The physical movement of the unit moves it out of line with the tile, might have something to do with
+acceleration.
 		
 		
