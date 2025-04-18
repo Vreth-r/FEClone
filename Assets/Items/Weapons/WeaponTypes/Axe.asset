@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a698fa0a10d6c0a498c5dbfdd6a0c522, type: 3}
+  m_Name: Axe
+  m_EditorClassIdentifier: 
+  typeName: Axe
+  isRanged: 0
+  damageType: 0
+  strongAgainstWeapon:
+  - {fileID: 11400000, guid: 2e69c0f47b2ebdb47960a5aca0fae624, type: 2}
+  - {fileID: 11400000, guid: 7e7dec37399729f45a461de51e9c547e, type: 2}
+  - {fileID: 11400000, guid: bb92431d8d1919144ad028e47cec9b41, type: 2}
+  - {fileID: 11400000, guid: 773db2c95f609fb4abccb4cabdd8ac80, type: 2}
+  - {fileID: 11400000, guid: 7b3a4a1ceb12ca84d90dc307bbf9f208, type: 2}
+  - {fileID: 11400000, guid: 0dc7f8e4a4e282d4c982389b4639542b, type: 2}
+  - {fileID: 11400000, guid: 8ad457861a99f40498cf3dadbed2435b, type: 2}
+  weakAgainstWeapon:
+  - {fileID: 11400000, guid: 8cf3654742151524680dec6378b5fd69, type: 2}
+  - {fileID: 11400000, guid: 61a5249f0d7f31143adfc628c4095d8f, type: 2}
+  strongAgainstClass: 
+  weakAgainstClass: 

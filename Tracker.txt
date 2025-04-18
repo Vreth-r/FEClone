@@ -31,7 +31,6 @@ DEV TRACKER:
 		- inventory and items
 
 	TODO:
-		- make weapon stat buffs list based
 		- make promotion class support multiple classes instead of one
 		- Add effects for skills and consumables
 		- implement ONLY being able to attack a certain distance, instead of a range.

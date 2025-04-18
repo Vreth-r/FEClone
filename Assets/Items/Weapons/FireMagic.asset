@@ -18,7 +18,15 @@ MonoBehaviour:
   icon: {fileID: 0}
   minRange: 1
   maxRange: 2
-  weaponType: 4
-  might: 3
+  weaponType: {fileID: 0}
   hit: 30
+  avoid: 0
+  crit: 0
   durability: 50
+  bonusStrength: 0
+  bonusArcane: 0
+  bonusDefense: 0
+  bonusSpeed: 0
+  bonusSkill: 0
+  bonusResistance: 0
+  bonusLuck: 0

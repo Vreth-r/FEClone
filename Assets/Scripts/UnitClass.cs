@@ -31,11 +31,6 @@ public class UnitClass : ScriptableObject
     public int promotionLevel = 10; // default level to allow for a promotion
 }
 
-public enum WeaponType // placeholder for now, will be made its own class soon lmao
-{
-    Sword, Axe, Lance, Bow, Magic, Staff, DarkMagic
-}
-
 public enum ClassTag
 {
     Armored, Mounted, Flying, Infantry, Magical, Wyrm, Beast

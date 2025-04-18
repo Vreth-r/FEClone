@@ -4,15 +4,20 @@ using UnityEngine;
 
 [CreateAssetMenu(menuName = "Tactics RPG/Weapon")]
 public class WeaponItem : Item // holy coding btw
-{
+{   
+    [Header("Weapon Stats")]
     public WeaponType weaponType;
-    public int might; // The extra strength or mag a unit gets for using this item
     public int hit; // the extra hit a unit gets for using this item
     public int avoid; // the extra avoidance a unit gets for using this item
     public int crit; // the extra crit a unit gets for using this item
-    // might add more of these for primary stats cause i like the concept
-    
     public int durability = 50; // debating on whether to have this or do what fates did
+    public int bonusStrength;
+    public int bonusArcane;
+    public int bonusDefense;
+    public int bonusSpeed;
+    public int bonusSkill;
+    public int bonusResistance;
+    public int bonusLuck;
 
     private void OnEnable()
     {
@@ -24,4 +29,25 @@ public class WeaponItem : Item // holy coding btw
         Debug.Log($"{user.name} attacks {target.name} with {itemName}!");
         // placeholder for now, combat logic maybe later 
     }
+
+    public bool IsEffectiveAgainstWeapon(WeaponType targetType)
+    {
+        return weaponType.strongAgainstWeapon.Contains(targetType);
+    }
+
+    public bool IsWeakToWeapon(WeaponType targetType)
+    {
+        return weaponType.weakAgainstWeapon.Contains(targetType);
+    }
+
+    public bool IsEffectiveAgainstClass(ClassTag targetClass)
+    {
+        return weaponType.strongAgainstClass.Contains(targetClass);
+    }
+
+    public bool IsWeakToClass(ClassTag targetClass)
+    {
+        return weaponType.weakAgainstClass.Contains(targetClass);
+    }
 }
+

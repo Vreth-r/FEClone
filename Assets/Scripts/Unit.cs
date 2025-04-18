@@ -27,9 +27,9 @@ public class Unit : MonoBehaviour
     // will be adding MANY more stats theres a lot behind the scenes but these stats are what everyone can see up front
 
     // Secondary Stats
-    public float avoidance; // avoidance affects how likely the unit is to avoid an attack (attacker hit - def avoid = %chance to hit)
-    public float crit; // base % chance to deal a critical hit (damage increase depends on class)
-    public float hit; // hit affects how likely the unit is to actually hit the unit they are attacking (see avoidance)
+    public double avoidance; // avoidance affects how likely the unit is to avoid an attack (attacker hit - def avoid = %chance to hit)
+    public double crit; // base % chance to deal a critical hit (damage increase depends on class)
+    public double hit; // hit affects how likely the unit is to actually hit the unit they are attacking (see avoidance)
 
     // Skills
     public List<Skill> learnedSkills = new();
@@ -46,7 +46,7 @@ public class Unit : MonoBehaviour
         movementRange = unitClass.movementRange;
         UnitManager.Instance.RegisterUnit(this); // Tell the unit manager this thing exists
         Equip(inventory[0]);
-        CalculateStats(); // calculate secondary stats initially
+        CalculateSecondaryStats();
     }
 
     public void LevelUp()
@@ -62,7 +62,7 @@ public class Unit : MonoBehaviour
         if (Roll(unitClass.skillGrowth)) skill++;
         if (Roll(unitClass.resistanceGrowth)) resistance++;
         if (Roll(unitClass.luckGrowth)) luck++;
-        CalculateStats(); // calculate secondary stats for new levels
+        CalculateSecondaryStats();
 
         // Check for new skills
         foreach (var skillEntry in unitClass.skillsByLevel)
@@ -112,9 +112,37 @@ public class Unit : MonoBehaviour
         // add stat boosts on promo here later
     }
 
-    public void CalculateStats()
+    public int GetModifiedStat(int baseValue, string statName)
     {
-       // need to refactor the stat buffs on weapons to be list based
+        if (equippedItem is not WeaponItem weapon) return baseValue;
+
+        return statName switch
+        {
+            "STR" => baseValue + weapon.bonusStrength,
+            "ARC" => baseValue + weapon.bonusArcane,
+            "DEF" => baseValue + weapon.bonusDefense,
+            "SPD" => baseValue + weapon.bonusSpeed,
+            "SKL" => baseValue + weapon.bonusSkill,
+            "RES" => baseValue + weapon.bonusResistance,
+            "LCK" => baseValue + weapon.bonusLuck,
+            _ => baseValue
+        };
+    }
+
+    public void CalculateSecondaryStats()
+    {
+        if(equippedItem is WeaponItem weapon)
+        {
+            avoidance = (GetModifiedStat(speed, "SPD")*1.5) + (GetModifiedStat(luck, "LCK")/2) + weapon.avoid;
+            hit = (GetModifiedStat(skill, "SKL")*1.5) + (GetModifiedStat(luck, "LCK")/2) + weapon.hit;
+            crit = (GetModifiedStat(skill, "SKL")/2) + weapon.crit;
+        }
+        else 
+        {
+            avoidance = (GetModifiedStat(speed, "SPD")*1.5) + (GetModifiedStat(luck, "LCK")/2);
+            hit = (GetModifiedStat(skill, "SKL")*1.5) + (GetModifiedStat(luck, "LCK")/2);
+            crit = (GetModifiedStat(skill, "SKL")/2);
+        }
     }
     public void Equip(Item item)
     {
@@ -135,7 +163,7 @@ public class Unit : MonoBehaviour
 
         equippedItem = item;
         attackRange = item.maxRange;
-        CalculateStats();
+        CalculateSecondaryStats();
         Debug.Log($"{unitName} equipped {item.itemName}");
     }
 
@@ -143,7 +171,7 @@ public class Unit : MonoBehaviour
     {
         if(equippedItem == null || equippedItem != item) return; // cant unequip nothing or what you dont have equipped!
         equippedItem = null;
-        CalculateStats(); 
+        CalculateSecondaryStats();
     }
 
     public void UseItem(int index, Unit target = null)
