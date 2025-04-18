@@ -10,12 +10,17 @@ using UnityEngine.Tilemaps;
 public class MovementRange : MonoBehaviour
 {
     public static MovementRange Instance;
+    private Unit unit;
 
     public Tilemap highlightTilemap; // assigned in editor, tilemap for highlight tiles
     public TileBase movementTile; // assigned in editor, tile for movement (blue)
     public TileBase attackTile; // assigned in editor, tile for attack range (red)
 
-    private void Awake() => Instance = this; // declare this instance for external ref
+    private void Awake()
+    {
+        Instance = this; // declare this instance for external ref
+        unit = GetComponent<Unit>(); // grab unit reference on the prefab
+    }
 
 
     // shows movement range (blue tiles) given a start and a range
@@ -44,7 +49,15 @@ public class MovementRange : MonoBehaviour
             foreach (Vector2Int dir in Directions) // sprawl out up down left right
             {
                 Vector2Int neighbor = current + dir; // grab neighbor
-                int newCost = costSoFar[current] + 1; // Assume flat movement cost (1 per tile), will change later for terrain types
+                // Terrain stuff below
+                TerrainTile terrain = TerrainManager.Instance.GetTerrainAt(neighbor);
+                if(terrain == null || terrain.impassable) continue; // if terrain is not there or impassable skip it
+                if(terrain.blocksArmored && unit.HasTag(ClassTag.Armored)) continue; // will change this logic later to just cover them all
+                int moveCost = unit.HasTag(ClassTag.Flying) && terrain.ignoreForFlying // exception for flying units
+                    ? 1
+                    : terrain.moveCost;
+
+                int newCost = costSoFar[current] + moveCost; // Sum up the movement costs to get to that tile
 
                 if (newCost > moveRange || !IsWalkable(neighbor)) // skip the rest if the unit cant move anymore or if its neighbor is occupied
                 {

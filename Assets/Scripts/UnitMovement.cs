@@ -41,9 +41,10 @@ public class UnitMovement : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(unit.team != Team.Player || TurnManager.Instance.currentTurn != TurnState.Player || (UnitManager.Instance.isAUnitSelected() && !UnitManager.Instance.isUnitSelected(unit)))
+        if(unit.team != Team.Player || TurnManager.Instance.currentTurn != TurnState.Player || (UnitManager.Instance.isAUnitSelected() && !UnitManager.Instance.isUnitSelected(unit))
+        || actionMenu.isActive)
         {
-            return; // you cant click on it if its not the player's unit OR turn OR if another unit is selected (holy logic i should write a fucking case statement here)
+            return; // you cant click on it if its not the player's unit OR turn OR if another unit is selected OR if the action menu is open (holy logic)
         }
 
         isSelected = !isSelected; // toggle selection state
@@ -174,6 +175,8 @@ public class UnitMovement : MonoBehaviour
     }
 
     public void OnMenuSelect(UnitActionType action)
+    // this is only here cause a lot of these actions need refs already in this file and it would be work and a half to pass
+    // all the params
     {
         switch(action)
         {
@@ -196,6 +199,7 @@ public class UnitMovement : MonoBehaviour
                 unit.GridPosition = preMoveGridPos; // ^
                 MovementRange.Instance.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // show the movement range again
                 isSelected = true; // select that shit
+                UnitManager.Instance.selectUnit(unit); // tell the unit manager the unit is selected
                 // we are NOT animating the move back lmao
                 break;
         }

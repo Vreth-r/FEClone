@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7a934665ffa35478a22516d7f3fea9, type: 3}
+  m_Name: Mage
+  m_EditorClassIdentifier: 
+  className: Mage
+  classDescription: 
+  movementRange: 5
+  allowedWeapons: 04000000
+  classTags: 0300000004000000
+  hpGrowth: 80
+  strengthGrowth: 20
+  arcaneGrowth: 60
+  defenseGrowth: 30
+  speedGrowth: 40
+  skillGrowth: 60
+  resistanceGrowth: 40
+  luckGrowth: 20
+  skillsByLevel: []
+  promotedClass: {fileID: 0}
+  canPromote: 0
+  promotionLevel: 10

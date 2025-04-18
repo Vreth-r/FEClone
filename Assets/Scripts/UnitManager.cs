@@ -49,6 +49,6 @@ public class UnitManager : MonoBehaviour
 
     public bool isAUnitSelected()
     {
-        return selectedUnit != null; // returns if there is no selected unit
+        return selectedUnit != null; // returns if there is a selected unit
     }
 }

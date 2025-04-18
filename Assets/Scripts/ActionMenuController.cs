@@ -11,6 +11,7 @@ public class ActionMenuController : MonoBehaviour
     public Button waitButton;
     public Button itemButton;
     public Button cancelButton;
+    public bool isActive; // i know about gameObject.activeSelf but i need the ref somewhere else for the game object and only the script is passed to UnitMovement
 
     private UnitMovement activeUnit; // the unit in question:
 
@@ -19,11 +20,13 @@ public class ActionMenuController : MonoBehaviour
         activeUnit = unit; // set the active unit for later
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos + new Vector3(1f, 1.5f, 0)); // get world to screen coords
         transform.position = screenPos; // set position
-        gameObject.SetActive(true);
+        isActive = true; // set flag
+        gameObject.SetActive(true); // set visibility
     }
 
     public void Hide()
     {
+        isActive = false;
         gameObject.SetActive(false);
     }
 
@@ -59,8 +62,8 @@ public class ActionMenuController : MonoBehaviour
     private void OnCancel()
     {
         Debug.Log("Cancel move.");
-        activeUnit.OnMenuSelect(UnitActionType.Cancel);
         Hide();
+        activeUnit.OnMenuSelect(UnitActionType.Cancel);
     }
 }
 
