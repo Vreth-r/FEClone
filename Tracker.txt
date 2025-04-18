@@ -28,10 +28,15 @@ DEV TRACKER:
 		- Action menu when a unit is done its move with options for attacking, waiting, item use, and cancelling the move.
 		- unit classes scriptable object plus implementation for units
 		- terrain effects have been introduced to be expanded upon later
+		- inventory and items
 
 	TODO:
+		- make weapon stat buffs list based
 		- make promotion class support multiple classes instead of one
-		- inventory
+		- Add effects for skills and consumables
+		- implement ONLY being able to attack a certain distance, instead of a range.
+		- UI stuff, specifically for like unit management/stats
+		- maybe make units scriptable objects later? cause we need a set amount of units dunno ill figure it out
 BUG TRACKER:
 
 "A bug doesnt exist if its squashed before others see or before you leave your desk, unless it was really funny."

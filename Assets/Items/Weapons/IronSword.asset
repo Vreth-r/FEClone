@@ -9,9 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 385d73c35686101428ae7edee95ca236, type: 3}
-  m_Name: TerrainDatabase
+  m_Script: {fileID: 11500000, guid: 34d80e2d4e09f054f824ab33d6bd0b24, type: 3}
+  m_Name: IronSword
   m_EditorClassIdentifier: 
-  terrainTiles:
-  - {fileID: 11400000, guid: e0066a415b4f6da4d8322adb770d9f11, type: 2}
-  - {fileID: 11400000, guid: 47136639fcdd6c141b17788e29551c8d, type: 2}
+  itemName: Iron Sword
+  description: Basic and reliable, but not very powerful.
+  itemType: 0
+  icon: {fileID: 0}
+  minRange: 1
+  maxRange: 1
+  weaponType: 0
+  might: 5
+  hit: 30
+  durability: 50
