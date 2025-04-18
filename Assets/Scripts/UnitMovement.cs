@@ -79,7 +79,7 @@ public class UnitMovement : MonoBehaviour
 
             if(MovementRange.Instance.isMoveableTo(targetPos) && targetPos != unit.GridPosition) // if the target cell is blue and its not the selected units space
             {
-                currentPath = Pathfinding.FindPath(unit.GridPosition, targetPos, IsWalkable); // find a path between the unit and the target thats walkable
+                currentPath = Pathfinding.FindPath(unit.GridPosition, targetPos, IsWalkable, TerrainManager.Instance); // find a path between the unit and the target thats walkable
                 if(currentPath != null) DrawPath(currentPath); // if a path is found, draw it
             }
             else

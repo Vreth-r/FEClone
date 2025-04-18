@@ -21,4 +21,9 @@ public class TerrainManager : MonoBehaviour
         TileBase tile = tilemap.GetTile(cell);
         return terrainDatabase.GetTerrainForTile(tile);
     }
+
+    public int GetTerrainCost(TerrainTile terrain)
+    {
+        return terrain.moveCost;
+    }
 }

@@ -26,7 +26,7 @@ public class UnitClass : ScriptableObject
     public List<LevelSkill> skillsByLevel; // Skills learned at specific levels 
 
     [Header("Promotion")]
-    public UnitClass promotedClass; // class that it can promote to (will switch to be multiple later)
+    public UnitClass promotedClass; // class that it can promote to (will switch to be multiple later once ui is set up)
     public bool canPromote = false;
     public int promotionLevel = 10; // default level to allow for a promotion
 }

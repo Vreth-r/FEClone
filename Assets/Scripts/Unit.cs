@@ -9,7 +9,7 @@ public class Unit : MonoBehaviour
     public UnitClass unitClass; // class the unit belongs to
     public string unitName; // name of the unit in game, like Corrin, Robin, etc
     public string unitDescription; // small description of their personality because fire emblem is actually a dating sim
-    public int movementRange = 3; // keeping this here for now for development, will be replaced to use the class movement
+    public int movementRange; // how far the unit can mave based off its class
     public int attackRange = 2; // will prob be changed later when weapons are implemented as this will be variable depending on weapon type
     public int level = 1; // class level (deciding on max because still deciding on how i want classes to promote)
     public int currentHP; // working hp
@@ -30,6 +30,7 @@ public class Unit : MonoBehaviour
     private void Start()
     {
         GridPosition = (Vector2Int)GridManager.Instance.WorldToCell(transform.position);
+        movementRange = unitClass.movementRange;
         UnitManager.Instance.RegisterUnit(this); // Tell the unit manager this thing exists
     }
 

@@ -19,7 +19,7 @@ public class Pathfinding
         public Node(Vector2Int pos) => position = pos;
     }
 
-    public static List<Vector2Int> FindPath(Vector2Int start, Vector2Int target, System.Func<Vector2Int, bool> isWalkable)
+    public static List<Vector2Int> FindPath(Vector2Int start, Vector2Int target, System.Func<Vector2Int, bool> isWalkable, TerrainManager terrainManager)
     {
         Dictionary<Vector2Int, Node> allNodes = new();
         PriorityQueue<Node> open = new(); // simple priority queue
@@ -42,8 +42,10 @@ public class Pathfinding
                 Vector2Int neighborPos = current.position + dir;
                 if (closed.Contains(neighborPos) || !isWalkable(neighborPos))
                     continue;
-
-                int moveCost = current.gCost + 1; // could be terrain cost here
+                TerrainTile terrain = terrainManager.GetTerrainAt(neighborPos);
+                if (terrain == null) continue;
+                int terrainCost = terrainManager.GetTerrainCost(terrain);
+                int moveCost = current.gCost + terrainCost; // could be terrain cost here
 
                 if (!allNodes.TryGetValue(neighborPos, out Node neighbor))
                 {

@@ -27,6 +27,7 @@ public class TerrainDatabase : ScriptableObject
     public TerrainTile GetTerrainForTile(TileBase tile)
     {
         if (_lookup == null) Initialize();
+        if(tile == null) return null;
         return _lookup.TryGetValue(tile, out var terrain) ? terrain : null;
     }
 }

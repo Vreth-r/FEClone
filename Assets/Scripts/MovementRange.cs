@@ -87,9 +87,9 @@ public class MovementRange : MonoBehaviour
             for (int i = 1; i <= attackRange; i++) // for every tile of attack range
             {
                 Vector2Int pos = origin + dir * i; // get attack range for that direction
-                if(!isHighlighted(pos))
+                if(!isHighlighted(pos) && TerrainManager.Instance.GetTerrainAt(pos) != null)
                 {
-                    highlightTilemap.SetTile((Vector3Int)pos, attackTile); // set the red tiles on empty tiles in this tilemap
+                    highlightTilemap.SetTile((Vector3Int)pos, attackTile); // set the red tiles on terrained empty tiles in this tilemap
                 }
             }
         }
