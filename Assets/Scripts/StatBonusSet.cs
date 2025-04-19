@@ -1,5 +1,7 @@
 public class StatBonusSet
 {
+    // Class to keep track of stat bonuses for units
+    // used for passive skills and weapons i think
     public int bonusStrength;
     public int bonusArcane;
     public int bonusDefense;

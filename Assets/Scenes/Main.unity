@@ -5715,6 +5715,18 @@ PrefabInstance:
       propertyPath: inventory.Array.data[0]
       value: 
       objectReference: {fileID: 11400000, guid: ee6301d1cf9dbbb41ae439eafe3b267e, type: 2}
+    - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: learnedSkills.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: learnedSkills.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: f48ad1429488e774193310a4acaa7107, type: 2}
+    - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: learnedSkills.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 02926d850046a1442b27d674a6c95b80, type: 2}
     - target: {fileID: 3715088351686450520, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: actionMenu
       value: 

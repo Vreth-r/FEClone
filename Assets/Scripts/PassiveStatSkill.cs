@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(menuName = "Tactics RPG/Skill/Passive Stat Boost")]
+[CreateAssetMenu(menuName = "Tactics RPG/Skill/Passive Stat Skill")]
 public class PassiveStatSkill : Skill
 {
     public int bonusStrength;

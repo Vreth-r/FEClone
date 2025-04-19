@@ -37,7 +37,7 @@ public class Unit : MonoBehaviour
 
     // Inventory 
     public List<Item> inventory = new(); // thinking of making a class for this but the inventory is so simple anyway
-    public Item equippedItem;
+    public Item equippedItem; // the current equipped item (will always be a weapon)
 
     public Vector2Int GridPosition { get; set; }
 
@@ -47,6 +47,10 @@ public class Unit : MonoBehaviour
         movementRange = unitClass.movementRange;
         UnitManager.Instance.RegisterUnit(this); // Tell the unit manager this thing exists
         if (inventory.Count != 0) Equip(inventory[0]); // equip the first thing in the inventory(dev)
+        foreach (var skill in learnedSkills) // applies all passive stat skills 
+        {
+            skill.Apply(this);
+        }
         CalculateSecondaryStats();
     }
 

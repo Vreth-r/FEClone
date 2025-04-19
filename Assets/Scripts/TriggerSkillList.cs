@@ -1,17 +1,12 @@
 using UnityEngine;
 // Breaking a coding rule here lmao
 
-[CreateAssetMenu(menuName = "Tactics RPG/Skill/Luna")]
+[CreateAssetMenu(menuName = "Tactics RPG/Skill/Trigger Skill/Luna")]
 public class LunaSkill : TriggerSkill
 {
     // ignores defenders defense when proced
     // Trigger is 10% + Units skill + buffs /2
     [Range(0, 100)] public int baseTriggerChance;
-
-    public override void Apply(Unit unit) // just so the compiler stops whining
-    {
-        return;
-    }
 
     public override bool ShouldTrigger(Unit attacker, Unit defender, CombatContext context)
     {
@@ -27,17 +22,12 @@ public class LunaSkill : TriggerSkill
     }
 }
 
-[CreateAssetMenu(menuName = "Tactics RPG/Skill/Wrath")]
+[CreateAssetMenu(menuName = "Tactics RPG/Skill/Trigger Skill/Wrath")]
 public class WrathSkill : TriggerSkill
 {
     // gives +20 crit when under 50% hp
     // Trigger is 50% HP
     public int bonusCrit = 20;
-
-    public override void Apply(Unit unit)  // just so the compiler stops whining
-    {
-        return;
-    }
 
     public override bool ShouldTrigger(Unit attacker, Unit defender, CombatContext context)
     {

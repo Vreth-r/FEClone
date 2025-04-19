@@ -33,7 +33,7 @@ DEV TRACKER:
 		- half implemented skills
 
 	TODO:
-		- finish implementing skills
+		- finish implementing skills (like map skills)
 		- combat like fr
 		- make promotion class support multiple classes instead of one
 		- Add effects for consumables
