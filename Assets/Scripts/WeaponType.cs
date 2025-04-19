@@ -64,6 +64,9 @@ public class WeaponType : ScriptableObject
         Time: utility spells
             Strong into: nothing
             Weak into: nothing
+        Staff: Support
+            Strong into: nothing
+            Weak into: nothing
 
     Magical Damage:
         Fire: Raw power, balancing that fire users will high arcane boosts
@@ -85,13 +88,10 @@ public class WeaponType : ScriptableObject
             Strong into: Water, Sword, Lance, Beast Claws, Dragon Breath
             Weak into: Fire, Earth
         Arcane: Anti-magic magic
-            Strong into: Fire, Water, Wind, Earth, Dark, Light, Ice, Staff
+            Strong into: Fire, Water, Wind, Earth, Dark, Light, Ice, Staff, Time
             Weak into: Arcane, Sword, Lance, Axe, Bow, Beast Claws, Dragon Breath
         Dragon Breath: Inverse Anti-magic mage tanks (holy game design)
             Strong into: Arcane
-            Weak into: nothing
-        Staff: Support
-            Strong into: nothing
             Weak into: nothing
             
     */

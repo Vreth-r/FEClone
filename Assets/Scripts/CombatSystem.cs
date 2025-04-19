@@ -2,38 +2,132 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// PLACEHOLDER WILL BE REPLACED/UPGRADED
+// ill comment this later cause im still developing it (also untested)
+// still need to add stuff like
+/*
+    - Followup attacks (+5 speed than defender)
+    - terrain bonuses
+    - weapon type modifiers
+    - animations (later way later)
+*/
 public class CombatSystem
 {
-    public static void Attack(Unit attacker, Unit defender)
+    public static void StartCombat(Unit attacker, Unit defender)
     {
-        int damage = Mathf.Max(0, attacker.strength - defender.defense);
-        defender.currentHP -= damage;
-        Debug.Log($"{attacker.name} attacked {defender.name} for {damage} damage");
-    }
-    /*
-    public static int CalculateDamage(Unit attacker, Unit defender, bool isPlayerAttack)
-{
-    CombatContext context = new()
-    {
-        isPlayerAttack = isPlayerAttack,
-        attackPower = attacker.GetModifiedStat(attacker.strength, "STR") + (attacker.equippedItem as WeaponItem)?.might ?? 0,
-        defensePower = defender.GetModifiedStat(defender.defense, "DEF"),
-    };
+        Debug.Log($"{attacker.unitName} attacks {defender.unitName}");
 
-    // Trigger attacker skills
-    foreach (Skill skill in attacker.skills)
-    {
-        if (skill is TriggerSkill triggerSkill && triggerSkill.ShouldTrigger(attacker, defender, context))
+        CombatContext context = new ()
         {
-            triggerSkill.ApplyEffect(attacker, defender, context);
+            isPlayerAttack = true,
+            attacker = attacker,
+            defender = defender,
+            weapon = attacker.equippedItem as WeaponItem
+        };
+
+        if (context.weapon == null)
+        {
+            Debug.Log("No weapon equipped");
+            return;
+        }
+
+        CalculateBaseStats(context);
+        TriggerSkills(context);
+        ResolveCombat(context);
+        TryCounterattack(context);
+    }
+
+    private static void CalculateBaseStats(CombatContext context)
+    {   
+        // need to change this to support magical/physical so either arcane or strength
+        context.attackPower = context.attacker.GetModifiedStat(context.attacker.strength, "STR");
+
+        context.hitRate = (float)context.attacker.hit;
+        context.avoid = (float)context.defender.avoidance;
+
+        context.hitChance = Mathf.Clamp(context.hitRate - context.avoid, 0, 100);
+
+        context.critRate = (float)context.attacker.crit;
+        context.critAvoid = (float)context.defender.GetModifiedStat(context.defender.luck, "LCK");
+
+        context.critChance = Mathf.Clamp(context.critRate - context.critAvoid, 0, 100);
+        
+        context.defensePower = context.weapon.weaponType.damageType == DamageType.Physical
+            ? context.defender.GetModifiedStat(context.defender.defense, "DEF")
+            : context.defender.GetModifiedStat(context.defender.resistance, "RES");
+        
+        context.finalDamage = Mathf.Max(0, context.attackPower - context.defensePower);
+    }
+
+    private static void TriggerSkills(CombatContext context)
+    {
+        foreach (Skill skill in context.attacker.learnedSkills)
+        {
+            if (skill is TriggerSkill trigger && trigger.ShouldTrigger(context.defender, context.attacker, context))
+            {
+                trigger.ApplyEffect(context.attacker, context.defender, context);
+            }
         }
     }
 
-    // You can also check defender skills here for counter triggers like Vantage
+    private static void ResolveCombat(CombatContext context)
+    {
+        int hitRoll = Random.Range(0, 100);
+        if (hitRoll < context.hitChance)
+        {
+            Debug.Log("Hit");
 
-    context.finalDamage = Mathf.Max(0, context.attackPower - context.defensePower);
-    return context.finalDamage;
-}
-*/
+            bool isCrit = Random.Range(0, 100) < context.critChance;
+            int finalDamage = context.finalDamage;
+            if (isCrit)
+            {
+                Debug.Log("Crit");
+                finalDamage *= 3;
+            }
+
+            context.defender.currentHP -= finalDamage;
+            Debug.Log($"{context.attacker.unitName} dealth {finalDamage} damage to {context.defender.name}");
+
+            if (context.defender.currentHP <= 0)
+            {
+                Debug.Log($"{context.defender.unitName} died");
+                // handle unit death here
+            }
+        }
+        else
+        {
+            Debug.Log("Miss");
+        }
+    }
+
+    private static void TryCounterattack(CombatContext context)
+    {
+        // simple counterattack if in range
+        var counterWeapon = context.defender.equippedItem as WeaponItem;
+        if (counterWeapon == null) return;
+
+        bool inRange = InRange(context.defender, context.attacker, counterWeapon);
+        if (!inRange) return;
+
+        Debug.Log($"{context.defender.name} counterattacks");
+
+        CombatContext counterContext = new()
+        {
+            attacker = context.defender,
+            defender = context.attacker,
+            weapon = counterWeapon,
+            isPlayerAttack = false
+        };
+
+        CalculateBaseStats(counterContext);
+        TriggerSkills(counterContext);
+        ResolveCombat(counterContext);
+    }
+
+    private static bool InRange(Unit attacker, Unit target, WeaponItem weapon)
+    {
+        int dist = Mathf.Abs(attacker.GridPosition.x - target.GridPosition.x) +
+                    Mathf.Abs(attacker.GridPosition.y - target.GridPosition.y);
+        
+        return dist >= weapon.minRange && dist <= weapon.maxRange;
+    }
 }

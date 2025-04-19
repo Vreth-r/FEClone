@@ -31,10 +31,10 @@ DEV TRACKER:
 		- inventory and items
 		- weapon types
 		- half implemented skills
+		- added basic combat, need to test and flesh it out
 
 	TODO:
 		- finish implementing skills (like map skills)
-		- combat like fr
 		- make promotion class support multiple classes instead of one
 		- Add effects for consumables
 		- implement ONLY being able to attack a certain distance, instead of a range.

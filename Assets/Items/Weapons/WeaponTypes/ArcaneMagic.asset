@@ -23,6 +23,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 33a0d283150073c44b0efe37b1557f09, type: 2}
   - {fileID: 11400000, guid: 7b3a4a1ceb12ca84d90dc307bbf9f208, type: 2}
   - {fileID: 11400000, guid: 8ad457861a99f40498cf3dadbed2435b, type: 2}
+  - {fileID: 11400000, guid: ac0e5d3e8271ac3419515dfaf3706c16, type: 2}
   weakAgainstWeapon:
   - {fileID: 11400000, guid: 552a1edd2d446f04dbb643fe18ed371e, type: 2}
   - {fileID: 11400000, guid: 0dc7f8e4a4e282d4c982389b4639542b, type: 2}
