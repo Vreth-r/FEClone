@@ -15,7 +15,8 @@ MonoBehaviour:
   className: Mage
   classDescription: 
   movementRange: 5
-  allowedWeapons: 04000000
+  allowedWeapons:
+  - {fileID: 11400000, guid: 520853554b4685844aa1a92cffa96d2d, type: 2}
   classTags: 0300000004000000
   hpGrowth: 80
   strengthGrowth: 20

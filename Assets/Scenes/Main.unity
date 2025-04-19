@@ -338,6 +338,10 @@ PrefabInstance:
       propertyPath: movementRange
       value: 3
       objectReference: {fileID: 0}
+    - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: inventory.Array.size
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3715088351686450520, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: actionMenu
       value: 
@@ -5680,6 +5684,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: speed
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: unitName
       value: Unit 1
       objectReference: {fileID: 0}
@@ -5689,7 +5697,7 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: fad361e401964024a880bd06d1936289, type: 2}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: unitTitle
-      value: THe Stinky One
+      value: The Stinky One
       objectReference: {fileID: 0}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: attackRange

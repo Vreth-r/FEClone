@@ -29,12 +29,17 @@ DEV TRACKER:
 		- unit classes scriptable object plus implementation for units
 		- terrain effects have been introduced to be expanded upon later
 		- inventory and items
+		- weapon types
+		- half implemented skills
 
 	TODO:
+		- finish implementing skills
+		- combat like fr
 		- make promotion class support multiple classes instead of one
-		- Add effects for skills and consumables
+		- Add effects for consumables
 		- implement ONLY being able to attack a certain distance, instead of a range.
 		- UI stuff, specifically for like unit management/stats
+		- make all the class' in editor
 		- maybe make units scriptable objects later? cause we need a set amount of units dunno ill figure it out
 BUG TRACKER:
 

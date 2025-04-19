@@ -33,6 +33,7 @@ public class Unit : MonoBehaviour
 
     // Skills
     public List<Skill> learnedSkills = new();
+    public StatBonusSet statBonuses = new StatBonusSet();
 
     // Inventory 
     public List<Item> inventory = new(); // thinking of making a class for this but the inventory is so simple anyway
@@ -45,7 +46,7 @@ public class Unit : MonoBehaviour
         GridPosition = (Vector2Int)GridManager.Instance.WorldToCell(transform.position);
         movementRange = unitClass.movementRange;
         UnitManager.Instance.RegisterUnit(this); // Tell the unit manager this thing exists
-        Equip(inventory[0]);
+        if (inventory.Count != 0) Equip(inventory[0]); // equip the first thing in the inventory(dev)
         CalculateSecondaryStats();
     }
 
@@ -113,36 +114,58 @@ public class Unit : MonoBehaviour
     }
 
     public int GetModifiedStat(int baseValue, string statName)
-    {
-        if (equippedItem is not WeaponItem weapon) return baseValue;
+    {   
+        int bonus = 0; // init the bonus
 
-        return statName switch
+        // get the statbonusset bonus (from skills)
+        if (statName == "STR") bonus = statBonuses.bonusStrength;
+        if (statName == "ARC") bonus = statBonuses.bonusArcane;
+        if (statName == "DEF") bonus = statBonuses.bonusDefense;
+        if (statName == "SPD") bonus = statBonuses.bonusSpeed;
+        if (statName == "SKL") bonus = statBonuses.bonusSkill;
+        if (statName == "RES") bonus = statBonuses.bonusResistance;
+        if (statName == "LCK") bonus = statBonuses.bonusLuck;
+
+        //  get the weapon bonus 
+        if (equippedItem is WeaponItem weapon)
         {
-            "STR" => baseValue + weapon.bonusStrength,
-            "ARC" => baseValue + weapon.bonusArcane,
-            "DEF" => baseValue + weapon.bonusDefense,
-            "SPD" => baseValue + weapon.bonusSpeed,
-            "SKL" => baseValue + weapon.bonusSkill,
-            "RES" => baseValue + weapon.bonusResistance,
-            "LCK" => baseValue + weapon.bonusLuck,
-            _ => baseValue
-        };
+            bonus += statName switch
+            {
+                "STR" => weapon.bonusStrength,
+                "ARC" => weapon.bonusArcane,
+                "DEF" => weapon.bonusDefense,
+                "SPD" => weapon.bonusSpeed,
+                "SKL" => weapon.bonusSkill,
+                "RES" => weapon.bonusResistance,
+                "LCK" => weapon.bonusLuck,
+                _ => 0
+            };
+        }
+        return baseValue + bonus;
+        // i am intentionally not just flat changing the units stats because i want to show the 
+        // total amount of bonus stat they have compared to their base later
     }
 
     public void CalculateSecondaryStats()
     {
+        double tempAvoid = (GetModifiedStat(speed, "SPD")*1.5) + (GetModifiedStat(luck, "LCK")/2); // get the base values from primary stats
+        double tempHit = (GetModifiedStat(skill, "SKL")*1.5) + (GetModifiedStat(luck, "LCK")/2);
+        double tempCrit = (GetModifiedStat(skill, "SKL")/2);
+
+        int weaponAvoidBonus = 0; // instantiate these for scope
+        int weaponHitBonus = 0;
+        int weaponCritBonus = 0;
+
         if(equippedItem is WeaponItem weapon)
         {
-            avoidance = (GetModifiedStat(speed, "SPD")*1.5) + (GetModifiedStat(luck, "LCK")/2) + weapon.avoid;
-            hit = (GetModifiedStat(skill, "SKL")*1.5) + (GetModifiedStat(luck, "LCK")/2) + weapon.hit;
-            crit = (GetModifiedStat(skill, "SKL")/2) + weapon.crit;
+            weaponAvoidBonus = weapon.avoid; // if weapon is valid, set the bonus stats
+            weaponHitBonus = weapon.hit;
+            weaponCritBonus = weapon.crit;
         }
-        else 
-        {
-            avoidance = (GetModifiedStat(speed, "SPD")*1.5) + (GetModifiedStat(luck, "LCK")/2);
-            hit = (GetModifiedStat(skill, "SKL")*1.5) + (GetModifiedStat(luck, "LCK")/2);
-            crit = (GetModifiedStat(skill, "SKL")/2);
-        }
+
+        avoidance = tempAvoid + weaponAvoidBonus + statBonuses.bonusAvoid; // combine them all including skill bonuses and set the stats
+        hit = tempHit + weaponHitBonus + statBonuses.bonusHit;
+        crit = tempCrit + weaponCritBonus + statBonuses.bonusCrit;
     }
     public void Equip(Item item)
     {

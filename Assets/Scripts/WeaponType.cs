@@ -61,6 +61,9 @@ public class WeaponType : ScriptableObject
         Earth: Mage tanks.
             Strong into: Beast Claws, Ice
             Weak into: Axe, Water
+        Time: utility spells
+            Strong into: nothing
+            Weak into: nothing
 
     Magical Damage:
         Fire: Raw power, balancing that fire users will high arcane boosts
