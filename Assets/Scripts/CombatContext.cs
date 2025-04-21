@@ -26,5 +26,8 @@ public class CombatContext
     public bool attackerHasAdvantage;
     public bool triggeredSkill;
 
+    public bool defenderDied;
+    public bool attackerDied;
+
     // need to add the secondary stats, will do later just skeletoning this out for now
 }

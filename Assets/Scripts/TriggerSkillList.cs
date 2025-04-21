@@ -40,3 +40,22 @@ public class WrathSkill : TriggerSkill
         // add bonusCrit to context crit when i implement it
     }
 }
+
+[CreateAssetMenu(menuName = "Tactics RPG/Skill/Trigger Skill/Heal On Kill Skill")]
+public class HealOnKillSkill : TriggerSkill
+{
+    // After killing target, heal for %30 max HP
+    public float maxHPtoHealPercent = 0.3f;
+
+    public override bool ShouldTrigger(Unit attacker, Unit defender, CombatContext context)
+    {
+        return context.defenderDied;
+    } 
+
+    public override void ApplyEffect(Unit attacker, Unit defender, CombatContext context)
+    {
+        Debug.Log("Trigger Skill Heal On Kill activated");
+        // Change this to a heal method later so ui stuff can happen
+        attacker.currentHP += Mathf.Min(attacker.maxHP, Mathf.RoundToInt(attacker.maxHP*maxHPtoHealPercent));
+    }
+}

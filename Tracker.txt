@@ -33,6 +33,7 @@ DEV TRACKER:
 		- implemented trigger and passive stat skills, will add other types later wont be hard (prob maybe)
 		- added basic combat (no terrain yet), need to test and flesh it out
 		- added basic unit targeting so you can choose who to attack
+		- designed classes and added all scriptables
 
 	TODO (no particular order):
 		- finish implementing skills (like map skills)
