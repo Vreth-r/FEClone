@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7a934665ffa35478a22516d7f3fea9, type: 3}
+  m_Name: Starter_Skirmisher
+  m_EditorClassIdentifier: 
+  className: Skirmisher
+  classDescription: default value placeholder
+  movementRange: 5
+  allowedWeapons:
+  - {fileID: 11400000, guid: 2e69c0f47b2ebdb47960a5aca0fae624, type: 2}
+  classTags: 03000000
+  hpGrowth: 50
+  strengthGrowth: 30
+  arcaneGrowth: 25
+  defenseGrowth: 25
+  speedGrowth: 40
+  skillGrowth: 30
+  resistanceGrowth: 20
+  luckGrowth: 10
+  skillsByLevel: []
+  promotedClass: {fileID: 0}
+  canPromote: 0
+  promotionLevel: 10
