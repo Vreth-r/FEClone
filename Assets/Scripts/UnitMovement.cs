@@ -181,6 +181,7 @@ public class UnitMovement : MonoBehaviour
         switch(action)
         {
             case UnitActionType.Attack:
+                TargetSelector.Instance.BeginTargeting(unit);
                 break; // still thinking of what to put here
 
             case UnitActionType.Wait:

@@ -10,22 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c7a934665ffa35478a22516d7f3fea9, type: 3}
-  m_Name: Mage
+  m_Name: Starter_Mage
   m_EditorClassIdentifier: 
   className: Mage
-  classDescription: 
+  classDescription: A mage unsure of their path forward.
   movementRange: 5
   allowedWeapons:
   - {fileID: 11400000, guid: 520853554b4685844aa1a92cffa96d2d, type: 2}
+  - {fileID: 11400000, guid: 33a0d283150073c44b0efe37b1557f09, type: 2}
+  - {fileID: 11400000, guid: 7b3a4a1ceb12ca84d90dc307bbf9f208, type: 2}
+  - {fileID: 11400000, guid: 8ad457861a99f40498cf3dadbed2435b, type: 2}
+  - {fileID: 11400000, guid: 8cf3654742151524680dec6378b5fd69, type: 2}
   classTags: 0300000004000000
-  hpGrowth: 80
-  strengthGrowth: 20
-  arcaneGrowth: 60
-  defenseGrowth: 30
-  speedGrowth: 40
-  skillGrowth: 60
-  resistanceGrowth: 40
-  luckGrowth: 20
+  hpGrowth: 50
+  strengthGrowth: 30
+  arcaneGrowth: 35
+  defenseGrowth: 15
+  speedGrowth: 25
+  skillGrowth: 20
+  resistanceGrowth: 20
+  luckGrowth: 10
   skillsByLevel: []
   promotedClass: {fileID: 0}
   canPromote: 0

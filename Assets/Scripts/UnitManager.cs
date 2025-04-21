@@ -7,7 +7,7 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance;
-    private readonly HashSet<Vector2Int> occupiedTiles = new(); // keeps track of occupied tiles by all units
+    private readonly Dictionary<Vector2Int, Unit> unitPositions = new(); // keeps track of occupied tiles by all units
 
     public Unit selectedUnit; // for use in keeping track what unit is selected so others cant be selected at the same time
 
@@ -15,22 +15,38 @@ public class UnitManager : MonoBehaviour
 
     public void RegisterUnit(Unit unit)
     {
-        occupiedTiles.Add(unit.GridPosition); // track this unit 
+        unitPositions[unit.GridPosition] = unit; // track this unit 
     }
 
     public void UnregisterUnit(Unit unit)
     {
-        occupiedTiles.Remove(unit.GridPosition); // stop tracking unit (cause it died lmao)
+        unitPositions.Remove(unit.GridPosition); // stop tracking unit (cause it died lmao)
     }
 
     public void UpdateUnitPosition(Unit unit, Vector2Int oldPos, Vector2Int newPos)
     {
         // get rid of old position and add new position, not much other info is needed but may be expanded on in the future for mechanics
-        occupiedTiles.Remove(oldPos); 
-        occupiedTiles.Add(newPos);
+        unitPositions.Remove(oldPos); 
+        unitPositions[newPos] = unit;
     }
 
-    public bool IsOccupied(Vector2Int pos) => occupiedTiles.Contains(pos); // checks if a tile is occupied
+    public bool IsOccupied(Vector2Int pos) => unitPositions.ContainsKey(pos); // checks if a tile is occupied
+
+    public Unit GetUnitAt(Vector2Int pos)
+    {
+        unitPositions.TryGetValue(pos, out Unit unit);
+        return unit;
+    }
+
+    public IEnumerable<Vector2Int> GetAllOccupiedPositions()
+    {
+        return unitPositions.Keys;
+    }
+
+    public IEnumerable<Unit> GetAllUnits()
+    {
+        return unitPositions.Values;
+    }
 
     public void selectUnit(Unit unit)
     {

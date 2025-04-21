@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c7a934665ffa35478a22516d7f3fea9, type: 3}
+  m_Name: Advanced_Solcaller
+  m_EditorClassIdentifier: 
+  className: Solcaller
+  classDescription: A fire mage who specializes in raining down solar destruction.\nVery
+    high ARC. Low SPD, DEF, RES.
+  movementRange: 7
+  allowedWeapons:
+  - {fileID: 11400000, guid: 520853554b4685844aa1a92cffa96d2d, type: 2}
+  - {fileID: 11400000, guid: 5065a24e44706294db42b36060e46484, type: 2}
+  classTags: 0300000004000000
+  hpGrowth: 50
+  strengthGrowth: 30
+  arcaneGrowth: 55
+  defenseGrowth: 15
+  speedGrowth: 20
+  skillGrowth: 20
+  resistanceGrowth: 10
+  luckGrowth: 10
+  skillsByLevel: []
+  promotedClass: {fileID: 0}
+  canPromote: 0
+  promotionLevel: 10

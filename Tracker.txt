@@ -21,26 +21,36 @@ DEV TRACKER:
 		- Blue highlight tiles gently on the path preview
 
 	Things Added so far:
-		- Unit class
+		- Unit classes
 		- Tiles including basic terrain and highlight tiles for movement/attacking
 		- movement/attack range preview for units
 		- actually moving the unit with proper logic (not moving into other units or where it already is, etc)
 		- Action menu when a unit is done its move with options for attacking, waiting, item use, and cancelling the move.
 		- unit classes scriptable object plus implementation for units
 		- terrain effects have been introduced to be expanded upon later
-		- inventory and items
-		- weapon types
-		- half implemented skills
-		- added basic combat, need to test and flesh it out
+		- inventory and basic items
+		- weapon types all set in editor with strengths and weaknesses set
+		- implemented trigger and passive stat skills, will add other types later wont be hard (prob maybe)
+		- added basic combat (no terrain yet), need to test and flesh it out
+		- added basic unit targeting so you can choose who to attack
 
-	TODO:
+	TODO (no particular order):
 		- finish implementing skills (like map skills)
 		- make promotion class support multiple classes instead of one
 		- Add effects for consumables
 		- implement ONLY being able to attack a certain distance, instead of a range.
-		- UI stuff, specifically for like unit management/stats
-		- make all the class' in editor
-		- maybe make units scriptable objects later? cause we need a set amount of units dunno ill figure it out
+			^ This might be done already i just realized im better at coding than i thought
+		- UI for unit previews
+		- the combat sequence animation/event (big task)
+		- make all the classes in editor with their icons
+		- make units scriptable objects
+		- a save and load system (*mr ender rage*)
+		- look into yarn spinner for dialogue
+
+	Things I noticed and need to fix:
+		- You cant attack from where you are lmao
+		- the move/attack range system could benefit from a small animation for the tiles
+		- the mouse could use some tile feedback, so maybe ill make a mouse tile highlight er smth
 BUG TRACKER:
 
 "A bug doesnt exist if its squashed before others see or before you leave your desk, unless it was really funny."

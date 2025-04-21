@@ -135,6 +135,7 @@ GameObject:
   - component: {fileID: 111451974}
   - component: {fileID: 111451977}
   - component: {fileID: 111451978}
+  - component: {fileID: 111451979}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -211,6 +212,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   terrainDatabase: {fileID: 11400000, guid: 8ef33b932aa54fe44bae49fd2ccff93e, type: 2}
   tilemap: {fileID: 1146025993}
+--- !u!114 &111451979
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111451973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc7bef0e0c7acd04ab108721854b7c8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &258117089 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5873564926162760596, guid: afae5db0bfd51e7438ff84d8d40ae7f8, type: 3}
@@ -323,13 +336,17 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: team
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: unitName
-      value: Unit 2
+      value: Idiot
       objectReference: {fileID: 0}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: unitClass
       value: 
-      objectReference: {fileID: 11400000, guid: ffdc448fa0daa324b922e05378dea399, type: 2}
+      objectReference: {fileID: 11400000, guid: b59973926dc92eb49a8c8b6d8362675d, type: 2}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: attackRange
       value: 0
@@ -337,6 +354,10 @@ PrefabInstance:
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: movementRange
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: unitDescription
+      value: (He smells really bad)
       objectReference: {fileID: 0}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: inventory.Array.size
@@ -5689,23 +5710,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: unitName
-      value: Unit 1
+      value: Ylru
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: currentHP
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: unitClass
       value: 
-      objectReference: {fileID: 11400000, guid: fad361e401964024a880bd06d1936289, type: 2}
+      objectReference: {fileID: 11400000, guid: b59973926dc92eb49a8c8b6d8362675d, type: 2}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: unitTitle
       value: The Stinky One
       objectReference: {fileID: 0}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: attackRange
-      value: 5
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: movementRange
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: unitDescription
-      value: Hates sour cream and onion chips
+      value: Currently being haunted by a time demon
       objectReference: {fileID: 0}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: inventory.Array.size

@@ -10,18 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c7a934665ffa35478a22516d7f3fea9, type: 3}
-  m_Name: Knight
+  m_Name: Advanced_Stygian
   m_EditorClassIdentifier: 
-  className: Knight
-  classDescription: 
-  movementRange: 4
-  allowedWeapons: 02000000
-  classTags: 0000000003000000
-  hpGrowth: 90
-  strengthGrowth: 60
-  arcaneGrowth: 20
-  defenseGrowth: 70
-  speedGrowth: 20
+  className: Stygian
+  classDescription: default value placeholder
+  movementRange: 6
+  allowedWeapons:
+  - {fileID: 11400000, guid: 61a5249f0d7f31143adfc628c4095d8f, type: 2}
+  - {fileID: 11400000, guid: bb92431d8d1919144ad028e47cec9b41, type: 2}
+  - {fileID: 11400000, guid: 43e3d9effe7447b48bd59dc4caf6865e, type: 2}
+  classTags: 
+  hpGrowth: 50
+  strengthGrowth: 30
+  arcaneGrowth: 25
+  defenseGrowth: 25
+  speedGrowth: 40
   skillGrowth: 40
   resistanceGrowth: 20
   luckGrowth: 20

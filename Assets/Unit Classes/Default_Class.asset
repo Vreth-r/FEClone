@@ -10,19 +10,22 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c7a934665ffa35478a22516d7f3fea9, type: 3}
-  m_Name: BlackMage
+  m_Name: Default_Class
   m_EditorClassIdentifier: 
-  className: Black Mage
-  classDescription: 
-  movementRange: 6
-  allowedWeapons: 04000000
-  classTags: 0400000003000000
-  hpGrowth: 80
-  strengthGrowth: 40
-  arcaneGrowth: 75
-  defenseGrowth: 30
-  speedGrowth: 60
-  skillGrowth: 80
-  resistanceGrowth: 40
-  luckGrowth: 30
+  className: default class (dev)
+  classDescription: default value placeholder
+  movementRange: 4
+  allowedWeapons: []
+  classTags: 
+  hpGrowth: 50
+  strengthGrowth: 30
+  arcaneGrowth: 25
+  defenseGrowth: 25
+  speedGrowth: 30
+  skillGrowth: 20
+  resistanceGrowth: 20
+  luckGrowth: 10
   skillsByLevel: []
+  promotedClass: {fileID: 0}
+  canPromote: 0
+  promotionLevel: 10
