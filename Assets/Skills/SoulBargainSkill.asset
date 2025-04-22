@@ -1,0 +1,43 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4475dec661b0b824ea5b5dd46c47bb2e, type: 3}
+  m_Name: SoulBargainSkill
+  m_EditorClassIdentifier: 
+  skillName: Soul Bargain
+  description: Gain ARC+(MAX HP/2).
+  icon: {fileID: 0}
+  bonusHP: 0
+  bonusStrength: 0
+  bonusArcane: 0
+  bonusDefense: 0
+  bonusSpeed: 0
+  bonusSkill: 0
+  bonusResistance: 0
+  bonusLuck: 0
+  bonusAvoid: 0
+  bonusCrit: 0
+  bonusHit: 0
+  bonusHPMod: 0
+  bonusStrengthMod: 0
+  bonusArcaneMod: 0
+  bonusDefenseMod: 0
+  bonusSpeedMod: 0
+  bonusSkillMod: 0
+  bonusResistanceMod: 0
+  bonusLuckMod: 0
+  bonusAvoidMod: 0
+  bonusCritMod: 0
+  bonusHitMod: 0
+  statScalingModifiers:
+  - targetStat: 1
+    sourceStat: 8
+    multiplier: 0.5

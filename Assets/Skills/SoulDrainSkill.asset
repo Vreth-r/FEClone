@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 0}
   m_Name: SoulDrainSkill
   m_EditorClassIdentifier: Assembly-CSharp::HealOnKillSkill
-  skillName: 
+  skillName: Soul Drain
   description: 
   icon: {fileID: 0}
-  maxHPtoHealPercent: 1.3
+  maxHPtoHealPercent: 0.3

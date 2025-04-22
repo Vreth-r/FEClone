@@ -34,6 +34,7 @@ DEV TRACKER:
 		- added basic combat (no terrain yet), need to test and flesh it out
 		- added basic unit targeting so you can choose who to attack
 		- designed classes and added all scriptables
+		- upgraded passive stat skill
 
 	TODO (no particular order):
 		- finish implementing skills (like map skills)
@@ -47,6 +48,7 @@ DEV TRACKER:
 		- make units scriptable objects
 		- a save and load system (*mr ender rage*)
 		- look into yarn spinner for dialogue
+		- add unit specific level stat odds
 
 	Things I noticed and need to fix:
 		- You cant attack from where you are lmao

@@ -10,6 +10,7 @@ public class UnitManager : MonoBehaviour
     private readonly Dictionary<Vector2Int, Unit> unitPositions = new(); // keeps track of occupied tiles by all units
 
     public Unit selectedUnit; // for use in keeping track what unit is selected so others cant be selected at the same time
+    public UnitStatsUI statsUI; // unit stat previewer
 
     private void Awake() => Instance = this; // declare this instance for external ref
 
@@ -51,11 +52,13 @@ public class UnitManager : MonoBehaviour
     public void selectUnit(Unit unit)
     {
         selectedUnit = unit; // selected a unit
+        statsUI.Show(unit);
     }
 
     public void deselectedUnit()
     {
         selectedUnit = null; // voids selected unit
+        statsUI.Hide();
     }
 
     public bool isUnitSelected(Unit unit)
