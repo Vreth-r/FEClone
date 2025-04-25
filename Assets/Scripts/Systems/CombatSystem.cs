@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// ill comment this later cause im still developing it (also untested)
 // still need to add stuff like
 /*
     - Followup attacks (+5 speed than defender)
@@ -13,10 +12,11 @@ using UnityEngine;
 public class CombatSystem
 {
     public static void StartCombat(Unit attacker, Unit defender)
+    // called at the start of combat and initializes everything
     {
         Debug.Log($"{attacker.unitName} attacks {defender.unitName}");
 
-        CombatContext context = new ()
+        CombatContext context = new () // creates the combat context and initialzizes it
         {
             isPlayerAttack = true,
             attacker = attacker,
@@ -24,16 +24,16 @@ public class CombatSystem
             weapon = attacker.equippedItem as WeaponItem
         };
 
-        if (context.weapon == null)
+        if (context.weapon == null) // if no weapon, no combat
         {
             Debug.Log("No weapon equipped");
             return;
         }
 
-        CalculateBaseStats(context);
-        EventSystem.TriggerEvent(EffectTriggerType.OnCombatStart, context.attacker, context.defender, context);
-        ResolveCombat(context);
-        TryCounterattack(context);
+        EventSystem.TriggerEvent(EffectTriggerType.OnCombatStart, context.attacker, context.defender, context); // trigger event
+        CalculateBaseStats(context); // Calculate all the damage and apply all the effects
+        ResolveCombat(context); // Actually apply the damage
+        TryCounterattack(context); // Lets the defender clap back
     }
 
     private static void CalculateBaseStats(CombatContext context)
