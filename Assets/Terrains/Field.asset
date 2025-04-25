@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7501ab83e8939ab43882c3fa70c7db45, type: 3}
   m_Name: Field
   m_EditorClassIdentifier: 
-  tileVisual: {fileID: 11400000, guid: ccad2bd5e4d4aa84681bf71e1b9d8b19, type: 2}
+  tileVisual: {fileID: 11400000, guid: 1234a9902f4ad9848b54e8085eebaaf9, type: 2}
   terrainName: Field
   moveCost: 1
   impassable: 0

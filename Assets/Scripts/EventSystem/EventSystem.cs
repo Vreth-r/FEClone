@@ -3,42 +3,32 @@ using System.Collections.Generic;
 public static class EventSystem
 {
     public static void TriggerEvent(
-        EffectTriggerType triggerType,
         Unit source,
-        Unit target = null,
-        CombatContext context = null
+        Unit target,
+        EffectTrigger triggerType,
+        CombatContext combatContext = null
     ) 
     {
-        List<Effect> effectsToTrigger = new();
+        EffectContext ctx = new() { combat = combatContext };
+
+        List<EffectInstance> allEffects = new();
 
         // from source unit skills
-        foreach (var skill in source.learnedSkills)
+        foreach (var skill in source.skills)
         {
-            foreach (var effect in skill.effects)
-            {
-                if (effect.triggers.Contains(triggerType))
-                {
-                    effectsToTrigger.Add(effect);
-                }
-            }
+            allEffects.AddRange(skill.effects);
         }
 
         // From weapon
         if (source.equippedItem is WeaponItem weapon)
         {
-            foreach (var effect in weapon.effects)
-            {
-                if (effect.triggers.Contains(triggerType))
-                {
-                    effectsToTrigger.Add(effect);
-                }
-            }
+            allEffects.AddRange(weapon.effects);
         }
 
         // run effects
-        foreach (var effect in effectsToTrigger)
+        foreach (var effect in allEffects)
         {
-            effect.ApplyTrigger(source, target, context);
+            effect.TryApply(source, target, triggerType, ctx);
         }
     }
 }

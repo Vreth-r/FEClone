@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7501ab83e8939ab43882c3fa70c7db45, type: 3}
   m_Name: Forest
   m_EditorClassIdentifier: 
-  tileVisual: {fileID: 11400000, guid: e94627be84410f94ea29e3b38a7ce503, type: 2}
+  tileVisual: {fileID: 11400000, guid: 8867adead002e1c4090ae5aebbfcbff7, type: 2}
   terrainName: Forest
   moveCost: 2
   impassable: 0

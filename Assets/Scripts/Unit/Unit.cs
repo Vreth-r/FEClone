@@ -32,7 +32,7 @@ public class Unit : MonoBehaviour
     public int hit; // hit affects how likely the unit is to actually hit the unit they are attacking (see avoidance)
 
     // Skills
-    public List<Skill> learnedSkills = new();
+    public List<Skill> skills = new();
     public StatBonusSet statBonuses = new StatBonusSet();
 
     // Inventory 
@@ -48,22 +48,31 @@ public class Unit : MonoBehaviour
         movementRange = unitClass.movementRange;
         UnitManager.Instance.RegisterUnit(this); // Tell the unit manager this thing exists
         if (inventory.Count != 0) Equip(inventory[0]); // equip the first thing in the inventory(dev)
-        foreach (Skill skill in learnedSkills)
+        ApplyPassiveEffects();
+        CalculateStats();
+    }
+
+    public void ApplyPassiveEffects()
+    {   
+        // Will change this to have a trigger param and make it general
+        var context = new EffectContext();
+
+        // process skills
+        foreach (var skill in skills)
         {
-            foreach(var effect in skill.effects)
+            foreach (var effectInstance in skill.effects)
             {
-                effect.ApplyPassive(this);
+                effectInstance.TryApply(this, this, EffectTrigger.Passive, context);
             }
         }
 
-        if(equippedItem is WeaponItem weapon)
+        if (equippedItem is WeaponItem weapon)
         {
-            foreach (var effect in weapon.effects)
+            foreach (var effectInstance in weapon.effects)
             {
-                effect.ApplyPassive(this);
+                effectInstance.TryApply(this, this, EffectTrigger.Passive, context);
             }
         }
-        CalculateStats();
     }
 
     public void LevelUp()
@@ -84,9 +93,9 @@ public class Unit : MonoBehaviour
         // Check for new skills
         foreach (var skillEntry in unitClass.skillsByLevel)
         {
-            if (skillEntry.level == level && !learnedSkills.Contains(skillEntry.skill))
+            if (skillEntry.level == level && !skills.Contains(skillEntry.skill))
             {
-                learnedSkills.Add(skillEntry.skill);
+                skills.Add(skillEntry.skill);
                 Debug.Log($"{unitName} learned skill: {skillEntry.skill.skillName}");
             }
         }
@@ -142,101 +151,45 @@ public class Unit : MonoBehaviour
             StatType.SKL => skill,
             StatType.RES => resistance,
             StatType.LCK => luck,
+            StatType.AVO => avoidance,
+            StatType.CRI => crit,
+            StatType.HIT => hit,
             _ => 0
         };
     }
 
-    public int GetModifiedStat(int baseValue, string statName)
+    public int GetModifiedStat(StatType stat)
     {   
         int flatBonus = 0; // init the flat bonus
         float scalingBonus = 0; // init the mult bonus
 
         // base stats
-        int baseStatValue = statName switch
-        {
-            "STR" => strength,
-            "DEF" => defense,
-            "ARC" => arcane,
-            "SPD" => speed,
-            "SKL" => skill,
-            "RES" => resistance,
-            "LCK" => luck,
-            "AVO" => avoidance,
-            "CRI" => crit,
-            "HIT" => hit,
-            "MHP" => maxHP,
-            _ => baseValue
-        };
+        int baseStatValue = GetStatByType(stat);
+    
 
-        switch (statName)
-        { // a list of these fuckers is looking good right about now
-            case "STR":
-                flatBonus = statBonuses.bonusStrength;
-                scalingBonus = statBonuses.bonusStrengthMod * strength;
-                break;
-            case "DEF":
-                flatBonus = statBonuses.bonusDefense;
-                scalingBonus = statBonuses.bonusDefenseMod * defense;
-                break;
-            case "ARC":
-                flatBonus = statBonuses.bonusArcane;
-                scalingBonus = statBonuses.bonusArcaneMod * arcane;
-                break;
-            case "SPD":
-                flatBonus = statBonuses.bonusSpeed;
-                scalingBonus = statBonuses.bonusSpeedMod * speed;
-                break;
-            case "SKL":
-                flatBonus = statBonuses.bonusSkill;
-                scalingBonus = statBonuses.bonusSkillMod * skill;
-                break;
-            case "RES":
-                flatBonus = statBonuses.bonusResistance;
-                scalingBonus = statBonuses.bonusResistanceMod * resistance;
-                break;
-            case "LCK":
-                flatBonus = statBonuses.bonusLuck;
-                scalingBonus = statBonuses.bonusLuckMod * luck;
-                break;
-            case "MHP":
-                flatBonus = statBonuses.bonusHP;
-                scalingBonus = statBonuses.bonusHPMod * maxHP;
-                break;
-            case "AVO":
-                flatBonus = statBonuses.bonusAvoid;
-                scalingBonus = statBonuses.bonusAvoidMod * avoidance;
-                break;
-            case "CRI":
-                flatBonus = statBonuses.bonusCrit;
-                scalingBonus = statBonuses.bonusCritMod * crit;
-                break;
-            case "HIT":
-                flatBonus = statBonuses.bonusHit;
-                scalingBonus = statBonuses.bonusHitMod * hit;
-                break;
-        }
-        
+        flatBonus = statBonuses.GetFlatMod(stat);
+        scalingBonus = statBonuses.GetMultMod(stat) * baseStatValue;
 
         //  apply the weapon bonus 
         if (equippedItem is WeaponItem weapon)
         {
-            flatBonus += statName switch
+            flatBonus += stat switch
             {
                 //"MHP" => weapon.bonusHP, // this one should never proc but just in case
-                "STR" => weapon.bonusStrength,
-                "ARC" => weapon.bonusArcane,
-                "DEF" => weapon.bonusDefense,
-                "SPD" => weapon.bonusSpeed,
-                "SKL" => weapon.bonusSkill,
-                "RES" => weapon.bonusResistance,
-                "LCK" => weapon.bonusLuck,
+                StatType.STR => weapon.bonusStrength,
+                StatType.ARC => weapon.bonusArcane,
+                StatType.DEF => weapon.bonusDefense,
+                StatType.SPD => weapon.bonusSpeed,
+                StatType.SKL => weapon.bonusSkill,
+                StatType.RES => weapon.bonusResistance,
+                StatType.LCK => weapon.bonusLuck,
                 _ => 0
             };
         }
         
         foreach (var mod in statBonuses.crossStatModifiers) // go over all the modifiers
         {
-            if (mod.targetStat.ToString() != statName) continue; // skip the ones we dont care about
+            if (mod.targetStat != stat) continue; // skip the ones we dont care about
 
             float sourceValue = GetStatByType(mod.sourceStat); // get the base value of the stat
             scalingBonus += sourceValue * mod.multiplier; // add to the scaling bonus of the in question stat the extra value
@@ -248,9 +201,9 @@ public class Unit : MonoBehaviour
 
     public void CalculateStats()
     {
-        int tempAvoid = Mathf.CeilToInt((float)(GetModifiedStat(speed, "SPD")*1.5) + (GetModifiedStat(luck, "LCK")/2)); // get the base values from primary stats
-        int tempHit = Mathf.CeilToInt((float)(GetModifiedStat(skill, "SKL")*1.5) + (GetModifiedStat(luck, "LCK")/2));
-        int tempCrit = Mathf.CeilToInt((float)(GetModifiedStat(skill, "SKL")/2));
+        int tempAvoid = Mathf.CeilToInt((float)(GetModifiedStat(StatType.SPD)*1.5) + (GetModifiedStat(StatType.LCK)/2)); // get the base values from primary stats
+        int tempHit = Mathf.CeilToInt((float)(GetModifiedStat(StatType.SKL)*1.5) + (GetModifiedStat(StatType.LCK)/2));
+        int tempCrit = Mathf.CeilToInt((float)(GetModifiedStat(StatType.SKL)/2));
 
         int weaponAvoidBonus = 0; // instantiate these for scope
         int weaponHitBonus = 0;
@@ -264,9 +217,9 @@ public class Unit : MonoBehaviour
         }
 
 
-        avoidance = tempAvoid + weaponAvoidBonus + statBonuses.bonusAvoid; // combine them all including skill bonuses and set the stats
-        hit = tempHit + weaponHitBonus + statBonuses.bonusHit;
-        crit = tempCrit + weaponCritBonus + statBonuses.bonusCrit;
+        avoidance = tempAvoid + weaponAvoidBonus + statBonuses.GetFlatMod(StatType.AVO); // combine them all including skill bonuses and set the stats
+        hit = tempHit + weaponHitBonus + statBonuses.GetFlatMod(StatType.HIT);
+        crit = tempCrit + weaponCritBonus + statBonuses.GetFlatMod(StatType.CRI);
     }
     public void Equip(Item item)
     {

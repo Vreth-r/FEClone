@@ -20,7 +20,7 @@ public abstract class Item : ScriptableObject
     public int minRange = 1;
     public int maxRange = 1;
 
-    public List<Effect> effects;
+    public List<EffectInstance> effects;
 
     public abstract void Use(Unit user, Unit target); // to be overridden in other files
 }

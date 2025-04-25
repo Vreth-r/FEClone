@@ -3,103 +3,84 @@ using System.Collections.Generic;
 public class StatBonusSet
 {
     // Class to keep track of stat bonuses for units
-    // used for passive skills and weapons i think
-    // Flat changes
-    public int bonusHP;
-    public int bonusStrength;
-    public int bonusArcane;
-    public int bonusDefense;
-    public int bonusSpeed;
-    public int bonusSkill;
-    public int bonusResistance;
-    public int bonusLuck;
-    public int bonusAvoid;
-    public int bonusCrit;
-    public int bonusHit;
+    // used for passive skills and weapons 
+    public Dictionary<StatType, int> flatMods = new();
 
-    // multiplicative changes
-    public float bonusHPMod;
-    public float bonusStrengthMod;
-    public float bonusArcaneMod;
-    public float bonusDefenseMod;    
-    public float bonusSpeedMod;
-    public float bonusSkillMod;
-    public float bonusResistanceMod;
-    public float bonusLuckMod;
-    public float bonusAvoidMod;
-    public float bonusCritMod;
-    public float bonusHitMod;
+    public Dictionary<StatType, float> multMods = new();
 
     // for use for skills modifying stats based off other or the same stats
     public List<StatScalingModifier> crossStatModifiers = new();
 
-    public void AddStatBonus(PassiveStatEffect effect)
+    public StatBonusSet()
     {
-        bonusHP += effect.bonusHP;
-        bonusStrength += effect.bonusStrength;
-        bonusArcane += effect.bonusArcane;
-        bonusDefense += effect.bonusDefense;
-        bonusSpeed += effect.bonusSpeed;
-        bonusSkill += effect.bonusSkill;
-        bonusResistance += effect.bonusResistance;
-        bonusLuck += effect.bonusLuck;
-        bonusAvoid += effect.bonusAvoid;
-        bonusCrit += effect.bonusCrit;
-        bonusHit += effect.bonusHit;
+        flatMods[StatType.MHP] = 0;
+        flatMods[StatType.STR] = 0;
+        flatMods[StatType.ARC] = 0;
+        flatMods[StatType.DEF] = 0;
+        flatMods[StatType.SPD] = 0;
+        flatMods[StatType.SKL] = 0;
+        flatMods[StatType.RES] = 0;
+        flatMods[StatType.LCK] = 0;
+        flatMods[StatType.AVO] = 0;
+        flatMods[StatType.CRI] = 0;
+        flatMods[StatType.HIT] = 0;
 
-        bonusHPMod += effect.bonusHPMod;
-        bonusStrengthMod += effect.bonusStrengthMod;
-        bonusArcaneMod += effect.bonusArcaneMod;
-        bonusDefenseMod += effect.bonusDefenseMod;
-        bonusSpeedMod += effect.bonusSpeedMod;
-        bonusSkillMod += effect.bonusSkillMod;
-        bonusResistanceMod += effect.bonusResistanceMod;
-        bonusLuckMod += effect.bonusLuckMod;
-        bonusAvoidMod += effect.bonusAvoidMod;
-        bonusCritMod += effect.bonusCritMod;
-        bonusHitMod += effect.bonusHitMod;
-
-        crossStatModifiers.AddRange(effect.statScalingModifiers);
+        multMods[StatType.MHP] = 0;
+        multMods[StatType.STR] = 0;
+        multMods[StatType.ARC] = 0;
+        multMods[StatType.DEF] = 0;
+        multMods[StatType.SPD] = 0;
+        multMods[StatType.SKL] = 0;
+        multMods[StatType.RES] = 0;
+        multMods[StatType.LCK] = 0;
+        multMods[StatType.AVO] = 0;
+        multMods[StatType.CRI] = 0;
+        multMods[StatType.HIT] = 0;
     }
 
-    public void RemoveStatBonus(PassiveStatEffect effect)
+    public void AddFlatStatMod(StatType stat, int mod)
     {
-        bonusHP -= effect.bonusHP;
-        bonusStrength -= effect.bonusStrength;
-        bonusArcane -= effect.bonusArcane;
-        bonusDefense -= effect.bonusDefense;
-        bonusSpeed -= effect.bonusSpeed;
-        bonusSkill -= effect.bonusSkill;
-        bonusResistance -= effect.bonusResistance;
-        bonusLuck -= effect.bonusLuck;
-        bonusAvoid -= effect.bonusAvoid;
-        bonusCrit -= effect.bonusCrit;
-        bonusHit -= effect.bonusHit;
-
-        bonusHPMod -= effect.bonusHPMod;
-        bonusStrengthMod -= effect.bonusStrengthMod;
-        bonusArcaneMod -= effect.bonusArcaneMod;
-        bonusDefenseMod -= effect.bonusDefenseMod;
-        bonusSpeedMod -= effect.bonusSpeedMod;
-        bonusSkillMod -= effect.bonusSkillMod;
-        bonusResistanceMod -= effect.bonusResistanceMod;
-        bonusLuckMod -= effect.bonusLuckMod;
-        bonusAvoidMod -= effect.bonusAvoidMod;
-        bonusCritMod -= effect.bonusCritMod;
-        bonusHitMod -= effect.bonusHitMod;
-
-        // need to add support to remove the cross stat multipliers
+        flatMods[stat] += mod;
     }
+
+    public void RemoveFlatStatMod(StatType stat, int mod)
+    {
+        flatMods[stat] -= mod;
+    }
+
+    public int GetFlatMod(StatType stat)
+    {
+        return flatMods[stat];
+    }
+
+    public void AddMultStatMod(StatType stat, float mod)
+    {
+        multMods[stat] += mod;
+    }
+
+    public void RemoveMultStatMod(StatType stat, float mod)
+    {
+        multMods[stat] -= mod;
+    }
+
+    public float GetMultMod(StatType stat)
+    {
+        return multMods[stat];
+    }
+    
 
     public void Clear()
     {
-        bonusHP = bonusStrength = bonusArcane = bonusDefense = bonusSpeed
-         = bonusSkill = bonusResistance = bonusLuck = bonusAvoid
-         = bonusCrit = bonusHit = 0;
+        foreach (var stat in flatMods.Keys)
+        {
+            flatMods[stat] = 0;
+        }
 
-        bonusHPMod = bonusStrengthMod = bonusArcaneMod = bonusDefenseMod
-        = bonusSpeedMod = bonusSkillMod = bonusResistanceMod = bonusLuckMod
-        = bonusAvoidMod = bonusCritMod = bonusHitMod = 0;
+        foreach (var stat in multMods.Keys)
+        {
+            multMods[stat] = 0;
+        }
+
         crossStatModifiers.Clear();
     }
 }

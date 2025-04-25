@@ -20,3 +20,19 @@ public class StatSet
     public double crit; // base % chance to deal a critical hit (damage increase depends on class)
     public double hit; // hit affects how likely the unit is to actually hit the unit they are attacking (see avoidance)
 }
+
+public enum StatType
+{
+    STR,
+    ARC,
+    SPD,
+    DEF,
+    SKL,
+    RES,
+    LCK,
+    CHP,
+    MHP,
+    AVO,
+    CRI,
+    HIT
+}

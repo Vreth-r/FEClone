@@ -30,7 +30,7 @@ public class CombatSystem
             return;
         }
 
-        EventSystem.TriggerEvent(EffectTriggerType.OnCombatStart, context.attacker, context.defender, context); // trigger event
+        EventSystem.TriggerEvent(context.attacker, context.defender, EffectTrigger.OnCombatStart, context); // trigger event
         CalculateBaseStats(context); // Calculate all the damage and apply all the effects
         ResolveCombat(context); // Actually apply the damage
         TryCounterattack(context); // Lets the defender clap back
@@ -39,7 +39,7 @@ public class CombatSystem
     private static void CalculateBaseStats(CombatContext context)
     {   
         // need to change this to support magical/physical so either arcane or strength
-        context.attackPower = context.attacker.GetModifiedStat(context.attacker.strength, "STR");
+        context.attackPower = context.attacker.GetModifiedStat(StatType.STR);
 
         context.hitRate = (float)context.attacker.hit;
         context.avoid = (float)context.defender.avoidance;
@@ -47,15 +47,15 @@ public class CombatSystem
         context.hitChance = Mathf.Clamp(context.hitRate - context.avoid, 0, 100);
 
         context.critRate = (float)context.attacker.crit;
-        context.critAvoid = (float)context.defender.GetModifiedStat(context.defender.luck, "LCK");
+        context.critAvoid = (float)context.defender.GetModifiedStat(StatType.LCK);
 
         context.critChance = Mathf.Clamp(context.critRate - context.critAvoid, 0, 100);
         
         context.defensePower = context.weapon.weaponType.damageType == DamageType.Physical
-            ? context.defender.GetModifiedStat(context.defender.defense, "DEF")
-            : context.defender.GetModifiedStat(context.defender.resistance, "RES");
+            ? context.defender.GetModifiedStat(StatType.DEF)
+            : context.defender.GetModifiedStat(StatType.RES);
         
-        EventSystem.TriggerEvent(EffectTriggerType.OnHit, context.attacker, context.defender, context);
+        EventSystem.TriggerEvent(context.attacker, context.defender, EffectTrigger.OnHit, context);
 
         context.finalDamage = Mathf.Max(0, context.attackPower - context.defensePower);
     }
@@ -110,7 +110,7 @@ public class CombatSystem
         };
 
         CalculateBaseStats(counterContext);
-        EventSystem.TriggerEvent(EffectTriggerType.OnHit, context.attacker, context.defender, context);
+        EventSystem.TriggerEvent(context.attacker, context.defender, EffectTrigger.OnHit, context);
         ResolveCombat(counterContext);
     }
 

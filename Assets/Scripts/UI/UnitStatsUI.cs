@@ -29,18 +29,18 @@ public class UnitStatsUI : MonoBehaviour
         unitNameText.text = unit.unitName;
         unitTitleText.text = unit.unitTitle;
 
-        DisplayStat("MHP", unit.maxHP, unit.GetModifiedStat(unit.maxHP, "MHP"), mhpText);
-        DisplayStat("CHP", unit.currentHP, unit.GetModifiedStat(unit.currentHP, "CHP"), chpText);
-        DisplayStat("STR", unit.strength, unit.GetModifiedStat(unit.strength, "STR"), strText);
-        DisplayStat("ARC", unit.arcane, unit.GetModifiedStat(unit.arcane, "ARC"), arcText);
-        DisplayStat("DEF", unit.defense, unit.GetModifiedStat(unit.defense, "DEF"), defText);
-        DisplayStat("SPD", unit.speed, unit.GetModifiedStat(unit.speed, "SPD"), spdText);
-        DisplayStat("SKL", unit.skill, unit.GetModifiedStat(unit.skill, "SKL"), sklText);
-        DisplayStat("RES", unit.resistance, unit.GetModifiedStat(unit.resistance, "RES"), resText);
-        DisplayStat("LCK", unit.luck, unit.GetModifiedStat(unit.luck, "LCK"), lckText);
-        DisplayStat("AVO", unit.avoidance, unit.GetModifiedStat(unit.avoidance, "AVO"), avoText);
-        DisplayStat("CRI", unit.crit, unit.GetModifiedStat(unit.crit, "CRI"), criText);
-        DisplayStat("HIT", unit.hit, unit.GetModifiedStat(unit.hit, "HIT"), hitText);
+        DisplayStat("MHP", unit.maxHP, unit.GetModifiedStat(StatType.MHP), mhpText);
+        DisplayStat("CHP", unit.currentHP, unit.GetStatByType(StatType.CHP), chpText);
+        DisplayStat("STR", unit.strength, unit.GetModifiedStat(StatType.STR), strText);
+        DisplayStat("ARC", unit.arcane, unit.GetModifiedStat(StatType.ARC), arcText);
+        DisplayStat("DEF", unit.defense, unit.GetModifiedStat(StatType.DEF), defText);
+        DisplayStat("SPD", unit.speed, unit.GetModifiedStat(StatType.SPD), spdText);
+        DisplayStat("SKL", unit.skill, unit.GetModifiedStat(StatType.SKL), sklText);
+        DisplayStat("RES", unit.resistance, unit.GetModifiedStat(StatType.RES), resText);
+        DisplayStat("LCK", unit.luck, unit.GetModifiedStat(StatType.LCK), lckText);
+        DisplayStat("AVO", unit.avoidance, unit.GetModifiedStat(StatType.AVO), avoText);
+        DisplayStat("CRI", unit.crit, unit.GetModifiedStat(StatType.CRI), criText);
+        DisplayStat("HIT", unit.hit, unit.GetModifiedStat(StatType.HIT), hitText);
         gameObject.SetActive(true);
     }
 
