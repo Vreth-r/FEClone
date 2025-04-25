@@ -31,7 +31,7 @@ public class CombatSystem
         }
 
         CalculateBaseStats(context);
-        TriggerSkills(context);
+        EventSystem.TriggerEvent(EffectTriggerType.OnCombatStart, context.attacker, context.defender, context);
         ResolveCombat(context);
         TryCounterattack(context);
     }
@@ -55,18 +55,9 @@ public class CombatSystem
             ? context.defender.GetModifiedStat(context.defender.defense, "DEF")
             : context.defender.GetModifiedStat(context.defender.resistance, "RES");
         
-        context.finalDamage = Mathf.Max(0, context.attackPower - context.defensePower);
-    }
+        EventSystem.TriggerEvent(EffectTriggerType.OnHit, context.attacker, context.defender, context);
 
-    private static void TriggerSkills(CombatContext context)
-    {
-        foreach (Skill skill in context.attacker.learnedSkills)
-        {
-            if (skill is TriggerSkill trigger && trigger.ShouldTrigger(context.defender, context.attacker, context))
-            {
-                trigger.ApplyEffect(context.attacker, context.defender, context);
-            }
-        }
+        context.finalDamage = Mathf.Max(0, context.attackPower - context.defensePower);
     }
 
     private static void ResolveCombat(CombatContext context)
@@ -119,7 +110,7 @@ public class CombatSystem
         };
 
         CalculateBaseStats(counterContext);
-        TriggerSkills(counterContext);
+        EventSystem.TriggerEvent(EffectTriggerType.OnHit, context.attacker, context.defender, context);
         ResolveCombat(counterContext);
     }
 

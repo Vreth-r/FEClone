@@ -50,10 +50,18 @@ public class Unit : MonoBehaviour
         if (inventory.Count != 0) Equip(inventory[0]); // equip the first thing in the inventory(dev)
         foreach (Skill skill in learnedSkills)
         {
-            if(skill is PassiveStatSkill) // applies all passive stat skills 
+            foreach(var effect in skill.effects)
             {
-                skill.Apply(this);
-            }   
+                effect.ApplyPassive(this);
+            }
+        }
+
+        if(equippedItem is WeaponItem weapon)
+        {
+            foreach (var effect in weapon.effects)
+            {
+                effect.ApplyPassive(this);
+            }
         }
         CalculateStats();
     }
@@ -233,9 +241,6 @@ public class Unit : MonoBehaviour
             float sourceValue = GetStatByType(mod.sourceStat); // get the base value of the stat
             scalingBonus += sourceValue * mod.multiplier; // add to the scaling bonus of the in question stat the extra value
         }
-        Debug.Log($"{statName}:");
-        Debug.Log($"Flat bonus: {flatBonus}");
-        Debug.Log($"Scaling bonus: {scalingBonus}");
         return Mathf.FloorToInt(baseStatValue + flatBonus + scalingBonus);
         // i am intentionally not just straight changing the units stats because i want to show the 
         // total amount of bonus stat they have compared to their base later

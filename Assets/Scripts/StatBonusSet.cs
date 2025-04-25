@@ -33,60 +33,60 @@ public class StatBonusSet
     // for use for skills modifying stats based off other or the same stats
     public List<StatScalingModifier> crossStatModifiers = new();
 
-    public void AddStatBonus(PassiveStatSkill skill)
+    public void AddStatBonus(PassiveStatEffect effect)
     {
-        bonusHP += skill.bonusHP;
-        bonusStrength += skill.bonusStrength;
-        bonusArcane += skill.bonusArcane;
-        bonusDefense += skill.bonusDefense;
-        bonusSpeed += skill.bonusSpeed;
-        bonusSkill += skill.bonusSkill;
-        bonusResistance += skill.bonusResistance;
-        bonusLuck += skill.bonusLuck;
-        bonusAvoid += skill.bonusAvoid;
-        bonusCrit += skill.bonusCrit;
-        bonusHit += skill.bonusHit;
+        bonusHP += effect.bonusHP;
+        bonusStrength += effect.bonusStrength;
+        bonusArcane += effect.bonusArcane;
+        bonusDefense += effect.bonusDefense;
+        bonusSpeed += effect.bonusSpeed;
+        bonusSkill += effect.bonusSkill;
+        bonusResistance += effect.bonusResistance;
+        bonusLuck += effect.bonusLuck;
+        bonusAvoid += effect.bonusAvoid;
+        bonusCrit += effect.bonusCrit;
+        bonusHit += effect.bonusHit;
 
-        bonusHPMod += skill.bonusHPMod;
-        bonusStrengthMod += skill.bonusStrengthMod;
-        bonusArcaneMod += skill.bonusArcaneMod;
-        bonusDefenseMod += skill.bonusDefenseMod;
-        bonusSpeedMod += skill.bonusSpeedMod;
-        bonusSkillMod += skill.bonusSkillMod;
-        bonusResistanceMod += skill.bonusResistanceMod;
-        bonusLuckMod += skill.bonusLuckMod;
-        bonusAvoidMod += skill.bonusAvoidMod;
-        bonusCritMod += skill.bonusCritMod;
-        bonusHitMod += skill.bonusHitMod;
+        bonusHPMod += effect.bonusHPMod;
+        bonusStrengthMod += effect.bonusStrengthMod;
+        bonusArcaneMod += effect.bonusArcaneMod;
+        bonusDefenseMod += effect.bonusDefenseMod;
+        bonusSpeedMod += effect.bonusSpeedMod;
+        bonusSkillMod += effect.bonusSkillMod;
+        bonusResistanceMod += effect.bonusResistanceMod;
+        bonusLuckMod += effect.bonusLuckMod;
+        bonusAvoidMod += effect.bonusAvoidMod;
+        bonusCritMod += effect.bonusCritMod;
+        bonusHitMod += effect.bonusHitMod;
 
-        crossStatModifiers.AddRange(skill.statScalingModifiers);
+        crossStatModifiers.AddRange(effect.statScalingModifiers);
     }
 
-    public void RemoveStatBonus(PassiveStatSkill skill)
+    public void RemoveStatBonus(PassiveStatEffect effect)
     {
-        bonusHP -= skill.bonusHP;
-        bonusStrength -= skill.bonusStrength;
-        bonusArcane -= skill.bonusArcane;
-        bonusDefense -= skill.bonusDefense;
-        bonusSpeed -= skill.bonusSpeed;
-        bonusSkill -= skill.bonusSkill;
-        bonusResistance -= skill.bonusResistance;
-        bonusLuck -= skill.bonusLuck;
-        bonusAvoid -= skill.bonusAvoid;
-        bonusCrit -= skill.bonusCrit;
-        bonusHit -= skill.bonusHit;
+        bonusHP -= effect.bonusHP;
+        bonusStrength -= effect.bonusStrength;
+        bonusArcane -= effect.bonusArcane;
+        bonusDefense -= effect.bonusDefense;
+        bonusSpeed -= effect.bonusSpeed;
+        bonusSkill -= effect.bonusSkill;
+        bonusResistance -= effect.bonusResistance;
+        bonusLuck -= effect.bonusLuck;
+        bonusAvoid -= effect.bonusAvoid;
+        bonusCrit -= effect.bonusCrit;
+        bonusHit -= effect.bonusHit;
 
-        bonusHPMod -= skill.bonusHPMod;
-        bonusStrengthMod -= skill.bonusStrengthMod;
-        bonusArcaneMod -= skill.bonusArcaneMod;
-        bonusDefenseMod -= skill.bonusDefenseMod;
-        bonusSpeedMod -= skill.bonusSpeedMod;
-        bonusSkillMod -= skill.bonusSkillMod;
-        bonusResistanceMod -= skill.bonusResistanceMod;
-        bonusLuckMod -= skill.bonusLuckMod;
-        bonusAvoidMod -= skill.bonusAvoidMod;
-        bonusCritMod -= skill.bonusCritMod;
-        bonusHitMod -= skill.bonusHitMod;
+        bonusHPMod -= effect.bonusHPMod;
+        bonusStrengthMod -= effect.bonusStrengthMod;
+        bonusArcaneMod -= effect.bonusArcaneMod;
+        bonusDefenseMod -= effect.bonusDefenseMod;
+        bonusSpeedMod -= effect.bonusSpeedMod;
+        bonusSkillMod -= effect.bonusSkillMod;
+        bonusResistanceMod -= effect.bonusResistanceMod;
+        bonusLuckMod -= effect.bonusLuckMod;
+        bonusAvoidMod -= effect.bonusAvoidMod;
+        bonusCritMod -= effect.bonusCritMod;
+        bonusHitMod -= effect.bonusHitMod;
 
         // need to add support to remove the cross stat multipliers
     }

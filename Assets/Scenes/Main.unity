@@ -5786,6 +5786,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: ee6301d1cf9dbbb41ae439eafe3b267e, type: 2}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: inventory.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: ee6301d1cf9dbbb41ae439eafe3b267e, type: 2}
+    - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: learnedSkills.Array.size
       value: 1
       objectReference: {fileID: 0}

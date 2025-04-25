@@ -4,6 +4,8 @@ art will be done later otherwise im just using dev assets
 
 DEV TRACKER:
 
+*** DEPRECIATED PLEASE USE THE MIRO KANBAN BOARD LINK IN THE DISCORD ***
+
 - This is sparse until the prototype is ready
 
 1. movement (including terrain)
@@ -35,6 +37,7 @@ DEV TRACKER:
 		- added basic unit targeting so you can choose who to attack
 		- designed classes and added all scriptables
 		- upgraded passive stat skill
+		- UI for unit previews
 
 	TODO (no particular order):
 		- finish implementing skills (like map skills)
@@ -42,9 +45,7 @@ DEV TRACKER:
 		- Add effects for consumables
 		- implement ONLY being able to attack a certain distance, instead of a range.
 			^ This might be done already i just realized im better at coding than i thought
-		- UI for unit previews
 		- the combat sequence animation/event (big task)
-		- make all the classes in editor with their icons
 		- make units scriptable objects
 		- a save and load system (*mr ender rage*)
 		- look into yarn spinner for dialogue

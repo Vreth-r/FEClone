@@ -2,11 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-// it is here i gripe that i could have made an "effect" system and just assigned effects to skills and kept the system logic to use
-// with items too. Im too far in to change it all now. If its neccessary i will but i dont see that happening.
-
-[CreateAssetMenu(menuName = "Tactics RPG/Skill/Passive Stat Skill")]
-public class PassiveStatSkill : Skill
+[CreateAssetMenu(menuName = "Tactics RPG/Effects/Passive Stat Bonus")]
+public class PassiveStatEffect : Effect
 {
     [Header("Flat Bonuses")]
     public int bonusHP;
@@ -39,7 +36,7 @@ public class PassiveStatSkill : Skill
     [Header("Cross-Stat Scaling")]
     public List<StatScalingModifier> statScalingModifiers = new();
 
-    public override void Apply(Unit unit)
+    public override void ApplyPassive(Unit unit)
     {
         unit.statBonuses.AddStatBonus(this);    
     }
