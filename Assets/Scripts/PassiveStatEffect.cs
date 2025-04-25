@@ -5,7 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Tactics RPG/Effects/Passive Stat Bonus")]
 public class PassiveStatEffect : Effect
 {
-    [Header("Flat Bonuses")]
+    [Header("Flat")]
     public int bonusHP;
     public int bonusStrength;
     public int bonusArcane;
@@ -18,7 +18,7 @@ public class PassiveStatEffect : Effect
     public int bonusCrit;
     public int bonusHit;
 
-    [Header("Based off of other stat")]
+    [Header("Percentage")]
     // like "gain ARC = MAX HP * 0.5"
     // modify targetStat = targetStat + [for(every stat: stat) stat*bonus[stat]Mod]
     [Range(0, 1)] public float bonusHPMod = 0f;

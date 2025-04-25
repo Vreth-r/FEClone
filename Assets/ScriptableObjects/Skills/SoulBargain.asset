@@ -9,19 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4475dec661b0b824ea5b5dd46c47bb2e, type: 3}
-  m_Name: KeenSkill
+  m_Script: {fileID: 11500000, guid: 8ad1b68864ba5844194d1363865987e4, type: 3}
+  m_Name: SoulBargain
   m_EditorClassIdentifier: 
-  skillName: Keen
-  description: Grants crit +10
+  skillName: Soul Bargain
+  description: 
   icon: {fileID: 0}
-  bonusStrength: 0
-  bonusArcane: 0
-  bonusDefense: 0
-  bonusSpeed: 0
-  bonusSkill: 0
-  bonusResistance: 0
-  bonusLuck: 0
-  bonusAvoid: 0
-  bonusCrit: 10
-  bonusHit: 0
+  effects:
+  - {fileID: 11400000, guid: 688a495d98be08148af03ebea0d300f3, type: 2}

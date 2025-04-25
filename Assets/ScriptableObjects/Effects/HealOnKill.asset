@@ -9,10 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 38ab99741fc81b3459060f0c28807c8f, type: 3}
-  m_Name: LunaSkill
+  m_Script: {fileID: 11500000, guid: 326631165e424644cb7674c9c031458c, type: 3}
+  m_Name: HealOnKill
   m_EditorClassIdentifier: 
-  skillName: Luna
-  description: Ignores target defense stat. Trigger % = (10 + Skill/2).
-  icon: {fileID: 0}
-  baseTriggerChance: 10
+  effectName: Heal On Kill 30%
+  description: Heal For 30% of your Max HP after killing an enemy.
+  triggers: 07000000
+  maxHPToHealPercent: 0.3
+  flatHealthToHeal: 0

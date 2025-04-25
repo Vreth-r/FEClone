@@ -27,5 +27,6 @@ public enum EffectTriggerType
     OnHeal,
     OnEquip,
     OnCrit,
+    Passive,
     Custom // for scripting only events
 }
