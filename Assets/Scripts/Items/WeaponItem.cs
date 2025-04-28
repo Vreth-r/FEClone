@@ -18,6 +18,7 @@ public class WeaponItem : Item // holy coding btw
     public int bonusSkill;
     public int bonusResistance;
     public int bonusLuck;
+    public WeaponProficiency proficiency;
 
     private void OnEnable()
     {
@@ -50,4 +51,7 @@ public class WeaponItem : Item // holy coding btw
         return weaponType.weakAgainstClass.Contains(targetClass);
     }
 }
+
+public enum WeaponProficiency
+{ S, A, B, C, D }
 
