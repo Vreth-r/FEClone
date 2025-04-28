@@ -9,6 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e829113888257fd4889496f3c5010dcb, type: 3}
-  m_Name: StatMod
+  m_Script: {fileID: 11500000, guid: 1115104f512c45f4eb37649d7d913e7e, type: 3}
+  m_Name: CrossStatMod
   m_EditorClassIdentifier: 

@@ -1,4 +1,4 @@
-public class StatSet
+public class UnitStatSet
 {
     // meant to keep track of stats and modifications to stats, works for weapons, skills, and units
 
@@ -34,5 +34,6 @@ public enum StatType
     MHP,
     AVO,
     CRI,
-    HIT
+    HIT,
+    NONE
 }

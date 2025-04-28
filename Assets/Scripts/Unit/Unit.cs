@@ -33,7 +33,7 @@ public class Unit : MonoBehaviour
 
     // Skills
     public List<Skill> skills = new();
-    public StatBonusSet statBonuses = new StatBonusSet();
+    public StatBonusSet statBonuses;
 
     // Inventory 
     public List<Item> inventory = new(); // thinking of making a class for this but the inventory is so simple anyway
@@ -42,16 +42,23 @@ public class Unit : MonoBehaviour
     public Vector2Int GridPosition { get; set; }
 
     private void Start()
-    {
+    {   
+        statBonuses = new StatBonusSet();
         // Start will run at the start of EVERY start, even if booting into a save
         GridPosition = (Vector2Int)GridManager.Instance.WorldToCell(transform.position);
         movementRange = unitClass.movementRange;
         UnitManager.Instance.RegisterUnit(this); // Tell the unit manager this thing exists
         if (inventory.Count != 0) Equip(inventory[0]); // equip the first thing in the inventory(dev)
+        RefreshStats();
         ApplyPassiveEffects();
         CalculateStats();
     }
 
+    public void RefreshStats()
+    {
+        statBonuses.Clear();
+        ApplyPassiveEffects();
+    }
     public void ApplyPassiveEffects()
     {   
         // Will change this to have a trigger param and make it general
@@ -132,6 +139,7 @@ public class Unit : MonoBehaviour
         if (!canPromote()) return; // sorry bud get better
 
         unitClass = unitClass.promotedClass; // promote to the promotion class
+        RefreshStats();
         // add support for multiple promotion classes later
         Debug.Log($"{unitName} promoted to {unitClass.className}!");
 
@@ -191,7 +199,7 @@ public class Unit : MonoBehaviour
         {
             if (mod.targetStat != stat) continue; // skip the ones we dont care about
 
-            float sourceValue = GetStatByType(mod.sourceStat); // get the base value of the stat
+            float sourceValue = GetStatByType(mod.sourceStat); // get the base value of the source stat
             scalingBonus += sourceValue * mod.multiplier; // add to the scaling bonus of the in question stat the extra value
         }
         return Mathf.FloorToInt(baseStatValue + flatBonus + scalingBonus);
@@ -223,6 +231,7 @@ public class Unit : MonoBehaviour
     }
     public void Equip(Item item)
     {
+        RefreshStats();
         if (item.itemType != ItemType.Weapon)
         {
             Debug.Log("Cannot Equip non-weapon item.");
@@ -246,6 +255,7 @@ public class Unit : MonoBehaviour
 
     public void UnEquip(Item item)
     {
+        RefreshStats();
         if(equippedItem == null || equippedItem != item) return; // cant unequip nothing or what you dont have equipped!
         equippedItem = null;
         CalculateStats();

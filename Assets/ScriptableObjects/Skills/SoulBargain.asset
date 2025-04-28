@@ -10,17 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ad1b68864ba5844194d1363865987e4, type: 3}
-  m_Name: ARCPlusFive
+  m_Name: SoulBargain
   m_EditorClassIdentifier: 
-  skillName: ARC+5
-  description: 
+  skillName: Soul Bargain
+  description: Gain ARC = MAXHP/2
   icon: {fileID: 0}
   effects:
-  - effect: {fileID: 11400000, guid: 6a35fe03de459f640ab08c39b629978c, type: 2}
+  - effect: {fileID: 11400000, guid: e906131ea8f888a4180117ece867e58d, type: 2}
     parameters:
-    - key: ARC
+    - key: Target
+      type: 2
+      floatValue: 0
+      boolValue: 0
+      stringValue: ARC
+    - key: Source
+      type: 2
+      floatValue: 0
+      boolValue: 0
+      stringValue: MHP
+    - key: Mod
       type: 0
-      floatValue: 5
+      floatValue: 0.5
       boolValue: 0
       stringValue: 
     conditions: []

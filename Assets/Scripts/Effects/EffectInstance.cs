@@ -6,9 +6,9 @@ using UnityEngine;
 public class EffectInstance
 {
     public Effect effect; // logic
-    public List<EffectParameter> parameters;
-    public List<EffectCondition> conditions;
-    public List<EffectTrigger> triggerTypes;
+    public List<EffectParameter> parameters; // set in editor
+    public List<EffectCondition> conditions; // set in editor
+    public List<EffectTrigger> triggerTypes; // set in editor
 
     public void TryApply(Unit source, Unit target, EffectTrigger currentTrigger, EffectContext context = null)
     {
@@ -29,24 +29,70 @@ public class EffectInstance
 public class EffectParameter
 {
     public string key;
-    public int value;
+    public EffectParameterType type;
+
+    public float floatValue;
+    public bool boolValue;
+    public string stringValue;
+    
+    public object GetValue()
+    {
+        return type switch
+        {
+            EffectParameterType.Float => floatValue,
+            EffectParameterType.Bool => boolValue,
+            EffectParameterType.String => stringValue,
+            _ => null
+        };
+    }
 }
 
 public class EffectParameterMap
 {
-    private readonly Dictionary<string, int> paramMap = new();
+    public readonly Dictionary<string, EffectParameter> paramMap = new();
 
     public EffectParameterMap(List<EffectParameter> parameters)
     {
         foreach (var p in parameters)
         {
-            paramMap[p.key] = p.value;
+            paramMap[p.key] = p;
         }
     }
 
-    public int Get(string key, int defaultValue = 0)
+    public float GetFloat(string key, float defaultValue = 0f)
     {
-        return paramMap.TryGetValue(key, out int val) ? val : defaultValue;
+        if (paramMap.TryGetValue(key, out var param) && param.type == EffectParameterType.Float)
+        {
+            return param.floatValue;
+        }
+        return defaultValue;
+    }
+
+    public int GetInt(string key, float defaultValue = 0f)
+    {
+        if (paramMap.TryGetValue(key, out var param) && param.type == EffectParameterType.Float)
+        {
+            return Mathf.FloorToInt(param.floatValue);
+        }
+        return Mathf.FloorToInt(defaultValue);
+    }
+
+    public bool GetBool(string key, bool defaultValue = false)
+    {
+        if (paramMap.TryGetValue(key, out var param) && param.type == EffectParameterType.Bool)
+        {
+            return param.boolValue;
+        }
+        return defaultValue;
+    }
+
+    public string GetString(string key, string defaultValue = "")
+    {
+        if (paramMap.TryGetValue(key, out var param) && param.type == EffectParameterType.String)
+        {
+            return param.stringValue;
+        }
+        return defaultValue;
     }
 }
 
@@ -69,4 +115,9 @@ public enum EffectTrigger
     OnMove,
     OnSkillUse,
     Custom
+}
+
+public enum EffectParameterType
+{
+    Float, Bool, String
 }

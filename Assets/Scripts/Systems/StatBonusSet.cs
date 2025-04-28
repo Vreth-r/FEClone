@@ -25,6 +25,7 @@ public class StatBonusSet
         flatMods[StatType.CRI] = 0;
         flatMods[StatType.HIT] = 0;
 
+        // Range: 0 - 1 due to how the stat is calculated
         multMods[StatType.MHP] = 0;
         multMods[StatType.STR] = 0;
         multMods[StatType.ARC] = 0;
@@ -67,19 +68,49 @@ public class StatBonusSet
     {
         return multMods[stat];
     }
-    
+
+    public void AddCrossStatMod(StatType targetStat, StatType sourceStat, float mod)
+    {
+        crossStatModifiers.Add(new StatScalingModifier(targetStat, sourceStat, mod));
+    }
+
+    public void RemoveCrossStatMod(StatType targetStat, StatType sourceStat, float modS)
+    {
+        foreach (StatScalingModifier mod in crossStatModifiers)
+        {
+            if (mod.targetStat == targetStat && mod.sourceStat == sourceStat && mod.multiplier == modS)
+            {
+                crossStatModifiers.Remove(mod);
+            }
+        }
+    }
 
     public void Clear()
     {
-        foreach (var stat in flatMods.Keys)
-        {
-            flatMods[stat] = 0;
-        }
+        flatMods[StatType.MHP] = 0;
+        flatMods[StatType.STR] = 0;
+        flatMods[StatType.ARC] = 0;
+        flatMods[StatType.DEF] = 0;
+        flatMods[StatType.SPD] = 0;
+        flatMods[StatType.SKL] = 0;
+        flatMods[StatType.RES] = 0;
+        flatMods[StatType.LCK] = 0;
+        flatMods[StatType.AVO] = 0;
+        flatMods[StatType.CRI] = 0;
+        flatMods[StatType.HIT] = 0;
 
-        foreach (var stat in multMods.Keys)
-        {
-            multMods[stat] = 0;
-        }
+        // Range: 0 - 1 due to how the stat is calculated
+        multMods[StatType.MHP] = 0;
+        multMods[StatType.STR] = 0;
+        multMods[StatType.ARC] = 0;
+        multMods[StatType.DEF] = 0;
+        multMods[StatType.SPD] = 0;
+        multMods[StatType.SKL] = 0;
+        multMods[StatType.RES] = 0;
+        multMods[StatType.LCK] = 0;
+        multMods[StatType.AVO] = 0;
+        multMods[StatType.CRI] = 0;
+        multMods[StatType.HIT] = 0;
 
         crossStatModifiers.Clear();
     }

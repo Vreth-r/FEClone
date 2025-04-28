@@ -1,0 +1,17 @@
+using UnityEngine;
+
+// simple effect to add a statmod to a unit
+// Parameter scheme: string [stat], int [modifier]
+
+[CreateAssetMenu(menuName = "Tactics RPG/Effects/Flat Stat Mod")]
+public class FlatStatModEffect : Effect
+{
+    public override void Apply(Unit source, Unit target, EffectContext context)
+    {
+        var p = context.parameters; // a EffectParameterMap
+        foreach (var param in p.paramMap) // for every parameter in the map
+        {
+            target.statBonuses.AddFlatStatMod(GetStatTypeFromName(param.Key), p.GetInt(param.Key));
+        }
+    }
+}
