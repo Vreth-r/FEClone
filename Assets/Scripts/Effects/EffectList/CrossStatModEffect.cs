@@ -18,6 +18,9 @@ public class CrossStatModEffect : Effect
     private List<float> mods = new();
     public override void Apply(Unit source, Unit target, EffectContext context)
     {
+        targetStats.Clear();
+        sourceStats.Clear();
+        mods.Clear();
         var p = context.parameters; // grab the paramMap
         foreach (var param in p.paramMap) // for every parameter in the map
         {   

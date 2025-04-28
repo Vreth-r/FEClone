@@ -1,3 +1,8 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[System.Serializable]
 public class UnitStatSet
 {
     // meant to keep track of stats and modifications to stats, works for weapons, skills, and units
@@ -16,9 +21,9 @@ public class UnitStatSet
     // will be adding MANY more stats theres a lot behind the scenes but these stats are what everyone can see up front
 
     // Secondary Stats
-    public double avoidance; // avoidance affects how likely the unit is to avoid an attack (attacker hit - def avoid = %chance to hit)
-    public double crit; // base % chance to deal a critical hit (damage increase depends on class)
-    public double hit; // hit affects how likely the unit is to actually hit the unit they are attacking (see avoidance)
+    public int avoidance; // avoidance affects how likely the unit is to avoid an attack (attacker hit - def avoid = %chance to hit)
+    public int crit; // base % chance to deal a critical hit (damage increase depends on class)
+    public int hit; // hit affects how likely the unit is to actually hit the unit they are attacking (see avoidance)
 }
 
 public enum StatType

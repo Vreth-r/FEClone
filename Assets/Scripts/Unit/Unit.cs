@@ -50,7 +50,6 @@ public class Unit : MonoBehaviour
         UnitManager.Instance.RegisterUnit(this); // Tell the unit manager this thing exists
         if (inventory.Count != 0) Equip(inventory[0]); // equip the first thing in the inventory(dev)
         RefreshStats();
-        ApplyPassiveEffects();
         CalculateStats();
     }
 
@@ -198,7 +197,6 @@ public class Unit : MonoBehaviour
         foreach (var mod in statBonuses.crossStatModifiers) // go over all the modifiers
         {
             if (mod.targetStat != stat) continue; // skip the ones we dont care about
-
             float sourceValue = GetStatByType(mod.sourceStat); // get the base value of the source stat
             scalingBonus += sourceValue * mod.multiplier; // add to the scaling bonus of the in question stat the extra value
         }

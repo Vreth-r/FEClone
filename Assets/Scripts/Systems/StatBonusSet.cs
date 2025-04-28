@@ -9,7 +9,7 @@ public class StatBonusSet
     public Dictionary<StatType, float> multMods = new();
 
     // for use for skills modifying stats based off other or the same stats
-    public List<StatScalingModifier> crossStatModifiers = new();
+    public List<StatScalingModifier> crossStatModifiers;
 
     public StatBonusSet()
     {
@@ -37,6 +37,7 @@ public class StatBonusSet
         multMods[StatType.AVO] = 0;
         multMods[StatType.CRI] = 0;
         multMods[StatType.HIT] = 0;
+        crossStatModifiers = new();
     }
 
     public void AddFlatStatMod(StatType stat, int mod)
