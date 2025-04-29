@@ -15,12 +15,18 @@ MonoBehaviour:
   className: Mage
   classDescription: A mage unsure of their path forward.
   movementRange: 5
-  allowedWeapons:
-  - {fileID: 11400000, guid: 520853554b4685844aa1a92cffa96d2d, type: 2}
-  - {fileID: 11400000, guid: 33a0d283150073c44b0efe37b1557f09, type: 2}
-  - {fileID: 11400000, guid: 7b3a4a1ceb12ca84d90dc307bbf9f208, type: 2}
-  - {fileID: 11400000, guid: 8ad457861a99f40498cf3dadbed2435b, type: 2}
-  - {fileID: 11400000, guid: 8cf3654742151524680dec6378b5fd69, type: 2}
+  proficiencies:
+    profList:
+    - weaponType: {fileID: 11400000, guid: 520853554b4685844aa1a92cffa96d2d, type: 2}
+      level: 9
+    - weaponType: {fileID: 11400000, guid: 8cf3654742151524680dec6378b5fd69, type: 2}
+      level: 9
+    - weaponType: {fileID: 11400000, guid: 8ad457861a99f40498cf3dadbed2435b, type: 2}
+      level: 9
+    - weaponType: {fileID: 11400000, guid: 33a0d283150073c44b0efe37b1557f09, type: 2}
+      level: 9
+    - weaponType: {fileID: 11400000, guid: 7b3a4a1ceb12ca84d90dc307bbf9f208, type: 2}
+      level: 9
   classTags: 0300000004000000
   hpGrowth: 50
   strengthGrowth: 30

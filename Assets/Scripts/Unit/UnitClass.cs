@@ -8,7 +8,7 @@ public class UnitClass : ScriptableObject
     public string className; // name
     public string classDescription; // description
     public int movementRange; // movement allowed
-    public Dictionary<WeaponType, WeaponProficiency> allowedWeapons; // weapons allowed to be used
+    public WeaponProficiency proficiencies; // weapons allowed to be used
     public List<ClassTag> classTags; // whether its flying, armored, etc
 
     // Growth rates (0-100%) chance of skill leveling on level up

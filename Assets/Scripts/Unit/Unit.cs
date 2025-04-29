@@ -38,7 +38,7 @@ public class Unit : MonoBehaviour
     // Inventory 
     public List<Item> inventory = new(); // thinking of making a class for this but the inventory is so simple anyway
     public Item equippedItem; // the current equipped item (will always be a weapon)
-    public Dictionary<WeaponType, int> proficiencyLevels = new();
+    public WeaponProficiency proficiencyLevels;
 
     public Vector2Int GridPosition { get; set; }
 
@@ -50,20 +50,11 @@ public class Unit : MonoBehaviour
         movementRange = unitClass.movementRange;
         UnitManager.Instance.RegisterUnit(this); // Tell the unit manager this thing exists
         if (inventory.Count != 0) Equip(inventory[0]); // equip the first thing in the inventory(dev)
+        proficiencyLevels.Initialize();
+        unitClass.proficiencies.Initialize();
         RefreshStats();
         CalculateStats();
-        AddProficiencies();
-    }
-
-    public void AddProficiencies()
-    {
-        foreach (var proficiency in unitClass.allowedWeapons) // for every allowed weapon
-        {  
-            if (proficiencyLevels[proficiency.Key] != 0) // if this unit does not already have a proficiency with the weapon
-            {
-                proficiencyLevels[proficiency.Key] = 0;
-            }
-        }
+        proficiencyLevels.AddProficienciesFromOther(unitClass.proficiencies);
     }
 
     public void RefreshStats()
@@ -125,20 +116,6 @@ public class Unit : MonoBehaviour
         return Random.Range(0, 100) < percent;
     }
 
-    public bool CanUseWeapon(WeaponItem weapon)
-    {   
-        bool meetsProfCheck = weapon.proficiency switch
-        {
-            WeaponProficiency.S => proficiencyLevels[weapon.weaponType] == 40,
-            WeaponProficiency.A => proficiencyLevels[weapon.weaponType] > 29,
-            WeaponProficiency.B => proficiencyLevels[weapon.weaponType] > 19,
-            WeaponProficiency.C => proficiencyLevels[weapon.weaponType] > 9,
-            WeaponProficiency.D => proficiencyLevels[weapon.weaponType] >= 0,
-            _ => false
-        };
-        return unitClass.allowedWeapons.ContainsKey(weapon.weaponType) && meetsProfCheck;
-    }
-
     public bool HasTag(ClassTag tag)
     {
         return unitClass.classTags.Contains(tag);
@@ -161,7 +138,7 @@ public class Unit : MonoBehaviour
 
         unitClass = unitClass.promotedClass; // promote to the promotion class
         RefreshStats();
-        AddProficiencies();
+        proficiencyLevels.AddProficienciesFromOther(unitClass.proficiencies);
         // add support for multiple promotion classes later
         Debug.Log($"{unitName} promoted to {unitClass.className}!");
 
@@ -261,7 +238,8 @@ public class Unit : MonoBehaviour
         }
 
         var weapon = item as WeaponItem; // HOLY coding
-        if (!CanUseWeapon(weapon))
+        weapon.proficiency.Initialize();
+        if (!proficiencyLevels.CheckWeapon(weapon) || !unitClass.proficiencies.HasProficiency(weapon.weaponType))
         {
             Debug.Log("Cannot use this type of weapon");
             // functionality later

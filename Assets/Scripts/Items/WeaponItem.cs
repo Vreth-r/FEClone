@@ -51,7 +51,3 @@ public class WeaponItem : Item // holy coding btw
         return weaponType.weakAgainstClass.Contains(targetClass);
     }
 }
-
-public enum WeaponProficiency
-{ S, A, B, C, D }
-

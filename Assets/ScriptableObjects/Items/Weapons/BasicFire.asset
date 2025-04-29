@@ -18,6 +18,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   minRange: 1
   maxRange: 2
+  effects: []
   weaponType: {fileID: 11400000, guid: 520853554b4685844aa1a92cffa96d2d, type: 2}
   hit: 30
   avoid: 10
@@ -30,3 +31,7 @@ MonoBehaviour:
   bonusSkill: 0
   bonusResistance: 0
   bonusLuck: 0
+  proficiency:
+    profList:
+    - weaponType: {fileID: 11400000, guid: 520853554b4685844aa1a92cffa96d2d, type: 2}
+      level: 9
