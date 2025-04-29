@@ -49,12 +49,12 @@ public class Unit : MonoBehaviour
         GridPosition = (Vector2Int)GridManager.Instance.WorldToCell(transform.position);
         movementRange = unitClass.movementRange;
         UnitManager.Instance.RegisterUnit(this); // Tell the unit manager this thing exists
-        if (inventory.Count != 0) Equip(inventory[0]); // equip the first thing in the inventory(dev)
         proficiencyLevels.Initialize();
         unitClass.proficiencies.Initialize();
         RefreshStats();
         CalculateStats();
         proficiencyLevels.AddProficienciesFromOther(unitClass.proficiencies);
+        if (inventory.Count != 0) Equip(inventory[0]); // equip the first thing in the inventory(dev)
     }
 
     public void RefreshStats()

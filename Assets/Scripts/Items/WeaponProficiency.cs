@@ -22,7 +22,7 @@ public class WeaponProficiency
 
     public void Initialize()
     {
-        if (runtimeProfDict != null) BuildRuntimeDictionary();
+        if (runtimeProfDict == null) BuildRuntimeDictionary();
     }
 
     public bool HasProficiency(WeaponType weapon)
@@ -39,14 +39,19 @@ public class WeaponProficiency
 
     public bool CheckWeapon(WeaponItem weapon)
     {
+        if(weapon.proficiency.GetProficiencies() == null)
+        {
+            weapon.proficiency.Initialize();
+        }
         foreach (var proficiency in weapon.proficiency.GetProficiencies())
         {
-            if(!this.runtimeProfDict.ContainsKey(proficiency.Key) || !(this.runtimeProfDict[proficiency.Key] > proficiency.Value))
+            Debug.Log($"{this.runtimeProfDict[proficiency.Key] >= proficiency.Value}");
+            if(this.runtimeProfDict.ContainsKey(proficiency.Key) && (this.runtimeProfDict[proficiency.Key] >= proficiency.Value))
             {
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     public void AddProficienciesFromOther(WeaponProficiency proficiencies)
