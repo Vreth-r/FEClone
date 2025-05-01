@@ -40,6 +40,9 @@ public class Unit : MonoBehaviour
     public Item equippedItem; // the current equipped item (will always be a weapon)
     public WeaponProficiency proficiencyLevels;
 
+    // Editor stuff
+    public Sprite combatSprite;
+
     public Vector2Int GridPosition { get; set; }
 
     private void Start()
@@ -72,7 +75,7 @@ public class Unit : MonoBehaviour
         {
             foreach (var effectInstance in skill.effects)
             {
-                effectInstance.TryApply(this, this, EffectTrigger.Passive, context);
+                if(effectInstance != null) effectInstance.TryApply(this, this, EffectTrigger.Passive, context);
             }
         }
 
@@ -80,7 +83,7 @@ public class Unit : MonoBehaviour
         {
             foreach (var effectInstance in weapon.effects)
             {
-                effectInstance.TryApply(this, this, EffectTrigger.Passive, context);
+                if(effectInstance != null) effectInstance.TryApply(this, this, EffectTrigger.Passive, context);
             }
         }
     }

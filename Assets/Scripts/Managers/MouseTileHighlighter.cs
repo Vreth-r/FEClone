@@ -1,15 +1,24 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class MouseTileHihglighter : MonoBehaviour
+public class MouseTileHighlighter : MonoBehaviour
 {
     [SerializeField] private Tilemap highlightTilemap;
     [SerializeField] private TileBase highlightTile;
+    public bool enableFunction = true;
+    public static MouseTileHighlighter Instance;
 
     private Vector3Int lastCell;
 
+    private void Awake() => Instance = this; // declare this instance for external ref
+
     private void Update()
     {
+        if(!enableFunction)
+        {
+            highlightTilemap.SetTile(lastCell, null);
+            return;
+        }
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vector3Int currentCell = highlightTilemap.WorldToCell(mouseWorldPos);
 

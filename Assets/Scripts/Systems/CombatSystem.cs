@@ -14,8 +14,6 @@ public class CombatSystem
     public static void StartCombat(Unit attacker, Unit defender)
     // called at the start of combat and initializes everything
     {
-        Debug.Log($"{attacker.unitName} attacks {defender.unitName}");
-
         CombatContext context = new () // creates the combat context and initialzizes it
         {
             isPlayerAttack = true,
@@ -32,8 +30,8 @@ public class CombatSystem
 
         EventSystem.TriggerEvent(context.attacker, context.defender, EffectTrigger.OnCombatStart, context); // trigger event
         CalculateBaseStats(context); // Calculate all the damage and apply all the effects
-        ResolveCombat(context); // Actually apply the damage
-        TryCounterattack(context); // Lets the defender clap back
+        CombatSceneManager scene = CombatSceneManager.Instance;
+        scene.EnterCombatScene(attacker, defender, context);
     }
 
     private static void CalculateBaseStats(CombatContext context)

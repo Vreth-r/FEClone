@@ -34,4 +34,4 @@ MonoBehaviour:
   proficiency:
     profList:
     - weaponType: {fileID: 11400000, guid: 520853554b4685844aa1a92cffa96d2d, type: 2}
-      level: 9
+      level: 0

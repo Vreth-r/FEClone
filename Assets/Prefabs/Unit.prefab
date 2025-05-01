@@ -77,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 850b535ab0f2bfb4aadd8a28ab6d9edc, type: 3}
+  m_Sprite: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -85,7 +85,7 @@ SpriteRenderer:
   m_Size: {x: 1, y: 1}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!61 &619823529473915527
@@ -146,11 +146,34 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 0
-  movementRange: 7
-  attackRange: 1
+  unitClass: {fileID: 11400000, guid: b20e91848a4d16041a714321cb4e0806, type: 2}
+  unitName: Name
+  unitDescription: Idiot
+  unitTitle: Dumbass
+  movementRange: 0
+  attackRange: 0
+  level: 1
   currentHP: 10
-  attack: 3
-  defense: 1
+  maxHP: 10
+  strength: 5
+  arcane: 5
+  defense: 5
+  speed: 5
+  skill: 5
+  resistance: 5
+  luck: 5
+  avoidance: 0
+  crit: 0
+  hit: 0
+  skills:
+  - {fileID: 0}
+  - {fileID: 0}
+  inventory:
+  - {fileID: 0}
+  equippedItem: {fileID: 0}
+  proficiencyLevels:
+    profList: []
+  combatSprite: {fileID: 0}
 --- !u!114 &3715088351686450520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,7 +187,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 3171108599037668712, guid: dd8f9832dfe586240b75577a42426a90, type: 3}
-  actionMenu: {fileID: 0}
+  actionMenu: {fileID: 8270818006049642850, guid: afae5db0bfd51e7438ff84d8d40ae7f8, type: 3}
 --- !u!114 &4536577457962426672
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -178,5 +201,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   highlightTilemap: {fileID: 0}
-  movementTile: {fileID: 11400000, guid: 5ae9f093cc0756d429811f9798848eab, type: 2}
-  attackTile: {fileID: 11400000, guid: c4a6acc8a458fb74f8bfafc82ea6c39a, type: 2}
+  movementTile: {fileID: 11400000, guid: 39fc1c9fc045ce040bde82dbbbda97d1, type: 2}
+  attackTile: {fileID: 11400000, guid: 1674420e29a875341a2c655636abaf33, type: 2}
