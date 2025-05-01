@@ -43,31 +43,23 @@ public class CombatSceneManager : MonoBehaviour
 
     public IEnumerator PlayCombat(CombatContext context)
     {
-        yield return narrator.ShowMessage($"{context.attacker.unitName} attacks!");
+        yield return narrator.ShowMessageAndClear($"{context.attacker.unitName} attacks!");
         yield return leftUnit.Lunge();
 
         yield return new WaitForSeconds(attackDelay);
 
-         // this is done in combat context as well, deciding on which should be the true one
-        bool hit = Random.Range(0,100) <= context.hitChance;
-
-        if (hit)
+        if (context.hitting)
         {
             yield return narrator.ShowMessage("HIT!");
             yield return rightUnit.FlashHit();
 
-            bool crit = Random.Range(0,100) <= context.critChance;
-            int damage = context.finalDamage;
-
-            if(crit)
+            if(context.critting)
             {
                 yield return narrator.ShowMessage("CRIT!");
                 yield return leftUnit.CritEffect();
-                damage = Mathf.FloorToInt(damage * 1.5f);
             }
 
             yield return new WaitForSeconds(hitPause);
-            context.defender.currentHP -= damage;
 
             if(context.defender.currentHP <= 0)
             {

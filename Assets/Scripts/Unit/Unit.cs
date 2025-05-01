@@ -114,9 +114,10 @@ public class Unit : MonoBehaviour
         }
     }
 
-    private bool Roll(int percent)
+    // Might have some roll effects later so using this as a roll function
+    public bool Roll(int percent)
     {
-        return Random.Range(0, 100) < percent;
+        return Random.Range(0, 100) <= percent;
     }
 
     public bool HasTag(ClassTag tag)
@@ -286,5 +287,20 @@ public class Unit : MonoBehaviour
     public void RemoveItem(Item item)
     {
         if (inventory.Contains(item)) inventory.Remove(item);
+    }
+
+    public void TakeDamage(int damage)
+    {
+        if(damage > currentHP)
+        {
+            currentHP = 0;
+            this.Die();
+        }
+        currentHP -= damage;
+    }
+
+    public void Die()
+    {
+        Debug.Log($"{unitName} died lmao.");
     }
 }

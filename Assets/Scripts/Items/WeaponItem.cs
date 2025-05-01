@@ -19,6 +19,7 @@ public class WeaponItem : Item // holy coding btw
     public int bonusResistance;
     public int bonusLuck;
     public WeaponProficiency proficiency;
+    public DamageType damageType;
 
     private void OnEnable()
     {
@@ -51,3 +52,5 @@ public class WeaponItem : Item // holy coding btw
         return weaponType.weakAgainstClass.Contains(targetClass);
     }
 }
+
+public enum DamageType { Physical, Magical }

@@ -7,7 +7,13 @@ public class CombatNarrator : MonoBehaviour
 {
     public TextMeshProUGUI narrationText;
 
-    public IEnumerator ShowMessage(string message, float duration = 1.2f)
+    public IEnumerator ShowMessage(string message)
+    {
+        narrationText.text = message;
+        yield return new WaitForSeconds(0f);
+    }
+
+    public IEnumerator ShowMessageAndClear(string message, float duration = 0.5f)
     {
         narrationText.text = message;
         yield return new WaitForSeconds(duration);

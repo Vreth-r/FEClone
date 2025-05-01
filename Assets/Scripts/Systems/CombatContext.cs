@@ -5,20 +5,23 @@ public class CombatContext
 {
     public Unit attacker; // the unit attacking
     public Unit defender; // the unit defending
-    public WeaponItem weapon; // the weapon the attacker is using
+    public WeaponItem attackerWeapon; // the weapon the attacker is using
+    public WeaponItem defenderWeapon;
 
     public int attackPower; // attack power of the attacker
     public int defensePower; // defense power of the defender
     public int baseDamage; // the base damage the attacker would deal
     public int finalDamage; // the final damage after skill effects, defender bonuses, etc
 
-    public float hitRate;
-    public float avoid;
-    public float hitChance;
+    public int hitRate;
+    public int avoid;
+    public int hitChance;
+    public bool hitting;
 
-    public float critRate;
-    public float critAvoid;
-    public float critChance;
+    public int critRate;
+    public int critAvoid;
+    public int critChance;
+    public bool critting;
 
     public bool isPlayerAttack;
     public bool isCounterAttack;

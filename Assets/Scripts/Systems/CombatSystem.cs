@@ -19,10 +19,11 @@ public class CombatSystem
             isPlayerAttack = true,
             attacker = attacker,
             defender = defender,
-            weapon = attacker.equippedItem as WeaponItem
+            attackerWeapon = attacker.equippedItem as WeaponItem,
+            defenderWeapon = defender.equippedItem as WeaponItem
         };
 
-        if (context.weapon == null) // if no weapon, no combat
+        if (context.attackerWeapon == null) // if no weapon, no combat
         {
             Debug.Log("No weapon equipped");
             return;
@@ -36,55 +37,48 @@ public class CombatSystem
 
     private static void CalculateBaseStats(CombatContext context)
     {   
-        // need to change this to support magical/physical so either arcane or strength
-        context.attackPower = context.attacker.GetModifiedStat(StatType.STR);
+        // Determine STR/DEF or ARC/RES based of weapon damage
+        if(context.attackerWeapon.damageType == DamageType.Physical)
+        {
+            context.attackPower = context.attacker.GetModifiedStat(StatType.STR);
+            context.defensePower = context.defender.GetModifiedStat(StatType.DEF);
+        }
+        else
+        {
+            context.attackPower = context.attacker.GetModifiedStat(StatType.ARC);
+            context.defensePower = context.defender.GetModifiedStat(StatType.RES);
+        }
 
-        context.hitRate = (float)context.attacker.hit;
-        context.avoid = (float)context.defender.avoidance;
+        // Calculate other events based off stats
+        context.hitRate = context.attacker.hit;
+        context.avoid = context.defender.avoidance;
 
         context.hitChance = Mathf.Clamp(context.hitRate - context.avoid, 0, 100);
 
-        context.critRate = (float)context.attacker.crit;
-        context.critAvoid = (float)context.defender.GetModifiedStat(StatType.LCK);
+        context.critRate = context.attacker.crit;
+        context.critAvoid = context.defender.GetModifiedStat(StatType.LCK);
 
         context.critChance = Mathf.Clamp(context.critRate - context.critAvoid, 0, 100);
         
-        context.defensePower = context.weapon.weaponType.damageType == DamageType.Physical
-            ? context.defender.GetModifiedStat(StatType.DEF)
-            : context.defender.GetModifiedStat(StatType.RES);
-        
+        // Trigger Event
         EventSystem.TriggerEvent(context.attacker, context.defender, EffectTrigger.OnHit, context);
 
+        // Final damage that will be shaved off the defending unit preset with the base damage just from stat difference
         context.finalDamage = Mathf.Max(0, context.attackPower - context.defensePower);
     }
 
     private static void ResolveCombat(CombatContext context)
     {
-        int hitRoll = Random.Range(0, 100);
-        if (hitRoll < context.hitChance)
+        // determine if unit is hitting and/or critting
+        context.hitting = context.attacker.Roll(context.hitChance);
+        context.critting = context.attacker.Roll(context.critChance);
+        if (context.hitting)
         {
-            Debug.Log("Hit");
-
-            bool isCrit = Random.Range(0, 100) < context.critChance;
-            int finalDamage = context.finalDamage;
-            if (isCrit)
+            if (context.critting)
             {
-                Debug.Log("Crit");
-                finalDamage *= 3;
+                context.finalDamage = Mathf.FloorToInt(context.finalDamage * 1.5f);
             }
-
-            context.defender.currentHP -= finalDamage;
-            Debug.Log($"{context.attacker.unitName} dealth {finalDamage} damage to {context.defender.name}");
-
-            if (context.defender.currentHP <= 0)
-            {
-                Debug.Log($"{context.defender.unitName} died");
-                // handle unit death here
-            }
-        }
-        else
-        {
-            Debug.Log("Miss");
+            context.defender.TakeDamage(context.finalDamage); // unit death is handled in unit
         }
     }
 
@@ -103,7 +97,7 @@ public class CombatSystem
         {
             attacker = context.defender,
             defender = context.attacker,
-            weapon = counterWeapon,
+            attackerWeapon = counterWeapon,
             isPlayerAttack = false
         };
 

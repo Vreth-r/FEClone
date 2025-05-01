@@ -28,7 +28,7 @@ public class CombatUnitView : MonoBehaviour
     public IEnumerator Lunge()
     {
         Vector3 start = transform.localPosition;
-        Vector3 target = start + new Vector3(0.5f, 0, 0);
+        Vector3 target = start + new Vector3(1.0f, 0, 0);
 
         float t = 0;
         while (t < 1f)
@@ -44,14 +44,14 @@ public class CombatUnitView : MonoBehaviour
     public IEnumerator FlashHit()
     {
         spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.3f);
         spriteRenderer.color = Color.white;
     }
 
     public IEnumerator Dodge()
     {
         Vector3 original = transform.localPosition;
-        Vector3 offset = original + new Vector3(0, 20f, 0);
+        Vector3 offset = original + new Vector3(0, 1f, 0);
         transform.localPosition = offset;
         yield return new WaitForSeconds(0.2f);
         transform.localPosition = original;

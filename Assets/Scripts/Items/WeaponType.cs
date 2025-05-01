@@ -8,7 +8,6 @@ public class WeaponType : ScriptableObject
     public string typeName;
 
     public bool isRanged;
-    public DamageType damageType;
 
     public List<WeaponType> strongAgainstWeapon; // a bonus against these weapons will apply when YOU ATTACK THEM
     public List<WeaponType> weakAgainstWeapon; // a hinderance will be applied when YOU ATTACK these weapons
@@ -96,5 +95,3 @@ public class WeaponType : ScriptableObject
             
     */
 }
-
-public enum DamageType { Physical, Magical }
