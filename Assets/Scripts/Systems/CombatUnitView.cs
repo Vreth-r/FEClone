@@ -5,7 +5,6 @@ using System.Collections.Generic;
 public class CombatUnitView : MonoBehaviour
 {
     public SpriteRenderer spriteRenderer;
-
     public void SetFromUnit(Unit unit, bool isLeft)
     {
         spriteRenderer.sprite = unit.combatSprite;

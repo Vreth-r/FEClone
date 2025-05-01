@@ -20,7 +20,7 @@ MonoBehaviour:
   maxRange: 2
   effects: []
   weaponType: {fileID: 11400000, guid: 520853554b4685844aa1a92cffa96d2d, type: 2}
-  hit: 30
+  hit: 100
   avoid: 10
   crit: 0
   durability: 50
@@ -35,3 +35,4 @@ MonoBehaviour:
     profList:
     - weaponType: {fileID: 11400000, guid: 520853554b4685844aa1a92cffa96d2d, type: 2}
       level: 0
+  damageType: 0

@@ -45,7 +45,6 @@ public class WeaponProficiency
         }
         foreach (var proficiency in weapon.proficiency.GetProficiencies())
         {
-            Debug.Log($"{this.runtimeProfDict[proficiency.Key] >= proficiency.Value}");
             if(this.runtimeProfDict.ContainsKey(proficiency.Key) && (this.runtimeProfDict[proficiency.Key] >= proficiency.Value))
             {
                 return true;

@@ -65,6 +65,7 @@ public class CombatSystem
 
         // Final damage that will be shaved off the defending unit preset with the base damage just from stat difference
         context.finalDamage = Mathf.Max(0, context.attackPower - context.defensePower);
+        ResolveCombat(context);
     }
 
     private static void ResolveCombat(CombatContext context)
@@ -72,6 +73,7 @@ public class CombatSystem
         // determine if unit is hitting and/or critting
         context.hitting = context.attacker.Roll(context.hitChance);
         context.critting = context.attacker.Roll(context.critChance);
+        Debug.Log(context.hitting);
         if (context.hitting)
         {
             if (context.critting)
