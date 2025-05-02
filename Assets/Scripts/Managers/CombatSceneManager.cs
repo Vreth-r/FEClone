@@ -62,7 +62,7 @@ public class CombatSceneManager : MonoBehaviour
 
     public IEnumerator PlayCombat(CombatContext context)
     {
-        yield return narrator.ShowMessageAndClear($"{context.attacker.unitName} attacks!");
+        yield return narrator.ShowMessageAndClear($"{context.attacker.unitName} attacks!", 0.7f);
         yield return leftUnit.Lunge();
 
         yield return new WaitForSeconds(attackDelay);
@@ -78,6 +78,7 @@ public class CombatSceneManager : MonoBehaviour
                 yield return leftUnit.CritEffect();
             }
 
+            context.defender.TakeDamage(context.finalDamage); // this is here so the healthbar can update on time and not earlier
             defenderHealthBar?.SetHealth(context.defender.currentHP, context.defender.maxHP);
             yield return new WaitForSeconds(hitPause);
 

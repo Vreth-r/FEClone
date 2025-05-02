@@ -43,7 +43,7 @@ public class CombatUnitView : MonoBehaviour
     public IEnumerator FlashHit()
     {
         spriteRenderer.color = Color.red;
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.4f);
         spriteRenderer.color = Color.white;
     }
 

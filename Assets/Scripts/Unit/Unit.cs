@@ -295,8 +295,10 @@ public class Unit : MonoBehaviour
         {
             currentHP = 0;
             this.Die();
+        }else
+        {
+            currentHP -= damage;
         }
-        currentHP -= damage;
     }
 
     public void Die()

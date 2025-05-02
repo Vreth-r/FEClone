@@ -64,23 +64,23 @@ public class CombatSystem
         EventSystem.TriggerEvent(context.attacker, context.defender, EffectTrigger.OnHit, context);
 
         // Final damage that will be shaved off the defending unit preset with the base damage just from stat difference
-        context.finalDamage = Mathf.Max(0, context.attackPower - context.defensePower);
-        ResolveCombat(context);
-    }
+        if(context.attackPower - context.defensePower < 0)
+        {
+            context.finalDamage = 0;
+        } else 
+        {
+            context.finalDamage = context.attackPower - context.defensePower;
+        }
 
-    private static void ResolveCombat(CombatContext context)
-    {
         // determine if unit is hitting and/or critting
         context.hitting = context.attacker.Roll(context.hitChance);
         context.critting = context.attacker.Roll(context.critChance);
-        Debug.Log(context.hitting);
         if (context.hitting)
         {
             if (context.critting)
             {
                 context.finalDamage = Mathf.FloorToInt(context.finalDamage * 1.5f);
             }
-            context.defender.TakeDamage(context.finalDamage); // unit death is handled in unit
         }
     }
 
@@ -105,7 +105,6 @@ public class CombatSystem
 
         CalculateBaseStats(counterContext);
         EventSystem.TriggerEvent(context.attacker, context.defender, EffectTrigger.OnHit, context);
-        ResolveCombat(counterContext);
     }
 
     private static bool InRange(Unit attacker, Unit target, WeaponItem weapon)
