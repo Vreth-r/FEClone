@@ -35,4 +35,4 @@ MonoBehaviour:
     profList:
     - weaponType: {fileID: 11400000, guid: 520853554b4685844aa1a92cffa96d2d, type: 2}
       level: 0
-  damageType: 0
+  damageType: 1

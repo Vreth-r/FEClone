@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ad1b68864ba5844194d1363865987e4, type: 3}
-  m_Name: ARCPlusFive
+  m_Name: Hearty
   m_EditorClassIdentifier: 
-  skillName: ARC+5
-  description: 
+  skillName: Hearty
+  description: Grants MHP+5.
   icon: {fileID: 0}
   effects:
   - effect: {fileID: 11400000, guid: 6a35fe03de459f640ab08c39b629978c, type: 2}
     parameters:
-    - key: ARC
+    - key: MHP
       type: 0
       floatValue: 5
       boolValue: 0

@@ -37,6 +37,8 @@ public class CombatSystem
 
     private static void CalculateBaseStats(CombatContext context)
     {   
+        context.attackerPrevHP = context.attacker.currentHP;
+        context.defenderPrevHP = context.defender.currentHP;
         // Determine STR/DEF or ARC/RES based of weapon damage
         if(context.attackerWeapon.damageType == DamageType.Physical)
         {
@@ -82,6 +84,7 @@ public class CombatSystem
                 context.finalDamage = Mathf.FloorToInt(context.finalDamage * 1.5f);
             }
         }
+        context.defender.TakeDamage(context.finalDamage);
     }
 
     private static void TryCounterattack(CombatContext context)
@@ -104,7 +107,6 @@ public class CombatSystem
         };
 
         CalculateBaseStats(counterContext);
-        EventSystem.TriggerEvent(context.attacker, context.defender, EffectTrigger.OnHit, context);
     }
 
     private static bool InRange(Unit attacker, Unit target, WeaponItem weapon)

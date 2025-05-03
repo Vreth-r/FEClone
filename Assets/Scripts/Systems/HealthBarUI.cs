@@ -10,24 +10,22 @@ public class HealthBarUI : MonoBehaviour
 
     private float currentPercent = 1f;
 
-    public void SetHealth(float current, float max)
+    public void SetHealth(int current, int max)
     {
-        currentPercent = Mathf.Clamp01(current / max);
+        currentPercent = Mathf.Clamp01((float)current / max); 
     }
 
     private void Update()
     {
         if(foregroundBar != null)
         {
-            float displayed = foregroundBar.fillAmount;
-            float newFill = Mathf.Lerp(displayed, currentPercent, Time.deltaTime * animationSpeed);
-            foregroundBar.fillAmount = newFill;
+            foregroundBar.fillAmount = Mathf.Lerp(foregroundBar.fillAmount, currentPercent, Time.deltaTime * animationSpeed);
         }
     }
 
-    public void InstantFill(float current, float max)
+    public void InstantFill(int current, int max)
     {
-        currentPercent = Mathf.Clamp01(current / max);
-        if (foregroundBar != null) foregroundBar.fillAmount = currentPercent;
+        currentPercent = Mathf.Clamp01((float)current / max);
+        foregroundBar.fillAmount = currentPercent;
     }
 }

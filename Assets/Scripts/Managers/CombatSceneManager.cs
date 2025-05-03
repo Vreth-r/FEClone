@@ -47,8 +47,8 @@ public class CombatSceneManager : MonoBehaviour
         attackerHP.text = $"{attacker.currentHP} / {attacker.maxHP}";
         defenderHP.text = $"{defender.currentHP} / {defender.maxHP}";
 
-        attackerHealthBar?.InstantFill(attacker.currentHP, attacker.maxHP);
-        defenderHealthBar?.InstantFill(defender.currentHP, defender.maxHP);
+        attackerHealthBar.InstantFill(context.attackerPrevHP, attacker.maxHP);
+        defenderHealthBar.InstantFill(context.defenderPrevHP, defender.maxHP);
 
         StartCoroutine(PlayCombat(context));
     }
@@ -78,8 +78,7 @@ public class CombatSceneManager : MonoBehaviour
                 yield return leftUnit.CritEffect();
             }
 
-            context.defender.TakeDamage(context.finalDamage); // this is here so the healthbar can update on time and not earlier
-            defenderHealthBar?.SetHealth(context.defender.currentHP, context.defender.maxHP);
+            defenderHealthBar.SetHealth(context.defender.currentHP, context.defender.maxHP);
             yield return new WaitForSeconds(hitPause);
 
             if(context.defender.currentHP <= 0)

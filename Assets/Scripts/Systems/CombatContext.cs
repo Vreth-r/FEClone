@@ -7,6 +7,8 @@ public class CombatContext
     public Unit defender; // the unit defending
     public WeaponItem attackerWeapon; // the weapon the attacker is using
     public WeaponItem defenderWeapon;
+    public int attackerPrevHP;
+    public int defenderPrevHP;
 
     public int attackPower; // attack power of the attacker
     public int defensePower; // defense power of the defender
