@@ -32,7 +32,7 @@ public class CombatSceneManager : MonoBehaviour
 
     public void EnterCombatScene(Unit attacker, Unit defender, CombatContext context)
     {
-        MouseTileHighlighter.Instance.enableFunction = false;
+        MouseTileHighlighter.Instance.enableFunction = false; //  disable the tile highlights when the combat scene is running
         rootObject.SetActive(true); // can also be faded in later
         uiObject.SetActive(true);
 
@@ -74,6 +74,7 @@ public class CombatSceneManager : MonoBehaviour
 
             if(context.critting)
             {
+                yield return new WaitForSeconds(0.5f);
                 yield return narrator.ShowMessage("CRIT!");
                 yield return leftUnit.CritEffect();
             }

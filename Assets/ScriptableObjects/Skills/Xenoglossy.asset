@@ -1,0 +1,39 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ad1b68864ba5844194d1363865987e4, type: 3}
+  m_Name: Xenoglossy
+  m_EditorClassIdentifier: 
+  skillName: Xenoglossy
+  description: Deal +15 damage on attack [Trigger % = SKL/4 + 10%]. Critical damage
+    increased to 2x instead of 1.5x.
+  icon: {fileID: 0}
+  effects:
+  - effect: {fileID: 11400000, guid: 17cce8f86e997c543b58e0fd17eef741, type: 2}
+    parameters:
+    - key: Mod
+      type: 0
+      floatValue: 15
+      boolValue: 0
+      stringValue: 
+    triggers:
+    - evnt: 2
+      parameters:
+      - key: Flat
+        type: 0
+        floatValue: 10
+        boolValue: 0
+        stringValue: 
+      - key: SKL
+        type: 0
+        floatValue: 0.25
+        boolValue: 0
+        stringValue: 

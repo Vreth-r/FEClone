@@ -9,7 +9,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 22ce3577b21fc924380eeeb7f2b8a8e0, type: 3}
-  m_Name: HPBelow50%
+  m_Script: {fileID: 11500000, guid: 746ddacff13b83946b631fd98e5e71e5, type: 3}
+  m_Name: FlatBonusDamage
   m_EditorClassIdentifier: 
-  hpThreshold: 0.5

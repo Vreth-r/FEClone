@@ -75,7 +75,7 @@ public class Unit : MonoBehaviour
         {
             foreach (var effectInstance in skill.effects)
             {
-                if(effectInstance != null) effectInstance.TryApply(this, this, EffectTrigger.Passive, context);
+                if(effectInstance != null) effectInstance.TryApply(this, this, Event.Passive, context);
             }
         }
 
@@ -83,7 +83,7 @@ public class Unit : MonoBehaviour
         {
             foreach (var effectInstance in weapon.effects)
             {
-                if(effectInstance != null) effectInstance.TryApply(this, this, EffectTrigger.Passive, context);
+                if(effectInstance != null) effectInstance.TryApply(this, this, Event.Passive, context);
             }
         }
     }

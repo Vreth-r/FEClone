@@ -29,7 +29,7 @@ public class CombatSystem
             return;
         }
 
-        EventSystem.TriggerEvent(context.attacker, context.defender, EffectTrigger.OnCombatStart, context); // trigger event
+        EventSystem.TriggerEvent(context.attacker, context.defender, Event.OnCombatStart, context); // trigger event
         CalculateBaseStats(context); // Calculate all the damage and apply all the effects
         CombatSceneManager scene = CombatSceneManager.Instance;
         scene.EnterCombatScene(attacker, defender, context);
@@ -61,9 +61,6 @@ public class CombatSystem
         context.critAvoid = context.defender.GetModifiedStat(StatType.LCK);
 
         context.critChance = Mathf.Clamp(context.critRate - context.critAvoid, 0, 100);
-        
-        // Trigger Event
-        EventSystem.TriggerEvent(context.attacker, context.defender, EffectTrigger.OnHit, context);
 
         // Final damage that will be shaved off the defending unit preset with the base damage just from stat difference
         if(context.attackPower - context.defensePower < 0)
@@ -79,34 +76,20 @@ public class CombatSystem
         context.critting = context.attacker.Roll(context.critChance);
         if (context.hitting)
         {
+            // Trigger Event
+            EventSystem.TriggerEvent(context.attacker, context.defender, Event.OnHit, context);
             if (context.critting)
             {
-                context.finalDamage = Mathf.FloorToInt(context.finalDamage * 1.5f);
+                EventSystem.TriggerEvent(context.attacker, context.defender, Event.OnCrit, context);
+                context.finalDamage = Mathf.FloorToInt((context.finalDamage + context.bonusDamage) * context.critPower);
+            }
+            else
+            {
+                context.finalDamage = context.finalDamage + context.bonusDamage;
             }
         }
+        // would add an OnMiss event here should we plan for any effects for that
         context.defender.TakeDamage(context.finalDamage);
-    }
-
-    private static void TryCounterattack(CombatContext context)
-    {
-        // simple counterattack if in range
-        var counterWeapon = context.defender.equippedItem as WeaponItem;
-        if (counterWeapon == null) return;
-
-        bool inRange = InRange(context.defender, context.attacker, counterWeapon);
-        if (!inRange) return;
-
-        Debug.Log($"{context.defender.name} counterattacks");
-
-        CombatContext counterContext = new()
-        {
-            attacker = context.defender,
-            defender = context.attacker,
-            attackerWeapon = counterWeapon,
-            isPlayerAttack = false
-        };
-
-        CalculateBaseStats(counterContext);
     }
 
     private static bool InRange(Unit attacker, Unit target, WeaponItem weapon)

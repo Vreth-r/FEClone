@@ -12,7 +12,9 @@ public class CombatContext
 
     public int attackPower; // attack power of the attacker
     public int defensePower; // defense power of the defender
+    public float critPower = 1.5f; // the mod for damage for criticals
     public int baseDamage; // the base damage the attacker would deal
+    public int bonusDamage = 0; // bonus damage from skills and whatnot
     public int finalDamage; // the final damage after skill effects, defender bonuses, etc
 
     public int hitRate;

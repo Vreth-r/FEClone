@@ -33,5 +33,4 @@ MonoBehaviour:
       floatValue: 0.5
       boolValue: 0
       stringValue: 
-    conditions: []
-    triggerTypes: 00000000
+    triggers: 00000000
