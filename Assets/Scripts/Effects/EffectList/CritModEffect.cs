@@ -1,17 +1,14 @@
+using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 // Effect to add bonus damage to a strike
 /* 
 Parameter scheme:
-    string Mod : int [dmg]
+    string Mod : float [mod]
 */
-
-/* 
-flat damage (deal +X extra damage) 
-ignores def/res (ignore X% of enemy def/res) (?)
-*/
-[CreateAssetMenu(menuName = "Tactics RPG/Effects/Bonus Damage")]
-public class BonusDamageEffect : Effect
+[CreateAssetMenu(menuName = "Tactics RPG/Effects/Crit Mod")]
+public class CritModEffect : Effect
 {
     public override void Apply(Unit source, Unit target, EffectContext context)
     {
@@ -20,7 +17,7 @@ public class BonusDamageEffect : Effect
         {
             if(param.Key == "Mod")
             {
-                context.combat.bonusDamage += p.GetInt(param.Key);
+                context.combat.critPower = p.GetFloat(param.Key);
             }
         }
     }

@@ -10,21 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 8ad1b68864ba5844194d1363865987e4, type: 3}
-  m_Name: Experienced
+  m_Name: Lightbreak
   m_EditorClassIdentifier: 
-  skillName: Experienced
-  description: Grants STR+5.
+  skillName: Lightbreak
+  description: When combat ends and if target CHP < 10%, kill target.
   icon: {fileID: 0}
   effects:
-  - effect: {fileID: 11400000, guid: 6a35fe03de459f640ab08c39b629978c, type: 2}
-    parameters:
-    - key: STR
-      type: 0
-      floatValue: 5
-      boolValue: 0
-      stringValue: 
+  - effect: {fileID: 11400000, guid: feb882c0a86ea754d8679f1079e06990, type: 2}
+    parameters: []
     triggerConditions:
-    - evnt: 0
+    - evnt: 2
       procs: []
       flatChance: 0
-      conditions: []
+      conditions:
+      - conditionType: 0
+        stringValue: 
+        floatValue: 10
+        invert: 0

@@ -33,4 +33,8 @@ MonoBehaviour:
       floatValue: 0.5
       boolValue: 0
       stringValue: 
-    triggers: 00000000
+    triggerConditions:
+    - evnt: 0
+      procs: []
+      flatChance: 0
+      conditions: []

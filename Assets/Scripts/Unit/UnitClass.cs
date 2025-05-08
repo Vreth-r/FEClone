@@ -29,11 +29,26 @@ public class UnitClass : ScriptableObject
     public UnitClass promotedClass; // class that it can promote to (will switch to be multiple later once ui is set up)
     public bool canPromote = false;
     public int promotionLevel = 10; // default level to allow for a promotion
+
+    public ClassTag GetTagFromName(string str)
+    {
+        return str switch
+        {
+            "Armored" => ClassTag.Armored,
+            "Mounted" => ClassTag.Mounted,
+            "Flying" => ClassTag.Flying,
+            "Infantry" => ClassTag.Infantry,
+            "Magical" => ClassTag.Magical,
+            "Wyrm" => ClassTag.Wyrm,
+            "Beast" => ClassTag.Beast,
+            _ => ClassTag.NONE
+        };
+    }
 }
 
 public enum ClassTag
 {
-    Armored, Mounted, Flying, Infantry, Magical, Wyrm, Beast
+    Armored, Mounted, Flying, Infantry, Magical, Wyrm, Beast, NONE
 }
 
 [System.Serializable]

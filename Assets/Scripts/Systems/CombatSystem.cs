@@ -69,6 +69,7 @@ public class CombatSystem
         } else 
         {
             context.finalDamage = context.attackPower - context.defensePower;
+            Debug.Log($"atk - def: {context.finalDamage}");
         }
 
         // determine if unit is hitting and/or critting
@@ -82,10 +83,12 @@ public class CombatSystem
             {
                 EventSystem.TriggerEvent(context.attacker, context.defender, Event.OnCrit, context);
                 context.finalDamage = Mathf.FloorToInt((context.finalDamage + context.bonusDamage) * context.critPower);
+                Debug.Log($"with bonsu and crit: {context.finalDamage}");
             }
             else
             {
                 context.finalDamage = context.finalDamage + context.bonusDamage;
+                Debug.Log($"with bonus: {context.finalDamage}");
             }
         }
         // would add an OnMiss event here should we plan for any effects for that

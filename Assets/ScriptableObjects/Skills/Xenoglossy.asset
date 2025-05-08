@@ -24,16 +24,22 @@ MonoBehaviour:
       floatValue: 15
       boolValue: 0
       stringValue: 
-    triggers:
+    triggerConditions:
     - evnt: 2
-      parameters:
-      - key: Flat
-        type: 0
-        floatValue: 10
-        boolValue: 0
-        stringValue: 
-      - key: SKL
-        type: 0
-        floatValue: 0.25
-        boolValue: 0
-        stringValue: 
+      procs:
+      - stat: 4
+        multiplier: 0.25
+      flatChance: 10
+      conditions: []
+  - effect: {fileID: 11400000, guid: 0d50e85f249ad5e48a98f1f4f77d4871, type: 2}
+    parameters:
+    - key: Mod
+      type: 0
+      floatValue: 2
+      boolValue: 0
+      stringValue: 
+    triggerConditions:
+    - evnt: 1
+      procs: []
+      flatChance: 100
+      conditions: []

@@ -16,20 +16,10 @@ public static class EventSystem
         // from source unit skills
         foreach (var skill in source.skills)
         {
-            allEffects.AddRange(skill.effects);
+            skill.ProcEffects(source, target, evnt, ctx);
         }
 
-        // From weapon
-        if (source.equippedItem is WeaponItem weapon)
-        {
-            allEffects.AddRange(weapon.effects);
-        }
-
-        // run effects
-        foreach (var effect in allEffects)
-        {
-            effect.TryApply(source, target, evnt, ctx);
-        }
+        // need to add weapon effects later not sure how rn
     }
 }
 
@@ -37,7 +27,7 @@ public enum Event
 {
     // Will be adding more later just this for now while deving it out
     Passive,
-    OnCombatStart,
+    OnCombatStart, OnCombatEnd,
     OnHit,
     OnCrit,
     OnKill,
@@ -45,5 +35,6 @@ public enum Event
     OnWait,
     OnMove,
     OnSkillUse,
+    Condition, // this one is used for stuff like target hp being below a threshold
     Custom
 }

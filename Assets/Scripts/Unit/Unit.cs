@@ -73,19 +73,10 @@ public class Unit : MonoBehaviour
         // process skills
         foreach (var skill in skills)
         {
-            foreach (var effectInstance in skill.effects)
-            {
-                if(effectInstance != null) effectInstance.TryApply(this, this, Event.Passive, context);
-            }
+            skill.ProcEffects(this, this, Event.Passive);
         }
 
-        if (equippedItem is WeaponItem weapon)
-        {
-            foreach (var effectInstance in weapon.effects)
-            {
-                if(effectInstance != null) effectInstance.TryApply(this, this, Event.Passive, context);
-            }
-        }
+        // need to add weapon effects as well later not sure how yet
     }
 
     public void LevelUp()
@@ -291,11 +282,12 @@ public class Unit : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if(damage > currentHP)
+        if(damage >= currentHP)
         {
             currentHP = 0;
             this.Die();
-        }else
+        }
+        else
         {
             currentHP -= damage;
         }
@@ -304,5 +296,6 @@ public class Unit : MonoBehaviour
     public void Die()
     {
         Debug.Log($"{unitName} died lmao.");
+        //  more logic goes here
     }
 }

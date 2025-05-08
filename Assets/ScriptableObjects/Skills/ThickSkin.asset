@@ -23,6 +23,8 @@ MonoBehaviour:
       floatValue: 5
       boolValue: 0
       stringValue: 
-    triggers:
+    triggerConditions:
     - evnt: 0
-      parameters: []
+      procs: []
+      flatChance: 0
+      conditions: []

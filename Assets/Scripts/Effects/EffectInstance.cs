@@ -4,7 +4,7 @@ using UnityEngine;
 
 /*
 An effect instance is just a copied version of the effect with parameters and triggers
-the parameters are defined in the containers scriptable object.
+the parameters are defined in the container's scriptable object.
 */
 
 [System.Serializable]
@@ -12,23 +12,13 @@ public class EffectInstance
 {
     public Effect effect; // logic
     public List<Parameter> parameters; // set in editor
-    public List<Trigger> triggers; // set in editor
+    public List<EffectTriggerData> triggerConditions; // set in editor
 
-    public void TryApply(Unit source, Unit target, Event evnt, EffectContext context = null)
+    public void Apply(Unit source, Unit target, EffectContext context = null)
     {
-        //if (!triggers.Contains(evnt)) return;
-
         context.parameters = new ParameterMap(parameters);
-        effect.Apply(source, target, context);
+        effect.Apply(source, target, context); 
     }
-}
-
-// a trigger is just an event and pMap coupling with support methods
-[System.Serializable]
-public class Trigger
-{
-    public Event evnt;
-    public List<Parameter> parameters;
 }
 
 // a parameter is used in effect subclass code to know what its modifying based on whats set in the editor
