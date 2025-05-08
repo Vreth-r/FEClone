@@ -44,8 +44,8 @@ public class CombatSceneManager : MonoBehaviour
         attackerName.text = attacker.unitName;
         defenderName.text = defender.unitName;
 
-        attackerHP.text = $"{attacker.currentHP} / {attacker.maxHP}";
-        defenderHP.text = $"{defender.currentHP} / {defender.maxHP}";
+        attackerHP.text = $"{context.attackerPrevHP} / {attacker.maxHP}";
+        defenderHP.text = $"{context.defenderPrevHP} / {defender.maxHP}";
 
         attackerHealthBar.InstantFill(context.attackerPrevHP, attacker.maxHP);
         defenderHealthBar.InstantFill(context.defenderPrevHP, defender.maxHP);
@@ -62,24 +62,30 @@ public class CombatSceneManager : MonoBehaviour
 
     public IEnumerator PlayCombat(CombatContext context)
     {
+        // show initial attack message
         yield return narrator.ShowMessageAndClear($"{context.attacker.unitName} attacks!", 0.7f);
-        yield return leftUnit.Lunge();
 
-        yield return new WaitForSeconds(attackDelay);
+        yield return new WaitForSeconds(0.5f);
 
         if (context.hitting)
         {
-            yield return narrator.ShowMessage("HIT!");
-            yield return rightUnit.FlashHit();
-
             if(context.critting)
             {
-                yield return new WaitForSeconds(0.5f);
-                yield return narrator.ShowMessage("CRIT!");
                 yield return leftUnit.CritEffect();
+                yield return new WaitForSeconds(0.5f);
+                yield return leftUnit.Lunge(); // attacking unit visuals
+                yield return narrator.ShowMessage("CRIT!");
+                yield return new WaitForSeconds(attackDelay);
             }
-
+            else
+            {
+                yield return leftUnit.Lunge(); // attacking unit visuals
+                yield return new WaitForSeconds(attackDelay);
+                yield return narrator.ShowMessage("HIT!");
+                yield return rightUnit.FlashHit();
+            }
             defenderHealthBar.SetHealth(context.defender.currentHP, context.defender.maxHP);
+            defenderHP.text = $"{context.defender.currentHP} / {context.defender.maxHP}";
             yield return new WaitForSeconds(hitPause);
 
             if(context.defender.currentHP <= 0)

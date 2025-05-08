@@ -28,7 +28,8 @@ public class CombatSystem
             Debug.Log("No weapon equipped");
             return;
         }
-
+        context.attackerPrevHP = context.attacker.currentHP;
+        context.defenderPrevHP = context.defender.currentHP;
         EventSystem.TriggerEvent(context.attacker, context.defender, Event.OnCombatStart, context); // trigger event
         CalculateBaseStats(context); // Calculate all the damage and apply all the effects
         CombatSceneManager scene = CombatSceneManager.Instance;
@@ -37,8 +38,6 @@ public class CombatSystem
 
     private static void CalculateBaseStats(CombatContext context)
     {   
-        context.attackerPrevHP = context.attacker.currentHP;
-        context.defenderPrevHP = context.defender.currentHP;
         // Determine STR/DEF or ARC/RES based of weapon damage
         if(context.attackerWeapon.damageType == DamageType.Physical)
         {
@@ -83,7 +82,7 @@ public class CombatSystem
             {
                 EventSystem.TriggerEvent(context.attacker, context.defender, Event.OnCrit, context);
                 context.finalDamage = Mathf.FloorToInt((context.finalDamage + context.bonusDamage) * context.critPower);
-                Debug.Log($"with bonsu and crit: {context.finalDamage}");
+                Debug.Log($"with bonus and crit: {context.finalDamage}");
             }
             else
             {
@@ -93,6 +92,7 @@ public class CombatSystem
         }
         // would add an OnMiss event here should we plan for any effects for that
         context.defender.TakeDamage(context.finalDamage);
+        EventSystem.TriggerEvent(context.attacker, context.defender, Event.OnCombatEnd, context); // trigger event
     }
 
     private static bool InRange(Unit attacker, Unit target, WeaponItem weapon)
