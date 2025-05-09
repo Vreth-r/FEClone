@@ -10,20 +10,19 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0c7a934665ffa35478a22516d7f3fea9, type: 3}
-  m_Name: Advanced_Wingsbane
+  m_Name: Basic_Wingsbane
   m_EditorClassIdentifier: 
   className: Wingsbane
   classDescription: default value placeholder
-  movementRange: 7
-  allowedWeapons:
-  - {fileID: 11400000, guid: 0dc7f8e4a4e282d4c982389b4639542b, type: 2}
-  - {fileID: 11400000, guid: 7b3a4a1ceb12ca84d90dc307bbf9f208, type: 2}
-  classTags: 03000000
+  movementRange: 6
+  proficiencies:
+    profList: []
+  classTags: 
   hpGrowth: 50
-  strengthGrowth: 30
+  strengthGrowth: 40
   arcaneGrowth: 25
   defenseGrowth: 25
-  speedGrowth: 60
+  speedGrowth: 30
   skillGrowth: 40
   resistanceGrowth: 20
   luckGrowth: 10

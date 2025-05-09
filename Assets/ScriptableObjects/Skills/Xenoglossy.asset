@@ -25,7 +25,7 @@ MonoBehaviour:
       boolValue: 0
       stringValue: 
     triggerConditions:
-    - evnt: 2
+    - evnt: 3
       procs:
       - stat: 4
         multiplier: 0.25

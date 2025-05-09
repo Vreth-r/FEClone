@@ -27,6 +27,8 @@ public class CombatSceneManager : MonoBehaviour
     public TextMeshProUGUI defenderName;
     public TextMeshProUGUI attackerHP;
     public TextMeshProUGUI defenderHP;
+    public TextMeshProUGUI attackerInfo;
+    public TextMeshProUGUI defenderInfo;
 
     private void Awake() => Instance = this; // declare this instance for external ref
 
@@ -49,6 +51,8 @@ public class CombatSceneManager : MonoBehaviour
 
         attackerHealthBar.InstantFill(context.attackerPrevHP, attacker.maxHP);
         defenderHealthBar.InstantFill(context.defenderPrevHP, defender.maxHP);
+
+        attackerInfo.text = $"{context.baseDamage}\nHit: {context.hitChance}%\nCrit: {context.critChance}%";
 
         StartCoroutine(PlayCombat(context));
     }
@@ -96,6 +100,8 @@ public class CombatSceneManager : MonoBehaviour
         }
         else
         {
+            yield return leftUnit.Lunge();
+            yield return new WaitForSeconds(attackDelay);
             yield return narrator.ShowMessage("Miss!");
             yield return rightUnit.Dodge();
         }
