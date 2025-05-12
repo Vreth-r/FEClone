@@ -20,11 +20,11 @@ MonoBehaviour:
   maxRange: 1
   effects: []
   weaponType: {fileID: 11400000, guid: bb92431d8d1919144ad028e47cec9b41, type: 2}
-  hit: 30
+  hit: 90
   avoid: 0
   crit: 0
   durability: 50
-  bonusStrength: 0
+  bonusStrength: 5
   bonusArcane: 0
   bonusDefense: 0
   bonusSpeed: 0
@@ -32,5 +32,7 @@ MonoBehaviour:
   bonusResistance: 0
   bonusLuck: 0
   proficiency:
-    profList: []
+    profList:
+    - weaponType: {fileID: 11400000, guid: bb92431d8d1919144ad028e47cec9b41, type: 2}
+      level: 0
   damageType: 0

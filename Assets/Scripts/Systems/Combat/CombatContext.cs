@@ -36,6 +36,8 @@ public class CombatContext
     public bool defenderDied;
     public bool attackerDied;
 
+    public bool isFollowingUp;
+
     public TerrainTile attackerTerrain; // will fully implement later
     public TerrainTile defenderTerrain;
 }

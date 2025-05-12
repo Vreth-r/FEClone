@@ -32,7 +32,7 @@ public class CombatSceneManager : MonoBehaviour
 
     private void Awake() => Instance = this; // declare this instance for external ref
 
-    public void EnterCombatScene(Unit attacker, Unit defender, CombatContext context)
+    public void EnterCombatScene(Unit attacker, Unit defender, CombatContext context, CombatQueue queue)
     {
         MouseTileHighlighter.Instance.enableFunction = false; //  disable the tile highlights when the combat scene is running
         rootObject.SetActive(true); // can also be faded in later
@@ -51,10 +51,14 @@ public class CombatSceneManager : MonoBehaviour
 
         attackerHealthBar.InstantFill(context.attackerPrevHP, attacker.maxHP);
         defenderHealthBar.InstantFill(context.defenderPrevHP, defender.maxHP);
+    
+        CombatPreviewHelper.GetCombatPreview(attacker, defender, context.attackerWeapon, out int baseA, out int bonusA, out int hitA, out int critA);
+        CombatPreviewHelper.GetCombatPreview(defender, attacker, context.defenderWeapon, out int baseD, out int bonusD, out int hitD, out int critD);
 
-        attackerInfo.text = $"{context.baseDamage}\nHit: {context.hitChance}%\nCrit: {context.critChance}%";
+        attackerInfo.text = CombatPreviewHelper.FormatCombatText(baseA, bonusA, hitA, critA);
+        defenderInfo.text = CombatPreviewHelper.FormatCombatText(baseD, bonusD, hitD, critD);
 
-        StartCoroutine(PlayCombat(context));
+        StartCoroutine(PlayCombat(context,  queue));
     }
 
     public void ExitCombat()
@@ -64,49 +68,71 @@ public class CombatSceneManager : MonoBehaviour
         MouseTileHighlighter.Instance.enableFunction = true;
     }
 
-    public IEnumerator PlayCombat(CombatContext context)
+    public IEnumerator PlayCombat(CombatContext context, CombatQueue queue)
     {
-        // show initial attack message
-        yield return narrator.ShowMessageAndClear($"{context.attacker.unitName} attacks!", 0.7f);
-
-        yield return new WaitForSeconds(0.5f);
-
-        if (context.hitting)
+        foreach(var action in queue.actions)
         {
-            if(context.critting)
+            var attacker = action.attacker;
+            var defender = action.defender;
+            var attackerView = attacker == context.attacker ? leftUnit : rightUnit;
+            var defenderView = defender == context.attacker ? leftUnit : rightUnit;
+            var attackerHPBar = attacker == context.attacker ? attackerHealthBar : defenderHealthBar;
+            var defenderHPBar = defender == context.attacker ? attackerHealthBar : defenderHealthBar;
+            var attackerHPText = attacker == context.attacker ? attackerHP : defenderHP;
+            var defenderHPText = defender == context.attacker ? attackerHP : defenderHP;
+
+            // Resolve attack
+            CombatSystem.ResolveAttack(action, context);
+
+            // Narration Line
+            string message = $"{attacker.unitName} attacks!";
+            if(action.isCounter) message += " (Counter)";
+            if(action.isFollowUp) message += " (Follow-up)";
+            yield return narrator.ShowMessageAndClear(message, 0.8f);
+
+            yield return attackerView.Lunge();
+            yield return new WaitForSeconds(attackDelay);
+
+            // Capture HP before damage
+            context.defenderPrevHP = defender.currentHP;
+
+            // Show that shit
+            if (context.hitting)
             {
-                yield return leftUnit.CritEffect();
-                yield return new WaitForSeconds(0.5f);
-                yield return leftUnit.Lunge(); // attacking unit visuals
-                yield return narrator.ShowMessage("CRIT!");
-                yield return new WaitForSeconds(attackDelay);
+                if (context.critting)
+                {
+                    yield return attackerView.CritEffect();
+                    yield return narrator.ShowMessageAndClear("CRIT!",  0.4f);
+                }
+                else
+                {
+                    yield return narrator.ShowMessageAndClear("HIT!");
+                }
+
+                yield return defenderView.FlashHit();
             }
             else
             {
-                yield return leftUnit.Lunge(); // attacking unit visuals
-                yield return new WaitForSeconds(attackDelay);
-                yield return narrator.ShowMessage("HIT!");
-                yield return rightUnit.FlashHit();
+                yield return narrator.ShowMessage("Miss!");
+                yield return defenderView.Dodge();
             }
-            defenderHealthBar.SetHealth(context.defender.currentHP, context.defender.maxHP);
-            defenderHP.text = $"{context.defender.currentHP} / {context.defender.maxHP}";
-            yield return new WaitForSeconds(hitPause);
 
-            if(context.defender.currentHP <= 0)
+            // Update health bar and HP text
+            defenderHPBar.SetHealth(defender.currentHP, defender.maxHP);
+            defenderHPText.text = $"{defender.currentHP} / {defender.maxHP}";
+
+            // Death check
+            if (defender.currentHP <= 0)
             {
-                yield return narrator.ShowMessage($"{context.defender.unitName} was defeated!");
-                yield return rightUnit.PlayDeath();
+                yield return narrator.ShowMessage($"{defender.unitName} was defeated!");
+                yield return defenderView.PlayDeath();
+                break; // cause he died
             }
-        }
-        else
-        {
-            yield return leftUnit.Lunge();
-            yield return new WaitForSeconds(attackDelay);
-            yield return narrator.ShowMessage("Miss!");
-            yield return rightUnit.Dodge();
+
+            yield return new WaitForSeconds(hitPause);
         }
 
-        yield return new WaitForSeconds(1f); // buffer
+        yield return new WaitForSeconds(0.5f);
         ExitCombat();
     }
 }
