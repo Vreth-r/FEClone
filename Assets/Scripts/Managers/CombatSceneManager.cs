@@ -90,7 +90,14 @@ public class CombatSceneManager : MonoBehaviour
             if(action.isFollowUp) message += " (Follow-up)";
             yield return narrator.ShowMessageAndClear(message, 0.8f);
 
-            yield return attackerView.Lunge();
+            if(attacker == leftUnit)
+            {
+                yield return attackerView.Lunge(1.0f);
+            }
+            else
+            {
+                yield return attackerView.Lunge(-1.0f);
+            }
             yield return new WaitForSeconds(attackDelay);
 
             // Capture HP before damage

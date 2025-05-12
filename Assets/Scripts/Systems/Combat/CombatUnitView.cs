@@ -24,10 +24,10 @@ public class CombatUnitView : MonoBehaviour
         spriteRenderer.flipX = flip;
     }
 
-    public IEnumerator Lunge()
+    public IEnumerator Lunge(float distance)
     {
         Vector3 start = transform.localPosition;
-        Vector3 target = start + new Vector3(1.0f, 0, 0);
+        Vector3 target = start + new Vector3(distance, 0, 0);
 
         float t = 0;
         while (t < 1f)

@@ -13,6 +13,10 @@ using UnityEngine;
 public class CombatSystem
 {
     private const int followUpSpeedThreshold = 5;
+    private const float WeaponAdvantageDamageMult = 1.2f;
+    private const float WeaponDisadvantageDamageMult = 0.8f;
+    private const int WeaponAdvantageHitBonus = 10;
+    private const int WeaponDisadvantageHitPenalty = -10;
     public static void StartCombat(Unit attacker, Unit defender)
     // called at the start of combat and initializes everything
     {
@@ -51,16 +55,16 @@ public class CombatSystem
         var defWeapon = context.defenderWeapon;
 
         // This is where all the combat actions get queued up for a single context, so its not so hard coded no more.
-        queue.AddAction(new CombatAction(attacker, defender, atkWeapon));
+        queue.AddAction(new CombatAction(attacker, defender, atkWeapon, defWeapon));
 
         if(defWeapon != null && InRange(defender, attacker, defWeapon) && defender.currentHP > 0)
         {
-            queue.AddAction(new CombatAction(defender, attacker, defWeapon, isCounter: true));
+            queue.AddAction(new CombatAction(defender, attacker, defWeapon, atkWeapon, isCounter: true));
         }
 
         if(defender.currentHP > 0 && attacker.GetModifiedStat(StatType.SPD) - defender.GetModifiedStat(StatType.SPD) >= followUpSpeedThreshold)
         {
-            queue.AddAction(new CombatAction(attacker, defender, atkWeapon, isFollowUp: true));
+            queue.AddAction(new CombatAction(attacker, defender, atkWeapon, defWeapon, isFollowUp: true));
         }
 
         return queue;
@@ -70,7 +74,8 @@ public class CombatSystem
     {
         var attacker = action.attacker;
         var defender = action.defender;
-        var weapon = action.weapon;
+        var weapon = action.attackerWeapon;
+        var defWeapon = action.defenderWeapon;
 
         int attackPower = weapon.damageType == DamageType.Physical
             ? attacker.GetModifiedStat(StatType.STR)
@@ -81,7 +86,43 @@ public class CombatSystem
             : defender.GetModifiedStat(StatType.RES);
 
         context.baseDamage = Mathf.Max(0, attackPower - defensePower);
-        context.hitRate = attacker.hit;
+
+        if(defWeapon != null)
+        {
+            // Dont know if I love the advantage/disadvantage being multiplicative, might change
+            if(weapon.IsEffectiveAgainstWeapon(defWeapon.weaponType))
+            {
+                Debug.Log($"{attacker.unitName}'s weapon is strong against {defender.unitName}'s weapon");
+                context.damageMult *= WeaponAdvantageDamageMult;
+                context.hitRateBonus += WeaponAdvantageHitBonus;
+                context.attackerHasWeaponAdvantage = true;
+            }
+            else if(weapon.IsWeakToWeapon(defWeapon.weaponType))
+            {
+                Debug.Log($"{attacker.unitName}'s weapon is weak against {defender.unitName}'s weapon");
+                context.damageMult *= WeaponDisadvantageDamageMult;
+                context.hitRateBonus += WeaponDisadvantageHitPenalty;
+                context.attackerHasWeaponDisadvantage = true;
+            }
+
+            foreach(var tag in defender.unitClass.classTags)
+            {
+                if(weapon.IsEffectiveAgainstClass(tag))
+                {
+                    Debug.Log($"{attacker.unitName}'s weapon is strong against {defender.unitName}'s class");
+                    context.damageMult *= WeaponAdvantageDamageMult;
+                    context.attackerHasClassAdvantage = true;
+                }
+                else if(weapon.IsWeakToClass(tag))
+                {
+                    Debug.Log($"{attacker.unitName}'s weapon is weak against {defender.unitName}'s class");
+                    context.damageMult *= WeaponDisadvantageDamageMult;
+                    context.attackerHasClassDisadvantage = true;
+                }
+            }
+        }
+        
+        context.hitRate = attacker.hit + context.hitRateBonus;
         context.avoid = defender.avoidance;
         context.hitChance = Mathf.Clamp(context.hitRate - context.avoid, 0, 100);
 
@@ -99,11 +140,11 @@ public class CombatSystem
             if (context.critting)
             {
                 EventSystem.TriggerEvent(attacker, defender, Event.OnCrit, context);
-                context.finalDamage = Mathf.FloorToInt((context.baseDamage + context.bonusDamage) * context.critPower);
+                context.finalDamage = Mathf.FloorToInt(((context.baseDamage + context.bonusDamage) * context.damageMult) * context.critPower);
             }
             else
             {
-                context.finalDamage = context.baseDamage + context.bonusDamage;
+                context.finalDamage = Mathf.FloorToInt((context.baseDamage + context.bonusDamage) * context.damageMult);
             }
 
             defender.TakeDamage(context.finalDamage);
@@ -129,15 +170,17 @@ public class CombatAction
 {
     public Unit attacker;
     public Unit defender;
-    public WeaponItem weapon;
+    public WeaponItem attackerWeapon;
+    public WeaponItem defenderWeapon;
     public bool isCounter;
     public bool isFollowUp;
 
-    public CombatAction(Unit attacker, Unit defender, WeaponItem weapon, bool isCounter = false, bool isFollowUp = false)
+    public CombatAction(Unit attacker, Unit defender, WeaponItem attackerWeapon, WeaponItem defenderWeapon, bool isCounter = false, bool isFollowUp = false)
     {
         this.attacker = attacker;
         this.defender = defender;
-        this.weapon = weapon;
+        this.attackerWeapon = attackerWeapon;
+        this.defenderWeapon = defenderWeapon;
         this.isCounter = isCounter;
         this.isFollowUp = isFollowUp;
     }
