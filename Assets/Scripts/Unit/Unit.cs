@@ -55,6 +55,7 @@ public class Unit : MonoBehaviour
         proficiencyLevels.Initialize();
         unitClass.proficiencies.Initialize();
         CalculateStats();
+        ApplyPassiveEffects();
         proficiencyLevels.AddProficienciesFromOther(unitClass.proficiencies);
         if (inventory.Count != 0) Equip(inventory[0]); // equip the first thing in the inventory(dev)
     }

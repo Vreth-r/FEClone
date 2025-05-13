@@ -9,24 +9,24 @@ public class StatModifier
     public float multiplier;
     public int flatValue;
 
-    public bool isTemporary; // gets cleared after combat
+    public ExpireType expireCond;
 
-    public StatModifier(StatModType modType, StatType targetStat, StatType sourceStat, float multiplier, int flatValue, bool isTemporary = false)
+    public StatModifier(StatModType modType, StatType targetStat, StatType sourceStat, float multiplier, int flatValue, ExpireType expire = ExpireType.UnEquip)
     {
         this.modType = modType;
         this.targetStat = targetStat;
         this.sourceStat = sourceStat;
         this.multiplier = multiplier;
         this.flatValue = flatValue;
-        this.isTemporary = isTemporary;
+        this.expireCond = expire;
     }
 
-    public StatModifier(StatModType modType, StatType targetStat, int flatValue, bool isTemporary = false)
+    public StatModifier(StatModType modType, StatType targetStat, int flatValue, ExpireType expire = ExpireType.UnEquip)
     {
         this.modType = modType;
         this.targetStat = targetStat;
         this.flatValue = flatValue;
-        this.isTemporary = isTemporary;
+        this.expireCond = expire;
     }
 }
 
@@ -35,4 +35,12 @@ public enum StatModType
     Flat,
     Multiplier,
     CrossStat
+}
+
+public enum ExpireType
+{
+    Combat,
+    Turn,
+    UnEquip,
+    Passive
 }

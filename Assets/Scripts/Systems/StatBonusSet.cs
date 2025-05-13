@@ -20,9 +20,9 @@ public class StatBonusSet
         modifiers.Clear();
     }
 
-    public void ClearTemporaryModifiers()
+    public void ClearModifiers(ExpireType expire)
     {
-        modifiers.RemoveAll(m => m.isTemporary);
+        modifiers.RemoveAll(m => m.expireCond == expire);
     }
 
     // computes total bonus for a given stat using all the mods

@@ -23,4 +23,17 @@ public abstract class Effect : ScriptableObject
             _ => StatType.NONE
         };
     }
+
+    // See StatModifiers.cs
+    public ExpireType GetExpireTypeFromString(string expireType)
+    {
+        return expireType switch
+        {
+            "COMBAT" => ExpireType.Combat,
+            "TURN" => ExpireType.Turn,
+            "UNEQUIP" => ExpireType.UnEquip,
+            "PASSIVE" => ExpireType.Passive,
+            _ => ExpireType.UnEquip
+        };
+    }
 }
