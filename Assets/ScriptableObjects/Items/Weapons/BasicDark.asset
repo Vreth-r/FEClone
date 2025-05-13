@@ -12,20 +12,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d80e2d4e09f054f824ab33d6bd0b24, type: 3}
   m_Name: BasicDark
   m_EditorClassIdentifier: 
-  itemName: Fire
-  description: Basic fire magic.
+  itemName: Dark
+  description: Basic dark magic.
   itemType: 0
   icon: {fileID: 0}
   minRange: 1
   maxRange: 2
   effects: []
-  weaponType: {fileID: 11400000, guid: 520853554b4685844aa1a92cffa96d2d, type: 2}
+  weaponType: {fileID: 11400000, guid: 61a5249f0d7f31143adfc628c4095d8f, type: 2}
   hit: 90
-  avoid: 10
-  crit: 100
+  avoid: 0
+  crit: 0
   durability: 50
   bonusStrength: 0
-  bonusArcane: 5
+  bonusArcane: 0
   bonusDefense: 0
   bonusSpeed: 0
   bonusSkill: 0
@@ -33,6 +33,6 @@ MonoBehaviour:
   bonusLuck: 0
   proficiency:
     profList:
-    - weaponType: {fileID: 11400000, guid: 520853554b4685844aa1a92cffa96d2d, type: 2}
+    - weaponType: {fileID: 11400000, guid: 61a5249f0d7f31143adfc628c4095d8f, type: 2}
       level: 0
   damageType: 1

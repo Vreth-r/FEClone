@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 // Effect to add bonus damage to a strike
+// Can only be used in combat.
 /* 
 Parameter scheme:
     string Mod : float [mod]

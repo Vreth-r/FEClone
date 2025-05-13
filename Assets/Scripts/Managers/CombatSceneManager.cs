@@ -72,7 +72,7 @@ public class CombatSceneManager : MonoBehaviour
     {
         foreach(var action in queue.actions)
         {
-            var attacker = action.attacker;
+            var attacker = action.attacker; // this is fucked up a bit but basically switches the attacker and defender based on which unit in the combat scene is attacking 
             var defender = action.defender;
             var attackerView = attacker == context.attacker ? leftUnit : rightUnit;
             var defenderView = defender == context.attacker ? leftUnit : rightUnit;

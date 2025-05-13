@@ -9,7 +9,7 @@ public class StatBonusSet
     public Dictionary<StatType, float> multMods = new();
 
     // for use for skills modifying stats based off other or the same stats
-    public List<StatScalingModifier> crossStatModifiers;
+    public List<CrossStatMultMod> crossStatModifiers;
 
     public StatBonusSet()
     {
@@ -72,12 +72,12 @@ public class StatBonusSet
 
     public void AddCrossStatMod(StatType targetStat, StatType sourceStat, float mod)
     {
-        crossStatModifiers.Add(new StatScalingModifier(targetStat, sourceStat, mod));
+        crossStatModifiers.Add(new CrossStatMultMod(targetStat, sourceStat, mod));
     }
 
     public void RemoveCrossStatMod(StatType targetStat, StatType sourceStat, float modS)
     {
-        foreach (StatScalingModifier mod in crossStatModifiers)
+        foreach (CrossStatMultMod mod in crossStatModifiers)
         {
             if (mod.targetStat == targetStat && mod.sourceStat == sourceStat && mod.multiplier == modS)
             {

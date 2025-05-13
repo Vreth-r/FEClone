@@ -925,6 +925,10 @@ PrefabInstance:
       value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: speed
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: unitName
       value: The other one
       objectReference: {fileID: 0}
@@ -932,6 +936,10 @@ PrefabInstance:
       propertyPath: currentHP
       value: 90
       objectReference: {fileID: 0}
+    - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: unitClass
+      value: 
+      objectReference: {fileID: 11400000, guid: b20e91848a4d16041a714321cb4e0806, type: 2}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: combatSprite
       value: 
@@ -944,6 +952,10 @@ PrefabInstance:
       propertyPath: inventory.Array.size
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: skills.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: 4f46c4d61de41394e9caa4eb6e250569, type: 2}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: inventory.Array.data[0]
       value: 
@@ -7925,6 +7937,10 @@ PrefabInstance:
       propertyPath: unitClass
       value: 
       objectReference: {fileID: 11400000, guid: b59973926dc92eb49a8c8b6d8362675d, type: 2}
+    - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+      propertyPath: resistance
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 2639678565397689818, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
       propertyPath: combatSprite
       value: 

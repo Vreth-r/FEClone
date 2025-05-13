@@ -20,9 +20,9 @@ MonoBehaviour:
   maxRange: 2
   effects: []
   weaponType: {fileID: 11400000, guid: 520853554b4685844aa1a92cffa96d2d, type: 2}
-  hit: 90
+  hit: 100
   avoid: 10
-  crit: 100
+  crit: 50
   durability: 50
   bonusStrength: 0
   bonusArcane: 5
