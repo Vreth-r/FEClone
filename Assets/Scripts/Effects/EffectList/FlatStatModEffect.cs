@@ -11,7 +11,10 @@ public class FlatStatModEffect : Effect
         var p = context.parameters; // a EffectParameterMap
         foreach (var param in p.paramMap) // for every parameter in the map
         {
-            target.statBonuses.AddFlatStatMod(GetStatTypeFromName(param.Key), p.GetInt(param.Key));
+            target.statBonuses.AddModifier(new StatModifier(
+                StatModType.Flat,
+                GetStatTypeFromName(param.Key), 
+                p.GetInt(param.Key)));
         }
     }
 }

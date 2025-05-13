@@ -1,40 +1,38 @@
 using UnityEngine;
 
-public abstract class StatModifier
-{
+[System.Serializable]
+public class StatModifier
+{   
+    public StatModType modType;
     public StatType targetStat;
     public StatType sourceStat;
     public float multiplier;
-    public int modifier;
-}
+    public int flatValue;
 
-// Intended to be passive/permanent modification to stats based off a percentage of another
-public class CrossStatMultMod : StatModifier
-{
-    public CrossStatMultMod(StatType tStat, StatType sStat, float mult)
+    public bool isTemporary; // gets cleared after combat
+
+    public StatModifier(StatModType modType, StatType targetStat, StatType sourceStat, float multiplier, int flatValue, bool isTemporary = false)
     {
-        targetStat = tStat;
-        sourceStat = sStat;
-        multiplier = mult;
+        this.modType = modType;
+        this.targetStat = targetStat;
+        this.sourceStat = sourceStat;
+        this.multiplier = multiplier;
+        this.flatValue = flatValue;
+        this.isTemporary = isTemporary;
+    }
+
+    public StatModifier(StatModType modType, StatType targetStat, int flatValue, bool isTemporary = false)
+    {
+        this.modType = modType;
+        this.targetStat = targetStat;
+        this.flatValue = flatValue;
+        this.isTemporary = isTemporary;
     }
 }
 
-// Intended to be a passive/permanent flat modification to a stat
-public class FlatStatMod : StatModifier
+public enum StatModType
 {
-    public FlatStatMod(StatType tStat, int mod)
-    {
-        targetStat = tStat;
-        modifier = mod;
-    }
-}
-
-// Intended to be a temporary in-combat instance-only flat modification of a stat
-public class CombatStatMod : StatModifier
-{
-    public CombatStatMod(StatType tStat, int mod)
-    {
-        targetStat = tStat;
-        modifier = mod;
-    }
+    Flat,
+    Multiplier,
+    CrossStat
 }

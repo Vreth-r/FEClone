@@ -33,7 +33,7 @@ public class Unit : MonoBehaviour
 
     // Skills
     public List<Skill> skills = new();
-    public StatBonusSet statBonuses;
+    public StatBonusSet statBonuses = new();
 
     // Inventory 
     public List<Item> inventory = new(); // thinking of making a class for this but the inventory is so simple anyway
@@ -54,17 +54,11 @@ public class Unit : MonoBehaviour
         UnitManager.Instance.RegisterUnit(this); // Tell the unit manager this thing exists
         proficiencyLevels.Initialize();
         unitClass.proficiencies.Initialize();
-        RefreshStats();
         CalculateStats();
         proficiencyLevels.AddProficienciesFromOther(unitClass.proficiencies);
         if (inventory.Count != 0) Equip(inventory[0]); // equip the first thing in the inventory(dev)
     }
 
-    public void RefreshStats()
-    {
-        statBonuses.Clear();
-        ApplyPassiveEffects();
-    }
     public void ApplyPassiveEffects()
     {   
         // Will change this to have a trigger param and make it general
@@ -132,7 +126,6 @@ public class Unit : MonoBehaviour
         if (!canPromote()) return; // sorry bud get better
 
         unitClass = unitClass.promotedClass; // promote to the promotion class
-        RefreshStats();
         proficiencyLevels.AddProficienciesFromOther(unitClass.proficiencies);
         // add support for multiple promotion classes later
         Debug.Log($"{unitName} promoted to {unitClass.className}!");
@@ -162,42 +155,7 @@ public class Unit : MonoBehaviour
 
     public int GetModifiedStat(StatType stat)
     {   
-        int flatBonus = 0; // init the flat bonus
-        float scalingBonus = 0; // init the mult bonus
-
-        // base stats
-        int baseStatValue = GetStatByType(stat);
-    
-
-        flatBonus = statBonuses.GetFlatMod(stat);
-        scalingBonus = statBonuses.GetMultMod(stat) * baseStatValue;
-
-        //  apply the weapon bonus 
-        if (equippedItem is WeaponItem weapon)
-        {
-            flatBonus += stat switch
-            {
-                //"MHP" => weapon.bonusHP, // this one should never proc but just in case
-                StatType.STR => weapon.bonusStrength,
-                StatType.ARC => weapon.bonusArcane,
-                StatType.DEF => weapon.bonusDefense,
-                StatType.SPD => weapon.bonusSpeed,
-                StatType.SKL => weapon.bonusSkill,
-                StatType.RES => weapon.bonusResistance,
-                StatType.LCK => weapon.bonusLuck,
-                _ => 0
-            };
-        }
-        
-        foreach (var mod in statBonuses.crossStatModifiers) // go over all the modifiers
-        {
-            if (mod.targetStat != stat) continue; // skip the ones we dont care about
-            float sourceValue = GetStatByType(mod.sourceStat); // get the base value of the source stat
-            scalingBonus += sourceValue * mod.multiplier; // add to the scaling bonus of the in question stat the extra value
-        }
-        return Mathf.FloorToInt(baseStatValue + flatBonus + scalingBonus);
-        // i am intentionally not just straight changing the units stats because i want to show the 
-        // total amount of bonus stat they have compared to their base later
+        return GetStatByType(stat) + statBonuses.GetTotalModifier(this, stat);
     }
 
     public void CalculateStats()
@@ -218,13 +176,12 @@ public class Unit : MonoBehaviour
         }
 
 
-        avoidance = tempAvoid + weaponAvoidBonus + statBonuses.GetFlatMod(StatType.AVO); // combine them all including skill bonuses and set the stats
-        hit = tempHit + weaponHitBonus + statBonuses.GetFlatMod(StatType.HIT);
-        crit = tempCrit + weaponCritBonus + statBonuses.GetFlatMod(StatType.CRI);
+        avoidance = tempAvoid + weaponAvoidBonus + statBonuses.GetTotalModifier(this, StatType.AVO); // combine them all including skill bonuses and set the stats
+        hit = tempHit + weaponHitBonus + statBonuses.GetTotalModifier(this, StatType.HIT);
+        crit = tempCrit + weaponCritBonus + statBonuses.GetTotalModifier(this, StatType.CRI);
     }
     public void Equip(Item item)
     {
-        RefreshStats();
         if (item.itemType != ItemType.Weapon)
         {
             Debug.Log("Cannot Equip non-weapon item.");
@@ -249,7 +206,6 @@ public class Unit : MonoBehaviour
 
     public void UnEquip(Item item)
     {
-        RefreshStats();
         if(equippedItem == null || equippedItem != item) return; // cant unequip nothing or what you dont have equipped!
         equippedItem = null;
         CalculateStats();

@@ -39,7 +39,13 @@ public class CrossStatModEffect : Effect
         // Add the cross stat mods respectively
         for (int i = 0; i < targetStats.Count; i++)
         {
-            target.statBonuses.AddCrossStatMod(GetStatTypeFromName(targetStats[i]), GetStatTypeFromName(sourceStats[i]), mods[i]);
+            // GetStatTypeFromName(targetStats[i]), GetStatTypeFromName(sourceStats[i]), mods[i]
+            target.statBonuses.AddModifier(new StatModifier(
+                StatModType.CrossStat, 
+                GetStatTypeFromName(targetStats[i]),
+                GetStatTypeFromName(sourceStats[i]),
+                mods[i],
+                0));
         }
     }
 }
