@@ -255,4 +255,9 @@ public class Unit : MonoBehaviour
         Debug.Log($"{unitName} died lmao.");
         //  more logic goes here
     }
+
+    public void Heal(int amount)
+    {
+        currentHP = Mathf.FloorToInt(Mathf.Clamp((float)amount, 0f, (float)maxHP));
+    }
 }

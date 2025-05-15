@@ -20,6 +20,11 @@ public static class EventSystem
         }
 
         // need to add weapon effects later not sure how rn
+        /* for ticking down turn timers
+        if(evnt == Event.OnTurnEnd)
+        {
+            
+        }*/ 
     }
 }
 
@@ -31,7 +36,7 @@ public enum Event
     OnHit,
     OnCrit,
     OnKill,
-    OnTurnStart,
+    OnTurnStart, OnTurnEnd,
     OnWait,
     OnMove,
     OnSkillUse,
