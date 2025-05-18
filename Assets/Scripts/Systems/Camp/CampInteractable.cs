@@ -7,11 +7,3 @@ public abstract class CampInteractable : MonoBehaviour
 
     public abstract void Interact();
 }
-
-public class CampBarracks : CampInteractable
-{
-    public override void Interact()
-    {
-        CampUIManager.Instance.OpenMenu(CampMenuType.Army);
-    }
-}

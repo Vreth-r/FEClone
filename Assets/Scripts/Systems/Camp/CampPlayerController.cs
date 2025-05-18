@@ -53,19 +53,4 @@ public class CampPlayerController : MonoBehaviour
             // hide press e prompt
         }
     }
-
-    /*
-    private void OnTriggerStay2D(Collider2D other)
-    {
-        Debug.Log($"Colliding with {other.gameObject.name}");
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            var interactable = other.GetComponent<CampInteractable>();
-            if (interactable != null)
-            {
-                interactable.Interact();
-            }
-        }
-    }
-    */
 }
