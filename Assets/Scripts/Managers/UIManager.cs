@@ -18,7 +18,8 @@ public class UIManager : MonoBehaviour
             if (menu is IGameMenu gameMenu)
             {
                 menuMap[gameMenu.MenuID] = gameMenu;
-                gameMenu.Close();
+                if (gameMenu.MenuID != MenuType.MainMenu)
+                    gameMenu.Close();
             }
         }
     }
@@ -69,7 +70,7 @@ public class UIManager : MonoBehaviour
 
     public void CloseMenu(MenuType type)
     {
-        if (currentMenu.MenuID == type && currentMenu.IsOpen)
+        if (currentMenu != null && currentMenu.MenuID == type && currentMenu.IsOpen)
         {
             currentMenu.Close();
             currentMenu = null;

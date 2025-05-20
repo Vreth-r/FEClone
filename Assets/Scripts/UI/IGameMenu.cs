@@ -14,6 +14,8 @@ public enum MenuType
     ArmyMenu,
     SupportMenu,
     StatMenu,
-    OptionsMenu
+    OptionsMenu,
+    LoadMenu,
+    MainMenu
     // add more if needed
 }
