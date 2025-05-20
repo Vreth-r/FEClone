@@ -33,13 +33,27 @@ public class UIManager : MonoBehaviour
         }
     }
 
+
+    // Overload for ActionMenu
     public void OpenMenu(MenuType type, UnitMovement unit, Vector3 worldPos)
     {
         if (menuMap.TryGetValue(type, out IGameMenu menu))
         {
-            var actionMenu = menu as ActionMenu;
+            var aMenu = menu as ActionMenu;
             CloseCurrentMenu();
-            actionMenu.Open(unit, worldPos);
+            aMenu.Open(unit, worldPos);
+            currentMenu = menu;
+        }
+    }
+
+    //Overload for StatsMenu
+    public void OpenMenu(MenuType type, Unit unit)
+    {
+        if (menuMap.TryGetValue(type, out IGameMenu menu))
+        {
+            var sMenu = menu as StatsMenu;
+            CloseCurrentMenu();
+            sMenu.Open(unit);
             currentMenu = menu;
         }
     }
@@ -47,6 +61,15 @@ public class UIManager : MonoBehaviour
     public void CloseCurrentMenu()
     {
         if (currentMenu != null && currentMenu.IsOpen)
+        {
+            currentMenu.Close();
+            currentMenu = null;
+        }
+    }
+
+    public void CloseMenu(MenuType type)
+    {
+        if (currentMenu.MenuID == type && currentMenu.IsOpen)
         {
             currentMenu.Close();
             currentMenu = null;

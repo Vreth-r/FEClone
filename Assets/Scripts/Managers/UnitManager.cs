@@ -52,13 +52,13 @@ public class UnitManager : MonoBehaviour
     public void selectUnit(Unit unit)
     {
         selectedUnit = unit; // selected a unit
-        statsUI.Show(unit);
+        UIManager.Instance.OpenMenu(MenuType.StatMenu, unit);
     }
 
     public void deselectedUnit()
     {
         selectedUnit = null; // voids selected unit
-        statsUI.Hide();
+        UIManager.Instance.CloseMenu(MenuType.StatMenu);
     }
 
     public bool isUnitSelected(Unit unit)

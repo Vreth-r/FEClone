@@ -3,8 +3,10 @@ using UnityEngine.UI;
 using TMPro;
 using System.Text;
 
-public class StatsMenu : MonoBehaviour
+public class StatsMenu : MonoBehaviour, IGameMenu
 {
+    public bool IsOpen { get; private set; }
+    public MenuType MenuID => MenuType.StatMenu;
     public TMP_Text unitNameText;
     public TMP_Text unitTitleText;
 
@@ -23,7 +25,14 @@ public class StatsMenu : MonoBehaviour
 
     private Unit currentUnit;
 
-    public void Show(Unit unit)
+    // Overload to keep interface from throwing a fit
+    public void Open()
+    {
+        gameObject.SetActive(true);
+        IsOpen = true;
+    }
+
+    public void Open(Unit unit)
     {
         currentUnit = unit;
         unitNameText.text = unit.unitName;
@@ -41,7 +50,7 @@ public class StatsMenu : MonoBehaviour
         DisplayStat("AVO", unit.avoidance, unit.GetModifiedStat(StatType.AVO), avoText);
         DisplayStat("CRI", unit.crit, unit.GetModifiedStat(StatType.CRI), criText);
         DisplayStat("HIT", unit.hit, unit.GetModifiedStat(StatType.HIT), hitText);
-        gameObject.SetActive(true);
+        Open();
     }
 
     private void DisplayStat(string statName, int baseValue, int finalValue, TMP_Text displayText)
@@ -60,8 +69,9 @@ public class StatsMenu : MonoBehaviour
         displayText.text = sb.ToString();
     }
 
-    public void Hide()
+    public void Close()
     {
         gameObject.SetActive(false);
+        IsOpen = false;
     }
 }

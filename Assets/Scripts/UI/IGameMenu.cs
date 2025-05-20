@@ -13,6 +13,7 @@ public enum MenuType
     ShopMenu,
     ArmyMenu,
     SupportMenu,
+    StatMenu,
     OptionsMenu
     // add more if needed
 }
