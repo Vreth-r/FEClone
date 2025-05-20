@@ -33,6 +33,17 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void OpenMenu(MenuType type, UnitMovement unit, Vector3 worldPos)
+    {
+        if (menuMap.TryGetValue(type, out IGameMenu menu))
+        {
+            var actionMenu = menu as ActionMenu;
+            CloseCurrentMenu();
+            actionMenu.Open(unit, worldPos);
+            currentMenu = menu;
+        }
+    }
+
     public void CloseCurrentMenu()
     {
         if (currentMenu != null && currentMenu.IsOpen)

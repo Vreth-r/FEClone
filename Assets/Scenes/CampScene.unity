@@ -271,7 +271,6 @@ GameObject:
   - component: {fileID: 1215985715}
   - component: {fileID: 1215985714}
   - component: {fileID: 1215985713}
-  - component: {fileID: 1215985716}
   m_Layer: 5
   m_Name: Army Menu
   m_TagString: Untagged
@@ -348,18 +347,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1215985711}
   m_CullTransparentMesh: 1
---- !u!114 &1215985716
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1215985711}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f5859c0d45242dd438fb8941d79a33e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1529054233
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +358,7 @@ GameObject:
   - component: {fileID: 1529054237}
   - component: {fileID: 1529054236}
   - component: {fileID: 1529054235}
-  - component: {fileID: 1529054234}
+  - component: {fileID: 1529054238}
   m_Layer: 0
   m_Name: CampBarracks
   m_TagString: Untagged
@@ -379,19 +366,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1529054234
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1529054233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f36a1caebcc902847aed1018a06c17f4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactText: Press [E] to manage army.
 --- !u!212 &1529054235
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -504,6 +478,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1529054238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1529054233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddef20f301c35bb4abc385af47dea4d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactText: Press [E] to interact
+  menuType: 3
 --- !u!1 &1538463713
 GameObject:
   m_ObjectHideFlags: 0
@@ -602,7 +590,7 @@ RectTransform:
   - {fileID: 1215985712}
   - {fileID: 1810874488}
   - {fileID: 1607317614}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2003963631}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -838,7 +826,7 @@ GameObject:
   - component: {fileID: 1599994096}
   - component: {fileID: 1599994095}
   - component: {fileID: 1599994094}
-  - component: {fileID: 1599994093}
+  - component: {fileID: 1599994097}
   m_Layer: 0
   m_Name: CampShop
   m_TagString: Untagged
@@ -846,19 +834,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1599994093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1599994092}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f33301516116759409cccc115aa834e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactText: Press [E] to shop!
 --- !u!212 &1599994094
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -971,6 +946,20 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1599994097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1599994092}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ddef20f301c35bb4abc385af47dea4d4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactText: Press [E] to interact
+  menuType: 2
 --- !u!1 &1607317610
 GameObject:
   m_ObjectHideFlags: 0
@@ -2013,7 +2002,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2003963631}
   - component: {fileID: 2003963633}
-  - component: {fileID: 2003963632}
+  - component: {fileID: 2003963634}
   m_Layer: 0
   m_Name: CampManager
   m_TagString: Untagged
@@ -2033,25 +2022,10 @@ Transform:
   m_LocalPosition: {x: 590.30804, y: 246.44301, z: 3.367831}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1538463717}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2003963632
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2003963630}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2a2ab443af897f6449f4c0779927e00c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  shopMenu: {fileID: 2012831976}
-  armyMenu: {fileID: 1215985711}
-  supportMenu: {fileID: 1810874487}
-  optionsMenu: {fileID: 1607317610}
 --- !u!114 &2003963633
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2062,6 +2036,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 47e2feba7f506194d912204636de79e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &2003963634
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2003963630}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a69134ee7d70a4baa8d4654490f492, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &2012831976
@@ -2171,9 +2157,8 @@ SceneRoots:
   m_Roots:
   - {fileID: 1025738297}
   - {fileID: 149129416}
-  - {fileID: 1538463717}
-  - {fileID: 1647634654}
   - {fileID: 2003963631}
+  - {fileID: 1647634654}
   - {fileID: 1538773540}
   - {fileID: 1599994096}
   - {fileID: 1529054237}

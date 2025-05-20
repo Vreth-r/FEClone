@@ -22,7 +22,7 @@ public class UnitMovement : MonoBehaviour
     private GameObject arrowInstance; 
 
     // for menus
-    [SerializeField] private ActionMenuController actionMenu; // set in editor, the ref for the action menu controller script
+    [SerializeField] private ActionMenu actionMenu; // set in editor, the ref for the action menu script
 
     private void Start()
     {
@@ -42,7 +42,7 @@ public class UnitMovement : MonoBehaviour
     private void OnMouseDown()
     {
         if(unit.team != Team.Player || TurnManager.Instance.currentTurn != TurnState.Player || (UnitManager.Instance.isAUnitSelected() && !UnitManager.Instance.isUnitSelected(unit))
-        || actionMenu.isActive)
+        || actionMenu.IsOpen)
         {
             return; // you cant click on it if its not the player's unit OR turn OR if another unit is selected OR if the action menu is open (holy logic)
         }
@@ -166,7 +166,7 @@ public class UnitMovement : MonoBehaviour
         if(arrowInstance != null) arrowInstance.SetActive(false);
 
         Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
-        actionMenu.Show(this, menuWorldPos); // show the action menu on move completion
+        UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
     }
 
     private bool IsWalkable(Vector2Int pos)

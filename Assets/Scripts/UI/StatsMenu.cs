@@ -3,7 +3,7 @@ using UnityEngine.UI;
 using TMPro;
 using System.Text;
 
-public class UnitStatsUI : MonoBehaviour
+public class StatsMenu : MonoBehaviour
 {
     public TMP_Text unitNameText;
     public TMP_Text unitTitleText;

@@ -1,9 +1,13 @@
 using UnityEngine;
 
-public abstract class CampInteractable : MonoBehaviour
+public class CampInteractable : MonoBehaviour
 {
     [TextArea]
     public string interactText = "Press [E] to interact";
+    public MenuType menuType; // set in editor
 
-    public abstract void Interact();
+    public void Interact()
+    {
+        UIManager.Instance.OpenMenu(menuType);
+    }
 }

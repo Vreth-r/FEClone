@@ -6837,6 +6837,7 @@ GameObject:
   - component: {fileID: 1236111118}
   - component: {fileID: 1236111117}
   - component: {fileID: 1236111116}
+  - component: {fileID: 1236111119}
   m_Layer: 0
   m_Name: Menu Canvas
   m_TagString: Untagged
@@ -6929,6 +6930,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 1
   m_TargetDisplay: 0
+--- !u!114 &1236111119
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1236111114}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 24a69134ee7d70a4baa8d4654490f492, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1246289805 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 9081567101115906134, guid: afae5db0bfd51e7438ff84d8d40ae7f8, type: 3}
@@ -9082,7 +9095,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7814743937498075881, guid: e4b28bc2de9602d41ba783a73510d66d, type: 3}
       propertyPath: m_Name
-      value: Unit Stats Preview
+      value: Stats Menu
       objectReference: {fileID: 0}
     - target: {fileID: 7814743937498075881, guid: e4b28bc2de9602d41ba783a73510d66d, type: 3}
       propertyPath: m_IsActive
