@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class Effect : ScriptableObject
 {
     public abstract void Apply(Unit source, Unit target, EffectContext context);
-
+    
     public StatType GetStatTypeFromName(string statName)
     {
         return statName switch

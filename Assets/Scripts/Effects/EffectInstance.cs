@@ -7,6 +7,8 @@ An effect instance is just a copied version of the effect with parameters and tr
 the parameters are defined in the container's scriptable object.
 */
 
+// NOTE: need to add flags for parameters and conditions to tell what its actually supposed to be based off of/apply to, either the source or the target.
+
 [System.Serializable]
 public class EffectInstance
 {
@@ -32,7 +34,7 @@ public class Parameter
     public float floatValue;
     public bool boolValue;
     public string stringValue;
-    
+
     public object GetValue()
     {
         return type switch
@@ -93,6 +95,118 @@ public class ParameterMap
         }
         return defaultValue;
     }
+}
+
+[System.Serializable]
+public class EffectTriggerData
+{
+    public Event evnt;
+
+    // defines all the shit like [trigger % = SPD/2 + ARC/2]
+    public List<StatProc> procs;
+    public float flatChance;
+
+    public List<EffectCondition> conditions;
+
+    public float GetProcChance(Unit source)
+    {
+        float total = flatChance;
+        foreach (var component in procs)
+        {
+            total += source.GetModifiedStat(component.stat) * component.multiplier;
+        }
+        return total;
+    }
+
+    public bool AreConditionsMet(Unit source, Unit target, EffectContext context = null)
+    {
+        foreach(var cond in conditions)
+        {
+            if(!cond.Evaluate(source, target, context)) return false;
+        }
+        return true;
+    }
+}
+
+
+// Yes im hardcoding these because i dont expect a lot.
+[System.Serializable]
+public class EffectCondition
+{
+    public ConditionType conditionType;
+    public string stringValue;
+    public float floatValue;
+    public bool invert; // for inverting condition (could be useful)
+
+    public bool Evaluate(Unit source, Unit target, EffectContext context = null)
+    {
+        bool result = false;
+
+        switch(conditionType)
+        {
+            case ConditionType.TargetHPPercentLessThan:
+                float percent = (float)target.GetStatByType(StatType.CHP) / target.GetModifiedStat(StatType.MHP);
+                result = percent < floatValue;
+                break;
+
+            case ConditionType.TargetHasTag:
+                result = target.unitClass.classTags.Contains(target.unitClass.GetTagFromName(stringValue));
+                break;
+
+            case ConditionType.SourceHasTag:
+                result = source.unitClass.classTags.Contains(source.unitClass.GetTagFromName(stringValue));
+                break; 
+
+            case ConditionType.TargetClassIs:
+                result = target.unitClass.className == stringValue;
+                break;
+
+            /* implement later
+            case ConditionType.TerrainTypeIs:
+                if(context != null && context.combat != null && context.combat.terrain != null) result = context.combat.terrainTile.terrainType == stringValue;
+                break;
+            */
+            
+            // case ConditionType.TurnCountGreaterThan: need to touch the turnManager script
+
+            case ConditionType.IsAttacker:
+                result = context?.combat?.attacker == source;
+                break;
+
+            case ConditionType.IsDefender:
+                result = context?.combat?.defender == source;
+                break;
+        }
+
+        return invert ? !result : result; // flips that shit should that shit be required.
+    }
+}
+
+[System.Serializable]
+public class StatProc
+{
+    public StatType stat;
+    public float multiplier;
+}
+
+// a trigger is just an event and pMap coupling with support methods
+[System.Serializable]
+public class Trigger
+{
+    public Event evnt;
+    public List<Parameter> parameters;
+}
+
+public enum ConditionType
+{
+    TargetHPPercentLessThan,
+    TargetHasTag,
+    SourceHasTag,
+    TargetClassIs,
+    TerrainTypeIs,
+    TurnCountGreaterThan,
+    IsAttacker,
+    IsDefender
 }
 
 public class EffectContext
