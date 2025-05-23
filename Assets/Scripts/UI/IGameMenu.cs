@@ -4,6 +4,7 @@ public interface IGameMenu
     void Close();
     bool IsOpen { get; }
     MenuType MenuID { get; }
+    bool escapable { get; }
 }
 
 public enum MenuType

@@ -15,11 +15,19 @@ public class EffectInstance
     public Effect effect; // logic
     public List<Parameter> parameters; // set in editor
     public List<EffectTriggerData> triggerConditions; // set in editor
+    public bool selfTarget; // set in editor
 
     public void Apply(Unit source, Unit target, EffectContext context = null)
     {
         context.parameters = new ParameterMap(parameters);
-        effect.Apply(source, target, context); 
+        if (selfTarget)
+        {
+            effect.Apply(source, source, context);
+        }
+        else
+        {
+            effect.Apply(source, target, context);
+        }
     }
 }
 

@@ -7,6 +7,7 @@ public class StatsMenu : MonoBehaviour, IGameMenu
 {
     public bool IsOpen { get; private set; }
     public MenuType MenuID => MenuType.StatMenu;
+    public bool escapable { get; private set; }
     public TMP_Text unitNameText;
     public TMP_Text unitTitleText;
 
@@ -24,6 +25,11 @@ public class StatsMenu : MonoBehaviour, IGameMenu
     public TMP_Text hitText;
 
     private Unit currentUnit;
+
+    public void Awake()
+    {
+        escapable = false;
+    }
 
     // Overload to keep interface from throwing a fit
     public void Open()

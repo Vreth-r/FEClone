@@ -61,7 +61,7 @@ public class UIManager : MonoBehaviour
 
     public void CloseCurrentMenu()
     {
-        if (currentMenu != null && currentMenu.IsOpen)
+        if (currentMenu != null && currentMenu.IsOpen && currentMenu.escapable)
         {
             currentMenu.Close();
             currentMenu = null;

@@ -4,6 +4,12 @@ public class ShopMenu : MonoBehaviour, IGameMenu
 {
     public MenuType MenuID => MenuType.ShopMenu;
     public bool IsOpen { get; private set; }
+    public bool escapable { get; private set; }
+
+    public void Awake()
+    {
+        escapable = false;
+    }
 
     public void Open()
     {

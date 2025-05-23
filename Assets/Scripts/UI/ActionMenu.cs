@@ -13,6 +13,7 @@ public class ActionMenu : MonoBehaviour, IGameMenu
     public Button cancelButton;
     public bool IsOpen { get; private set; } // i know about gameObject.activeSelf but i need the ref somewhere else for the game object and only the script is passed to UnitMovement\
     public MenuType MenuID => MenuType.ActionMenu;
+    public bool escapable { get; private set; }
 
     private UnitMovement activeUnit; // the unit in question:
 
@@ -43,6 +44,7 @@ public class ActionMenu : MonoBehaviour, IGameMenu
         waitButton.onClick.AddListener(OnWait);
         itemButton.onClick.AddListener(OnItem);
         cancelButton.onClick.AddListener(OnCancel);
+        escapable = false;
     }
 
     private void OnAttack()

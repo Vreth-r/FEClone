@@ -4,14 +4,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+// Need to condense some of the UI shit but honestly it all might change when the actual final UI is designed so im holding off
+
 public class CombatSceneManager : MonoBehaviour
 {
     public CombatUnitView leftUnit;
     public CombatUnitView rightUnit;
     public CombatNarrator narrator;
     public GameObject dimmerOverlay;
+    public CombatStatMenu attackerStats;
+    public CombatStatMenu defenderStats;
 
-    public GameObject rootObject; // the canvas root to activate/deactivate
+    public GameObject rootObject; // the canvas root to activate/deactivate for sprites
     public GameObject uiObject;
 
     public HealthBarUI attackerHealthBar;
@@ -51,14 +55,17 @@ public class CombatSceneManager : MonoBehaviour
 
         attackerHealthBar.InstantFill(context.attackerPrevHP, attacker.maxHP);
         defenderHealthBar.InstantFill(context.defenderPrevHP, defender.maxHP);
-    
+
         CombatPreviewHelper.GetCombatPreview(attacker, defender, context.attackerWeapon, out int baseA, out int bonusA, out int hitA, out int critA);
         CombatPreviewHelper.GetCombatPreview(defender, attacker, context.defenderWeapon, out int baseD, out int bonusD, out int hitD, out int critD);
 
         attackerInfo.text = CombatPreviewHelper.FormatCombatText(baseA, bonusA, hitA, critA);
         defenderInfo.text = CombatPreviewHelper.FormatCombatText(baseD, bonusD, hitD, critD);
 
-        StartCoroutine(PlayCombat(context,  queue));
+        attackerStats.Open(attacker);
+        defenderStats.Open(defender);
+
+        StartCoroutine(PlayCombat(context, queue));
     }
 
     public void ExitCombat()
@@ -70,7 +77,7 @@ public class CombatSceneManager : MonoBehaviour
 
     public IEnumerator PlayCombat(CombatContext context, CombatQueue queue)
     {
-        foreach(var action in queue.actions)
+        foreach (var action in queue.actions)
         {
             var attacker = action.attacker; // this is fucked up a bit but basically switches the attacker and defender based on which unit in the combat scene is attacking 
             var defender = action.defender;
@@ -86,11 +93,11 @@ public class CombatSceneManager : MonoBehaviour
 
             // Narration Line
             string message = $"{attacker.unitName} attacks!";
-            if(action.isCounter) message += " (Counter)";
-            if(action.isFollowUp) message += " (Follow-up)";
+            if (action.isCounter) message += " (Counter)";
+            if (action.isFollowUp) message += " (Follow-up)";
             yield return narrator.ShowMessageAndClear(message, 0.8f);
 
-            if(attacker == leftUnit)
+            if (attacker == leftUnit)
             {
                 yield return attackerView.Lunge(1.0f);
             }
@@ -109,7 +116,7 @@ public class CombatSceneManager : MonoBehaviour
                 if (context.critting)
                 {
                     yield return attackerView.CritEffect();
-                    yield return narrator.ShowMessageAndClear("CRIT!",  0.4f);
+                    yield return narrator.ShowMessageAndClear("CRIT!", 0.4f);
                 }
                 else
                 {

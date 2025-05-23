@@ -37,3 +37,4 @@ MonoBehaviour:
         stringValue: 
         floatValue: 0.8
         invert: 0
+    selfTarget: 1

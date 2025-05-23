@@ -31,6 +31,7 @@ MonoBehaviour:
         multiplier: 0.25
       flatChance: 10
       conditions: []
+    selfTarget: 0
   - effect: {fileID: 11400000, guid: 0d50e85f249ad5e48a98f1f4f77d4871, type: 2}
     parameters:
     - key: Mod
@@ -43,3 +44,4 @@ MonoBehaviour:
       procs: []
       flatChance: 100
       conditions: []
+    selfTarget: 1
