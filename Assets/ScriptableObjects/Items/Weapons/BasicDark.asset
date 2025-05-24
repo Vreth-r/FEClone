@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: BasicDark
   m_EditorClassIdentifier: 
   itemName: Dark
+  itemID: basic_dark
   description: Basic dark magic.
   itemType: 0
   icon: {fileID: 0}

@@ -2,22 +2,33 @@ using UnityEngine;
 using System.Collections.Generic;
 
 // Ultra persistent script for "global" variable tracking
+/*
+save from anywhere:
+SaveSystem.SaveGame(0);
 
+load from anywhere:
+if (SaveSystem.SaveExists(0))
+{
+    SaveSystem.LoadGame(0);
+}
+*/
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
     // currency
-    public int Gold { get; private set; }
+    public int Gold;
 
     // Convoy Inventory (upgrading to its own class later)
     public List<Item> convoy = new();
 
-    // recruited unit ID (might upgrade to scriptables later)
-    public List<string> recruitedUnitIDs = new();
-
     // Optional: Global flags
     public HashSet<string> globalFlags = new();
+
+    public List<string> recruitedUnitIDs;
+
+    public UnitRoster startingRoster;
+    public Transform[] playerSpawnPositions; // in editor
 
     private void Awake()
     {
@@ -29,6 +40,18 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    public void StartNewGame()
+    {
+        for (int i = 0; i < startingRoster.startingUnits.Count; i++)
+        {
+            var data = startingRoster.startingUnits[i];
+            var pos = playerSpawnPositions[i].position;
+            Vector3Int gridPos = GridManager.Instance.WorldToCell(pos);
+
+            UnitSpawner.Instance.SpawnUnitFromTemplate(data, gridPos);
+        }
     }
 
     // Gold Management

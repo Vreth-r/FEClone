@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: IronSword
   m_EditorClassIdentifier: 
   itemName: Iron Sword
+  itemID: basic_sword
   description: Basic and reliable, but not very powerful.
   itemType: 0
   icon: {fileID: 0}

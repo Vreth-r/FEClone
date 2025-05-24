@@ -12,6 +12,7 @@ public enum ItemType
 public abstract class Item : ScriptableObject
 {
     public string itemName;
+    public string itemID;
     [TextArea] public string description;
     public ItemType itemType;
     public Sprite icon;

@@ -1,0 +1,93 @@
+using UnityEngine;
+
+public class UnitSpawner : MonoBehaviour
+{
+    public static UnitSpawner Instance { get; private set; }
+
+    [SerializeField] private GameObject unitPrefab; // assign in inspector
+
+    private void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+
+        Instance = this;
+    }
+
+    public Unit SpawnUnitFromTemplate(UnitData data, Vector3Int gridPos)
+    {
+        GameObject go = Instantiate(unitPrefab);
+        Unit unit = go.GetComponent<Unit>();
+
+        unit.unitClass = data.startingClass;
+        unit.unitName = data.unitName;
+        unit.unitTitle = data.unitTitle;
+        unit.unitDescription = data.unitDescription;
+        unit.team = data.team;
+
+        unit.level = data.level;
+        unit.maxHP = data.maxHP;
+        unit.currentHP = data.maxHP;
+
+        unit.strength = data.strength;
+        unit.arcane = data.arcane;
+        unit.defense = data.defense;
+        unit.speed = data.speed;
+        unit.skill = data.skill;
+        unit.resistance = data.resistance;
+        unit.luck = data.luck;
+
+        unit.inventory.Clear();
+        foreach (var item in data.startingInventory)
+        {
+            unit.AddItem(Instantiate(item)); // instantiate if item has state
+        }
+
+        unit.transform.position = GridManager.Instance.CellToWorld(gridPos);
+        unit.GridPosition = (Vector2Int)gridPos; // is this even being used?
+
+        return unit;
+    }
+
+    public Unit SpawnUnitFromSaveData(SavedUnitData data, Vector3Int gridPos)
+    {
+        GameObject go = Instantiate(unitPrefab);
+        Unit unit = go.GetComponent<Unit>();
+
+        unit.unitName = data.unitID;
+        unit.unitClass = UnitClassDatabase.GetClassByName(data.unitClassName);
+
+        unit.level = data.level;
+        unit.maxHP = data.maxHP;
+        unit.currentHP = data.currentHP;
+
+        unit.strength = data.strength;
+        unit.arcane = data.arcane;
+        unit.defense = data.defense;
+        unit.speed = data.speed;
+        unit.skill = data.skill;
+        unit.resistance = data.resistance;
+        unit.luck = data.luck;
+
+        unit.inventory.Clear();
+        foreach (string id in data.inventoryIDs)
+        {
+            var item = ItemDatabase.GetItemByID(id);
+            if (item != null) unit.AddItem(Instantiate(item));
+        }
+
+        if (!string.IsNullOrEmpty(data.equippedItemID))
+        {
+            var item = ItemDatabase.GetItemByID(data.equippedItemID);
+            if (item != null) unit.Equip(item);
+        }
+
+        unit.transform.position = GridManager.Instance.CellToWorld(gridPos);
+        unit.GridPosition = (Vector2Int)gridPos;
+
+        return unit;
+    }
+}

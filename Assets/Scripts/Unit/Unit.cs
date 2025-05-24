@@ -43,10 +43,10 @@ public class Unit : MonoBehaviour
     // Editor stuff
     public Sprite combatSprite;
 
-    public Vector2Int GridPosition { get; set; }
+    public Vector2Int GridPosition { get; set; } // is this even being used?
 
     private void Start()
-    {   
+    {
         statBonuses = new StatBonusSet();
         // Start will run at the start of EVERY start, even if booting into a save
         GridPosition = (Vector2Int)GridManager.Instance.WorldToCell(transform.position);
@@ -61,7 +61,7 @@ public class Unit : MonoBehaviour
     }
 
     public void ApplyPassiveEffects()
-    {   
+    {
         // Will change this to have a trigger param and make it general
         var context = new EffectContext();
 
@@ -155,21 +155,21 @@ public class Unit : MonoBehaviour
     }
 
     public int GetModifiedStat(StatType stat)
-    {   
+    {
         return GetStatByType(stat) + statBonuses.GetTotalModifier(this, stat);
     }
 
     public void CalculateStats()
     {
-        int tempAvoid = Mathf.CeilToInt((float)(GetModifiedStat(StatType.SPD)*1.5) + (GetModifiedStat(StatType.LCK)/2)); // get the base values from primary stats
-        int tempHit = Mathf.CeilToInt((float)(GetModifiedStat(StatType.SKL)*1.5) + (GetModifiedStat(StatType.LCK)/2));
-        int tempCrit = Mathf.CeilToInt((float)(GetModifiedStat(StatType.SKL)/2));
+        int tempAvoid = Mathf.CeilToInt((float)(GetModifiedStat(StatType.SPD) * 1.5) + (GetModifiedStat(StatType.LCK) / 2)); // get the base values from primary stats
+        int tempHit = Mathf.CeilToInt((float)(GetModifiedStat(StatType.SKL) * 1.5) + (GetModifiedStat(StatType.LCK) / 2));
+        int tempCrit = Mathf.CeilToInt((float)(GetModifiedStat(StatType.SKL) / 2));
 
         int weaponAvoidBonus = 0; // instantiate these for scope
         int weaponHitBonus = 0;
         int weaponCritBonus = 0;
 
-        if(equippedItem is WeaponItem weapon)
+        if (equippedItem is WeaponItem weapon)
         {
             weaponAvoidBonus = weapon.avoid; // if weapon is valid, set the bonus stats
             weaponHitBonus = weapon.hit;
@@ -207,15 +207,15 @@ public class Unit : MonoBehaviour
 
     public void UnEquip(Item item)
     {
-        if(equippedItem == null || equippedItem != item) return; // cant unequip nothing or what you dont have equipped!
+        if (equippedItem == null || equippedItem != item) return; // cant unequip nothing or what you dont have equipped!
         equippedItem = null;
         CalculateStats();
     }
 
     public void UseItem(int index, Unit target = null)
-    {   
+    {
         // validate the index
-        if(index < 0 || index >= inventory.Count) return; 
+        if (index < 0 || index >= inventory.Count) return;
 
         var item = inventory[index];
         item.Use(this, target ?? this); // default use on self
@@ -223,7 +223,7 @@ public class Unit : MonoBehaviour
 
     public void AddItem(Item item)
     {
-        if(inventory.Count >= 5)
+        if (inventory.Count >= 5)
         {
             Debug.Log("Inventory full bruh.");
             return;
@@ -239,7 +239,7 @@ public class Unit : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        if(damage >= currentHP)
+        if (damage >= currentHP)
         {
             currentHP = 0;
             this.Die();
