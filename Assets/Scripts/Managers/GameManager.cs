@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-// Ultra persistent script for "global" variable tracking
+// Ultra persistent script for "global" variable tracking and scene management
 /*
 save from anywhere:
 SaveSystem.SaveGame(0);

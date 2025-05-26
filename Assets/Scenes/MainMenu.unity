@@ -132,6 +132,7 @@ GameObject:
   m_Component:
   - component: {fileID: 105420747}
   - component: {fileID: 105420748}
+  - component: {fileID: 105420749}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -166,8 +167,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284dcaaad9ba24a40b8eb3a2569b9273, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Gold: 0
   convoy: []
   recruitedUnitIDs: []
+  startingRoster: {fileID: 0}
+  playerSpawnPositions: []
+--- !u!114 &105420749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105420745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c53356791a84d34da0bb42416781eaa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  loadingScreenPrefab: {fileID: 6910540426760335846, guid: 9a5495b777e847041bafaece56ef7f91, type: 3}
 --- !u!1 &184689950
 GameObject:
   m_ObjectHideFlags: 0

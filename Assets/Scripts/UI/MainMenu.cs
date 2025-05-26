@@ -33,7 +33,7 @@ public class MainMenu : MonoBehaviour, IGameMenu
         {
             UnitSpawner.SpawnUnitFromTemplate(data, spawnLocation);
         } */
-        SceneManager.LoadScene("CampScene");
+        LoadingScreenManager.Instance.LoadScene("CampScene");
     }
 
     // These are mapped in the editor for each button listener
