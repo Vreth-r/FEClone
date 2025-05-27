@@ -2,7 +2,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 using TMPro;
+using System.IO;
+using Newtonsoft.Json;
 
 public class LoadingScreenManager : MonoBehaviour
 {
@@ -13,6 +16,8 @@ public class LoadingScreenManager : MonoBehaviour
     private CanvasGroup canvasGroup;
     private Slider progressBar;
     private TextMeshProUGUI loadingText;
+    private TextMeshProUGUI tipText;
+    public Dictionary<string, List<string>> tips = new();
 
     private void Awake()
     {
@@ -24,6 +29,7 @@ public class LoadingScreenManager : MonoBehaviour
         }
 
         Instance = this;
+        LoadTips();
         DontDestroyOnLoad(gameObject);
     }
 
@@ -47,6 +53,9 @@ public class LoadingScreenManager : MonoBehaviour
         canvasGroup = currentScreen.GetComponentInChildren<CanvasGroup>();
         progressBar = currentScreen.GetComponentInChildren<Slider>();
         loadingText = currentScreen.GetComponentInChildren<TextMeshProUGUI>();
+        tipText = currentScreen.transform.Find("Background").transform.Find("TipText").GetComponent<TextMeshProUGUI>();
+
+        GetRandomTip(); // sets tip text in method
 
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = true;
@@ -105,5 +114,40 @@ public class LoadingScreenManager : MonoBehaviour
             yield return null;
         }
         canvasGroup.alpha = to;
+    }
+
+    public void GetRandomTip()
+    {
+        if (tips != null && tips.Count > 0)
+        {
+            // Pick a random category
+            List<string> categories = new List<string>(tips.Keys);
+            string randomCategory = categories[Random.Range(0, categories.Count)]; // will change this later to make jokes rarer and actual helpful tips more common later
+
+            // Pick a random tip from the category
+            List<string> catTips = tips[randomCategory];
+            if (catTips.Count > 0)
+            {
+                string randomTip = catTips[Random.Range(0, catTips.Count)];
+                tipText.text = randomTip;
+                Debug.Log($"[{randomCategory}] Tip: {randomTip}");
+            }
+        }
+    }
+
+    private void LoadTips()
+    {
+        string filePath = Path.Combine(Application.streamingAssetsPath, "tips.json");
+
+        if (File.Exists(filePath))
+        {
+            string json = File.ReadAllText(filePath);
+            Debug.Log(json);
+            tips = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(json);
+        }
+        else
+        {
+            Debug.LogError("Tips file not found: " + filePath);
+        }
     }
 }
