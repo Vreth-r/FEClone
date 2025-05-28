@@ -1,23 +1,25 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+// UnitClass Database, keeps a reference for each skill scriptable object
+
 [CreateAssetMenu(menuName = "Tactics RPG/Class Database")]
 public class UnitClassDatabase : ScriptableObject
 {
-    public static UnitClassDatabase Instance;
-    public List<UnitClass> classes;
-    private Dictionary<string, UnitClass> classLookup;
+    public static UnitClassDatabase Instance; // singleton reference
+    public List<UnitClass> classes; // List for editor population
+    private Dictionary<string, UnitClass> classLookup; // Dicitionary for O(1) reference
 
     private void OnEnable()
     {
-        Instance = this;
-        classLookup = new Dictionary<string, UnitClass>();
+        Instance = this; // assign singleton 
+        classLookup = new Dictionary<string, UnitClass>(); // init dict
 
         foreach (var c in classes)
         {
-            if (c != null && !classLookup.ContainsKey(c.className))
+            if (c != null && !classLookup.ContainsKey(c.className)) // if item exists and not already in the database
             {
-                classLookup[c.className] = c;
+                classLookup[c.className] = c; // add to DB
             }
         }
     }

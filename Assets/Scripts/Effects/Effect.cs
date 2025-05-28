@@ -1,9 +1,12 @@
 using UnityEngine;
 
+// Abstract class for an Effect, more beef in EffectInstance
+// gets subclassed and those subclasses get made into scriptable objects (might change that its p jank)
+
 public abstract class Effect : ScriptableObject
 {
-    public abstract void Apply(Unit source, Unit target, EffectContext context);
-    
+    public abstract void Apply(Unit source, Unit target, EffectContext context); // abstract application method
+
     public StatType GetStatTypeFromName(string statName)
     {
         return statName switch

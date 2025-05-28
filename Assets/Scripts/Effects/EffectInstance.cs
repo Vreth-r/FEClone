@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 /*
-An effect instance is just a copied version of the effect with parameters and triggers
+An effect instance is just an instance (shocker) of the effect with parameters and triggers
 the parameters are defined in the container's scriptable object.
 */
 
@@ -19,7 +19,7 @@ public class EffectInstance
 
     public void Apply(Unit source, Unit target, EffectContext context = null)
     {
-        context.parameters = new ParameterMap(parameters);
+        context.parameters = new ParameterMap(parameters); // load the parameters into the map
         if (selfTarget)
         {
             effect.Apply(source, source, context);
@@ -105,6 +105,8 @@ public class ParameterMap
     }
 }
 
+
+// Effect trigger data contains the proc chance (off of stats), the flatchance, and any conditions for a skill to trigger
 [System.Serializable]
 public class EffectTriggerData
 {
@@ -190,6 +192,7 @@ public class EffectCondition
     }
 }
 
+// Just a double type container really
 [System.Serializable]
 public class StatProc
 {
