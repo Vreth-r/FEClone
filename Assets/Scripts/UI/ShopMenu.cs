@@ -3,26 +3,27 @@ using UnityEngine;
 public class ShopMenu : MonoBehaviour, IGameMenu
 {
     public MenuType MenuID => MenuType.ShopMenu;
-    public bool IsOpen { get; private set; }
+    public bool IsOpen { get; private set; } = false;
     public bool escapable { get; private set; }
 
     public void Awake()
     {
-        escapable = false;
+        escapable = true;
+        IsOpen = false;
     }
 
     public void Open()
     {
         gameObject.SetActive(true);
         IsOpen = true;
-        Debug.Log("Shop Menu opened");
+        Debug.Log("ShopMenu.cs: Shop Menu opened");
     }
 
     public void Close()
     {
         gameObject.SetActive(false);
         IsOpen = false;
-        Debug.Log("Shop menu closed");
+        Debug.Log("ShopMenu.cs: Shop menu closed");
     }
 
     // button hooks go here

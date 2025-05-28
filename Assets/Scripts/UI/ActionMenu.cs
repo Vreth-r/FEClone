@@ -17,6 +17,16 @@ public class ActionMenu : MonoBehaviour, IGameMenu
 
     private UnitMovement activeUnit; // the unit in question:
 
+    public void Awake()
+    {
+        attackButton.onClick.AddListener(OnAttack);
+        waitButton.onClick.AddListener(OnWait);
+        itemButton.onClick.AddListener(OnItem);
+        cancelButton.onClick.AddListener(OnCancel);
+        escapable = false;
+        IsOpen = false;
+    }
+    
     public void Open() // will be overloaded to make the interface happy
     {
         IsOpen = true;
@@ -36,15 +46,6 @@ public class ActionMenu : MonoBehaviour, IGameMenu
     {
         IsOpen = false;
         gameObject.SetActive(false);
-    }
-
-    public void Awake()
-    {
-        attackButton.onClick.AddListener(OnAttack);
-        waitButton.onClick.AddListener(OnWait);
-        itemButton.onClick.AddListener(OnItem);
-        cancelButton.onClick.AddListener(OnCancel);
-        escapable = false;
     }
 
     private void OnAttack()

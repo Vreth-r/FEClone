@@ -139,7 +139,7 @@ public class EffectTriggerData
 }
 
 
-// Yes im hardcoding these because i dont expect a lot.
+// Yes im hardcoding these because i dont expect a lot of them.
 [System.Serializable]
 public class EffectCondition
 {
@@ -171,7 +171,7 @@ public class EffectCondition
                 result = target.unitClass.className == stringValue;
                 break;
 
-            /* implement later
+            /* implement later when backend can support it
             case ConditionType.TerrainTypeIs:
                 if(context != null && context.combat != null && context.combat.terrain != null) result = context.combat.terrainTile.terrainType == stringValue;
                 break;
@@ -200,7 +200,8 @@ public class StatProc
     public float multiplier;
 }
 
-// a trigger is just an event and pMap coupling with support methods
+// another double type container lmao
+
 [System.Serializable]
 public class Trigger
 {

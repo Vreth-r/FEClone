@@ -13,6 +13,7 @@ public class UIManager : MonoBehaviour
         if (Instance == null) Instance = this;
 
         // Close each menu when starting
+        // will prob be refactored to support the menus being prefabs instead
         foreach (var menu in GetComponentsInChildren<IGameMenu>(true))
         {
             if (menu is IGameMenu gameMenu)
@@ -24,6 +25,7 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    // Called externally from other classes, like CampPlayerController
     public void OpenMenu(MenuType type)
     {
         if (menuMap.TryGetValue(type, out IGameMenu menu))
@@ -65,9 +67,11 @@ public class UIManager : MonoBehaviour
         {
             currentMenu.Close();
             currentMenu = null;
+            CampInputBlocker.SetBlocked(false);
         }
     }
 
+    // why...do i have this?
     public void CloseMenu(MenuType type)
     {
         if (currentMenu != null && currentMenu.MenuID == type && currentMenu.IsOpen)

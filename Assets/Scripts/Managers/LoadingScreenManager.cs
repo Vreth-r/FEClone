@@ -130,7 +130,6 @@ public class LoadingScreenManager : MonoBehaviour
             {
                 string randomTip = catTips[Random.Range(0, catTips.Count)];
                 tipText.text = randomTip;
-                Debug.Log($"[{randomCategory}] Tip: {randomTip}");
             }
         }
     }
@@ -142,7 +141,6 @@ public class LoadingScreenManager : MonoBehaviour
         if (File.Exists(filePath))
         {
             string json = File.ReadAllText(filePath);
-            Debug.Log(json);
             tips = JsonConvert.DeserializeObject<Dictionary<string, List<string>>>(json);
         }
         else

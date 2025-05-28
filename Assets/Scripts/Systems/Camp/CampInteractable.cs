@@ -9,5 +9,6 @@ public class CampInteractable : MonoBehaviour
     public void Interact()
     {
         UIManager.Instance.OpenMenu(menuType);
+        CampInputBlocker.SetBlocked(true);
     }
 }

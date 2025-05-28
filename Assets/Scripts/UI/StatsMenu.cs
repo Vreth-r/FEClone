@@ -29,6 +29,7 @@ public class StatsMenu : MonoBehaviour, IGameMenu
     public void Awake()
     {
         escapable = false;
+        IsOpen = false;
     }
 
     // Overload to keep interface from throwing a fit
