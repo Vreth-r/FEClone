@@ -45,7 +45,7 @@ public class Pathfinding
                 TerrainTile terrain = terrainManager.GetTerrainAt(neighborPos);
                 if (terrain == null) continue;
                 int terrainCost = terrainManager.GetTerrainCost(terrain);
-                int moveCost = current.gCost + terrainCost; // could be terrain cost here
+                int moveCost = current.gCost + terrainCost;
 
                 if (!allNodes.TryGetValue(neighborPos, out Node neighbor))
                 {

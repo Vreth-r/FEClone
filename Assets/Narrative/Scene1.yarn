@@ -1,0 +1,40 @@
+﻿title: Start
+---
+
+<<declare $speaker = "">>
+<<declare $side = "">>
+<<declare $expression = "">>
+
+<<set $speaker = "Ylru">>
+<<set $side = "left">>
+<<set $expression = "neutral">>
+Ylru: You're fucking stupid NecoArc.
+
+<<set $speaker = "NecoArc">>
+<<set $side = "right">>
+<<set $expression = "neutral">>
+
+NecoArc: Damn bitch, the fuck did I do to you.
+
+-> Call it gay.
+    <<jump Gay>>
+-> Call it short.
+    <<jump Short>>
+
+===
+
+title: Gay
+---
+
+<<set $speaker = "Ylru">>
+Ylru: Gay ass mf'er.
+
+===
+
+title: Short
+---
+
+<<set $speaker = "Ylru">>
+Yrlu: Short ass mf'er.
+
+===
