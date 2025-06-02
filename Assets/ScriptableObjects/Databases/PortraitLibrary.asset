@@ -14,5 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   portraits:
   - characterName: Ylru
-    expression: 
-    sprite: {fileID: 0}
+    expression: neutral
+    sprite: {fileID: 21300000, guid: 8b87d606a1c3b9949afdeac4918cbfe3, type: 3}
+  - characterName: NecoArc
+    expression: neutral
+    sprite: {fileID: 21300000, guid: 769219b4c921f1e43a5e018a06492572, type: 3}

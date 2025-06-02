@@ -1,63 +1,113 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
     public static UIManager Instance;
 
+    [System.Serializable]
+    public struct MenuPrefabEntry
+    {
+        public MenuType type;
+        public GameObject prefab;
+    }
+
+    [Header("Menu Prefabs")]
+    public List<MenuPrefabEntry> menuPrefabs;
+
     private Dictionary<MenuType, IGameMenu> menuMap = new();
-    private IGameMenu currentMenu; // might change to stack later
+    private Dictionary<MenuType, GameObject> prefabMap = new();
+    private IGameMenu currentMenu; // might change to stack later for multi menuing.
 
     private void Awake()
     {
-        if (Instance == null) Instance = this;
+        if (Instance == null)
+            Instance = this;
+        else
+            Destroy(gameObject);
 
         // Close each menu when starting
-        // will prob be refactored to support the menus being prefabs instead
-        foreach (var menu in GetComponentsInChildren<IGameMenu>(true))
+        foreach (var menu in menuPrefabs)
         {
-            if (menu is IGameMenu gameMenu)
+            if (menu.prefab.TryGetComponent<IGameMenu>(out var menuComponent))
             {
-                menuMap[gameMenu.MenuID] = gameMenu;
-                if (gameMenu.MenuID != MenuType.MainMenu)
-                    gameMenu.Close();
+                prefabMap[menu.type] = menu.prefab;
+            }
+            else
+            {
+                Debug.LogError($"UIManager: Prefab for {menu.type} does not implement IGameMenu");
             }
         }
+    }
+
+    // this is designed to reuse the same menu instance, so everything gets instantiated once and only once.
+    private IGameMenu GetOrCreateMenu(MenuType type)
+    {
+        if (menuMap.TryGetValue(type, out var menu)) return menu;
+
+        if (!prefabMap.TryGetValue(type, out var prefab))
+        {
+            Debug.LogError($"UIManager: No prefab found for menu type: {type}");
+            return null;
+        }
+
+        GameObject instance = Instantiate(prefab);
+        instance.SetActive(false);
+
+        if (instance.TryGetComponent<IGameMenu>(out var newMenu))
+        {
+            menuMap[type] = newMenu;
+            return newMenu;
+        }
+
+        Debug.LogError($"UIManager: Instantiated menu does not implement IGameMenu: {type}");
+        Destroy(instance);
+        return null;
+
     }
 
     // Called externally from other classes, like CampPlayerController
     public void OpenMenu(MenuType type)
     {
-        if (menuMap.TryGetValue(type, out IGameMenu menu))
-        {
-            CloseCurrentMenu();
-            menu.Open();
-            currentMenu = menu;
-        }
-    }
+        var menu = GetOrCreateMenu(type);
+        if (menu == null) return;
 
+        CloseCurrentMenu();
+        menu.Open();
+        currentMenu = menu;
+    }
 
     // Overload for ActionMenu
     public void OpenMenu(MenuType type, UnitMovement unit, Vector3 worldPos)
     {
-        if (menuMap.TryGetValue(type, out IGameMenu menu))
+
+        var menu = GetOrCreateMenu(type);
+        if (menu is ActionMenu aMenu)
         {
-            var aMenu = menu as ActionMenu;
             CloseCurrentMenu();
             aMenu.Open(unit, worldPos);
             currentMenu = menu;
+        }
+        else
+        {
+            Debug.LogWarning($"UIManager: Menu {type} is not an ActionMenu");
         }
     }
 
     //Overload for StatsMenu
     public void OpenMenu(MenuType type, Unit unit)
     {
-        if (menuMap.TryGetValue(type, out IGameMenu menu))
+        var menu = GetOrCreateMenu(type);
+        if (menu is StatsMenu sMenu)
         {
-            var sMenu = menu as StatsMenu;
             CloseCurrentMenu();
             sMenu.Open(unit);
-            currentMenu = menu;
+            currentMenu = sMenu;
+        }
+        else
+        {
+            Debug.LogWarning($"UIManager: Menu {type} is not a StatsMenu.");
         }
     }
 
@@ -74,10 +124,10 @@ public class UIManager : MonoBehaviour
     // why...do i have this?
     public void CloseMenu(MenuType type)
     {
-        if (currentMenu != null && currentMenu.MenuID == type && currentMenu.IsOpen)
+        if (menuMap.TryGetValue(type, out var menu) && menu.IsOpen)
         {
-            currentMenu.Close();
-            currentMenu = null;
+            menu.Close();
+            if (currentMenu == menu) currentMenu = null;
         }
     }
 
@@ -85,9 +135,18 @@ public class UIManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape) && IsMenuOpen())
+        if (SceneManager.GetActiveScene().name == "MainMenu") return;
+
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            CloseCurrentMenu();
+            if (IsMenuOpen())
+            {
+                CloseCurrentMenu();
+            }
+            else
+            {
+                OpenMenu(MenuType.PauseMenu);
+            }
         }
     }
 }

@@ -17,6 +17,7 @@ public enum MenuType
     StatMenu,
     OptionsMenu,
     LoadMenu,
-    MainMenu
+    MainMenu,
+    PauseMenu
     // add more if needed
 }

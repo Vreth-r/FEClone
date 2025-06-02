@@ -5,14 +5,18 @@
 <<declare $side = "">>
 <<declare $expression = "">>
 
+// i would do this with parameters but shit never works ever at all.
 <<set $speaker = "Ylru">>
 <<set $side = "left">>
 <<set $expression = "neutral">>
-Ylru: You're fucking stupid NecoArc.
+<<setportrait CampManager>>
 
 <<set $speaker = "NecoArc">>
 <<set $side = "right">>
 <<set $expression = "neutral">>
+<<setportrait CampManager>>
+
+Ylru: You're fucking stupid NecoArc.
 
 NecoArc: Damn bitch, the fuck did I do to you.
 
@@ -25,16 +29,12 @@ NecoArc: Damn bitch, the fuck did I do to you.
 
 title: Gay
 ---
-
-<<set $speaker = "Ylru">>
 Ylru: Gay ass mf'er.
 
 ===
 
 title: Short
 ---
-
-<<set $speaker = "Ylru">>
 Yrlu: Short ass mf'er.
 
 ===
