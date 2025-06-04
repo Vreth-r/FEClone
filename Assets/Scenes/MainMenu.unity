@@ -203,6 +203,10 @@ MonoBehaviour:
     prefab: {fileID: 2075650347473006101, guid: 58ba1fb230fe97341825dbf10b3c451b, type: 3}
   - type: 2
     prefab: {fileID: 8258876609884873097, guid: eb80dec7a79e9ec44b2ccb257e4ba496, type: 3}
+  - type: 5
+    prefab: {fileID: 1530434505261421202, guid: 3c3ff9e20cd6eac44a6ea239f82c77a2, type: 3}
+  - type: 1
+    prefab: {fileID: 3927749706462018653, guid: bcaff2899c6561b488c730b519fba490, type: 3}
 --- !u!1 &184689950
 GameObject:
   m_ObjectHideFlags: 0

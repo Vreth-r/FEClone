@@ -121,6 +121,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void WipeCurrentMenu()
+    {
+        currentMenu = null;
+    }
+
     // why...do i have this?
     public void CloseMenu(MenuType type)
     {
@@ -129,6 +134,15 @@ public class UIManager : MonoBehaviour
             menu.Close();
             if (currentMenu == menu) currentMenu = null;
         }
+    }
+
+    public MenuType GetCurrentMenuType()
+    {
+        if (currentMenu != null)
+        {
+            return currentMenu.MenuID;
+        }
+        return MenuType.None;
     }
 
     public bool IsMenuOpen() => currentMenu != null && currentMenu.IsOpen;

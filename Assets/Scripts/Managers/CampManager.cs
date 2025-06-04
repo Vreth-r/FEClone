@@ -1,6 +1,7 @@
 using UnityEngine;
 using Yarn.Unity;
 using UnityEngine.SceneManagement;
+using System.Collections;
 
 public class CampManager : MonoBehaviour
 {
@@ -13,12 +14,17 @@ public class CampManager : MonoBehaviour
         if (Instance == null) Instance = this;
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
-
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        StartCoroutine(StartDialogueWhenReady());
+    }
+
+    private IEnumerator StartDialogueWhenReady()
+    {
+        yield return new WaitForEndOfFrame(); // because FUCK YOU AND EVERYONE YOU LOVE!
         dRunner.StartDialogue("Start");
-    } 
+    }
 
     public void EnterCamp(Unit playerLeader)
     {

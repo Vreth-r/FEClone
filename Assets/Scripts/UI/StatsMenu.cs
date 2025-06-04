@@ -8,6 +8,10 @@ public class StatsMenu : MonoBehaviour, IGameMenu
     public bool IsOpen { get; private set; }
     public MenuType MenuID => MenuType.StatMenu;
     public bool escapable { get; private set; }
+
+    public GameObject background;
+
+    [Header("Text References")]
     public TMP_Text unitNameText;
     public TMP_Text unitTitleText;
 
@@ -25,6 +29,8 @@ public class StatsMenu : MonoBehaviour, IGameMenu
     public TMP_Text hitText;
 
     private Unit currentUnit;
+
+    private Vector3 defaultPlacement = new Vector3(200, 125, 0);
 
     public void Awake()
     {
@@ -44,6 +50,8 @@ public class StatsMenu : MonoBehaviour, IGameMenu
         currentUnit = unit;
         unitNameText.text = unit.unitName;
         unitTitleText.text = unit.unitTitle;
+
+        background.transform.position = defaultPlacement;
 
         DisplayStat("MHP", unit.maxHP, unit.GetModifiedStat(StatType.MHP), mhpText);
         DisplayStat("CHP", unit.currentHP, unit.GetStatByType(StatType.CHP), chpText);

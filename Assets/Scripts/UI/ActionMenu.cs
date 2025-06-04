@@ -11,6 +11,7 @@ public class ActionMenu : MonoBehaviour, IGameMenu
     public Button waitButton;
     public Button itemButton;
     public Button cancelButton;
+    public GameObject background;
     public bool IsOpen { get; private set; } // i know about gameObject.activeSelf but i need the ref somewhere else for the game object and only the script is passed to UnitMovement\
     public MenuType MenuID => MenuType.ActionMenu;
     public bool escapable { get; private set; }
@@ -38,7 +39,7 @@ public class ActionMenu : MonoBehaviour, IGameMenu
         Debug.Log("Action Menu With Unit");
         activeUnit = unit; // set the active unit for later
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos + new Vector3(1f, 1.5f, 0)); // get world to screen coords
-        transform.position = screenPos; // set position
+        background.transform.position = screenPos; // set position
         Open();
     }
 
@@ -46,6 +47,10 @@ public class ActionMenu : MonoBehaviour, IGameMenu
     {
         IsOpen = false;
         gameObject.SetActive(false);
+        if (UIManager.Instance.GetCurrentMenuType() == MenuID)
+        {
+            UIManager.Instance.WipeCurrentMenu();
+        }
     }
 
     private void OnAttack()

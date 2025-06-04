@@ -49,6 +49,11 @@ public class UnitManager : MonoBehaviour
         return unitPositions.Values;
     }
 
+    public void ClearAllUnits()
+    {
+        unitPositions.Clear();
+    }
+
     public void selectUnit(Unit unit)
     {
         selectedUnit = unit; // selected a unit

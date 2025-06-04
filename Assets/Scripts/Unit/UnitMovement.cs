@@ -21,9 +21,6 @@ public class UnitMovement : MonoBehaviour
     [SerializeField] private GameObject arrowPrefab; // set in editor, the arrow at the end of the path preview
     private GameObject arrowInstance; 
 
-    // for menus
-    [SerializeField] private ActionMenu actionMenu; // set in editor, the ref for the action menu script
-
     private void Start()
     {
         unit = GetComponent<Unit>(); // grab unit reference on the prefab
@@ -41,8 +38,9 @@ public class UnitMovement : MonoBehaviour
 
     private void OnMouseDown()
     {
-        if(unit.team != Team.Player || TurnManager.Instance.currentTurn != TurnState.Player || (UnitManager.Instance.isAUnitSelected() && !UnitManager.Instance.isUnitSelected(unit))
-        || actionMenu.IsOpen)
+        
+        if (unit.team != Team.Player || TurnManager.Instance.currentTurn != TurnState.Player || (UnitManager.Instance.isAUnitSelected() && !UnitManager.Instance.isUnitSelected(unit))
+        || UIManager.Instance.GetCurrentMenuType() == MenuType.ActionMenu)
         {
             return; // you cant click on it if its not the player's unit OR turn OR if another unit is selected OR if the action menu is open (holy logic)
         }

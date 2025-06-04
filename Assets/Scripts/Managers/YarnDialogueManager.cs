@@ -17,16 +17,16 @@ public class YarnDialogueController : MonoBehaviour
     [Header("Portraits")]
     public CharacterPortraitLibrary portraitLibrary;
 
-    // start runs AFTER the dialogue starts, so the listeners dont even get added in time lmao, so you HAVE to do this in awake
+    // Start() runs AFTER the dialogue starts, so the listeners dont even get added in time lmao, so you HAVE to do this in awake
     private void Awake()
     {
         leftPortrait.gameObject.SetActive(false);
         rightPortrait.gameObject.SetActive(false);
         dialogueRunner.onDialogueComplete.AddListener(OnDialogueComplete);
-        dialogueRunner.onDialogueStart.AddListener(OnLineStart);
+        dialogueRunner.onDialogueStart.AddListener(OnDialogueStart);
     }
 
-    public void OnLineStart()
+    public void OnDialogueStart()
     {
         leftPortrait.gameObject.SetActive(true);
         rightPortrait.gameObject.SetActive(true);

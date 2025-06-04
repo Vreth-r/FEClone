@@ -9,25 +9,35 @@ using UnityEngine.Tilemaps;
 public class TerrainDatabase : ScriptableObject
 {
     [SerializeField] private List<TerrainTile> terrainTiles;
-    
-    private Dictionary<TileBase, TerrainTile> _lookup;
+
+    private Dictionary<TileBase, TerrainTile> tileByVisual;
+    private Dictionary<string, TerrainTile> tileByName;
 
     public void Initialize()
     {
-        _lookup = new Dictionary<TileBase, TerrainTile>();
+        tileByVisual = new Dictionary<TileBase, TerrainTile>();
+        tileByName = new Dictionary<string, TerrainTile>();
         foreach (var terrain in terrainTiles)
         {
-            if(terrain.tileVisual != null && !_lookup.ContainsKey(terrain.tileVisual))
-            {
-                _lookup.Add(terrain.tileVisual, terrain);
-            }
+            tileByName[terrain.terrainName] = terrain;
+            tileByVisual[terrain.tileVisual] = terrain;
         }
     }
 
     public TerrainTile GetTerrainForTile(TileBase tile)
     {
-        if (_lookup == null) Initialize();
-        if(tile == null) return null;
-        return _lookup.TryGetValue(tile, out var terrain) ? terrain : null;
+        tileByVisual.TryGetValue(tile, out var result);
+        return result;
+    }
+
+    public TileBase GetTileByName(string name)
+    {
+        return GetTerrainByName(name)?.tileVisual;
+    }
+
+    public TerrainTile GetTerrainByName(string name)
+    {
+        tileByName.TryGetValue(name, out var result);
+        return result;
     }
 }
