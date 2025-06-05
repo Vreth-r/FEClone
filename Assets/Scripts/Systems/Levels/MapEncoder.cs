@@ -17,25 +17,21 @@ public class MapEncoder : MonoBehaviour
 
         mapData.mapID = outputFileName;
         mapData.displayName = "Export Level"; // can be changed manually
-        mapData.width = grid.Width;
-        mapData.height = grid.Height;
 
         mapData.tiles = new List<TileData>();
-        for (int x = 0; x < grid.Width; x++)
+        BoundsInt bounds = grid.tilemap.cellBounds;
+
+        foreach (Vector3Int pos in bounds.allPositionsWithin)
         {
-            for (int y = 0; y < grid.Height; y++)
+            var tile = grid.GetTerrainAt((Vector2Int)pos);
+            if (tile != null)
             {
-                var tile = grid.GetTerrainAt(new Vector2Int(x, y));
-                if (tile != null)
+                mapData.tiles.Add(new TileData
                 {
-                    mapData.tiles.Add(new TileData
-                    {
-                        x = x,
-                        y = y,
-                        terrainType = tile.terrainName //or ID
-                        // my cs senses are tingling, telling me this may have to be changed later
-                    });
-                }
+                    x = pos.x,
+                    y = pos.y,
+                    terrainType = tile.terrainName
+                });
             }
         }
 

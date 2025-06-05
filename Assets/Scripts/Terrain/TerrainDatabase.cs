@@ -38,6 +38,7 @@ public class TerrainDatabase : ScriptableObject
 
     public TerrainTile GetTerrainForTile(TileBase tile)
     {
+        if (tile == null) return null;
         tileByVisual.TryGetValue(tile, out var result);
         return result;
     }

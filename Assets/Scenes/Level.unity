@@ -251,7 +251,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   tilemap: {fileID: 1146025993}
-  terrainDatabase: {fileID: 0}
+  terrainDatabase: {fileID: 11400000, guid: 8ef33b932aa54fe44bae49fd2ccff93e, type: 2}
 --- !u!4 &111451976
 Transform:
   m_ObjectHideFlags: 0

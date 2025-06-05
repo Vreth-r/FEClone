@@ -39,7 +39,7 @@ public class MapLoader : MonoBehaviour
         gridManager.ClearGrid();
         UnitManager.Instance.ClearAllUnits();
 
-        gridManager.Initialize(data.width, data.height);
+        gridManager.Initialize();
 
         //place terrain
         foreach (TileData tile in data.tiles)

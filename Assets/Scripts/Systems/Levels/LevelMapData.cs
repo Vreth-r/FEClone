@@ -7,8 +7,6 @@ public class LevelMapData
 {
     public string mapID;
     public string displayName;
-    public int width;
-    public int height;
 
     public List<TileData> tiles;
     public List<UnitSpawnData> playerUnits;

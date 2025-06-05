@@ -10,9 +10,6 @@ public class GridManager : MonoBehaviour
     public Tilemap tilemap;
     public TerrainDatabase terrainDatabase;
 
-    public int Width { get; private set; }
-    public int Height { get; private set; }
-
     private void Awake()
     {
         Instance = this;
@@ -26,10 +23,9 @@ public class GridManager : MonoBehaviour
         tilemap.ClearAllTiles();
     }
 
-    public void Initialize(int width, int height)
+    // this is for later when loading already made levels
+    public void Initialize()
     {
-        this.Width = width;
-        this.Height = height;
         ClearGrid();
         // any other setup too
     }
