@@ -30,6 +30,12 @@ public class GameManager : MonoBehaviour
     public UnitRoster startingRoster;
     public Transform[] playerSpawnPositions; // in editor
 
+    [Header("Databases")]
+    public TerrainDatabase terrainDatabase;
+    public ItemDatabase itemDatabase;
+    public SkillDatabase skillDatabase;
+    public UnitClassDatabase unitClassDatabase;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -40,6 +46,11 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+
+        terrainDatabase.Initialize();
+        //skillDatabase.OnEnable(); handle this stupid fucking shit later
+        //itemDatabase.OnEnable();
+        //unitClassDatabase.OnEnable();
     }
 
     public void StartNewGame()

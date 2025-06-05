@@ -16,7 +16,7 @@ public class MapEncoder : MonoBehaviour
         var grid = GridManager.Instance;
 
         mapData.mapID = outputFileName;
-        mapData.displayName = "Export Level";
+        mapData.displayName = "Export Level"; // can be changed manually
         mapData.width = grid.Width;
         mapData.height = grid.Height;
 

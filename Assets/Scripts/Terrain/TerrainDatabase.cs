@@ -8,6 +8,7 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(menuName = "Tactics RPG/Terrain Database")]
 public class TerrainDatabase : ScriptableObject
 {
+    public TerrainDatabase Instance;
     [SerializeField] private List<TerrainTile> terrainTiles;
 
     private Dictionary<TileBase, TerrainTile> tileByVisual;
@@ -15,12 +16,23 @@ public class TerrainDatabase : ScriptableObject
 
     public void Initialize()
     {
+        Debug.Log("TerrainDB: Init");
         tileByVisual = new Dictionary<TileBase, TerrainTile>();
         tileByName = new Dictionary<string, TerrainTile>();
         foreach (var terrain in terrainTiles)
         {
             tileByName[terrain.terrainName] = terrain;
             tileByVisual[terrain.tileVisual] = terrain;
+        }
+    }
+
+    // this might be useless
+    public void OnEnable()
+    {
+        if (Instance != null)
+        {
+            Instance = this;
+            Initialize();
         }
     }
 

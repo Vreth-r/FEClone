@@ -17,9 +17,7 @@ public class TerrainManager : MonoBehaviour
 
     public TerrainTile GetTerrainAt(Vector2Int gridPos)
     {
-        Vector3Int cell = new(gridPos.x, gridPos.y, 0);
-        TileBase tile = tilemap.GetTile(cell);
-        return terrainDatabase.GetTerrainForTile(tile);
+        return terrainDatabase.GetTerrainForTile(tilemap.GetTile(new(gridPos.x, gridPos.y, 0)));
     }
 
     public int GetTerrainCost(TerrainTile terrain)

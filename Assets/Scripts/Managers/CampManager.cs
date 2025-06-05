@@ -17,13 +17,14 @@ public class CampManager : MonoBehaviour
     
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
+        if (SceneManager.GetActiveScene().name != "CampScene") return;
         StartCoroutine(StartDialogueWhenReady());
     }
 
     private IEnumerator StartDialogueWhenReady()
     {
         yield return new WaitForEndOfFrame(); // because FUCK YOU AND EVERYONE YOU LOVE!
-        dRunner.StartDialogue("Start");
+        //dRunner.StartDialogue("Start");
     }
 
     public void EnterCamp(Unit playerLeader)

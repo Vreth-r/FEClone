@@ -1,0 +1,23 @@
+{
+    "mapID": "LevelMap1",
+    "displayName": "Export Level",
+    "width": 0,
+    "height": 0,
+    "tiles": [],
+    "playerUnits": [
+        {
+            "unitID": "Ylru",
+            "x": 0,
+            "y": 0,
+            "isPlayer": true
+        }
+    ],
+    "enemyUnits": [
+        {
+            "unitID": "The other one",
+            "x": 2,
+            "y": 0,
+            "isPlayer": false
+        }
+    ]
+}
