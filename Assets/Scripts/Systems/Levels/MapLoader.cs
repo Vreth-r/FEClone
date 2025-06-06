@@ -41,10 +41,30 @@ public class MapLoader : MonoBehaviour
 
         gridManager.Initialize();
 
-        //place terrain
-        foreach (TileData tile in data.tiles)
+        // load terrain from CSV
+        if (data.tileCSV != null && data.terrainKey != null)
         {
-            gridManager.PlaceTerrain(tile.x, tile.y, tile.terrainType);
+            string[] rows = data.tileCSV.Split('\n');
+            for (int y = 0; y < rows.Length; y++)
+            {
+                string[] cells = rows[y].Trim().Split(',');
+                for (int x = 0; x < cells.Length; x++)
+                {
+                    if (int.TryParse(cells[x], out int terrainIndex) && terrainIndex >= 0 && terrainIndex < data.terrainKey.Count)
+                    {
+                        string terrainType = data.terrainKey[terrainIndex];
+                        gridManager.PlaceTerrain(x, y, terrainType);
+                    }
+                }
+            }
+        }
+        else if (data.tiles != null && data.tiles.Count > 0)
+        {
+            // fallback to the uncompressed format
+            foreach (TileData tile in data.tiles)
+            {
+                gridManager.PlaceTerrain(tile.x, tile.y, tile.terrainType);
+            }
         }
 
         // place player units
