@@ -2,13 +2,14 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
-// Effect to heal a target for a flat amount of HP
-/* 
-Parameter scheme:
-    string Amount : int [heal]
-*/
-[CreateAssetMenu(menuName = "Tactics RPG/Effects/Flat Heal")]
-public class FlatHealEffect : Effect
+/// <summary>
+/// Flat Heal Effect:
+/// Modifies a units health by a flat amount
+/// Parameter scheme:
+///    string Amount : int [heal]
+/// </summary>
+[CreateAssetMenu(menuName = "Tactics RPG/Effects/Flat Health Mod")]
+public class FlatHealthModEffect : Effect
 {
     public override void Apply(Unit source, Unit target, EffectContext context)
     {

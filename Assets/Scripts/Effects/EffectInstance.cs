@@ -2,13 +2,12 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
-/*
-An effect instance is just an instance (shocker) of the effect with parameters and triggers
-the parameters are defined in the container's scriptable object.
-*/
-
-// NOTE: need to add flags for parameters and conditions to tell what its actually supposed to be based off of/apply to, either the source or the target.
-
+/// <summary>
+/// <c>EffectInstance</c>:
+/// An effect instance is a collection of an effect (backend code), parameters, triggers, and conditions.
+/// Effect instances are designed to fit into containers like Skills and Items.
+/// Parameters, triggers, and conditions are defined in the effect instances' container scriptable object or json data.
+/// </summary>
 [System.Serializable]
 public class EffectInstance
 {
@@ -31,8 +30,10 @@ public class EffectInstance
     }
 }
 
-// a parameter is used in effect subclass code to know what its modifying based on whats set in the editor
-// it is also used in triggers so the skill knows what stats its triggering off of and what modifiers to add
+/// <summary>
+/// <c>Parameter</c>:
+/// A parameter is a collection of a string key and 3 other values of types float, bool, and string.
+/// </summary>
 [System.Serializable]
 public class Parameter
 {
@@ -55,7 +56,10 @@ public class Parameter
     }
 }
 
-// This is weird but its basically a choose your own type string to bool || string || float dictionary
+/// <summary>
+/// <c>ParameterMap</c>:
+/// A parameter map is a collection of parameters easily accessible in dicitonary form for quick access time.
+/// </summary>
 public class ParameterMap
 {
     public readonly Dictionary<string, Parameter> paramMap = new();
@@ -105,8 +109,13 @@ public class ParameterMap
     }
 }
 
-
-// Effect trigger data contains the proc chance (off of stats), the flatchance, and any conditions for a skill to trigger
+/// <summary>
+/// <c>EffectTriggerData</c>:
+/// Effect Trigger Data defines the percentage chance for an effect instance to to activate.
+/// It contains the total stat procs (which is just percent activation chance based off of stat values),
+/// the base additional flat chance,
+/// and any conditions that need to be fulfilled in order for the effect to even roll its procs.
+/// </summary>
 [System.Serializable]
 public class EffectTriggerData
 {
@@ -139,7 +148,11 @@ public class EffectTriggerData
 }
 
 
-// Yes im hardcoding these because i dont expect a lot of them.
+/// <summary>
+/// <c>EffectCondition</c>:
+/// An effect condition is a circumstance that must be met in order for an effect instance to 
+/// roll its chances of activating.
+/// </summary>
 [System.Serializable]
 public class EffectCondition
 {

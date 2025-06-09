@@ -9,7 +9,7 @@ using UnityEngine.Tilemaps;
 public class TerrainDatabase : Database<TerrainTile>
 {
     public static TerrainDatabase Instance;
-    private Dictionary<TileBase, TerrainTile> tileByVisual;
+    private Dictionary<TileBase, TerrainTile> tileByVisual; // this is an extra dict for a different inq
 
     public void Init()
     {

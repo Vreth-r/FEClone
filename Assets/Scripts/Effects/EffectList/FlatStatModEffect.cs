@@ -1,9 +1,11 @@
 using UnityEngine;
 
-// simple effect to add a statmod to a unit
-// Parameter scheme: 
-// string [stat], int [modifier], string [expire type (see effect.cs)]
-
+/// <summary>
+/// Flat Stat Modify Effect:
+/// Modifies a target unit's stat by a flat amount
+/// Parameter scheme: 
+/// string [stat], int [modifier], string [expire type (see effect.cs)]
+/// </summary>
 [CreateAssetMenu(menuName = "Tactics RPG/Effects/Flat Stat Mod")]
 public class FlatStatModEffect : Effect
 {

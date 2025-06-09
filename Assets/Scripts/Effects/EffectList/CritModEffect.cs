@@ -2,12 +2,12 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
-// Effect to add bonus damage to a strike
-// Can only be used in combat.
-/* 
-Parameter scheme:
-    string Mod : float [mod]
-*/
+/// <summary>
+/// Critical Damage Modifier Effect:
+/// Will set a units critical power stat for a combat instance.
+/// Parameter scheme:
+///     string Mod : float [mod]
+/// </summary>
 [CreateAssetMenu(menuName = "Tactics RPG/Effects/Crit Mod")]
 public class CritModEffect : Effect
 {

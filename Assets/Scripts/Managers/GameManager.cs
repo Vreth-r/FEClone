@@ -27,7 +27,6 @@ public class GameManager : MonoBehaviour
 
     public List<string> recruitedUnitIDs;
 
-    public UnitRoster startingRoster;
     public Transform[] playerSpawnPositions; // in editor
 
     [Header("Databases")]
@@ -53,18 +52,6 @@ public class GameManager : MonoBehaviour
         //skillDatabase.OnEnable(); handle this stupid fucking shit later
         //itemDatabase.OnEnable();
         //unitClassDatabase.OnEnable();
-    }
-
-    public void StartNewGame()
-    {
-        for (int i = 0; i < startingRoster.startingUnits.Count; i++)
-        {
-            var data = startingRoster.startingUnits[i];
-            var pos = playerSpawnPositions[i].position;
-            Vector3Int gridPos = GridManager.Instance.WorldToCell(pos);
-
-            UnitSpawner.Instance.SpawnUnitFromTemplate(data, gridPos);
-        }
     }
 
     // Gold Management

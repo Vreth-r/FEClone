@@ -2,16 +2,12 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
-// Effect to add bonus damage to a strike
-/* 
-Parameter scheme:
-    string Mod : int [dmg]
-*/
-
-/* 
-flat damage (deal +X extra damage) 
-ignores def/res (ignore X% of enemy def/res) (?)
-*/
+/// <summary>
+/// Flat Bonus Damage Effect:
+/// Applies extra damage onto a single strike in combat
+/// Parameter scheme:
+///    string Mod : int [dmg]
+/// </summary>
 [CreateAssetMenu(menuName = "Tactics RPG/Effects/Bonus Damage")]
 public class FlatBonusDamageEffect : Effect
 {

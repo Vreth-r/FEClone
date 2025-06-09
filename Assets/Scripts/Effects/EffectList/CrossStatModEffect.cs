@@ -2,14 +2,15 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
-// Simple effect to add a crossstatmod to a unit (Like ARC = MAXHP/2)\
-/*
-Parameter scheme: 
-string Target : string [Stat]
-string Source : string [Stat]
-string Mod : float [mod]
-*/
-
+/// <summary>
+/// Cross-Stat Modifier Effect:
+/// This modifies a stat by a factor of another stat,
+/// Example: Gain Arcane = Maximum HP / 2
+/// Parameter scheme: 
+///        string Target : string [Stat]
+///        string Source : string [Stat]
+///        string Mod : float [mod]
+/// </summary>
 [CreateAssetMenu(menuName = "Tactics RPG/Effects/Cross Stat Mod")]
 public class CrossStatModEffect : Effect
 {

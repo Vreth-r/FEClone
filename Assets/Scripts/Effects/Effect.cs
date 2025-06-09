@@ -1,12 +1,14 @@
 using UnityEngine;
 
-// Abstract class for an Effect, more beef in EffectInstance
-// gets subclassed and those subclasses get made into scriptable objects (might change that its p jank)
-
+/// <summary>
+/// Abtract Effect class acts as a container for backend per-effect code.
+/// Intended to be referenced in tandem with more information in an EffectInstance
+/// </summary>
 public abstract class Effect : ScriptableObject
 {
     public abstract void Apply(Unit source, Unit target, EffectContext context); // abstract application method
 
+    // Lookup tables for child classes
     public StatType GetStatTypeFromName(string statName)
     {
         return statName switch
@@ -27,7 +29,7 @@ public abstract class Effect : ScriptableObject
         };
     }
 
-    // See StatModifiers.cs
+    // lookup table for StatModifiers.cs
     public ExpireType GetExpireTypeFromString(string expireType)
     {
         return expireType switch
