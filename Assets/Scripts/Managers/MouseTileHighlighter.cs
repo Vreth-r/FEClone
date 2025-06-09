@@ -9,8 +9,18 @@ public class MouseTileHighlighter : MonoBehaviour
     public static MouseTileHighlighter Instance;
 
     private Vector3Int lastCell;
+    private Vector3 lastMousePosition;
+    private Vector3Int keyboardCursor;
+    private bool usingKeyboard = false;
+    public Vector3Int LastHighlightedCell => lastCell;
+    public Tilemap HighlightTilemap => highlightTilemap;
 
-    private void Awake() => Instance = this; // declare this instance for external ref
+    private void Awake()
+    {
+        Instance = this; // assign singleton
+        lastMousePosition = Input.mousePosition;
+        keyboardCursor = Vector3Int.zero;
+    }
 
     private void Update()
     {
@@ -19,21 +29,40 @@ public class MouseTileHighlighter : MonoBehaviour
             highlightTilemap.SetTile(lastCell, null);
             return;
         }
-        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector3Int currentCell = highlightTilemap.WorldToCell(mouseWorldPos);
 
-        /*
-        if(!IsInsideMap(currentCell))
-        {
-            highlightTilemap.SetTile(lastCell, null);
-            lastCell = Vector3Int.zero;
-            return;
-        } */
+        usingKeyboard = false;
+        Vector3Int currentCell = lastCell;
 
-        if(currentCell == lastCell)
+        Vector3Int direction = Vector3Int.zero;
+
+        if (Input.GetKeyDown(KeyCode.W) || Input.GetKeyDown(KeyCode.UpArrow))
+            direction.y += 1;
+        if (Input.GetKeyDown(KeyCode.S) || Input.GetKeyDown(KeyCode.DownArrow))
+            direction.y -= 1;
+        if (Input.GetKeyDown(KeyCode.A) || Input.GetKeyDown(KeyCode.LeftArrow))
+            direction.x -= 1;
+        if (Input.GetKeyDown(KeyCode.D) || Input.GetKeyDown(KeyCode.RightArrow))
+            direction.x += 1;
+
+        if (direction != Vector3Int.zero)
         {
-            return;
+            usingKeyboard = true;
+            keyboardCursor += direction;
+            currentCell = keyboardCursor;
         }
+
+        if (!usingKeyboard)
+        {
+            // only move if the mouse has moved
+            if (Input.mousePosition == lastMousePosition) return;
+
+            lastMousePosition = Input.mousePosition;
+            Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+            currentCell = highlightTilemap.WorldToCell(mouseWorldPos);
+            keyboardCursor = currentCell; // sync em
+        }
+
+        if (currentCell == lastCell) return;
 
         // clear old
         highlightTilemap.SetTile(lastCell, null);
@@ -42,11 +71,4 @@ public class MouseTileHighlighter : MonoBehaviour
         highlightTilemap.SetTile(currentCell, highlightTile);
         lastCell = currentCell;
     }
-
-/*
-    bool IsInsideMap(Vector3Int cell)
-    {
-        return GridManager.Instance.IsInsideBounds(new Vector2Int(cell.x, cell.y));
-    }
-    */
 }

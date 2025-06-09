@@ -1,8 +1,12 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class UnitSpawner : MonoBehaviour
 {
     public static UnitSpawner Instance { get; private set; }
+    public Tilemap highlightTilemap;
+
+    private Vector3 positionOffset = new Vector3(0.5f, 0.5f, 0);
 
     [SerializeField] private GameObject unitPrefab; // assign in inspector
 
@@ -21,7 +25,11 @@ public class UnitSpawner : MonoBehaviour
     {
         GameObject go = Instantiate(unitPrefab);
         Unit unit = go.GetComponent<Unit>();
+        SpriteRenderer s = go.GetComponent<SpriteRenderer>();
+        MovementRange m = go.GetComponent<MovementRange>();
 
+        m.highlightTilemap = highlightTilemap;
+        s.sprite = data.combatSprite;
         unit.unitClass = data.startingClass;
         unit.unitName = data.unitName;
         unit.unitTitle = data.unitTitle;
@@ -46,7 +54,7 @@ public class UnitSpawner : MonoBehaviour
             unit.AddItem(Instantiate(item)); // instantiate if item has state
         }
 
-        unit.transform.position = GridManager.Instance.CellToWorld(gridPos);
+        unit.transform.position = GridManager.Instance.CellToWorld(gridPos)  - positionOffset;
         unit.GridPosition = (Vector2Int)gridPos; // is this even being used?
 
         return unit;
@@ -85,7 +93,7 @@ public class UnitSpawner : MonoBehaviour
             if (item != null) unit.Equip(item);
         }
 
-        unit.transform.position = GridManager.Instance.CellToWorld(gridPos);
+        unit.transform.position = GridManager.Instance.CellToWorld(gridPos) - positionOffset;
         unit.GridPosition = (Vector2Int)gridPos;
 
         return unit;

@@ -148,28 +148,25 @@ MonoBehaviour:
   team: 0
   unitClass: {fileID: 11400000, guid: b20e91848a4d16041a714321cb4e0806, type: 2}
   unitName: Name
-  unitDescription: Idiot
-  unitTitle: Dumbass
+  unitDescription: Desc
+  unitTitle: Title
   movementRange: 0
   attackRange: 0
   level: 1
-  currentHP: 10
-  maxHP: 10
-  strength: 5
-  arcane: 5
-  defense: 5
-  speed: 5
-  skill: 5
-  resistance: 5
-  luck: 5
+  currentHP: 0
+  maxHP: 0
+  strength: 0
+  arcane: 0
+  defense: 0
+  speed: 0
+  skill: 0
+  resistance: 0
+  luck: 0
   avoidance: 0
   crit: 0
   hit: 0
-  skills:
-  - {fileID: 0}
-  - {fileID: 0}
-  inventory:
-  - {fileID: 0}
+  skills: []
+  inventory: []
   equippedItem: {fileID: 0}
   proficiencyLevels:
     profList: []
@@ -187,7 +184,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arrowPrefab: {fileID: 3171108599037668712, guid: dd8f9832dfe586240b75577a42426a90, type: 3}
-  actionMenu: {fileID: 8270818006049642850, guid: afae5db0bfd51e7438ff84d8d40ae7f8, type: 3}
 --- !u!114 &4536577457962426672
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 385d73c35686101428ae7edee95ca236, type: 3}
   m_Name: TerrainDatabase
   m_EditorClassIdentifier: 
-  terrainTiles:
-  - {fileID: 11400000, guid: e0066a415b4f6da4d8322adb770d9f11, type: 2}
+  allData:
   - {fileID: 11400000, guid: 47136639fcdd6c141b17788e29551c8d, type: 2}
+  - {fileID: 11400000, guid: e0066a415b4f6da4d8322adb770d9f11, type: 2}
