@@ -72,14 +72,14 @@ public class MapLoader : MonoBehaviour
         // place player units
         foreach (UnitSpawnData player in data.playerUnits)
         {
-            UnitData unitData = UnitDatabase.Instance.GetUnitDataByID(player.unitID); // lmao i need to refactor databases
+            UnitData unitData = UnitDatabase.Instance.GetByID(player.unitID); // lmao i need to refactor databases
             unitSpawner.SpawnUnitFromTemplate(unitData, new Vector3Int(player.x, player.y, 0));
         }
 
         // place enemies
         foreach (UnitSpawnData enemy in data.enemyUnits)
         {
-            UnitData unitData = UnitDatabase.Instance.GetUnitDataByID(enemy.unitID);
+            UnitData unitData = UnitDatabase.Instance.GetByID(enemy.unitID);
             var unit = unitSpawner.SpawnUnitFromTemplate(unitData, new Vector3Int(enemy.x, enemy.y, 0));
             unit.team = Team.Enemy;
         }

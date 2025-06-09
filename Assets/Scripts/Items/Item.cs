@@ -9,10 +9,11 @@ public enum ItemType
     Weapon,
     Consumable
 }
-public abstract class Item : ScriptableObject
+public abstract class Item : ScriptableObject, IIdentifiable
 {
     public string itemName;
-    public string itemID;
+    [SerializeField] public string itemID;
+    public string ID => itemID;
     [TextArea] public string description;
     public ItemType itemType;
     public Sprite icon;

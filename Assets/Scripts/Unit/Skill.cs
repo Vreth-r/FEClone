@@ -7,10 +7,11 @@ using UnityEngine;
 
 // In this game, skills are containers for really cool effects
 [CreateAssetMenu(menuName = "Tactics RPG/Skill")]
-public class Skill : ScriptableObject
+public class Skill : ScriptableObject, IIdentifiable
 {
     public string skillName;
     [TextArea] public string description;
+    public string ID => skillName;
     public Sprite icon;
     public List<EffectInstance> effects;
 

@@ -6,11 +6,12 @@ using UnityEngine.Tilemaps;
 // Stores data for each terrain type a tile could take
 
 [CreateAssetMenu(menuName = "Tactics RPG/Terain Tile")]
-public class TerrainTile : ScriptableObject
+public class TerrainTile : ScriptableObject, IIdentifiable
 {
     [Header("Tile Visual")] 
     public TileBase tileVisual; // the tile (not the tile art, the tile from unity)
     public string terrainName; // Name for later
+    public string ID => terrainName;
 
     [Header("Movement")]
     public int moveCost = 1; // 1 is normal, 2 for forests, etc\

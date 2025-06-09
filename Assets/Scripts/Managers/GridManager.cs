@@ -32,7 +32,7 @@ public class GridManager : MonoBehaviour
 
     public void PlaceTerrain(int x, int y, string terrainID)
     {
-        TerrainTile data = terrainDatabase.GetTerrainByName(terrainID);
+        TerrainTile data = terrainDatabase.GetByID(terrainID);
         if (data == null)
         {
             Debug.LogWarning($"Terrain type not found: {terrainID}");

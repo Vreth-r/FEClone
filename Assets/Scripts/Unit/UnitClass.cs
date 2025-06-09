@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "NewUnitClass", menuName = "Tactics RPG/Unit Class")]
-public class UnitClass : ScriptableObject
+public class UnitClass : ScriptableObject, IIdentifiable
 {
     public string className; // name
+    public string ID => className;
     public string classDescription; // description
     public int movementRange; // movement allowed
     public WeaponProficiency proficiencies; // weapons allowed to be used

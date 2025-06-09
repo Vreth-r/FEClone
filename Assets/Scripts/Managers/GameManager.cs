@@ -48,8 +48,8 @@ public class GameManager : MonoBehaviour
         Instance = this;
         DontDestroyOnLoad(gameObject);
 
-        terrainDatabase.Initialize();
-        unitDatabase.Initialize();
+        terrainDatabase.Init();
+        unitDatabase.Init();
         //skillDatabase.OnEnable(); handle this stupid fucking shit later
         //itemDatabase.OnEnable();
         //unitClassDatabase.OnEnable();

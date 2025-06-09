@@ -71,7 +71,7 @@ public static class SaveSystem
         GameManager.Instance.convoy.Clear();
         foreach (string itemID in data.convoyItemIDs)
         {
-            var item = ItemDatabase.GetItemByID(itemID);
+            var item = ItemDatabase.Instance.GetByID(itemID);
             if (item != null) GameManager.Instance.convoy.Add(item);
         }
 

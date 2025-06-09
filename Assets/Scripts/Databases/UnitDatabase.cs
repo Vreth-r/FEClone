@@ -2,29 +2,13 @@ using UnityEngine;
 using System.Collections.Generic;
 
 [CreateAssetMenu(menuName = "Tactics RPG/Unit Database")]
-public class UnitDatabase : ScriptableObject
+public class UnitDatabase : Database<UnitData>
 {
-    public List<UnitData> units;
-    private Dictionary<string, UnitData> lookup;
+    public static UnitDatabase Instance; // singleton reference
 
-    public UnitData GetUnitDataByID(string id)
+    public void Init()
     {
-        if (Instance.lookup.TryGetValue(id, out var data))
-            return data;
-
-        Debug.LogWarning($"UnitData not found for ID: {id}");
-        return null;
-    }
-
-    public static UnitDatabase Instance { get; private set; }
-
-    public void Initialize()
-    {
-        if (Instance == null) Instance = this;
-        lookup = new Dictionary<string, UnitData>();
-        foreach (var u in units)
-        {
-            lookup[u.unitID] = u;
-        }
+        base.Initialize(); // Init db
+        if (Instance == null) Instance = this; // Assign singleton
     }
 }

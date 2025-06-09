@@ -4,9 +4,10 @@ using System.Collections.Generic;
 //  This one is for defining the characters initial stats and shit
 
 [CreateAssetMenu(menuName = "Tactics RPG/Unit Data")]
-public class UnitData : ScriptableObject
+public class UnitData : ScriptableObject, IIdentifiable
 {
     public string unitID; // their name
+    public string ID => unitID;
 
     public string unitName;
     public string unitTitle;
