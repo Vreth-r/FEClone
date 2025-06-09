@@ -7,16 +7,7 @@ public class UnitDatabase : ScriptableObject
     public List<UnitData> units;
     private Dictionary<string, UnitData> lookup;
 
-    private void OnEnable()
-    {
-        lookup = new Dictionary<string, UnitData>();
-        foreach (var u in units)
-        {
-            lookup[u.unitID] = u;
-        }
-    }
-
-    public static UnitData GetUnitDataByID(string id)
+    public UnitData GetUnitDataByID(string id)
     {
         if (Instance.lookup.TryGetValue(id, out var data))
             return data;
@@ -27,8 +18,13 @@ public class UnitDatabase : ScriptableObject
 
     public static UnitDatabase Instance { get; private set; }
 
-    private void Awake()
+    public void Initialize()
     {
         if (Instance == null) Instance = this;
+        lookup = new Dictionary<string, UnitData>();
+        foreach (var u in units)
+        {
+            lookup[u.unitID] = u;
+        }
     }
 }

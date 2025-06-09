@@ -32,6 +32,7 @@ public class GameManager : MonoBehaviour
 
     [Header("Databases")]
     public TerrainDatabase terrainDatabase;
+    public UnitDatabase unitDatabase;
     public ItemDatabase itemDatabase;
     public SkillDatabase skillDatabase;
     public UnitClassDatabase unitClassDatabase;
@@ -48,6 +49,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
 
         terrainDatabase.Initialize();
+        unitDatabase.Initialize();
         //skillDatabase.OnEnable(); handle this stupid fucking shit later
         //itemDatabase.OnEnable();
         //unitClassDatabase.OnEnable();

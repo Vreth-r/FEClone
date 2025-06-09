@@ -5,6 +5,6 @@ public class GoToLevelInteractable : CampInteractable
     public override void Interact()
     {
         Debug.Log("PORTAL NOISE");
-        LoadingScreenManager.Instance.LoadScene("Level");
+        LoadingScreenManager.Instance.LoadLevel("LevelMap1");
     }
 }

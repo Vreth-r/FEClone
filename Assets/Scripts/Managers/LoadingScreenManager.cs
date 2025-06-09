@@ -33,12 +33,34 @@ public class LoadingScreenManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    public void LoadScene(string sceneName)
+    public void LoadLevel(string mapID)
     {
-        StartCoroutine(LoadSceneRoutine(sceneName));
+        LoadScene("LevelTemplate", () =>
+        {
+            StartCoroutine(FinishLevelLoad(mapID));
+        });
     }
 
-    private IEnumerator LoadSceneRoutine(string sceneName)
+    private IEnumerator FinishLevelLoad(string mapID)
+    {
+        yield return null; // wait a frame
+
+        MapLoader loader = FindObjectOfType<MapLoader>(); // will make this a ref later maybe unsure i need to really diagram out all this code
+        if (loader == null)
+        {
+            Debug.LogError("No MapLoader found in template scene");
+            yield break;
+        }
+
+        loader.LoadMap(mapID);
+    }
+
+    public void LoadScene(string sceneName, System.Action onComplete = null)
+    {
+        StartCoroutine(LoadSceneRoutine(sceneName, onComplete));
+    }
+
+    private IEnumerator LoadSceneRoutine(string sceneName, System.Action onComplete)
     {
         if (loadingScreenPrefab == null)
         {
@@ -96,6 +118,8 @@ public class LoadingScreenManager : MonoBehaviour
 
         // Wait one frame for scene to switch
         yield return null;
+
+        onComplete?.Invoke(); // run after scene loads
 
         // Fade out
         yield return FadeCanvas(1f, 0f, 0.5f);

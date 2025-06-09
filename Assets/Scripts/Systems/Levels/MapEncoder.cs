@@ -8,7 +8,7 @@ using System.IO;
 public class MapEncoder : MonoBehaviour
 {
     public string outputFileName = "NewMap";
-    public string exportPath = "Assets/Maps/";
+    public string exportPath = "Assets/StreamingAssets/Maps";
 
     public void ExportCurrentMap()
     {
@@ -97,57 +97,6 @@ public class MapEncoder : MonoBehaviour
         File.WriteAllText(Path.Combine(exportPath, outputFileName + ".json"), json);
         Debug.Log($"MapEncoder: Exported map to {exportPath + outputFileName}.json");
     }
-    /* old code
-    public void ExportCurrentMap()
-    {
-        LevelMapData mapData = new LevelMapData();
-        var grid = GridManager.Instance;
-
-        mapData.mapID = outputFileName;
-        mapData.displayName = "Export Level"; // can be changed manually
-
-        mapData.tiles = new List<TileData>();
-        BoundsInt bounds = grid.tilemap.cellBounds;
-
-        foreach (Vector3Int pos in bounds.allPositionsWithin)
-        {
-            var tile = grid.GetTerrainAt((Vector2Int)pos);
-            if (tile != null)
-            {
-                mapData.tiles.Add(new TileData
-                {
-                    x = pos.x,
-                    y = pos.y,
-                    terrainType = tile.terrainName
-                });
-            }
-        }
-
-        mapData.playerUnits = new();
-        mapData.enemyUnits = new();
-
-        foreach (var unit in UnitManager.Instance.GetAllUnits())
-        {
-            var spawn = new UnitSpawnData
-            {
-                unitID = unit.unitName,
-                x = unit.GridPosition.x,
-                y = unit.GridPosition.y,
-                isPlayer = unit.team == Team.Player
-            };
-
-            if (spawn.isPlayer)
-                mapData.playerUnits.Add(spawn);
-            else
-                mapData.enemyUnits.Add(spawn);
-        }
-
-        string json = JsonUtility.ToJson(mapData, true);
-        File.WriteAllText(Path.Combine(exportPath, outputFileName + ".json"), json);
-        Debug.Log($"Exported map to {exportPath + outputFileName}.json");
-    }
-    */
-
     /* place this in a helper
     public static LevelMapData LoadMapData(string fileName)
 {
