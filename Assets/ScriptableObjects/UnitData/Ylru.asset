@@ -28,4 +28,5 @@ MonoBehaviour:
   resistance: 5
   luck: 5
   startingInventory: []
+  equippedItem: {fileID: 11400000, guid: ee6301d1cf9dbbb41ae439eafe3b267e, type: 2}
   combatSprite: {fileID: 21300000, guid: 7698ea2fb13ee104e981bc7883988675, type: 3}

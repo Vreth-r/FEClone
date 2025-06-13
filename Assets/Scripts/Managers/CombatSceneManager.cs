@@ -17,6 +17,7 @@ public class CombatSceneManager : MonoBehaviour
 
     public GameObject rootObject; // the canvas root to activate/deactivate for sprites
     public GameObject uiObject;
+    public Transform cameraPos; // to get camera position
 
     public HealthBarUI attackerHealthBar;
     public HealthBarUI defenderHealthBar;
@@ -40,6 +41,7 @@ public class CombatSceneManager : MonoBehaviour
     {
         MouseTileHighlighter.Instance.enableFunction = false; //  disable the tile highlights when the combat scene is running
         rootObject.SetActive(true); // can also be faded in later
+        rootObject.transform.position = new Vector3(cameraPos.position.x, cameraPos.position.y, 0);
         uiObject.SetActive(true);
 
         leftUnit.SetFromUnit(attacker, true);
