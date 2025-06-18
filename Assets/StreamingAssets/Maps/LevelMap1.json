@@ -10,16 +10,23 @@
     "playerUnits": [
         {
             "unitID": "Ylru",
-            "x": 2,
-            "y": 2,
+            "x": 13,
+            "y": 7,
+            "isPlayer": true
+        },
+        {
+            "unitID": "Ylru2",
+            "x": 13,
+            "y": 8,
             "isPlayer": true
         }
+        
     ],
     "enemyUnits": [
         {
             "unitID": "The other one",
-            "x": 4,
-            "y": 2,
+            "x": 15,
+            "y": 7,
             "isPlayer": false
         }
     ]
