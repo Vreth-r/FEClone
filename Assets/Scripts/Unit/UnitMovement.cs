@@ -103,10 +103,16 @@ public class UnitMovement : MonoBehaviour
 
             preMovePosition = transform.position; // cache pre move coords for cancelling
             preMoveGridPos = unit.GridPosition; // ^
+            print("woot woot");
             if (currentPath.Count > 1) // only walk the path if going to a new place (otherwise it just reruns previous walk)
             {
                 StartCoroutine(MoveAlongPath(currentPath)); // Sets the unit to move along the path set smoothly in a co-routine yeah bro we use co-routines get used to it
-            } 
+            }
+            else { // add the menu to the screen even if you dont move
+                Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
+                UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
+            }
+
             isSelected = false; // TURN THAT SHIT OFF CUH
             UnitManager.Instance.deselectedUnit(); // tell the unit manager whats up
             pathLine.positionCount = 0; // reset the line renderer
@@ -151,7 +157,7 @@ public class UnitMovement : MonoBehaviour
         isMoving = true; // set flag so update() doesnt shit itself
         Vector2Int oldPos = unit.GridPosition; // keep track of the old position
 
-        for(int i = 1; i < path.Count; i++) // for every cell in the path
+        for (int i = 1; i < path.Count; i++) // for every cell in the path
         {
             Vector3Int cell = (Vector3Int)path[i]; // ref it so were not list accessing a ton (good performance)
             Vector3 targetWorld = GridManager.Instance.CellToWorld(cell) + positionOffset; // get its world pos with offset
@@ -167,8 +173,7 @@ public class UnitMovement : MonoBehaviour
 
         UnitManager.Instance.UpdateUnitPosition(unit, oldPos, unit.GridPosition); // tell the unit manager whats going on
         isMoving = false; // set the flag once its done to do it all over again
-        if(arrowInstance != null) arrowInstance.SetActive(false);
-
+        if (arrowInstance != null) arrowInstance.SetActive(false);
         Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
         UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
     }

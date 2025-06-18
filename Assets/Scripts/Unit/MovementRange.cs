@@ -9,7 +9,7 @@ using UnityEngine.Tilemaps;
 
 public class MovementRange : MonoBehaviour
 {
-    public static MovementRange Instance;
+    // public static MovementRange Instance;
     private Unit unit;
 
     public Tilemap highlightTilemap; // assigned in editor, tilemap for highlight tiles
