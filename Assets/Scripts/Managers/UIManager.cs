@@ -136,6 +136,11 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ClearMenuMap()
+    {
+        menuMap.Clear();
+    }
+
     public MenuType GetCurrentMenuType()
     {
         if (currentMenu != null)
