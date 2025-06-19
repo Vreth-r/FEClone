@@ -14,6 +14,7 @@ public class PauseMenu : MonoBehaviour, IGameMenu
 
     private void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         resumeButton.onClick.AddListener(OnResume);
         saveButton.onClick.AddListener(OnSave);
         mainMenuButton.onClick.AddListener(OnMainMenu);

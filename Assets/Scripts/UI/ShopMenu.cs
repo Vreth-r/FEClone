@@ -8,6 +8,7 @@ public class ShopMenu : MonoBehaviour, IGameMenu
 
     public void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         escapable = true;
         IsOpen = false;
     }

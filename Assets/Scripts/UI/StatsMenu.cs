@@ -34,6 +34,7 @@ public class StatsMenu : MonoBehaviour, IGameMenu
 
     public void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         escapable = false;
         IsOpen = false;
     }
