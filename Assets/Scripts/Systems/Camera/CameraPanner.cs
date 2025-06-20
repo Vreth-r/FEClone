@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 using UnityEngine.Tilemaps;
 
 public class CameraPanner : MonoBehaviour
@@ -9,7 +10,8 @@ public class CameraPanner : MonoBehaviour
 
     private Camera cam;
     private MouseTileHighlighter highlighter;
-
+    private bool autoPanning = false;
+    //StartCoroutine(PanToLocation(new Vector3Int(0, 0, 0)));
     private void Start()
     {
         cam = GetComponent<Camera>();
@@ -18,20 +20,42 @@ public class CameraPanner : MonoBehaviour
 
     private void Update()
     {
-        if (highlighter == null || !highlighter.enableFunction) return;
+        if (!autoPanning)
+        {        
+            if (highlighter == null || !highlighter.enableFunction) return;
 
-        Vector3Int targetCell = highlighter.LastHighlightedCell;
-        Vector3 targetWorldPos = highlighter.HighlightTilemap.CellToWorld(targetCell) + highlighter.HighlightTilemap.cellSize / 2f;
+            Vector3Int targetCell = highlighter.LastHighlightedCell;
+            Vector3 targetWorldPos = highlighter.HighlightTilemap.CellToWorld(targetCell) + highlighter.HighlightTilemap.cellSize / 2f;
 
-        Vector3 camPos2D = new Vector3(transform.position.x, transform.position.y, 0); // camera position
-        Vector3 targetPos2D = new Vector3(targetWorldPos.x, targetWorldPos.y, 0); // target pos flattended with z = 0
+            Vector3 camPos2D = new Vector3(transform.position.x, transform.position.y, 0); // camera position
+            Vector3 targetPos2D = new Vector3(targetWorldPos.x, targetWorldPos.y, 0); // target pos flattended with z = 0
 
-        // only move camera if the mouse is outside the deadzone
-        if (Vector3.Distance(camPos2D, targetPos2D) > deadzoneRadius)
-        {
-            // move smoove
-            Vector3 desiredPosition = targetWorldPos + offset;
-            transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * panSpeed);
+            // only move camera if the mouse is outside the deadzone
+            if (Vector3.Distance(camPos2D, targetPos2D) > deadzoneRadius)
+            {
+                // move smoove
+                Vector3 desiredPosition = targetWorldPos + offset;
+                transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * panSpeed);
+            }
         }
+        
     }
+    
+    public IEnumerator PanToLocation(Vector3 targetGridPos)
+    {
+        Vector3Int targetGridPosInt = new Vector3Int((int)Mathf.Round(targetGridPos.x), (int)Mathf.Round(targetGridPos.y), 0);
+        autoPanning = true;
+        Vector3 targetWorldPos = highlighter.HighlightTilemap.CellToWorld(targetGridPosInt) + highlighter.HighlightTilemap.cellSize / 2f;
+        Vector3 desiredPosition = targetWorldPos + offset;
+
+        while (Vector3.Distance(new Vector3(transform.position.x, transform.position.y, 0), new Vector3(desiredPosition.x, desiredPosition.y, 0)) > 0.1)
+        {
+            transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * 4 * panSpeed);
+            yield return null; 
+        }
+
+        autoPanning = false;
+        transform.position = desiredPosition; // snap to final location
+    }
+    
 }
