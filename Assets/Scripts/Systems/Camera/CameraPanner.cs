@@ -11,7 +11,7 @@ public class CameraPanner : MonoBehaviour
     private Camera cam;
     private MouseTileHighlighter highlighter;
     private bool autoPanning = false;
-    //StartCoroutine(PanToLocation(new Vector3Int(0, 0, 0)));
+    
     private void Start()
     {
         cam = GetComponent<Camera>();
@@ -41,20 +41,18 @@ public class CameraPanner : MonoBehaviour
         
     }
     
-    public IEnumerator PanToLocation(Vector3 targetGridPos)
+    public IEnumerator PanToLocation(Vector3 targetPos)
     {
-        Vector3Int targetGridPosInt = new Vector3Int((int)Mathf.Round(targetGridPos.x), (int)Mathf.Round(targetGridPos.y), 0);
-        autoPanning = true;
-        Vector3 targetWorldPos = highlighter.HighlightTilemap.CellToWorld(targetGridPosInt) + highlighter.HighlightTilemap.cellSize / 2f;
-        Vector3 desiredPosition = targetWorldPos + offset;
+        autoPanning = true; // disable mouse panning until panned to location
+        Vector3 desiredPosition = targetPos + offset; // position -+ (0, 0, -10) (camera z pos)
 
-        while (Vector3.Distance(new Vector3(transform.position.x, transform.position.y, 0), new Vector3(desiredPosition.x, desiredPosition.y, 0)) > 0.1)
+        while (Vector3.Distance(new Vector3(transform.position.x, transform.position.y, 0), new Vector3(desiredPosition.x, desiredPosition.y, 0)) > 0.05)
         {
-            transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * 4 * panSpeed);
-            yield return null; 
+            transform.position = Vector3.Lerp(transform.position, desiredPosition, Time.deltaTime * 6 * panSpeed); // lerp to target postion
+            yield return null;
         }
 
-        autoPanning = false;
+        autoPanning = false; // restart mouse panning
         transform.position = desiredPosition; // snap to final location
     }
     
