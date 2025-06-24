@@ -103,7 +103,7 @@ public class UnitMovement : MonoBehaviour
 
             preMovePosition = transform.position; // cache pre move coords for cancelling
             preMoveGridPos = unit.GridPosition; // ^
-            print("woot woot");
+            
             if (currentPath.Count > 1) // only walk the path if going to a new place (otherwise it just reruns previous walk)
             {
                 StartCoroutine(MoveAlongPath(currentPath)); // Sets the unit to move along the path set smoothly in a co-routine yeah bro we use co-routines get used to it
@@ -174,6 +174,7 @@ public class UnitMovement : MonoBehaviour
         UnitManager.Instance.UpdateUnitPosition(unit, oldPos, unit.GridPosition); // tell the unit manager whats going on
         isMoving = false; // set the flag once its done to do it all over again
         if (arrowInstance != null) arrowInstance.SetActive(false);
+        yield return StartCoroutine(GameObject.Find("Main Camera").GetComponent<CameraPanner>().PanToLocation(transform.position)); // bruh hahahahahaha
         Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
         UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
     }
