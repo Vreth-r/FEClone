@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7501ab83e8939ab43882c3fa70c7db45, type: 3}
+  m_Name: Fort
+  m_EditorClassIdentifier: 
+  tileVisual: {fileID: 11400000, guid: ea155399b044fdc4ea9237d2bdf11728, type: 2}
+  terrainName: Fort
+  moveCost: 1
+  impassable: 0
+  blocksArmored: 0
+  blocksMounted: 0
+  blocksNonFlying: 0
+  ignoreForFlying: 0
+  hitBonus: 10
+  avoidBonus: 15
+  defenseBonus: 0

@@ -52,6 +52,7 @@ public class MovementRange : MonoBehaviour
                 TerrainTile terrain = TerrainManager.Instance.GetTerrainAt(neighbor);
                 if (terrain == null || terrain.impassable) continue; // if terrain is not there or impassable skip it
                 if (terrain.blocksArmored && unit.HasTag(ClassTag.Armored)) continue; // will change this logic later to just cover them all
+                if (terrain.blocksNonFlying && !unit.HasTag(ClassTag.Flying)) continue;
                 int moveCost = unit.HasTag(ClassTag.Flying) && terrain.ignoreForFlying // exception for flying units
                     ? 1
                     : terrain.moveCost;
