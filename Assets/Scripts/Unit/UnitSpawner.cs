@@ -54,9 +54,11 @@ public class UnitSpawner : MonoBehaviour
             unit.AddItem(Instantiate(item)); // instantiate if item has state
         }
 
+        unit.equippedItem = data.equippedItem;
+
         unit.transform.position = GridManager.Instance.CellToWorld(gridPos)  - positionOffset;
         unit.GridPosition = (Vector2Int)gridPos; // is this even being used?
-
+        unit.combatSprite = data.combatSprite;
         return unit;
     }
 

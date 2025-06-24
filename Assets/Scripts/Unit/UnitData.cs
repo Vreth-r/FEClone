@@ -27,5 +27,6 @@ public class UnitData : ScriptableObject, IIdentifiable
     public int luck;
 
     public List<Item> startingInventory;
+    public Item equippedItem;
     public Sprite combatSprite;
 }

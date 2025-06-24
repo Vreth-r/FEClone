@@ -9,35 +9,34 @@ using UnityEngine.Tilemaps;
 
 public class MovementRange : MonoBehaviour
 {
-    public static MovementRange Instance;
+    // public static MovementRange Instance;
     private Unit unit;
 
     public Tilemap highlightTilemap; // assigned in editor, tilemap for highlight tiles
     public TileBase movementTile; // assigned in editor, tile for movement (blue)
     public TileBase attackTile; // assigned in editor, tile for attack range (red)
 
-    private void Awake()
+    private void Start()
     {
-        Instance = this; // declare this instance for external ref
+        
+        //Instance = this; // declare this instance for external ref
         unit = GetComponent<Unit>(); // grab unit reference on the prefab
     }
-
 
     // shows movement range (blue tiles) given a start and a range
     public void ShowRange(Vector2Int origin, int moveRange, int attackRange)
     {
         ClearHighlights(); // wipes the current highlight tiles in range
-
         Dictionary<Vector2Int, int> costSoFar = new(); // dictionary to keep track of what tile takes what cost of movement
         Queue<Vector2Int> frontier = new(); // queue for tiles
-        
+
         frontier.Enqueue(origin);
         costSoFar[origin] = 0;
 
         while (frontier.Count > 0)
         {
             Vector2Int current = frontier.Dequeue(); // grab current tile (duh)
-            if(IsWalkable(current) || current == origin)
+            if (IsWalkable(current) || current == origin)
             {
                 highlightTilemap.SetTile((Vector3Int)current, movementTile); // highlight the tile in blue, anything past the origin will be checked for correctness when fed to the queue
             }
@@ -51,8 +50,8 @@ public class MovementRange : MonoBehaviour
                 Vector2Int neighbor = current + dir; // grab neighbor
                 // Terrain stuff below
                 TerrainTile terrain = TerrainManager.Instance.GetTerrainAt(neighbor);
-                if(terrain == null || terrain.impassable) continue; // if terrain is not there or impassable skip it
-                if(terrain.blocksArmored && unit.HasTag(ClassTag.Armored)) continue; // will change this logic later to just cover them all
+                if (terrain == null || terrain.impassable) continue; // if terrain is not there or impassable skip it
+                if (terrain.blocksArmored && unit.HasTag(ClassTag.Armored)) continue; // will change this logic later to just cover them all
                 int moveCost = unit.HasTag(ClassTag.Flying) && terrain.ignoreForFlying // exception for flying units
                     ? 1
                     : terrain.moveCost;
@@ -64,11 +63,11 @@ public class MovementRange : MonoBehaviour
                     ShowAttackRange(current, attackRange);
                     continue;
                 }
-                
+
                 // if the neighbor isnt tracked yet 
                 // OR 
                 // its already tracked and this path takes less movement than another path already tried
-                if (!costSoFar.ContainsKey(neighbor) || newCost < costSoFar[neighbor]) 
+                if (!costSoFar.ContainsKey(neighbor) || newCost < costSoFar[neighbor])
                 {
                     costSoFar[neighbor] = newCost; // add that shit and assign its cost
                     frontier.Enqueue(neighbor); // queue up the neighbor to do this all over again
@@ -116,11 +115,12 @@ public class MovementRange : MonoBehaviour
         // Semantics may change later to account for difference between units team and the enemy
     }
 
-    private bool IsWalkable(Vector2Int pos)
+    public bool IsWalkable(Vector2Int pos)
     {
         // checks if the tile is not occupied and hence can be "walked" through
         // add check if its inside tilemap bounds later (maybe)
-        return !UnitManager.Instance.IsOccupied(pos) || UnitManager.Instance.GetUnitAt(pos) == unit;
+        // print(unit.unitName);
+        return !UnitManager.Instance.IsOccupied(pos) || pos == unit.GridPosition;
     }
 
     private int Distance(Vector2Int a, Vector2Int b)
