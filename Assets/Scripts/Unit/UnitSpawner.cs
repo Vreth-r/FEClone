@@ -5,6 +5,7 @@ public class UnitSpawner : MonoBehaviour
 {
     public static UnitSpawner Instance { get; private set; }
     public Tilemap highlightTilemap;
+    public Transform unitFolder;
 
     private Vector3 positionOffset = new Vector3(0.5f, 0.5f, 0);
 
@@ -23,7 +24,7 @@ public class UnitSpawner : MonoBehaviour
 
     public Unit SpawnUnitFromTemplate(UnitData data, Vector3Int gridPos)
     {
-        GameObject go = Instantiate(unitPrefab);
+        GameObject go = Instantiate(unitPrefab, unitFolder);
         Unit unit = go.GetComponent<Unit>();
         SpriteRenderer s = go.GetComponent<SpriteRenderer>();
         MovementRange m = go.GetComponent<MovementRange>();
@@ -52,6 +53,7 @@ public class UnitSpawner : MonoBehaviour
         foreach (var item in data.startingInventory)
         {
             unit.AddItem(Instantiate(item)); // instantiate if item has state
+            // was i high when i wrote this
         }
 
         unit.transform.position = GridManager.Instance.CellToWorld(gridPos)  - positionOffset;
@@ -62,7 +64,7 @@ public class UnitSpawner : MonoBehaviour
 
     public Unit SpawnUnitFromSaveData(SavedUnitData data, Vector3Int gridPos)
     {
-        GameObject go = Instantiate(unitPrefab);
+        GameObject go = Instantiate(unitPrefab, unitFolder);
         Unit unit = go.GetComponent<Unit>();
 
         unit.unitName = data.unitID;
