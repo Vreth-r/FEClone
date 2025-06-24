@@ -692,7 +692,7 @@ GameObject:
   - component: {fileID: 242417944}
   - component: {fileID: 242417943}
   m_Layer: 1
-  m_Name: Text (TMP)
+  m_Name: Attacker Name Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1894,7 +1894,7 @@ GameObject:
   - component: {fileID: 623249253}
   - component: {fileID: 623249252}
   m_Layer: 1
-  m_Name: Text (TMP)
+  m_Name: Defender Name Text (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3677,6 +3677,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panSpeed: 0.8
   offset: {x: 0, y: 0, z: -10}
+  deadzoneRadius: 2
 --- !u!1 &1433350073
 GameObject:
   m_ObjectHideFlags: 0
@@ -4288,24 +4289,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 638e250d75681554aa3b3165a5bb4a40, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  leftUnit: {fileID: 0}
-  rightUnit: {fileID: 0}
-  narrator: {fileID: 0}
-  dimmerOverlay: {fileID: 0}
-  attackerStats: {fileID: 0}
-  defenderStats: {fileID: 0}
-  rootObject: {fileID: 0}
-  uiObject: {fileID: 0}
-  attackerHealthBar: {fileID: 0}
-  defenderHealthBar: {fileID: 0}
+  leftUnit: {fileID: 299344992}
+  rightUnit: {fileID: 1417903850}
+  narrator: {fileID: 1433350075}
+  dimmerOverlay: {fileID: 516495592}
+  attackerStats: {fileID: 1131773962}
+  defenderStats: {fileID: 895926497}
+  rootObject: {fileID: 1038702270}
+  uiObject: {fileID: 1361278067}
+  cameraPos: {fileID: 1432828243}
+  attackerHealthBar: {fileID: 1862594193}
+  defenderHealthBar: {fileID: 19136538}
   attackDelay: 0.8
   hitPause: 0.3
-  attackerName: {fileID: 0}
-  defenderName: {fileID: 0}
-  attackerHP: {fileID: 0}
-  defenderHP: {fileID: 0}
-  attackerInfo: {fileID: 0}
-  defenderInfo: {fileID: 0}
+  attackerName: {fileID: 242417943}
+  defenderName: {fileID: 623249252}
+  attackerHP: {fileID: 184014757}
+  defenderHP: {fileID: 1859924898}
+  attackerInfo: {fileID: 1701670600}
+  defenderInfo: {fileID: 606852145}
 --- !u!114 &1642525152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4415,8 +4417,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a52147a2df03674dbddb537261cb372, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightTilemap: {fileID: 817429349}
-  unitFolder: {fileID: 831731606}
+  highlightTilemap: {fileID: 0}
   unitPrefab: {fileID: 7799637953519756220, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
 --- !u!114 &1642525160
 MonoBehaviour:
@@ -4505,7 +4506,7 @@ TilemapRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -2
   m_ChunkSize: {x: 32, y: 32, z: 32}
   m_ChunkCullingBounds: {x: 0, y: 0, z: 0}
   m_MaxChunkCount: 16

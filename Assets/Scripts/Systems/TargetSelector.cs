@@ -80,7 +80,8 @@ public class TargetSelector : MonoBehaviour
     public void Clear()
     {
         // i may have other plans for this method later
-        MovementRange.Instance.ClearHighlights();
+        //MovementRange.Instance.ClearHighlights();
+        attacker.GetComponent<MovementRange>().ClearHighlights();
         attacker = null;
         validTargets.Clear();
         targeting = false;

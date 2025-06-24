@@ -8,6 +8,7 @@ using UnityEngine;
 public class UnitMovement : MonoBehaviour
 {
     private Unit unit; // unit reference this script is related to
+    private MovementRange movementRange;
     private bool isSelected = false; // selection status
     private Vector3 positionOffset = new Vector3(0.5f, 0.5f, 0f);
     private Vector3 preMovePosition; // just in case the player wants to cancel move
@@ -24,6 +25,7 @@ public class UnitMovement : MonoBehaviour
     private void Start()
     {
         unit = GetComponent<Unit>(); // grab unit reference on the prefab
+        movementRange = GetComponent<MovementRange>();
         pathLine = gameObject.AddComponent<LineRenderer>(); // might change this in editor later
         pathLine.positionCount = 0;
         pathLine.material = new Material(Shader.Find("Sprites/Default")); // to be changed l8r prob i dunno it looks decent enough
@@ -38,7 +40,6 @@ public class UnitMovement : MonoBehaviour
 
     private void OnMouseDown()
     {
-        
         if (unit.team != Team.Player || TurnManager.Instance.currentTurn != TurnState.Player || (UnitManager.Instance.isAUnitSelected() && !UnitManager.Instance.isUnitSelected(unit))
         || UIManager.Instance.GetCurrentMenuType() == MenuType.ActionMenu)
         {
@@ -53,12 +54,14 @@ public class UnitMovement : MonoBehaviour
         if (isSelected) // if selected
         {
             UnitManager.Instance.selectUnit(unit); // tell the unit manager the unit is selected
-            MovementRange.Instance.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // Show move/attack range preview tiles
+            movementRange.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // Show move/attack range preview tiles
+           
+
         }
         else // otherwise hide them
         {
             UnitManager.Instance.deselectedUnit(); // tell the unit manager to wipe its selected unit
-            MovementRange.Instance.ClearHighlights(); // clear the range preview
+            movementRange.ClearHighlights(); // clear the range preview
         }
     }
 
@@ -75,9 +78,9 @@ public class UnitMovement : MonoBehaviour
             Vector3Int cell = GridManager.Instance.WorldToCell(mouseWorld); // get the cell the mouse is over
             Vector2Int targetPos = new(cell.x, cell.y); // set that as the target
 
-            if(MovementRange.Instance.isMoveableTo(targetPos) && targetPos != unit.GridPosition) // if the target cell is blue and its not the selected units space
+            if(movementRange.isMoveableTo(targetPos)) // if the target cell is blue and its not the selected units space
             {
-                currentPath = Pathfinding.FindPath(unit.GridPosition, targetPos, IsWalkable, TerrainManager.Instance); // find a path between the unit and the target thats walkable
+                currentPath = Pathfinding.FindPath(unit.GridPosition, targetPos, movementRange.IsWalkable, TerrainManager.Instance); // find a path between the unit and the target thats walkable
                 if(currentPath != null) DrawPath(currentPath); // if a path is found, draw it
             }
             else
@@ -92,7 +95,7 @@ public class UnitMovement : MonoBehaviour
             Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition); // get mouse world coords
             Vector3Int cell = GridManager.Instance.WorldToCell(worldPos); // get the cell according to those cords
             Vector2Int gridPos = new(cell.x, cell.y); // set grid pos based off cell
-            if(!MovementRange.Instance.isMoveableTo(gridPos)) // check if its moveable to
+            if(!movementRange.isMoveableTo(gridPos)) // check if its moveable to
             {
                 Debug.Log("Invalid Move.");
                 return; // return if not
@@ -100,12 +103,21 @@ public class UnitMovement : MonoBehaviour
 
             preMovePosition = transform.position; // cache pre move coords for cancelling
             preMoveGridPos = unit.GridPosition; // ^
-            StartCoroutine(MoveAlongPath(currentPath)); // Sets the unit to move along the path set smoothly in a co-routine yeah bro we use co-routines get used to it
+            
+            if (currentPath.Count > 1) // only walk the path if going to a new place (otherwise it just reruns previous walk)
+            {
+                StartCoroutine(MoveAlongPath(currentPath)); // Sets the unit to move along the path set smoothly in a co-routine yeah bro we use co-routines get used to it
+            }
+            else { // add the menu to the screen even if you dont move
+                Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
+                UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
+            }
+
             isSelected = false; // TURN THAT SHIT OFF CUH
             UnitManager.Instance.deselectedUnit(); // tell the unit manager whats up
             pathLine.positionCount = 0; // reset the line renderer
             if(arrowInstance != null) arrowInstance.SetActive(false); // set the arrow to invisible
-            MovementRange.Instance.ClearHighlights(); // clear all the tiles
+            movementRange.ClearHighlights(); // clear all the tiles
         }
     }
 
@@ -145,7 +157,7 @@ public class UnitMovement : MonoBehaviour
         isMoving = true; // set flag so update() doesnt shit itself
         Vector2Int oldPos = unit.GridPosition; // keep track of the old position
 
-        for(int i = 1; i < path.Count; i++) // for every cell in the path
+        for (int i = 1; i < path.Count; i++) // for every cell in the path
         {
             Vector3Int cell = (Vector3Int)path[i]; // ref it so were not list accessing a ton (good performance)
             Vector3 targetWorld = GridManager.Instance.CellToWorld(cell) + positionOffset; // get its world pos with offset
@@ -161,17 +173,11 @@ public class UnitMovement : MonoBehaviour
 
         UnitManager.Instance.UpdateUnitPosition(unit, oldPos, unit.GridPosition); // tell the unit manager whats going on
         isMoving = false; // set the flag once its done to do it all over again
-        if(arrowInstance != null) arrowInstance.SetActive(false);
-
+        if (arrowInstance != null) arrowInstance.SetActive(false);
+        yield return StartCoroutine(GameObject.Find("Main Camera").GetComponent<CameraPanner>().PanToLocation(transform.position)); // bruh hahahahahaha
         Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
         UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
     }
-
-    private bool IsWalkable(Vector2Int pos)
-    {
-        return !UnitManager.Instance.IsOccupied(pos) || pos == unit.GridPosition; // i know theres another method named this but i needed the ref in this file
-    }
-
     public void OnMenuSelect(UnitActionType action)
     // this is only here cause a lot of these actions need refs already in this file and it would be work and a half to pass
     // all the params
@@ -196,7 +202,7 @@ public class UnitMovement : MonoBehaviour
                 UnitManager.Instance.UpdateUnitPosition(unit, unit.GridPosition, preMoveGridPos); // tell unit manager whats up
                 transform.position = preMovePosition; // return to pre move coords
                 unit.GridPosition = preMoveGridPos; // ^
-                MovementRange.Instance.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // show the movement range again
+                movementRange.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // show the movement range again
                 isSelected = true; // select that shit
                 UnitManager.Instance.selectUnit(unit); // tell the unit manager the unit is selected
                 // we are NOT animating the move back lmao

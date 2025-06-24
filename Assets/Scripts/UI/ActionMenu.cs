@@ -37,6 +37,7 @@ public class ActionMenu : MonoBehaviour, IGameMenu
     public void Open(UnitMovement unit, Vector3 worldPos) // overload
     {
         Debug.Log("Action Menu With Unit");
+        MouseTileHighlighter.Instance.enableFunction = false; // dont move camera when action menu is up
         activeUnit = unit; // set the active unit for later
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos + new Vector3(1f, 1.5f, 0)); // get world to screen coords
         background.transform.position = screenPos; // set position
@@ -45,6 +46,7 @@ public class ActionMenu : MonoBehaviour, IGameMenu
 
     public void Close()
     {
+        MouseTileHighlighter.Instance.enableFunction = true; // reactivate camera movement
         IsOpen = false;
         gameObject.SetActive(false);
         if (UIManager.Instance.GetCurrentMenuType() == MenuID)
