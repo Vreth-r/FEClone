@@ -4417,7 +4417,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a52147a2df03674dbddb537261cb372, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightTilemap: {fileID: 0}
+  highlightTilemap: {fileID: 817429349}
+  unitFolder: {fileID: 831731606}
   unitPrefab: {fileID: 7799637953519756220, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
 --- !u!114 &1642525160
 MonoBehaviour:
