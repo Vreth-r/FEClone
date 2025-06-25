@@ -20,6 +20,7 @@ public class ActionMenu : MonoBehaviour, IGameMenu
 
     public void Awake()
     {
+        DontDestroyOnLoad(gameObject);
         attackButton.onClick.AddListener(OnAttack);
         waitButton.onClick.AddListener(OnWait);
         itemButton.onClick.AddListener(OnItem);

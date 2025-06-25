@@ -44,6 +44,7 @@ public class PauseMenu : MonoBehaviour, IGameMenu
     private void OnMainMenu()
     {
         Time.timeScale = 1f;
+        UIManager.Instance.CloseMenu(MenuType.PauseMenu);
         SceneManager.LoadScene("MainMenu");
     }
 
