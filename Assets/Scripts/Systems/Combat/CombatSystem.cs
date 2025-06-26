@@ -96,7 +96,7 @@ public class CombatSystem
         int attackPower = weapon.damageType == DamageType.Physical // determine which offensive stat is being used
             ? attacker.GetModifiedStat(StatType.STR)
             : attacker.GetModifiedStat(StatType.ARC);
-
+        Debug.Log(attacker.statBonuses.GetTotalModifier(attacker, StatType.STR));
         int defensePower = weapon.damageType == DamageType.Physical // determine which defensive stat is being used
             ? defender.GetModifiedStat(StatType.DEF)
             : defender.GetModifiedStat(StatType.RES);

@@ -120,7 +120,6 @@ public class MovementRange : MonoBehaviour
     {
         // checks if the tile is not occupied and hence can be "walked" through
         // add check if its inside tilemap bounds later (maybe)
-        // print(unit.unitName);
         return !UnitManager.Instance.IsOccupied(pos) || pos == unit.GridPosition;
     }
 

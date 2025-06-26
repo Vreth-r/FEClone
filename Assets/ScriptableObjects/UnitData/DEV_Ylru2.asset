@@ -20,13 +20,13 @@ MonoBehaviour:
   startingClass: {fileID: 11400000, guid: 5e645e9749e10d04e832582b908a51e8, type: 2}
   level: 1
   maxHP: 20
-  strength: 0
-  arcane: 0
-  defense: 0
-  speed: 0
-  skill: 0
-  resistance: 0
-  luck: 0
+  strength: 100
+  arcane: 100
+  defense: 100
+  speed: 100
+  skill: 100
+  resistance: 100
+  luck: 100
   startingInventory: []
-  equippedItem: {fileID: 11400000, guid: b35987891faf6fa45a750e0d521f17a0, type: 2}
+  equippedItem: {fileID: 11400000, guid: 9cdcf53718a25ed4ca6a4677c34dc217, type: 2}
   combatSprite: {fileID: 21300000, guid: 7698ea2fb13ee104e981bc7883988675, type: 3}
