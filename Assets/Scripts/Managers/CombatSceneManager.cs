@@ -39,7 +39,7 @@ public class CombatSceneManager : MonoBehaviour
 
     public void EnterCombatScene(Unit attacker, Unit defender, CombatContext context, CombatQueue queue)
     {
-        MouseTileHighlighter.Instance.enableFunction = false; //  disable the tile highlights when the combat scene is running
+        //ControlsManager.Instance.EnableInput = false; //  disable the tile highlights when the combat scene is running
         rootObject.SetActive(true); // can also be faded in later
         rootObject.transform.position = new Vector3(cameraPos.position.x, cameraPos.position.y, 0);
         uiObject.SetActive(true);
@@ -74,7 +74,7 @@ public class CombatSceneManager : MonoBehaviour
     {
         rootObject.SetActive(false);
         uiObject.SetActive(false);
-        MouseTileHighlighter.Instance.enableFunction = true;
+        //ControlsManager.Instance.EnableInput = true;
     }
 
     public IEnumerator PlayCombat(CombatContext context, CombatQueue queue)

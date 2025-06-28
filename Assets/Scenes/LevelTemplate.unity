@@ -3581,7 +3581,6 @@ GameObject:
   - component: {fileID: 1432828243}
   - component: {fileID: 1432828242}
   - component: {fileID: 1432828241}
-  - component: {fileID: 1432828244}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3663,21 +3662,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1432828244
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1432828240}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ed29a58c5743ed4c92dec4d9361fd1a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  panSpeed: 0.8
-  offset: {x: 0, y: 0, z: -10}
-  deadzoneRadius: 2
 --- !u!1 &1433350073
 GameObject:
   m_ObjectHideFlags: 0
@@ -4320,9 +4304,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cc7bb3029df40144bbe3302a1b4e072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightTilemap: {fileID: 1710836084}
-  highlightTile: {fileID: 11400000, guid: 37c4c03511b76f247b1dbdb45dd896f3, type: 2}
-  enableFunction: 1
 --- !u!114 &1642525153
 MonoBehaviour:
   m_ObjectHideFlags: 0
