@@ -38,7 +38,7 @@ public class UnitMovement : MonoBehaviour
         }
     }
 
-    private void OnMouseDown()
+    public void SelectUnit()
     {
         if (unit.team != Team.Player || TurnManager.Instance.currentTurn != TurnState.Player || (UnitManager.Instance.isAUnitSelected() && !UnitManager.Instance.isUnitSelected(unit))
         || UIManager.Instance.GetCurrentMenuType() == MenuType.ActionMenu)

@@ -8,6 +8,8 @@ public class MapLoader : MonoBehaviour
 {
     [Header("References")]
     public UnitSpawner unitSpawner; // the unit spawner is to be attatched to the game manager
+    public CameraPanner panner; // so the camera loads the tilemap bounds at the right time
+    public CursorController cursor; // ^
 
     [Header("Data")]
     public string mapFileName; // for dev reasons will be set in editor for now
@@ -72,7 +74,7 @@ public class MapLoader : MonoBehaviour
         // place player units
         foreach (UnitSpawnData player in data.playerUnits)
         {
-            UnitData unitData = UnitDatabase.Instance.GetByID(player.unitID); // lmao i need to refactor databases
+            UnitData unitData = UnitDatabase.Instance.GetByID(player.unitID);
             unitSpawner.SpawnUnitFromTemplate(unitData, new Vector3Int(player.x, player.y, 0));
         }
 
@@ -83,7 +85,8 @@ public class MapLoader : MonoBehaviour
             var unit = unitSpawner.SpawnUnitFromTemplate(unitData, new Vector3Int(enemy.x, enemy.y, 0));
             unit.team = Team.Enemy;
         }
-
+        panner.LoadGridBounds();
+        cursor.LoadGridBounds();
         Debug.Log($"Loaded map: {data.displayName}");
     }
 }

@@ -3581,6 +3581,7 @@ GameObject:
   - component: {fileID: 1432828243}
   - component: {fileID: 1432828242}
   - component: {fileID: 1432828241}
+  - component: {fileID: 1432828244}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -3662,6 +3663,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1432828244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1432828240}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ed29a58c5743ed4c92dec4d9361fd1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grid: {fileID: 1523715800}
+  tilemap: {fileID: 1680907660}
+  cursor: {fileID: 1642525161}
+  cameraSpeed: 1
 --- !u!1 &1433350073
 GameObject:
   m_ObjectHideFlags: 0
@@ -4415,6 +4432,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   unitSpawner: {fileID: 1642525159}
+  panner: {fileID: 1432828244}
+  cursor: {fileID: 1642525161}
   mapFileName: 
 --- !u!114 &1642525161
 MonoBehaviour:
@@ -4430,6 +4449,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveCooldown: 0.2
   cursorTilemap: {fileID: 1710836084}
+  terrainTilemap: {fileID: 1680907660}
   cursorTile: {fileID: 11400000, guid: 37c4c03511b76f247b1dbdb45dd896f3, type: 2}
   grid: {fileID: 1523715800}
 --- !u!1 &1680907657

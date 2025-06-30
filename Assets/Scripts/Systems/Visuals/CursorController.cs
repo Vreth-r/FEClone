@@ -6,19 +6,30 @@ using UnityEngine.Tilemaps;
 public class CursorController : MonoBehaviour
 {
     [Header("Cursor Movement")]
-    public float moveCooldown = 0.2f;
+    public float moveCooldown = 0.05f;
     private float lastMoveTime;
     private Vector3Int currentGridPosition;
 
     [Header("Tilemap & Tile Settings")]
     public Tilemap cursorTilemap;
+    public Tilemap terrainTilemap;
     public TileBase cursorTile;
     public Grid grid;
+    private Vector3 minCursorPos;
+    private Vector3 maxCursorPos;
 
     void Start()
     {
         currentGridPosition = Vector3Int.zero;
         UpdateCursorTile();
+    }
+
+    public void LoadGridBounds() // might make an interface for this
+    {
+        Bounds mapBounds = terrainTilemap.localBounds;
+        // clamp
+        minCursorPos = mapBounds.min;
+        maxCursorPos = mapBounds.max - new Vector3(1, 1, 0); // unknown why but without this the cursor can go *just* one over the tilemap out of bounds
     }
 
     void Update()
@@ -27,6 +38,13 @@ public class CursorController : MonoBehaviour
             return;
 
         Vector2 input = ControlsManager.Instance.MoveInput;
+
+        // selecting a unit
+        if (ControlsManager.Instance.SelectPressed)
+        {
+            UnitMovement script = UnitManager.Instance.GetUnitAt((Vector2Int)currentGridPosition).gameObject.GetComponent<UnitMovement>();
+            script.SelectUnit();
+        }
 
         if (Time.time - lastMoveTime < moveCooldown || input == Vector2.zero)
             return;
@@ -38,15 +56,13 @@ public class CursorController : MonoBehaviour
         else
             direction.y = (int)Mathf.Sign(input.y);
 
-        /*
+        currentGridPosition += new Vector3Int(direction.x, direction.y, 0);
         Vector3Int clampedPosition = new Vector3Int(
-        Mathf.Clamp(currentGridPosition.x, minX, maxX),
-        Mathf.Clamp(currentGridPosition.y, minY, maxY),
+        (int)Mathf.Clamp(currentGridPosition.x, minCursorPos.x, maxCursorPos.x),
+        (int)Mathf.Clamp(currentGridPosition.y, minCursorPos.y, maxCursorPos.y),
         0
         );
         currentGridPosition = clampedPosition;
-        */
-        currentGridPosition += new Vector3Int(direction.x, direction.y, 0);
         UpdateCursorTile();
         lastMoveTime = Time.time;
     }
