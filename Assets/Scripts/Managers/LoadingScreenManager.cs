@@ -122,7 +122,7 @@ public class LoadingScreenManager : MonoBehaviour
         onComplete?.Invoke(); // run after scene loads
 
         // idk maybe move this somewhere else I just couldn't find where
-        GameObject.Find("GameManager").GetComponent<UIManager>().ClearMenuMap(); // resets spawned menus tracked by UI manager
+        //GameObject.Find("GameManager").GetComponent<UIManager>().ClearMenuMap(); // resets spawned menus tracked by UI manager
         // Fade out
         yield return FadeCanvas(1f, 0f, 0.5f);
 

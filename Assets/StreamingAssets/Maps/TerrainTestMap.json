@@ -1,0 +1,41 @@
+{
+    "mapID": "LevelMap1",
+    "displayName": "Export Level",
+    "terrainKey": [
+        "Field",
+        "Dunes",
+        "Stairs",
+        "River",
+        "Bridge",
+        "Rocks",
+        "Mountain",
+        "Cliff",
+        "Chasm",
+        "Wall"
+    ],
+    "tileCSV": "8,8,8,7,6,6,6,6,6,6,6\r\n7,7,7,0,3,3,3,1,1,1,1\r\n0,0,2,0,3,3,3,5,1,1,1\r\n0,0,2,0,4,4,4,5,5,1,9\r\n0,0,2,0,3,3,3,5,1,9,1\r\n0,0,2,0,3,3,3,1,1,9,1\r\n",
+    "tiles": [],
+    "playerUnits": [
+        {
+            "unitID": "Bird",
+            "x": 3,
+            "y": 4,
+            "isPlayer": true
+        },
+        {
+            "unitID": "Ylru2",
+            "x": 6,
+            "y": 4,
+            "isPlayer": true
+        }
+        
+    ],
+    "enemyUnits": [
+        {
+            "unitID": "The other one",
+            "x": 9,
+            "y": 3,
+            "isPlayer": false
+        }
+    ]
+}

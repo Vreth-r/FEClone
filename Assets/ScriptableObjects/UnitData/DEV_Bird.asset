@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52dfab82e49351d44ad00f0101dacc02, type: 3}
-  m_Name: Ylru2
+  m_Name: DEV_Bird
   m_EditorClassIdentifier: 
-  unitID: Ylru2
-  unitName: Ylru2
-  unitTitle: 
-  unitDescription: 
+  unitID: Bird
+  unitName: Bird
+  unitTitle: Bird
+  unitDescription: Bird that flies
   team: 0
-  startingClass: {fileID: 11400000, guid: 5e645e9749e10d04e832582b908a51e8, type: 2}
+  startingClass: {fileID: 11400000, guid: f9b4c1d3cf99e174aaf0c3e716bc6d07, type: 2}
   level: 1
   maxHP: 20
   strength: 0
@@ -29,4 +29,4 @@ MonoBehaviour:
   luck: 0
   startingInventory: []
   equippedItem: {fileID: 11400000, guid: b35987891faf6fa45a750e0d521f17a0, type: 2}
-  combatSprite: {fileID: 21300000, guid: 7698ea2fb13ee104e981bc7883988675, type: 3}
+  combatSprite: {fileID: 21300000, guid: 86e519adbe614064cb802939d3b93b60, type: 3}

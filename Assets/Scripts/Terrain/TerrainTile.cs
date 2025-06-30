@@ -8,7 +8,7 @@ using UnityEngine.Tilemaps;
 [CreateAssetMenu(menuName = "Tactics RPG/Terain Tile")]
 public class TerrainTile : ScriptableObject, IIdentifiable
 {
-    [Header("Tile Visual")] 
+    [Header("Tile Visual")]
     public TileBase tileVisual; // the tile (not the tile art, the tile from unity)
     public string terrainName; // Name for later
     public string ID => terrainName;
@@ -21,10 +21,12 @@ public class TerrainTile : ScriptableObject, IIdentifiable
     // changing this to be list based instead later
     public bool blocksArmored = false;
     public bool blocksMounted = false;
+    public bool blocksNonFlying = false;
     public bool ignoreForFlying = true;
 
     [Header("Combat Bonuses")]
     // flat bonuses for certain stats
+    public int hitBonus = 0;
     public int avoidBonus = 0;
     public int defenseBonus = 0;
 }
