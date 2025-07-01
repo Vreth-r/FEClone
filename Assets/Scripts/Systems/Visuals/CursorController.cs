@@ -59,13 +59,6 @@ public class CursorController : MonoBehaviour
 
         Vector2 input = ControlsManager.Instance.MoveInput;
 
-        // selecting a unit
-        // if (ControlsManager.Instance.SelectPressed && UnitManager.Instance.IsOccupied((Vector2Int)currentGridPosition)) // well you cant click on nothing
-        // {
-        //     UnitMovement script = UnitManager.Instance.GetUnitAt((Vector2Int)currentGridPosition).gameObject.GetComponent<UnitMovement>();
-        //     script.SelectUnit(); // blocking enemy selection is baked into method, a little wasteful but it makes this look nice and clean
-        // }
-
         if (Time.time - lastMoveTime < moveCooldown || input == Vector2.zero)
             return;
 
@@ -95,7 +88,7 @@ public class CursorController : MonoBehaviour
         var unit = UnitManager.Instance.GetUnitAt((Vector2Int)currentGridPosition);
         if (unit != null)
         {
-            unit.GetComponent<UnitMovement>().SelectUnit();
+            unit.GetComponent<UnitMovement>().SelectUnit(); // blocking enemy selection is baked into method, a little wasteful but it makes this look nice and clean
         }
     }
 

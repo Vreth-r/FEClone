@@ -130,6 +130,7 @@ public class UnitMovement : MonoBehaviour
             }
 
             isSelected = false; // TURN THAT SHIT OFF CUH
+            currentPath = null;
             UnitManager.Instance.deselectedUnit(); // tell the unit manager whats up
             pathLine.positionCount = 0; // reset the line renderer
             if (arrowInstance != null) arrowInstance.SetActive(false); // set the arrow to invisible
