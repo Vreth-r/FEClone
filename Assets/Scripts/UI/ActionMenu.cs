@@ -5,55 +5,45 @@ using UnityEngine.UI;
 
 // Gives functionality to action menu ui buttons
 
-public class ActionMenu : MonoBehaviour, IGameMenu
+public class ActionMenu : NavMenu
 {
     public Button attackButton; //  button references
     public Button waitButton;
     public Button itemButton;
     public Button cancelButton;
     public GameObject background;
-    public bool IsOpen { get; private set; } // i know about gameObject.activeSelf but i need the ref somewhere else for the game object and only the script is passed to UnitMovement\
-    public MenuType MenuID => MenuType.ActionMenu;
-    public bool escapable { get; private set; }
 
     private UnitMovement activeUnit; // the unit in question:
 
-    public void Awake()
+    public override MenuType MenuID => MenuType.ActionMenu;
+
+    public override void Open()
     {
-        DontDestroyOnLoad(gameObject);
-        attackButton.onClick.AddListener(OnAttack);
-        waitButton.onClick.AddListener(OnWait);
-        itemButton.onClick.AddListener(OnItem);
-        cancelButton.onClick.AddListener(OnCancel);
-        escapable = false;
-        IsOpen = false;
-    }
-    
-    public void Open() // will be overloaded to make the interface happy
-    {
-        IsOpen = true;
-        gameObject.SetActive(true);
+        base.Open();
     }
 
     public void Open(UnitMovement unit, Vector3 worldPos) // overload
     {
-        Debug.Log("Action Menu With Unit");
-        //ControlsManager.Instance.EnableInput = false; // dont move camera when action menu is up
         activeUnit = unit; // set the active unit for later
         Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos + new Vector3(1f, 1.5f, 0)); // get world to screen coords
         background.transform.position = screenPos; // set position
-        Open();
-    }
 
-    public void Close()
-    {
-        //ControlsManager.Instance.EnableInput = true; // reactivate camera movement
-        IsOpen = false;
-        gameObject.SetActive(false);
-        if (UIManager.Instance.GetCurrentMenuType() == MenuID)
-        {
-            UIManager.Instance.WipeCurrentMenu();
-        }
+        menuButtons = new List<Button> { attackButton, waitButton, itemButton, cancelButton };
+
+        // button callbacks
+        attackButton.onClick.RemoveAllListeners();
+        attackButton.onClick.AddListener(OnAttack);
+
+        waitButton.onClick.RemoveAllListeners();
+        waitButton.onClick.AddListener(OnWait);
+
+        itemButton.onClick.RemoveAllListeners();
+        itemButton.onClick.AddListener(OnItem);
+
+        cancelButton.onClick.RemoveAllListeners();
+        cancelButton.onClick.AddListener(OnCancel);
+
+        Open();
     }
 
     private void OnAttack()

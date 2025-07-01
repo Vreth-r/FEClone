@@ -57,7 +57,7 @@ public class UnitMovement : MonoBehaviour
         }
 
         isSelected = !isSelected; // toggle selection state
-
+ 
         Debug.Log(isSelected ? "Unit Selected" : "Unit Deselected");
         Debug.Log($"position: {unit.GridPosition}");
 
