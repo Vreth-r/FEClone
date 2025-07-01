@@ -38,6 +38,16 @@ public class UnitMovement : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        ControlsManager.Instance.OnSelect += HandleSelect;
+    }
+
+    private void OnDisable()
+    {
+        ControlsManager.Instance.OnSelect -= HandleSelect;
+    }
+
     public void SelectUnit()
     {
         if (unit.team != Team.Player || TurnManager.Instance.currentTurn != TurnState.Player || (UnitManager.Instance.isAUnitSelected() && !UnitManager.Instance.isUnitSelected(unit))
@@ -55,7 +65,7 @@ public class UnitMovement : MonoBehaviour
         {
             UnitManager.Instance.selectUnit(unit); // tell the unit manager the unit is selected
             movementRange.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // Show move/attack range preview tiles
-           
+
 
         }
         else // otherwise hide them
@@ -72,30 +82,35 @@ public class UnitMovement : MonoBehaviour
             return; // if not selected, dont do anything
         }
 
-        if(!isMoving) // if not moving
+        if (!isMoving) // if not moving
         {
-            Vector3 mouseWorld = Camera.main.ScreenToWorldPoint(Input.mousePosition); // get mouse world coords
-            Vector3Int cell = GridManager.Instance.WorldToCell(mouseWorld); // get the cell the mouse is over
+            Vector3Int cell = CursorController.Instance.GetCursorGridPosition(); // grabs the cell of the cursor
             Vector2Int targetPos = new(cell.x, cell.y); // set that as the target
 
-            if(movementRange.isMoveableTo(targetPos)) // if the target cell is blue and its not the selected units space
+            if (movementRange.isMoveableTo(targetPos)) // if the target cell is blue and its not the selected units space
             {
                 currentPath = Pathfinding.FindPath(unit.GridPosition, targetPos, movementRange.isMoveableTo, TerrainManager.Instance); // find a path between the unit and the target thats walkable
-                if(currentPath != null) DrawPath(currentPath); // if a path is found, draw it
+                if (currentPath != null) DrawPath(currentPath); // if a path is found, draw it
             }
             else
             {
                 pathLine.positionCount = 0; // otherwise, clear the line
-                if(arrowInstance != null) arrowInstance.SetActive(false); // set the arrow to invisible
+                if (arrowInstance != null) arrowInstance.SetActive(false); // set the arrow to invisible
             }
         }
+    }
 
-        if(Input.GetMouseButtonDown(1) && currentPath != null && currentPath.Count > 0) // if right clicked and theres a non 0 path
+    public void HandleSelect()
+    {
+        if (!isSelected) return;
+
+        if (ControlsManager.Instance.CurrentContext != InputContext.Gameplay) return;
+
+        if (currentPath != null && currentPath.Count > 0)
         {
-            Vector3 worldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition); // get mouse world coords
-            Vector3Int cell = GridManager.Instance.WorldToCell(worldPos); // get the cell according to those cords
+            Vector3Int cell = CursorController.Instance.GetCursorGridPosition(); // grabs the cell of the cursor
             Vector2Int gridPos = new(cell.x, cell.y); // set grid pos based off cell
-            if(!movementRange.isMoveableTo(gridPos)) // check if its moveable to
+            if (!movementRange.isMoveableTo(gridPos)) // check if its moveable to
             {
                 Debug.Log("Invalid Move.");
                 return; // return if not
@@ -103,12 +118,13 @@ public class UnitMovement : MonoBehaviour
 
             preMovePosition = transform.position; // cache pre move coords for cancelling
             preMoveGridPos = unit.GridPosition; // ^
-            
+
             if (currentPath.Count > 1) // only walk the path if going to a new place (otherwise it just reruns previous walk)
             {
                 StartCoroutine(MoveAlongPath(currentPath)); // Sets the unit to move along the path set smoothly in a co-routine yeah bro we use co-routines get used to it
             }
-            else { // add the menu to the screen even if you dont move
+            else
+            { // add the menu to the screen even if you dont move
                 Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
                 UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
             }
@@ -116,7 +132,7 @@ public class UnitMovement : MonoBehaviour
             isSelected = false; // TURN THAT SHIT OFF CUH
             UnitManager.Instance.deselectedUnit(); // tell the unit manager whats up
             pathLine.positionCount = 0; // reset the line renderer
-            if(arrowInstance != null) arrowInstance.SetActive(false); // set the arrow to invisible
+            if (arrowInstance != null) arrowInstance.SetActive(false); // set the arrow to invisible
             movementRange.ClearHighlights(); // clear all the tiles
         }
     }

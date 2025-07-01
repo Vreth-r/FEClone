@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System;
 
 public enum InputContext
 {
@@ -11,22 +12,18 @@ public class ControlsManager : MonoBehaviour
 {
     public static ControlsManager Instance { get; private set; }
 
-    private InputActions inputActions;
     public InputContext CurrentContext { get; private set; } = InputContext.Gameplay;
 
+    private InputActions inputActions;
+
+    // Exposed movement and navigation vectors
     public Vector2 MoveInput { get; private set; }
+    public Vector2 NavigateInput { get; private set; }
 
-    private bool selectPressed;
-    public bool SelectPressed => Consume(ref selectPressed);
-
-    private bool submitPressed;
-    public bool SubmitPressed => Consume(ref submitPressed);
-
-    private bool cancelPressed;
-    public bool CancelPressed => Consume(ref cancelPressed);
-
-    private Vector2 navigateInput;
-    public Vector2 NavigateInput => navigateInput;
+    // EVENTS
+    public event Action OnSubmit;
+    public event Action OnSelect;
+    public event Action OnCancel;
 
     void Awake()
     {
@@ -41,18 +38,18 @@ public class ControlsManager : MonoBehaviour
 
         inputActions = new InputActions();
 
-        // Bind gameplay
+        // Gameplay bindings
         inputActions.Gameplay.MoveCursor.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
         inputActions.Gameplay.MoveCursor.canceled += ctx => MoveInput = Vector2.zero;
 
-        inputActions.Gameplay.Select.performed += ctx => selectPressed = true;
+        inputActions.Gameplay.Select.performed += ctx => OnSelect?.Invoke();
 
-        // Bind Menu
-        inputActions.Menu.Navigate.performed += ctx => navigateInput = ctx.ReadValue<Vector2>();
-        inputActions.Menu.Navigate.canceled += ctx => navigateInput = Vector2.zero;
+        // UI bindings
+        inputActions.Menu.Navigate.performed += ctx => NavigateInput = ctx.ReadValue<Vector2>();
+        inputActions.Menu.Navigate.canceled += ctx => NavigateInput = Vector2.zero;
 
-        inputActions.Menu.Submit.performed += ctx => submitPressed = true;
-        inputActions.Menu.Cancel.performed += ctx => cancelPressed = true;
+        inputActions.Menu.Submit.performed += ctx => OnSubmit?.Invoke();
+        inputActions.Menu.Cancel.performed += ctx => OnCancel?.Invoke();
     }
 
     void OnEnable() => EnableCurrentMap();
@@ -79,13 +76,5 @@ public class ControlsManager : MonoBehaviour
     {
         inputActions.Gameplay.Disable();
         inputActions.Menu.Disable();
-    }
-
-    // Utility to consume a bool flag for one-time reads
-    private bool Consume(ref bool inputFlag)
-    {
-        if (!inputFlag) return false;
-        inputFlag = false;
-        return true;
     }
 }

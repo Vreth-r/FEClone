@@ -18,10 +18,30 @@ public class CursorController : MonoBehaviour
     private Vector3 minCursorPos;
     private Vector3 maxCursorPos;
 
+    public static CursorController Instance;
+
+    void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        }
+    }
+
     void Start()
     {
         currentGridPosition = Vector3Int.zero;
         UpdateCursorTile();
+    }
+
+    void OnEnable()
+    {
+        ControlsManager.Instance.OnSelect += HandleSelect;
+    }
+
+    void OnDisable() // this may not be a neccessary function
+    {
+        ControlsManager.Instance.OnSelect -= HandleSelect;
     }
 
     public void LoadGridBounds() // might make an interface for this
@@ -40,11 +60,11 @@ public class CursorController : MonoBehaviour
         Vector2 input = ControlsManager.Instance.MoveInput;
 
         // selecting a unit
-        if (ControlsManager.Instance.SelectPressed)
-        {
-            UnitMovement script = UnitManager.Instance.GetUnitAt((Vector2Int)currentGridPosition).gameObject.GetComponent<UnitMovement>();
-            script.SelectUnit();
-        }
+        // if (ControlsManager.Instance.SelectPressed && UnitManager.Instance.IsOccupied((Vector2Int)currentGridPosition)) // well you cant click on nothing
+        // {
+        //     UnitMovement script = UnitManager.Instance.GetUnitAt((Vector2Int)currentGridPosition).gameObject.GetComponent<UnitMovement>();
+        //     script.SelectUnit(); // blocking enemy selection is baked into method, a little wasteful but it makes this look nice and clean
+        // }
 
         if (Time.time - lastMoveTime < moveCooldown || input == Vector2.zero)
             return;
@@ -65,6 +85,18 @@ public class CursorController : MonoBehaviour
         currentGridPosition = clampedPosition;
         UpdateCursorTile();
         lastMoveTime = Time.time;
+    }
+
+    void HandleSelect()
+    {
+        if (ControlsManager.Instance.CurrentContext != InputContext.Gameplay)
+            return;
+
+        var unit = UnitManager.Instance.GetUnitAt((Vector2Int)currentGridPosition);
+        if (unit != null)
+        {
+            unit.GetComponent<UnitMovement>().SelectUnit();
+        }
     }
 
     void UpdateCursorTile()

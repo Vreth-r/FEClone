@@ -1,6 +1,13 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
+/* READ THIS
+so the camera follows the cursor pretty closely in the ds titles of fe, so i might just copy that
+when selecting a character, you move them with the cursor, and when you click move, the camera goes to the 
+center point between the starting position and the end position while the character moves, it then centers on the character
+and the action menu pops up
+*/
+
 public class CameraPanner : MonoBehaviour
 {
     [Header("References")]
