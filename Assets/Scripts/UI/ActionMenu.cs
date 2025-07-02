@@ -50,27 +50,27 @@ public class ActionMenu : NavMenu
     {
         Debug.Log("Attack!");
         activeUnit.OnMenuSelect(UnitActionType.Attack);
-        Close();
+        base.Close();
     }
 
     private void OnWait()
     {
         Debug.Log("Wait.");
         activeUnit.OnMenuSelect(UnitActionType.Wait);
-        Close();
+        base.Close();
     }
 
     private void OnItem()
     {
         Debug.Log("Use Item.");
         activeUnit.OnMenuSelect(UnitActionType.Item);
-        Close();
+        base.Close();
     }
 
     private void OnCancel()
     {
         Debug.Log("Cancel move.");
-        Close();
+        base.Close();
         activeUnit.OnMenuSelect(UnitActionType.Cancel);
     }
 }

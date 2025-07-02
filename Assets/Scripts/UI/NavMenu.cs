@@ -35,7 +35,6 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
         gameObject.SetActive(true);
         selectedIndex = 0;
         HighlightButton(selectedIndex);
-        ControlsManager.Instance.SetContext(InputContext.Menu); // this might have to move later for multiple open menu support
     }
 
     public virtual void Close()
@@ -43,7 +42,6 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
         IsOpen = false;
         gameObject.SetActive(false);
         UIManager.Instance.WipeCurrentMenu();
-        ControlsManager.Instance.SetContext(InputContext.Gameplay);
         if (selectionIndicator != null)
             selectionIndicator.gameObject.SetActive(false);
     }
@@ -96,7 +94,7 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
 
     protected virtual void HandleSelect()
     {
-        if (!IsOpen) return;
+        if (!IsOpen || ControlsManager.Instance.CurrentContext != InputContext.Menu) return;
         menuButtons[selectedIndex].onClick.Invoke();
     }
 
