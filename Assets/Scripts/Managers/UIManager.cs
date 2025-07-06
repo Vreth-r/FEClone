@@ -19,10 +19,6 @@ public class UIManager : MonoBehaviour
     private Dictionary<MenuType, IGameMenu> menuMap = new();
     private Dictionary<MenuType, GameObject> prefabMap = new();
     private IGameMenu currentMenu; // might change to stack later for multi menuing.
-
-    // Additions:
-    private Stack<IGameMenu> menuStack = new Stack<IGameMenu>();
-
     private void Awake()
     {
         if (Instance == null)
@@ -43,6 +39,9 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+    
+    // Additions: 
+    public Stack<IGameMenu> menuStack = new Stack<IGameMenu>();
 
     public void CloseTopMenu()
     {
@@ -69,6 +68,7 @@ public class UIManager : MonoBehaviour
 
     public bool HasOpenMenus => menuStack.Count > 0;
 
+    
     // End of additions
 
     // this is designed to reuse the same menu instance, so everything gets instantiated once and only once.
@@ -135,8 +135,8 @@ public class UIManager : MonoBehaviour
         {
             sMenu.Open(unit);
             //currentMenu = sMenu;
-            menuStack.Push(menu);
-            ControlsManager.Instance.SetContext(InputContext.Menu);
+            //menuStack.Push(menu); // i think the stats menu can just be a window it doesnt need all the functionality
+            //ControlsManager.Instance.SetContext(InputContext.Menu); // the stats menu is just for lookin
         }
         else
         {
