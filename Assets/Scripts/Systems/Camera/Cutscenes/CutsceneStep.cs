@@ -1,8 +1,8 @@
 using System.Collections.Generic;
-using UnityEngine;
 
+// a single step in a cutscene, can have multiple events that run in parallel
 [System.Serializable]
 public class CutsceneStep
 {
-    public List<CutsceneEvent> events; // All run in parallel
+    public List<CutsceneEvent> events;
 }

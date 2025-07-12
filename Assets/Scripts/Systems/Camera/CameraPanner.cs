@@ -29,9 +29,8 @@ public class CameraPanner : MonoBehaviour
     private float halfCamWidth;
 
     // Cutscene variables
-    private bool inCutscene = false;
+    private bool inCutscene = false; // to enable/disable to regular panner behaviour
     public Vector3 shakeOffset = Vector3.zero;
-    private float shakeTime = 0f;
     void Start()
     {
         cam = Camera.main;
@@ -39,8 +38,6 @@ public class CameraPanner : MonoBehaviour
         // get cam dimensions
         halfCamHeight = cam.orthographicSize;
         halfCamWidth = halfCamHeight * cam.aspect;
-        Coroutine testCoroutine;
-        testCoroutine = StartCoroutine(ShakeCamera(0.1f, 1f));
     }
 
     public void LoadGridBounds()
@@ -70,83 +67,55 @@ public class CameraPanner : MonoBehaviour
         }
         transform.position += shakeOffset;
     }
-    
 
-    public IEnumerator PanToLocation(Vector3 targetGridPos, float speed)
+
+    public IEnumerator PanToLocation(Vector3 targetPos, float speed)
     {
-        Vector3Int targetGridPosInt = new Vector3Int(
-            Mathf.RoundToInt(targetGridPos.x),
-            Mathf.RoundToInt(targetGridPos.y),
-            -10);
+        Vector3 targetCameraPos = new Vector3(targetPos.x, targetPos.y, -10); // set the z to -10
 
-        inCutscene = true;
-
-        // Optional: Convert to world space if needed
-        // Vector3 targetWorldPos = highlighter.HighlightTilemap.CellToWorld(targetGridPosInt) + highlighter.HighlightTilemap.cellSize / 2f;
-
-        Vector3 targetWorldPos = targetGridPos; // already world pos?
-        Vector3 desiredPosition = targetWorldPos; //+ offset;
-
-        while (Vector3.Distance(transform.position, desiredPosition) > 0.075f)
+        while (Vector3.Distance(transform.position, targetCameraPos) > 0.075f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, desiredPosition, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, targetCameraPos, speed * Time.deltaTime);
             yield return null;
         }
 
-        transform.position = desiredPosition; // Snap to final position
-        inCutscene = false;
+        transform.position = targetCameraPos; // Snap to final position
     }
 
-/*
+    // Same as pan to location but just get location of unit
     public IEnumerator PanToUnit(string unitName, float speed)
     {
-        Vector3Int targetGridPosInt = new Vector3Int(
-            Mathf.RoundToInt(targetGridPos.x),
-            Mathf.RoundToInt(targetGridPos.y),
-            -10);
-
-        inCutscene = true;
-
-        // Optional: Convert to world space if needed
-        // Vector3 targetWorldPos = highlighter.HighlightTilemap.CellToWorld(targetGridPosInt) + highlighter.HighlightTilemap.cellSize / 2f;
-
-        Vector3 targetWorldPos = targetGridPos; // already world pos?
-        Vector3 desiredPosition = targetWorldPos; //+ offset;
-
-        while (Vector3.Distance(transform.position, desiredPosition) > 0.075f)
+        Unit unit = UnitManager.Instance.FindUnitByName(unitName);
+        if (unit)
         {
-            transform.position = Vector3.MoveTowards(transform.position, desiredPosition, speed * Time.deltaTime);
-            yield return null;
+            yield return StartCoroutine(PanToLocation(unit.transform.position, speed));
         }
-
-        transform.position = desiredPosition; // Snap to final position
-        inCutscene = false;
     }
-*/
+    
+    // gotta fix this, looks really bad atm
     public IEnumerator ShakeCamera(float intensity, float duration)
     {
-        inCutscene = true;
         float elapsed = 0f;
-        float seedX = Random.Range(0f, 1000f);
-        float seedY = Random.Range(0f, 1000f);
         float percentComplete;
         float currentIntensity;
 
         while (elapsed < duration)
         {
             elapsed += Time.deltaTime;
-            shakeTime += Time.deltaTime * 5f;// * frequency;
             percentComplete = elapsed / duration;
-            currentIntensity = intensity * -0.7f * (Mathf.Pow(2f * percentComplete - 1f, 2f) + 1); // some basic parabola stuff
+            currentIntensity = intensity * -0.7f * (Mathf.Pow(2f * percentComplete - 1f, 2f) + 1); // some basic parabola stuff, fades in an out shake, maybe add param controlling this
             float offsetX = Random.Range(-0.5f, 0.5f) * currentIntensity;
             float offsetY = Random.Range(-0.5f, 0.5f) * currentIntensity;
-
 
             shakeOffset = new Vector3(offsetX, offsetY, 0f);
             yield return null;
         }
         shakeOffset = Vector3.zero;
-        inCutscene = false;
+    }
+
+    public void SetInCutscene(bool val)
+    {
+        inCutscene = val;
     }
 }
 

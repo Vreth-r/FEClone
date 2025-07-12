@@ -27,7 +27,7 @@ public class UnitManager : MonoBehaviour
     public void UpdateUnitPosition(Unit unit, Vector2Int oldPos, Vector2Int newPos)
     {
         // get rid of old position and add new position, not much other info is needed but may be expanded on in the future for mechanics
-        unitPositions.Remove(oldPos); 
+        unitPositions.Remove(oldPos);
         unitPositions[newPos] = unit;
     }
 
@@ -74,5 +74,25 @@ public class UnitManager : MonoBehaviour
     public bool isAUnitSelected()
     {
         return selectedUnit != null; // returns if there is a selected unit
+    }
+
+    public Unit FindUnitByName(string unitName)
+    {
+        foreach (Unit unit in GetAllUnits()) // loops through all units, def a better way to do this
+        {
+            if (unit.unitName == unitName)
+            {
+                return unit;
+            }
+        }
+        return null;
+    }
+
+    public IEnumerator JumpUnit(string unitName, float numJumps) // for cutscene
+    {
+        Unit unit = FindUnitByName(unitName);
+        if (unit) // null check
+            yield return StartCoroutine(unit.Jump(numJumps));
+        yield break;
     }
 }

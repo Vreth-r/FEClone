@@ -14,16 +14,41 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   steps:
   - events:
-    - type: 0
-      position: {x: 10, y: 10, z: -10}
-      floatParam1: 7
-      floatParam2: 0
-      delay: 0
-      unitName: 
-  - events:
     - type: 1
-      position: {x: 0, y: 0, z: 0}
-      floatParam1: 0.3
-      floatParam2: 1
+      vector3Param: {x: 0, y: 0, z: 0}
+      floatParam1: 5
+      floatParam2: 0
+      stringParam1: Ylru2
+      stringParam2: 
       delay: 0
-      unitName: 
+  - events:
+    - type: 3
+      vector3Param: {x: 0, y: 0, z: 0}
+      floatParam1: 2
+      floatParam2: 1
+      stringParam1: Ylru2
+      stringParam2: 
+      delay: 0
+    - type: 3
+      vector3Param: {x: 0, y: 0, z: 0}
+      floatParam1: 4
+      floatParam2: 1
+      stringParam1: Bird
+      stringParam2: 
+      delay: 0.1
+  - events:
+    - type: 2
+      vector3Param: {x: 0, y: 0, z: 0}
+      floatParam1: 0.05
+      floatParam2: 1
+      stringParam1: 
+      stringParam2: 
+      delay: 0.1
+  - events:
+    - type: 4
+      vector3Param: {x: 0, y: 0, z: 0}
+      floatParam1: 3
+      floatParam2: 1
+      stringParam1: 
+      stringParam2: 
+      delay: 0

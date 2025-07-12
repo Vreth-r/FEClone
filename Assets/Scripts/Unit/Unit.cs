@@ -260,4 +260,29 @@ public class Unit : MonoBehaviour
     {
         currentHP = Mathf.FloorToInt(Mathf.Clamp((float)amount, 0f, (float)maxHP));
     }
+
+    public IEnumerator Jump(float numJumps)
+    {
+        float jumpHeight = 0.4f;
+        float jumpDuration = 0.3f;
+
+        Vector3 startPos = transform.position;
+
+        for (int i = 0; i < (int)numJumps; i++)
+        {
+            float currentJumpTime = 0f;
+
+            while (currentJumpTime < jumpDuration) // while loop but oh well
+            {
+                currentJumpTime += Time.deltaTime;
+                float t = currentJumpTime / jumpDuration;
+
+                float yOffset = Mathf.Sin(t * Mathf.PI) * jumpHeight; // jump height overtime based on sin 0-1-0
+                transform.position = new Vector3(startPos.x, startPos.y + yOffset, startPos.z);
+
+                yield return null;
+            }
+            transform.position = startPos; // snap back to start jic
+        }
+    }
 }

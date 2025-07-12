@@ -1,25 +1,33 @@
 using UnityEditor;
 using UnityEngine;
 
+// This is just to make the scriptable object interface for cutscene events to be easier to work with
 [CustomPropertyDrawer(typeof(CutsceneEvent))]
 public class CutsceneEventDrawer : PropertyDrawer
 {
     public override float GetPropertyHeight(SerializedProperty property, GUIContent label)
     {
-        int lines = 2; // type + delay (always shown)
+        int lines = 2; // base 2 lines (event type and pre-delay)
 
         CutsceneEventType type = (CutsceneEventType)property.FindPropertyRelative("type").enumValueIndex;
 
         switch (type)
         {
+            // adds more lines depending on which type and how many params they need
             case CutsceneEventType.PanToLocation:
-                lines += 2; // position + floatParam1 (speed)
+                lines += 2; // vector3Param (position), floatParam1 (speed)
+                break;
+            case CutsceneEventType.PanToUnit:
+                lines += 2; // stringParam1 (unitName), floatParam1 (speed)
                 break;
             case CutsceneEventType.CameraShake:
                 lines += 2; // floatParam1 (intensity), floatParam2 (duration)
                 break;
             case CutsceneEventType.UnitJump:
-                lines += 2; // unitName, floatParam1 (num jumps)
+                lines += 2; // stringParam1 (unitName), floatParam1 (num jumps)
+                break;
+            case CutsceneEventType.Wait:
+                lines += 1; // floatParam1 (Duration)
                 break;
         }
 
@@ -34,11 +42,12 @@ public class CutsceneEventDrawer : PropertyDrawer
         float y = position.y;
 
         SerializedProperty typeProp = property.FindPropertyRelative("type");
-        SerializedProperty positionProp = property.FindPropertyRelative("position");
+        SerializedProperty vector3Prop = property.FindPropertyRelative("vector3Param");
         SerializedProperty float1Prop = property.FindPropertyRelative("floatParam1");
         SerializedProperty float2Prop = property.FindPropertyRelative("floatParam2");
         SerializedProperty delayProp = property.FindPropertyRelative("delay");
-        SerializedProperty unitProp = property.FindPropertyRelative("unitName");
+        SerializedProperty stringParam1Prop = property.FindPropertyRelative("stringParam1");
+        SerializedProperty stringParam2Prop = property.FindPropertyRelative("stringParam2");
 
         // Draw Event Type
         EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), typeProp);
@@ -52,8 +61,15 @@ public class CutsceneEventDrawer : PropertyDrawer
 
         switch (type)
         {
+            // Draw only needed labels
             case CutsceneEventType.PanToLocation:
-                EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), positionProp, new GUIContent("Target Position"));
+                EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), vector3Prop, new GUIContent("Target Position"));
+                y += lineHeight;
+                EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), float1Prop, new GUIContent("Speed"));
+                break;
+
+            case CutsceneEventType.PanToUnit:
+                EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), stringParam1Prop, new GUIContent("Target Unit"));
                 y += lineHeight;
                 EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), float1Prop, new GUIContent("Speed"));
                 break;
@@ -65,9 +81,13 @@ public class CutsceneEventDrawer : PropertyDrawer
                 break;
 
             case CutsceneEventType.UnitJump:
-                EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), unitProp, new GUIContent("Target Unit"));
+                EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), stringParam1Prop, new GUIContent("Target Unit"));
                 y += lineHeight;
                 EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), float1Prop, new GUIContent("Number of Jumps"));
+                break;
+            case CutsceneEventType.Wait:
+                EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), float1Prop, new GUIContent("Duration"));
+                y += lineHeight;
                 break;
         }
 

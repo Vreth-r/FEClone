@@ -1,17 +1,15 @@
 using UnityEngine;
-using System.Collections;
 
+// Holds all the data for a given event
+// Not all params are used in every event type
 [System.Serializable]
 public class CutsceneEvent
 {
-    public CutsceneEventType type;
-
-    // Common params
-    public Vector3 position;
-    public float floatParam1;
+    public CutsceneEventType type; // cutscene type 
+    public Vector3 vector3Param; // used for position
+    public float floatParam1; // float params for speed and other numbers
     public float floatParam2;
-    public float delay;
-
-    // Optional: ID or string target for unit actions
-    public string unitName;
+    public string stringParam1; // string params for unit names and mini dialogue (maybe?) (like "!" or "?")
+    public string stringParam2;
+    public float delay; // pre event delay
 }
