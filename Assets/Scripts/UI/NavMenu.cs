@@ -95,6 +95,7 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
     protected virtual void HandleSelect()
     {
         if (!IsOpen || ControlsManager.Instance.CurrentContext != InputContext.Menu) return;
+        Debug.Log("Invoking a button");
         menuButtons[selectedIndex].onClick.Invoke();
     }
 
