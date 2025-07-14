@@ -35,6 +35,7 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
         gameObject.SetActive(true);
         selectedIndex = 0;
         HighlightButton(selectedIndex);
+        Debug.Log("Opening Nav Menu");
     }
 
     public virtual void Close()
@@ -46,7 +47,7 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
             selectionIndicator.gameObject.SetActive(false);
     }
 
-    public virtual void Update()
+    public virtual void FixedUpdate()
     {
         if (!IsOpen) return;
 

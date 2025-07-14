@@ -18,7 +18,8 @@ public class UnitMovement : MonoBehaviour
     private List<Vector2Int> currentPath = new(); // keeps track of the cells in the path preview
     private float moveSpeed = 5f; 
     [SerializeField] private GameObject arrowPrefab; // set in editor, the arrow at the end of the path preview
-    private GameObject arrowInstance; 
+    private GameObject arrowInstance;
+    private bool controlBlock = true;
 
     private void Start()
     {
@@ -29,11 +30,12 @@ public class UnitMovement : MonoBehaviour
         pathLine.material = new Material(Shader.Find("Sprites/Default")); // to be changed l8r prob i dunno it looks decent enough
         pathLine.widthMultiplier = 0.1f;
         pathLine.startColor = pathLine.endColor = Color.cyan;
-        if(arrowPrefab != null)
+        if (arrowPrefab != null)
         {
             arrowInstance = Instantiate(arrowPrefab, transform); // declare instance for ref, creates ref-able game object
             arrowInstance.SetActive(false); // set that to off so its not on screen
         }
+        this.enabled = false;
     }
 
     private void OnEnable()
@@ -64,7 +66,6 @@ public class UnitMovement : MonoBehaviour
         if (unit.state == UnitState.Idle)
         {
             unit.state = UnitState.Selected;
-
         }
         else if (unit.state == UnitState.Selected)
         {
@@ -113,6 +114,9 @@ public class UnitMovement : MonoBehaviour
 
     public void HandleSelect()
     {
+        Debug.Log("UnitMovement select pressed");
+        if (!controlBlock) return;
+
         if (unit.state != UnitState.Selected) return;
 
         if (ControlsManager.Instance.CurrentContext != InputContext.Gameplay) return;
@@ -204,37 +208,53 @@ public class UnitMovement : MonoBehaviour
         Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
         UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
     }
+
+    public void EnableControls()
+    {
+        controlBlock = true;
+    }
+
+    public void DisableControls()
+    {
+        controlBlock = false;
+    }
     
     public void OnMenuSelect(UnitActionType action)
     // this is only here cause a lot of these actions need refs already in this file and it would be work and a half to pass
     // all the params
     {
-        switch(action)
+        switch (action)
         {
             case UnitActionType.Attack:
+                Debug.Log("OnMenuSelect in UnitMovement: Attacking");
                 TargetSelector.Instance.BeginTargeting(unit);
                 break; // still thinking of what to put here
 
             case UnitActionType.Wait:
                 Debug.Log("Unit waits.");
                 unit.state = UnitState.Tapped;
+                this.enabled = false;
                 // TurnManager.Instance.EndTurn(); // fo l8r
                 break;
 
             case UnitActionType.Item:
                 Debug.Log("Show item UI (WIP).");
                 unit.state = UnitState.Tapped;
+                this.enabled = false;
                 break;
-            
+
             case UnitActionType.Cancel:
                 Debug.Log("Cancelling move in unitmovement.");
                 UnitManager.Instance.UpdateUnitPosition(unit, unit.GridPosition, preMoveGridPos); // tell unit manager whats up
                 transform.position = preMovePosition; // return to pre move coords
                 unit.GridPosition = preMoveGridPos; // ^
+                CursorController.Instance.SetCurrentGridPosition(new Vector3Int(Mathf.FloorToInt(preMovePosition.x), Mathf.FloorToInt(preMovePosition.y), 0));
+                CursorController.Instance.UpdateCursorTile();
                 //movementRange.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // show the movement range again
                 unit.state = UnitState.Idle; // idle that shit
                 //UnitManager.Instance.selectUnit(unit); // tell the unit manager the unit is selected
                 // we are NOT animating the move back lmao
+                this.enabled = false;
                 break;
         }
     }
