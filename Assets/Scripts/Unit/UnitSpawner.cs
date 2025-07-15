@@ -30,7 +30,15 @@ public class UnitSpawner : MonoBehaviour
         MovementRange m = go.GetComponent<MovementRange>();
 
         m.highlightTilemap = highlightTilemap;
-        s.sprite = data.combatSprite;
+        if (data.animationPrefab) // add the animation prefab to the unit prefab if it (animPrefab) exists
+        {
+            GameObject animPrefab = Instantiate(data.animationPrefab, go.transform);
+            unit.animPrefab = animPrefab;
+        }
+        else
+        {
+            s.sprite = data.combatSprite;    
+        }
         unit.unitClass = data.startingClass;
         unit.unitName = data.unitName;
         unit.unitTitle = data.unitTitle;

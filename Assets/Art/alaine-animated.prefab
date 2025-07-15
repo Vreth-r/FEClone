@@ -104,6 +104,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: alaine-animated
       objectReference: {fileID: 0}
+    - target: {fileID: -2253911629886400664, guid: 357cc54c72ecce94c86b1cf0639fc656, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: -1112295577232301087, guid: 357cc54c72ecce94c86b1cf0639fc656, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -122,7 +126,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 357cc54c72ecce94c86b1cf0639fc656, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.81
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7878350319992209165, guid: 357cc54c72ecce94c86b1cf0639fc656, type: 3}
       propertyPath: m_LocalPosition.y
