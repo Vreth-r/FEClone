@@ -88,11 +88,13 @@ public class CursorController : MonoBehaviour
         var unit = UnitManager.Instance.GetUnitAt((Vector2Int)currentGridPosition);
         if (unit != null)
         {
+            unit.GetComponent<UnitMovement>().enabled = true;
             unit.GetComponent<UnitMovement>().SelectUnit(); // blocking enemy selection is baked into method, a little wasteful but it makes this look nice and clean
+            unit.GetComponent<UnitMovement>().EnableControls(); // this is my temp solution
         }
     }
 
-    void UpdateCursorTile()
+    public void UpdateCursorTile()
     {
         cursorTilemap.ClearAllTiles(); // only one tile visible at a time
         cursorTilemap.SetTile(currentGridPosition, cursorTile);
@@ -101,5 +103,10 @@ public class CursorController : MonoBehaviour
     public Vector3Int GetCursorGridPosition()
     {
         return currentGridPosition;
+    }
+
+    public void SetCurrentGridPosition(Vector3Int pos)
+    {
+        currentGridPosition = pos;
     }
 }

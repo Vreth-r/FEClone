@@ -19,7 +19,6 @@ public class UIManager : MonoBehaviour
     private Dictionary<MenuType, IGameMenu> menuMap = new();
     private Dictionary<MenuType, GameObject> prefabMap = new();
     private IGameMenu currentMenu; // might change to stack later for multi menuing.
-
     private void Awake()
     {
         if (Instance == null)
@@ -40,6 +39,37 @@ public class UIManager : MonoBehaviour
             }
         }
     }
+    
+    // Additions: 
+    public Stack<IGameMenu> menuStack = new Stack<IGameMenu>();
+
+    public void CloseTopMenu()
+    {
+        if (menuStack.Count == 0) return;
+
+        IGameMenu topMenu = menuStack.Pop();
+        topMenu.Close();
+
+        if (menuStack.Count == 0)
+            ControlsManager.Instance.SetContext(InputContext.Gameplay);
+            CampInputBlocker.SetBlocked(false);
+            
+    }
+
+    public IGameMenu GetCurrentMenu()
+    {
+        return menuStack.Count > 0 ? menuStack.Peek() : null;
+    }
+
+    public MenuType GetCurrentMenuType()
+    {
+        return menuStack.Count > 0 ? menuStack.Peek().MenuID : MenuType.None;
+    }
+
+    public bool HasOpenMenus => menuStack.Count > 0;
+
+    
+    // End of additions
 
     // this is designed to reuse the same menu instance, so everything gets instantiated once and only once.
     private IGameMenu GetOrCreateMenu(MenuType type)
@@ -73,9 +103,10 @@ public class UIManager : MonoBehaviour
         var menu = GetOrCreateMenu(type);
         if (menu == null) return;
 
-        CloseCurrentMenu();
         menu.Open();
-        currentMenu = menu;
+        //currentMenu = menu;
+        menuStack.Push(menu);
+        ControlsManager.Instance.SetContext(InputContext.Menu);
     }
 
     // Overload for ActionMenu
@@ -85,9 +116,10 @@ public class UIManager : MonoBehaviour
         var menu = GetOrCreateMenu(type);
         if (menu is ActionMenu aMenu)
         {
-            CloseCurrentMenu();
             aMenu.Open(unit, worldPos);
-            currentMenu = menu;
+            //currentMenu = menu;
+            menuStack.Push(menu);
+            ControlsManager.Instance.SetContext(InputContext.Menu);
         }
         else
         {
@@ -101,9 +133,10 @@ public class UIManager : MonoBehaviour
         var menu = GetOrCreateMenu(type);
         if (menu is StatsMenu sMenu)
         {
-            CloseCurrentMenu();
             sMenu.Open(unit);
-            currentMenu = sMenu;
+            //currentMenu = sMenu;
+            //menuStack.Push(menu); // i think the stats menu can just be a window it doesnt need all the functionality
+            //ControlsManager.Instance.SetContext(InputContext.Menu); // the stats menu is just for lookin
         }
         else
         {
@@ -141,6 +174,7 @@ public class UIManager : MonoBehaviour
         menuMap.Clear();
     }
 
+/*
     public MenuType GetCurrentMenuType()
     {
         if (currentMenu != null)
@@ -149,6 +183,7 @@ public class UIManager : MonoBehaviour
         }
         return MenuType.None;
     }
+    */
 
     public bool IsMenuOpen() => currentMenu != null && currentMenu.IsOpen;
 

@@ -3678,7 +3678,7 @@ MonoBehaviour:
   grid: {fileID: 1523715800}
   tilemap: {fileID: 1680907660}
   cursor: {fileID: 1642525161}
-  cameraSpeed: 1
+  cameraSpeed: 2
 --- !u!1 &1433350073
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,7 +9,6 @@ public class UnitMovement : MonoBehaviour
 {
     private Unit unit; // unit reference this script is related to
     private MovementRange movementRange;
-    private bool isSelected = false; // selection status
     private Vector3 positionOffset = new Vector3(0.5f, 0.5f, 0f);
     private Vector3 preMovePosition; // just in case the player wants to cancel move
     private Vector2Int preMoveGridPos; // ^
@@ -17,10 +16,10 @@ public class UnitMovement : MonoBehaviour
     // for path previewing:
     private LineRenderer pathLine; // Line renderer for the path preview line
     private List<Vector2Int> currentPath = new(); // keeps track of the cells in the path preview
-    private bool isMoving = false;
     private float moveSpeed = 5f; 
     [SerializeField] private GameObject arrowPrefab; // set in editor, the arrow at the end of the path preview
-    private GameObject arrowInstance; 
+    private GameObject arrowInstance;
+    private bool controlBlock = true;
 
     private void Start()
     {
@@ -31,11 +30,12 @@ public class UnitMovement : MonoBehaviour
         pathLine.material = new Material(Shader.Find("Sprites/Default")); // to be changed l8r prob i dunno it looks decent enough
         pathLine.widthMultiplier = 0.1f;
         pathLine.startColor = pathLine.endColor = Color.cyan;
-        if(arrowPrefab != null)
+        if (arrowPrefab != null)
         {
             arrowInstance = Instantiate(arrowPrefab, transform); // declare instance for ref, creates ref-able game object
             arrowInstance.SetActive(false); // set that to off so its not on screen
         }
+        this.enabled = false;
     }
 
     private void OnEnable()
@@ -50,23 +50,41 @@ public class UnitMovement : MonoBehaviour
 
     public void SelectUnit()
     {
+        // this all may be un-needed later
         if (unit.team != Team.Player || TurnManager.Instance.currentTurn != TurnState.Player || (UnitManager.Instance.isAUnitSelected() && !UnitManager.Instance.isUnitSelected(unit))
         || UIManager.Instance.GetCurrentMenuType() == MenuType.ActionMenu)
         {
             return; // you cant click on it if its not the player's unit OR turn OR if another unit is selected OR if the action menu is open (holy logic)
         }
 
-        isSelected = !isSelected; // toggle selection state
- 
-        Debug.Log(isSelected ? "Unit Selected" : "Unit Deselected");
+        // this is 4 debugging
+        if (unit.state == UnitState.Tapped)
+        {
+            Debug.Log("this bitch is tapped");
+        }
+
+        if (unit.state == UnitState.Idle)
+        {
+            unit.state = UnitState.Selected;
+        }
+        else if (unit.state == UnitState.Selected)
+        {
+            unit.state = UnitState.Action;
+            Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
+            UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
+        }
+        else
+        {
+            return;
+        }
+
+        Debug.Log(unit.state.ToString());
         Debug.Log($"position: {unit.GridPosition}");
 
-        if (isSelected) // if selected
+        if (unit.state == UnitState.Selected) // if selected
         {
             UnitManager.Instance.selectUnit(unit); // tell the unit manager the unit is selected
             movementRange.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // Show move/attack range preview tiles
-
-
         }
         else // otherwise hide them
         {
@@ -77,32 +95,29 @@ public class UnitMovement : MonoBehaviour
 
     private void Update()
     {
-        if (!isSelected)
+        if (unit.state != UnitState.Selected) return;
+
+        Vector3Int cell = CursorController.Instance.GetCursorGridPosition(); // grabs the cell of the cursor
+        Vector2Int targetPos = new(cell.x, cell.y); // set that as the target
+
+        if (movementRange.isMoveableTo(targetPos)) // if the target cell is blue and its not the selected units space
         {
-            return; // if not selected, dont do anything
+            currentPath = Pathfinding.FindPath(unit.GridPosition, targetPos, movementRange.isMoveableTo, TerrainManager.Instance); // find a path between the unit and the target thats walkable
+            if (currentPath != null) DrawPath(currentPath); // if a path is found, draw it
         }
-
-        if (!isMoving) // if not moving
+        else
         {
-            Vector3Int cell = CursorController.Instance.GetCursorGridPosition(); // grabs the cell of the cursor
-            Vector2Int targetPos = new(cell.x, cell.y); // set that as the target
-
-            if (movementRange.isMoveableTo(targetPos)) // if the target cell is blue and its not the selected units space
-            {
-                currentPath = Pathfinding.FindPath(unit.GridPosition, targetPos, movementRange.isMoveableTo, TerrainManager.Instance); // find a path between the unit and the target thats walkable
-                if (currentPath != null) DrawPath(currentPath); // if a path is found, draw it
-            }
-            else
-            {
-                pathLine.positionCount = 0; // otherwise, clear the line
-                if (arrowInstance != null) arrowInstance.SetActive(false); // set the arrow to invisible
-            }
+            pathLine.positionCount = 0; // otherwise, clear the line
+            if (arrowInstance != null) arrowInstance.SetActive(false); // set the arrow to invisible
         }
     }
 
     public void HandleSelect()
     {
-        if (!isSelected) return;
+        Debug.Log("UnitMovement select pressed");
+        if (!controlBlock) return;
+
+        if (unit.state != UnitState.Selected) return;
 
         if (ControlsManager.Instance.CurrentContext != InputContext.Gameplay) return;
 
@@ -129,7 +144,7 @@ public class UnitMovement : MonoBehaviour
                 UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
             }
 
-            isSelected = false; // TURN THAT SHIT OFF CUH
+            // unit.state = UnitState.Tapped; // TURN THAT SHIT OFF CUH
             currentPath = null;
             UnitManager.Instance.deselectedUnit(); // tell the unit manager whats up
             pathLine.positionCount = 0; // reset the line renderer
@@ -171,7 +186,6 @@ public class UnitMovement : MonoBehaviour
     private IEnumerator MoveAlongPath(List<Vector2Int> path)
     {
         // Moves the unit smoothly along a given path
-        isMoving = true; // set flag so update() doesnt shit itself
         Vector2Int oldPos = unit.GridPosition; // keep track of the old position
 
         for (int i = 1; i < path.Count; i++) // for every cell in the path
@@ -189,40 +203,58 @@ public class UnitMovement : MonoBehaviour
         }
 
         UnitManager.Instance.UpdateUnitPosition(unit, oldPos, unit.GridPosition); // tell the unit manager whats going on
-        isMoving = false; // set the flag once its done to do it all over again
         if (arrowInstance != null) arrowInstance.SetActive(false);
         // jesus christ thomas yield return StartCoroutine(GameObject.Find("Main Camera").GetComponent<CameraPanner>().PanToLocation(transform.position)); // bruh hahahahahaha
         Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
         UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
     }
+
+    public void EnableControls()
+    {
+        controlBlock = true;
+    }
+
+    public void DisableControls()
+    {
+        controlBlock = false;
+    }
+    
     public void OnMenuSelect(UnitActionType action)
     // this is only here cause a lot of these actions need refs already in this file and it would be work and a half to pass
     // all the params
     {
-        switch(action)
+        switch (action)
         {
             case UnitActionType.Attack:
+                Debug.Log("OnMenuSelect in UnitMovement: Attacking");
                 TargetSelector.Instance.BeginTargeting(unit);
                 break; // still thinking of what to put here
 
             case UnitActionType.Wait:
                 Debug.Log("Unit waits.");
+                unit.state = UnitState.Tapped;
+                this.enabled = false;
                 // TurnManager.Instance.EndTurn(); // fo l8r
                 break;
 
             case UnitActionType.Item:
                 Debug.Log("Show item UI (WIP).");
+                unit.state = UnitState.Tapped;
+                this.enabled = false;
                 break;
-            
+
             case UnitActionType.Cancel:
                 Debug.Log("Cancelling move in unitmovement.");
                 UnitManager.Instance.UpdateUnitPosition(unit, unit.GridPosition, preMoveGridPos); // tell unit manager whats up
                 transform.position = preMovePosition; // return to pre move coords
                 unit.GridPosition = preMoveGridPos; // ^
-                movementRange.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // show the movement range again
-                isSelected = true; // select that shit
-                UnitManager.Instance.selectUnit(unit); // tell the unit manager the unit is selected
+                CursorController.Instance.SetCurrentGridPosition(new Vector3Int(Mathf.FloorToInt(preMovePosition.x), Mathf.FloorToInt(preMovePosition.y), 0));
+                CursorController.Instance.UpdateCursorTile();
+                //movementRange.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // show the movement range again
+                unit.state = UnitState.Idle; // idle that shit
+                //UnitManager.Instance.selectUnit(unit); // tell the unit manager the unit is selected
                 // we are NOT animating the move back lmao
+                this.enabled = false;
                 break;
         }
     }
