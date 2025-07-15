@@ -19,13 +19,13 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
 
     protected virtual void OnEnable()
     {
-        ControlsManager.Instance.OnSelect += HandleSelect;
+        //ControlsManager.Instance.OnSelect += HandleSelect;
         ControlsManager.Instance.OnCancel += HandleCancel;
     }
 
     protected virtual void OnDisable()
     {
-        ControlsManager.Instance.OnSelect -= HandleSelect;
+        //ControlsManager.Instance.OnSelect -= HandleSelect;
         ControlsManager.Instance.OnCancel -= HandleCancel;
     }
 
@@ -35,6 +35,7 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
         gameObject.SetActive(true);
         selectedIndex = 0;
         HighlightButton(selectedIndex);
+        SetButtonsInteractable(true);
         Debug.Log("Opening Nav Menu");
     }
 
@@ -42,6 +43,7 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
     {
         IsOpen = false;
         gameObject.SetActive(false);
+        SetButtonsInteractable(false);
         UIManager.Instance.WipeCurrentMenu();
         if (selectionIndicator != null)
             selectionIndicator.gameObject.SetActive(false);
@@ -93,16 +95,30 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
         }
     }
 
+    /*
     protected virtual void HandleSelect()
     {
         if (!IsOpen || ControlsManager.Instance.CurrentContext != InputContext.Menu) return;
+
+        var button = menuButtons[selectedIndex];
+        if (button == null || !button.interactable || !button.gameObject.activeInHierarchy) return;
         Debug.Log("Invoking a button");
-        menuButtons[selectedIndex].onClick.Invoke();
+        button.onClick.Invoke(); // this will fire its invocation regardless of the buttons active state
     }
+    */
 
     protected virtual void HandleCancel()
     {
         if (!IsOpen || !escapable) return;
         Close();
+    }
+
+    protected void SetButtonsInteractable(bool value)
+    {
+        foreach (var btn in menuButtons)
+        {
+            if (btn != null)
+                btn.gameObject.SetActive(value);
+        }
     }
 }

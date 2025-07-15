@@ -31,7 +31,6 @@ public class ActionMenu : NavMenu
         menuButtons = new List<Button> { attackButton, waitButton, itemButton, cancelButton };
 
         // button callbacks
-        /*
         attackButton.onClick.RemoveAllListeners();
         attackButton.onClick.AddListener(OnAttack);
 
@@ -43,7 +42,6 @@ public class ActionMenu : NavMenu
 
         cancelButton.onClick.RemoveAllListeners();
         cancelButton.onClick.AddListener(OnCancel);
-        */
 
         Open();
     }
