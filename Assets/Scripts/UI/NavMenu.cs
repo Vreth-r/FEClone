@@ -19,13 +19,13 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
 
     protected virtual void OnEnable()
     {
-        //ControlsManager.Instance.OnSelect += HandleSelect;
+        ControlsManager.Instance.OnSelect += HandleSelect;
         ControlsManager.Instance.OnCancel += HandleCancel;
     }
 
     protected virtual void OnDisable()
     {
-        //ControlsManager.Instance.OnSelect -= HandleSelect;
+        ControlsManager.Instance.OnSelect -= HandleSelect;
         ControlsManager.Instance.OnCancel -= HandleCancel;
     }
 
@@ -85,7 +85,7 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
         if (index >= 0 && index < menuButtons.Count)
         {
             var target = menuButtons[index].GetComponent<RectTransform>();
-            menuButtons[index].Select();
+            //menuButtons[index].Select();
 
             if (selectionIndicator != null && target != null)
             {
@@ -95,17 +95,13 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
         }
     }
 
-    /*
     protected virtual void HandleSelect()
     {
+        Debug.Log("NavMenu: HandleSelect Proc");
         if (!IsOpen || ControlsManager.Instance.CurrentContext != InputContext.Menu) return;
-
-        var button = menuButtons[selectedIndex];
-        if (button == null || !button.interactable || !button.gameObject.activeInHierarchy) return;
         Debug.Log("Invoking a button");
-        button.onClick.Invoke(); // this will fire its invocation regardless of the buttons active state
+        menuButtons[selectedIndex].onClick.Invoke(); // this will fire its invocation regardless of the buttons active state
     }
-    */
 
     protected virtual void HandleCancel()
     {

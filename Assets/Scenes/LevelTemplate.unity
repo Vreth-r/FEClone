@@ -3694,8 +3694,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraPanner: {fileID: 1432828244}
-  unitManager: {fileID: 1642525155}
-  testCutscene: {fileID: 11400000, guid: a0dadc8cb7798b0419ff24e5beb6a68f, type: 2}
+  testCutscene: {fileID: 0}
 --- !u!1 &1433350073
 GameObject:
   m_ObjectHideFlags: 0
