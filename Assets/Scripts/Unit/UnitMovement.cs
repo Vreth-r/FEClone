@@ -136,6 +136,7 @@ public class UnitMovement : MonoBehaviour
 
             if (currentPath.Count > 1) // only walk the path if going to a new place (otherwise it just reruns previous walk)
             {
+                if (unit.animPrefab) unit.getAnimator().SetBool("isMoving", true); // start running animation
                 StartCoroutine(MoveAlongPath(currentPath)); // Sets the unit to move along the path set smoothly in a co-routine yeah bro we use co-routines get used to it
             }
             else
@@ -187,12 +188,24 @@ public class UnitMovement : MonoBehaviour
     {
         // Moves the unit smoothly along a given path
         Vector2Int oldPos = unit.GridPosition; // keep track of the old position
-
+        Vector3 scale = transform.localScale; // this is for having the unit face the right direction when running
         for (int i = 1; i < path.Count; i++) // for every cell in the path
         {
             Vector3Int cell = (Vector3Int)path[i]; // ref it so were not list accessing a ton (good performance)
             Vector3 targetWorld = GridManager.Instance.CellToWorld(cell) + positionOffset; // get its world pos with offset
 
+            // flip unit depending on movement direction
+            scale = transform.localScale;
+            if (transform.position.x - targetWorld.x < 0)
+            {
+                scale.x = -1f;
+            }
+            else
+            {
+                scale.x = 1f;
+            }
+            transform.localScale = scale;
+            
             while ((transform.position - targetWorld).sqrMagnitude > 0) // while the length of the vec betwix the unit position and the target is non zero
             {
                 transform.position = Vector3.MoveTowards(transform.position, targetWorld, moveSpeed * Time.deltaTime); // move the unit according to movespeed and time
@@ -204,6 +217,9 @@ public class UnitMovement : MonoBehaviour
 
         UnitManager.Instance.UpdateUnitPosition(unit, oldPos, unit.GridPosition); // tell the unit manager whats going on
         if (arrowInstance != null) arrowInstance.SetActive(false);
+        if (unit.animPrefab) unit.getAnimator().SetBool("isMoving", false); // return to idle state at end of path
+        scale.x = 1f; // reset scale
+        transform.localScale = scale;
         // jesus christ thomas yield return StartCoroutine(GameObject.Find("Main Camera").GetComponent<CameraPanner>().PanToLocation(transform.position)); // bruh hahahahahaha
         Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
         UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);

@@ -10,24 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 52dfab82e49351d44ad00f0101dacc02, type: 3}
-  m_Name: DEV_Ylru2
+  m_Name: DEV_Alaine
   m_EditorClassIdentifier: 
-  unitID: Ylru2
-  unitName: Ylru2
-  unitTitle: 
-  unitDescription: 
+  unitID: Alaine
+  unitName: Alaine
+  unitTitle: Alaine
+  unitDescription: Alaine the knight in shining armour
   team: 0
-  startingClass: {fileID: 11400000, guid: 5e645e9749e10d04e832582b908a51e8, type: 2}
+  startingClass: {fileID: 11400000, guid: 37dd5ca0af3a70a41aef4c731a5c5baa, type: 2}
   level: 1
   maxHP: 20
-  strength: 100
-  arcane: 100
-  defense: 100
-  speed: 100
-  skill: 100
-  resistance: 100
-  luck: 100
+  strength: 5
+  arcane: 5
+  defense: 5
+  speed: 5
+  skill: 5
+  resistance: 55
+  luck: 0
   startingInventory: []
   equippedItem: {fileID: 11400000, guid: 9cdcf53718a25ed4ca6a4677c34dc217, type: 2}
-  combatSprite: {fileID: 21300000, guid: 7698ea2fb13ee104e981bc7883988675, type: 3}
-  animationPrefab: {fileID: 0}
+  combatSprite: {fileID: 0}
+  animationPrefab: {fileID: 2257013733946549094, guid: 263e7a74d0122b44a996bdf4f0b03b46, type: 3}

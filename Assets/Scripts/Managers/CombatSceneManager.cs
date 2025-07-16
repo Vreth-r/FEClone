@@ -72,6 +72,8 @@ public class CombatSceneManager : MonoBehaviour
 
     public void ExitCombat()
     {
+        leftUnit.ExitCombat(); // just to remove animation child thingy
+        rightUnit.ExitCombat();
         rootObject.SetActive(false);
         uiObject.SetActive(false);
         //ControlsManager.Instance.EnableInput = true;
