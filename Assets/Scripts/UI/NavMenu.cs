@@ -19,13 +19,13 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
 
     protected virtual void OnEnable()
     {
-        ControlsManager.Instance.OnSelect += HandleSelect;
+        ControlsManager.Instance.OnSubmit += HandleSubmit;
         ControlsManager.Instance.OnCancel += HandleCancel;
     }
 
     protected virtual void OnDisable()
     {
-        ControlsManager.Instance.OnSelect -= HandleSelect;
+        ControlsManager.Instance.OnSubmit -= HandleSubmit;
         ControlsManager.Instance.OnCancel -= HandleCancel;
     }
 
@@ -95,9 +95,9 @@ public abstract class NavMenu : MonoBehaviour, IGameMenu
         }
     }
 
-    protected virtual void HandleSelect()
+    protected virtual void HandleSubmit()
     {
-        Debug.Log("NavMenu: HandleSelect Proc");
+        Debug.Log("NavMenu: HandleSubmit Proc");
         if (!IsOpen || ControlsManager.Instance.CurrentContext != InputContext.Menu) return;
         Debug.Log("Invoking a button");
         menuButtons[selectedIndex].onClick.Invoke(); // this will fire its invocation regardless of the buttons active state

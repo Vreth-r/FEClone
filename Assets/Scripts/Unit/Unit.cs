@@ -292,7 +292,7 @@ public class Unit : MonoBehaviour
         {
             float currentJumpTime = 0f;
 
-            while (currentJumpTime < jumpDuration) // while loop but oh well
+            while (currentJumpTime < jumpDuration) // while loop but oh well // death sentence.
             {
                 currentJumpTime += Time.deltaTime;
                 float t = currentJumpTime / jumpDuration;
