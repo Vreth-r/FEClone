@@ -11,7 +11,7 @@ public class UnitManager : MonoBehaviour
 
     public Unit selectedUnit; // for use in keeping track what unit is selected so others cant be selected at the same time
     public StatsMenu statsUI; // unit stat previewer
-
+    public GameObject EmotePrefab; // Speech bubble w/ text prefab
     private void Awake() => Instance = this; // declare this instance for external ref
 
     public void RegisterUnit(Unit unit)
@@ -88,11 +88,23 @@ public class UnitManager : MonoBehaviour
         return null;
     }
 
-    public IEnumerator JumpUnit(string unitName, float numJumps) // for cutscene
+    // for cutscenes
+    public IEnumerator JumpUnit(string unitName, float numJumps)
     {
         Unit unit = FindUnitByName(unitName);
-        if (unit) // null check
-            yield return StartCoroutine(unit.Jump(numJumps));
+        if (unit) yield return StartCoroutine(unit.Jump(numJumps));
+        yield break;
+    }
+    public IEnumerator MoveUnitTo(string unitName, Vector2Int gridPos)
+    {
+        Unit unit = FindUnitByName(unitName);
+        if (unit) yield return unit.MoveTo(gridPos);
+        yield break;
+    }
+    public IEnumerator EmoteUnit(string unitName, string emote, float duration)
+    {
+        Unit unit = FindUnitByName(unitName);
+        if (unit) yield return unit.Emote(EmotePrefab, emote, duration);
         yield break;
     }
 }

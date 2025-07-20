@@ -3694,7 +3694,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraPanner: {fileID: 1432828244}
-  testCutscene: {fileID: 0}
+  testCutscene: {fileID: 11400000, guid: 468b5d6bcbe0f194fb86c99ec3628609, type: 2}
 --- !u!1 &1433350073
 GameObject:
   m_ObjectHideFlags: 0
@@ -4378,6 +4378,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   selectedUnit: {fileID: 0}
   statsUI: {fileID: 0}
+  EmotePrefab: {fileID: 3094928628839400196, guid: 756e233a1ada3074791a67235200064c, type: 3}
 --- !u!114 &1642525156
 MonoBehaviour:
   m_ObjectHideFlags: 0

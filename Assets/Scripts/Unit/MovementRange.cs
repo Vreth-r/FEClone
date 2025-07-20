@@ -27,6 +27,29 @@ public class MovementRange : MonoBehaviour
     public void ShowRange(Vector2Int origin, int moveRange, int attackRange)
     {
         ClearHighlights(); // wipes the current highlight tiles in range
+        PopulateHeightTileMap(origin, moveRange, attackRange); // changed this to its own function for cutscene use (so it can have infinite move range)
+        // This ends when it hits tiles that are either not walkable or are out of movement range
+        // which is when the queue runs out of tiles
+    }
+
+    // shows attack range (red tiles) given a start and an attack range
+    public void ShowAttackRange(Vector2Int origin, int attackRange)
+    {
+        foreach(var dir in Directions) // sprawl out
+        {
+            for (int i = 1; i <= attackRange; i++) // for every tile of attack range
+            {
+                Vector2Int pos = origin + dir * i; // get attack range for that direction
+                if(!isHighlighted(pos) && TerrainManager.Instance.GetTerrainAt(pos) != null)
+                {
+                    highlightTilemap.SetTile((Vector3Int)pos, attackTile); // set the red tiles on terrained empty tiles in this tilemap
+                }
+            }
+        }
+    }
+
+    public void PopulateHeightTileMap(Vector2Int origin, int moveRange, int attackRange)
+    { 
         Dictionary<Vector2Int, int> costSoFar = new(); // dictionary to keep track of what tile takes what cost of movement
         Queue<Vector2Int> frontier = new(); // queue for tiles
 
@@ -72,24 +95,6 @@ public class MovementRange : MonoBehaviour
                 {
                     costSoFar[neighbor] = newCost; // add that shit and assign its cost
                     frontier.Enqueue(neighbor); // queue up the neighbor to do this all over again
-                }
-            }
-        }
-        // This ends when it hits tiles that are either not walkable or are out of movement range
-        // which is when the queue runs out of tiles
-    }
-
-    // shows attack range (red tiles) given a start and an attack range
-    public void ShowAttackRange(Vector2Int origin, int attackRange)
-    {
-        foreach(var dir in Directions) // sprawl out
-        {
-            for (int i = 1; i <= attackRange; i++) // for every tile of attack range
-            {
-                Vector2Int pos = origin + dir * i; // get attack range for that direction
-                if(!isHighlighted(pos) && TerrainManager.Instance.GetTerrainAt(pos) != null)
-                {
-                    highlightTilemap.SetTile((Vector3Int)pos, attackTile); // set the red tiles on terrained empty tiles in this tilemap
                 }
             }
         }

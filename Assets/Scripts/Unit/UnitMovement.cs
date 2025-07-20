@@ -12,11 +12,11 @@ public class UnitMovement : MonoBehaviour
     private Vector3 positionOffset = new Vector3(0.5f, 0.5f, 0f);
     private Vector3 preMovePosition; // just in case the player wants to cancel move
     private Vector2Int preMoveGridPos; // ^
-    
+
     // for path previewing:
     private LineRenderer pathLine; // Line renderer for the path preview line
     private List<Vector2Int> currentPath = new(); // keeps track of the cells in the path preview
-    private float moveSpeed = 5f; 
+    private float moveSpeed = 5f;
     [SerializeField] private GameObject arrowPrefab; // set in editor, the arrow at the end of the path preview
     private GameObject arrowInstance;
     private bool controlBlock = true;
@@ -35,6 +35,8 @@ public class UnitMovement : MonoBehaviour
             arrowInstance = Instantiate(arrowPrefab, transform); // declare instance for ref, creates ref-able game object
             arrowInstance.SetActive(false); // set that to off so its not on screen
         }
+        preMovePosition = unit.transform.position;
+        preMoveGridPos = unit.GridPosition;
         this.enabled = false;
     }
 
@@ -196,16 +198,9 @@ public class UnitMovement : MonoBehaviour
 
             // flip unit depending on movement direction
             scale = transform.localScale;
-            if (transform.position.x - targetWorld.x < 0)
-            {
-                scale.x = -1f;
-            }
-            else
-            {
-                scale.x = 1f;
-            }
+            scale.x = (transform.position.x - targetWorld.x < 0) ? -1f : 1f;
             transform.localScale = scale;
-            
+
             while ((transform.position - targetWorld).sqrMagnitude > 0) // while the length of the vec betwix the unit position and the target is non zero
             {
                 transform.position = Vector3.MoveTowards(transform.position, targetWorld, moveSpeed * Time.deltaTime); // move the unit according to movespeed and time
@@ -221,8 +216,11 @@ public class UnitMovement : MonoBehaviour
         scale.x = 1f; // reset scale
         transform.localScale = scale;
         // jesus christ thomas yield return StartCoroutine(GameObject.Find("Main Camera").GetComponent<CameraPanner>().PanToLocation(transform.position)); // bruh hahahahahaha
-        Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
-        UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
+        if (unit.state != UnitState.Cutscene)
+        {
+            Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
+            UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
+        }
     }
 
     public void EnableControls()
@@ -234,7 +232,7 @@ public class UnitMovement : MonoBehaviour
     {
         controlBlock = false;
     }
-    
+
     public void OnMenuSelect(UnitActionType action)
     // this is only here cause a lot of these actions need refs already in this file and it would be work and a half to pass
     // all the params
@@ -273,5 +271,23 @@ public class UnitMovement : MonoBehaviour
                 this.enabled = false;
                 break;
         }
+    }
+    public IEnumerator MoveTo(Vector2Int gridPos)
+    {
+        movementRange.PopulateHeightTileMap(unit.GridPosition, 9999, 0); // make it so that you can move places
+        currentPath = Pathfinding.FindPath(unit.GridPosition, gridPos, movementRange.isMoveableTo, TerrainManager.Instance); // calculate path
+        movementRange.highlightTilemap.gameObject.SetActive(false); // set move highlights to be invisible
+
+        if (currentPath != null && currentPath.Count > 0) yield return MoveAlongPath(currentPath); // move
+
+        // set movement positions
+        preMovePosition = unit.transform.position; 
+        preMoveGridPos = unit.GridPosition;
+
+        // reset pathfinding
+        currentPath = null;
+        movementRange.ClearHighlights();
+        movementRange.highlightTilemap.gameObject.SetActive(true); // re enable highlights
+        yield break;
     }
 }

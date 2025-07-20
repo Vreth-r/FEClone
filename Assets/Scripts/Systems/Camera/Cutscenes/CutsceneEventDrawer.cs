@@ -1,3 +1,4 @@
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,6 +27,12 @@ public class CutsceneEventDrawer : PropertyDrawer
             case CutsceneEventType.UnitJump:
                 lines += 2; // stringParam1 (unitName), floatParam1 (num jumps)
                 break;
+            case CutsceneEventType.UnitMoveToPos:
+                lines += 2; // stringParam1 (unitName), vector2Param (grid pos)
+                break;
+            case CutsceneEventType.UnitEmote:
+                lines += 3; // stringParam1 (unitName), stringParam2 (emote text), floatParam1 (duration)
+                break;
             case CutsceneEventType.Wait:
                 lines += 1; // floatParam1 (Duration)
                 break;
@@ -43,6 +50,7 @@ public class CutsceneEventDrawer : PropertyDrawer
 
         SerializedProperty typeProp = property.FindPropertyRelative("type");
         SerializedProperty vector3Prop = property.FindPropertyRelative("vector3Param");
+        SerializedProperty vector2IntProp = property.FindPropertyRelative("vector2IntParam");
         SerializedProperty float1Prop = property.FindPropertyRelative("floatParam1");
         SerializedProperty float2Prop = property.FindPropertyRelative("floatParam2");
         SerializedProperty delayProp = property.FindPropertyRelative("delay");
@@ -84,6 +92,18 @@ public class CutsceneEventDrawer : PropertyDrawer
                 EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), stringParam1Prop, new GUIContent("Target Unit"));
                 y += lineHeight;
                 EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), float1Prop, new GUIContent("Number of Jumps"));
+                break;
+            case CutsceneEventType.UnitMoveToPos:
+                EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), stringParam1Prop, new GUIContent("Target Unit"));
+                y += lineHeight;
+                EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), vector2IntProp, new GUIContent("Grid Position"));
+                break;
+            case CutsceneEventType.UnitEmote:
+                EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), stringParam1Prop, new GUIContent("Target Unit"));
+                y += lineHeight;
+                EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), stringParam2Prop, new GUIContent("Emote"));
+                y += lineHeight;
+                EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), float1Prop, new GUIContent("duration"));
                 break;
             case CutsceneEventType.Wait:
                 EditorGUI.PropertyField(new Rect(position.x, y, position.width, lineHeight), float1Prop, new GUIContent("Duration"));
