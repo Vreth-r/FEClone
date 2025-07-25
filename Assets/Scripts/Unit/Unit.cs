@@ -12,7 +12,7 @@ Selected: When selected, its movement/attack range shows up and you are selectin
 Action: Usually the state that comes after Selected, but is the state where the actionmenu is up and the player is choosing what the unit to do
 Might add more later but I think this is good for now.
 */
-public enum UnitState { Idle, Tapped, Moving, Selected, Action }
+public enum UnitState { Idle, Tapped, Moving, Selected, Action, Cutscene }
 public class Unit : MonoBehaviour
 {
     public Team team; // teamwork makes the dream work
@@ -304,5 +304,19 @@ public class Unit : MonoBehaviour
             }
             transform.position = startPos; // snap back to start jic
         }
+    }
+    public IEnumerator MoveTo(Vector2Int gridPos)
+    {
+        UnitState currentState = state; // save current state
+        state = UnitState.Cutscene; // set to cutscene mode (ill have to move this more so the state can stop inputs entirely)
+        yield return GetComponent<UnitMovement>().MoveTo(gridPos); // tell unit to move
+        state = currentState; // revert state
+    }
+    public IEnumerator Emote(GameObject emotePrefab, string emote, float duration)
+    {
+        // note: i shall try to optimize this later maybe so it doesn't have to spawn a new prefab every time
+        GameObject emoteGO = Instantiate(emotePrefab, transform); // create emote prefab attached
+        yield return emoteGO.GetComponent<EmoteBubbleController>().ShowEmote(emote, duration); // show emote for duration
+        Destroy(emoteGO); // destroy emote 
     }
 }

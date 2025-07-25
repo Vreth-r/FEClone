@@ -10,7 +10,7 @@ public class CutsceneManager : MonoBehaviour
 
     void Start() // testing only
     {
-        StartCoroutine(TestRun());
+        if (testCutscene) StartCoroutine(TestRun());
     }
 
     public IEnumerator TestRun() // testing only
@@ -59,6 +59,12 @@ public class CutsceneManager : MonoBehaviour
                 break;
             case CutsceneEventType.UnitJump:
                 yield return UnitManager.Instance.JumpUnit(e.stringParam1, e.floatParam1);
+                break;
+            case CutsceneEventType.UnitMoveToPos:
+                yield return UnitManager.Instance.MoveUnitTo(e.stringParam1, e.vector2IntParam);
+                break;
+            case CutsceneEventType.UnitEmote:
+                yield return UnitManager.Instance.EmoteUnit(e.stringParam1, e.stringParam2, e.floatParam1);
                 break;
             case CutsceneEventType.Wait:
                 yield return new WaitForSeconds(e.floatParam1);
