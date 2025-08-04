@@ -28,11 +28,11 @@ public class CombatUnitView : MonoBehaviour
         }
         if (isLeft)
         {
-            transform.localPosition = new Vector3(-5, 0, 0);
+            transform.localPosition = new Vector3(-5, -2, 0);
         }
         else
         {
-            transform.localPosition = new Vector3(5, 0, 0);
+            transform.localPosition = new Vector3(5, -2, 0);
         }
     }
 

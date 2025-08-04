@@ -7,7 +7,7 @@ public class UnitSpawner : MonoBehaviour
     public Tilemap highlightTilemap;
     public Transform unitFolder;
 
-    private Vector3 positionOffset = new Vector3(0.5f, 0.5f, 0);
+    private Vector3 positionOffset = new Vector3(0.5f, 1f, 0);
 
     [SerializeField] private GameObject unitPrefab; // assign in inspector
 
@@ -66,7 +66,7 @@ public class UnitSpawner : MonoBehaviour
 
         unit.equippedItem = data.equippedItem;
 
-        unit.transform.position = GridManager.Instance.CellToWorld(gridPos)  - positionOffset;
+        unit.transform.position = GridManager.Instance.CellToWorld(gridPos) - positionOffset;
         unit.GridPosition = (Vector2Int)gridPos; // is this even being used?
         unit.combatSprite = data.combatSprite;
         return unit;

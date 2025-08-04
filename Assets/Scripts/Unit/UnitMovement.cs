@@ -9,7 +9,7 @@ public class UnitMovement : MonoBehaviour
 {
     private Unit unit; // unit reference this script is related to
     private MovementRange movementRange;
-    private Vector3 positionOffset = new Vector3(0.5f, 0.5f, 0f);
+    private Vector3 positionOffset = new Vector3(0.5f, 0f, 0f);
     private Vector3 preMovePosition; // just in case the player wants to cancel move
     private Vector2Int preMoveGridPos; // ^
 
@@ -277,7 +277,7 @@ public class UnitMovement : MonoBehaviour
         movementRange.PopulateHeightTileMap(unit.GridPosition, 9999, 0); // make it so that you can move places
         currentPath = Pathfinding.FindPath(unit.GridPosition, gridPos, movementRange.isMoveableTo, TerrainManager.Instance); // calculate path
         movementRange.highlightTilemap.gameObject.SetActive(false); // set move highlights to be invisible
-
+        if (unit.animPrefab) unit.getAnimator().SetBool("isMoving", true); // start running animation
         if (currentPath != null && currentPath.Count > 0) yield return MoveAlongPath(currentPath); // move
 
         // set movement positions
