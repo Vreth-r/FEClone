@@ -30,4 +30,4 @@ MonoBehaviour:
   startingInventory: []
   equippedItem: {fileID: 11400000, guid: 9cdcf53718a25ed4ca6a4677c34dc217, type: 2}
   combatSprite: {fileID: 21300000, guid: 7698ea2fb13ee104e981bc7883988675, type: 3}
-  animationPrefab: {fileID: 0}
+  animationPrefab: {fileID: 3311486882927418563, guid: 5dd62852637034848ad94189ae7cf488, type: 3}

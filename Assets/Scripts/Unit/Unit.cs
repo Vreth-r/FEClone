@@ -316,6 +316,7 @@ public class Unit : MonoBehaviour
     {
         // note: i shall try to optimize this later maybe so it doesn't have to spawn a new prefab every time
         GameObject emoteGO = Instantiate(emotePrefab, transform); // create emote prefab attached
+        emoteGO.transform.position += new Vector3(0, 0.5f, 0); // position it above the unit
         yield return emoteGO.GetComponent<EmoteBubbleController>().ShowEmote(emote, duration); // show emote for duration
         Destroy(emoteGO); // destroy emote 
     }
