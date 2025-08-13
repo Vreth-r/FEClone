@@ -41,7 +41,6 @@ public class UnitSpawner : MonoBehaviour
         }
         unit.unitClass = data.startingClass;
         unit.unitName = data.unitName;
-        unit.unitTitle = data.unitTitle;
         unit.unitDescription = data.unitDescription;
         unit.team = data.team;
 

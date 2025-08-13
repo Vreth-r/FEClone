@@ -50,7 +50,6 @@ public class StatsMenu : MonoBehaviour, IGameMenu
     {
         currentUnit = unit;
         unitNameText.text = unit.unitName;
-        unitTitleText.text = unit.unitTitle;
 
         background.transform.position = defaultPlacement;
 

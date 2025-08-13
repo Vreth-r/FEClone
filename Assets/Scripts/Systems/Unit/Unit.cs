@@ -8,9 +8,10 @@ public class Unit : MonoBehaviour
     public UnitClass unitClass; // class the unit belongs to
     public string unitName; // name of the unit in game, like Corrin, Robin, etc
     public string unitDescription; // small description of their personality because fire emblem is actually a dating sim
-    public string unitTitle; // FE Heros had this title system like "Robin: Fell Vessel" and i think thats cool so fuck you
+    public int unitID; // unique ID for backend reasons
 
     // Main Stats (Mostly set in editor to start with)
+    // If i could do it differently i would make a class for this and put it on both weapons, effects, and units but hey, im just a guy.
     public int movementRange; // how far the unit can mave based off its class
     public int attackRange = 0; // default to 0, changes with equipped weapon
     public int level = 1; // class level (deciding on max because still deciding on how i want classes to promote)
@@ -32,14 +33,14 @@ public class Unit : MonoBehaviour
 
     // Skills
     public List<Skill> skills = new();
-    public StatBonusSet statBonuses = new();
+    public StatBonusSet statBonuses = new(); // its for all stat modifications i was high when i wrote the name to be only positive
 
     // Inventory 
     public List<Item> inventory = new(); // thinking of making a class for this but the inventory is so simple anyway
     public Item equippedItem; // the current equipped item (will always be a weapon)
     public WeaponProficiency proficiencyLevels;
 
-    // Editor stuff
+    // Combat and Animation stuff (set in editor)
     public Sprite combatSprite;
     public GameObject animPrefab; // this is a game object so it can have more flexibility 
     private Animator animator;
