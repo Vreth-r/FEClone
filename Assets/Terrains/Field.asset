@@ -18,6 +18,8 @@ MonoBehaviour:
   impassable: 0
   blocksArmored: 0
   blocksMounted: 0
+  blocksNonFlying: 0
   ignoreForFlying: 1
+  hitBonus: 0
   avoidBonus: 0
   defenseBonus: 0
