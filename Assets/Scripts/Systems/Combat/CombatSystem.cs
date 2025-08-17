@@ -254,6 +254,6 @@ public static class CombatPreviewHelper
 
     public static string FormatCombatText(int baseDmg, int bonusDmg, int hit, int crit)
     {
-        return $"Dmg: {baseDmg} + {bonusDmg}\nHit: {hit}%\nCrit: {crit}%";
+        return $"{baseDmg} + {bonusDmg}\n{hit}%\n{crit}%";
     }
 }

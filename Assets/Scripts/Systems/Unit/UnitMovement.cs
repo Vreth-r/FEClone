@@ -9,7 +9,7 @@ public class UnitMovement : MonoBehaviour
 {
     private Unit unit; // unit reference this script is related to
     private MovementRange movementRange;
-    private Vector3 positionOffset = new Vector3(0.5f, 0f, 0f);
+    private Vector3 positionOffset = new Vector3(0.5f, 0.5f, 0f);
     private Vector3 preMovePosition; // just in case the player wants to cancel move
     private Vector2Int preMoveGridPos; // ^
 

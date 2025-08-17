@@ -34,6 +34,10 @@ public class CombatSceneManager : MonoBehaviour
     public TextMeshProUGUI defenderHP;
     public TextMeshProUGUI attackerInfo;
     public TextMeshProUGUI defenderInfo;
+    public TextMeshProUGUI attackerWeaponName;
+    public TextMeshProUGUI defenderWeaponName;
+    public Image attackerWeaponIcon;
+    public Image defenderWeaponIcon;
 
     private void Awake() => Instance = this; // declare this instance for external ref
 
@@ -52,8 +56,8 @@ public class CombatSceneManager : MonoBehaviour
         attackerName.text = attacker.unitName;
         defenderName.text = defender.unitName;
 
-        attackerHP.text = $"{context.attackerPrevHP} / {attacker.maxHP}";
-        defenderHP.text = $"{context.defenderPrevHP} / {defender.maxHP}";
+        attackerHP.text = $"HP: {context.attackerPrevHP}";
+        defenderHP.text = $"HP: {context.defenderPrevHP}";
 
         attackerHealthBar.InstantFill(context.attackerPrevHP, attacker.maxHP);
         defenderHealthBar.InstantFill(context.defenderPrevHP, defender.maxHP);
@@ -66,6 +70,11 @@ public class CombatSceneManager : MonoBehaviour
 
         attackerStats.Open(attacker);
         defenderStats.Open(defender);
+
+        attackerWeaponName.text = context.attackerWeapon.itemName;
+        defenderWeaponName.text = context.defenderWeapon.itemName;
+        attackerWeaponIcon.sprite = context.attackerWeapon.icon;
+        defenderWeaponIcon.sprite = context.defenderWeapon.icon;
 
         StartCoroutine(PlayCombat(context, queue));
     }
@@ -137,7 +146,7 @@ public class CombatSceneManager : MonoBehaviour
 
             // Update health bar and HP text
             defenderHPBar.SetHealth(defender.currentHP, defender.maxHP);
-            defenderHPText.text = $"{defender.currentHP} / {defender.maxHP}";
+            defenderHPText.text = $"HP: {defender.currentHP}";
 
             // Death check
             if (defender.currentHP <= 0)
