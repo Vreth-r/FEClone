@@ -7,7 +7,7 @@ public class UnitSpawner : MonoBehaviour
     public Tilemap highlightTilemap;
     public Transform unitFolder;
 
-    private Vector3 positionOffset = new Vector3(0.5f, 1f, 0);
+    private Vector3 positionOffset = new Vector3(0.5f, 0.5f, 0);
 
     [SerializeField] private GameObject unitPrefab; // assign in inspector
 
@@ -34,10 +34,11 @@ public class UnitSpawner : MonoBehaviour
         {
             GameObject animPrefab = Instantiate(data.animationPrefab, go.transform);
             unit.animPrefab = animPrefab;
+            animPrefab.transform.localPosition = new Vector3(0, -0.5f, 0);
         }
         else
         {
-            s.sprite = data.combatSprite;    
+            s.sprite = data.combatSprite;
         }
         unit.unitClass = data.startingClass;
         unit.unitName = data.unitName;
@@ -65,7 +66,14 @@ public class UnitSpawner : MonoBehaviour
 
         unit.equippedItem = data.equippedItem;
 
-        unit.transform.position = GridManager.Instance.CellToWorld(gridPos) - positionOffset;
+        if (data.animationPrefab)
+        {
+            unit.transform.position = GridManager.Instance.CellToWorld(gridPos) - positionOffset;
+        }
+        else
+        {
+            unit.transform.position = GridManager.Instance.CellToWorld(gridPos) - new Vector3(0.5f, 1f, 0);
+        }
         unit.GridPosition = (Vector2Int)gridPos; // is this even being used?
         unit.combatSprite = data.combatSprite;
         return unit;

@@ -12,11 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34d80e2d4e09f054f824ab33d6bd0b24, type: 3}
   m_Name: DEV_PowerfulSword
   m_EditorClassIdentifier: 
-  itemName: 
+  itemName: Powerful Sword
   itemID: 
   description: 
   itemType: 0
-  icon: {fileID: 0}
+  icon: {fileID: 21300000, guid: d0605e4918d81be4ea6de1567beaecfa, type: 3}
   minRange: 1
   maxRange: 1
   effects: []
