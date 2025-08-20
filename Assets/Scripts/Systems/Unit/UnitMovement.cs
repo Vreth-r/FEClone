@@ -1,0 +1,293 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+// Handles unit movement, a complex endeavor apparently
+// To be attached to each unit instance
+
+public class UnitMovement : MonoBehaviour
+{
+    private Unit unit; // unit reference this script is related to
+    private MovementRange movementRange;
+    private Vector3 positionOffset = new Vector3(0.5f, 0.5f, 0f);
+    private Vector3 preMovePosition; // just in case the player wants to cancel move
+    private Vector2Int preMoveGridPos; // ^
+
+    // for path previewing:
+    private LineRenderer pathLine; // Line renderer for the path preview line
+    private List<Vector2Int> currentPath = new(); // keeps track of the cells in the path preview
+    private float moveSpeed = 5f;
+    [SerializeField] private GameObject arrowPrefab; // set in editor, the arrow at the end of the path preview
+    private GameObject arrowInstance;
+    private bool controlBlock = true;
+
+    private void Start()
+    {
+        unit = GetComponent<Unit>(); // grab unit reference on the prefab
+        movementRange = GetComponent<MovementRange>();
+        pathLine = gameObject.AddComponent<LineRenderer>(); // might change this in editor later
+        pathLine.positionCount = 0;
+        pathLine.material = new Material(Shader.Find("Sprites/Default")); // to be changed l8r prob i dunno it looks decent enough
+        pathLine.widthMultiplier = 0.1f;
+        pathLine.startColor = pathLine.endColor = Color.cyan;
+        if (arrowPrefab != null)
+        {
+            arrowInstance = Instantiate(arrowPrefab, transform); // declare instance for ref, creates ref-able game object
+            arrowInstance.SetActive(false); // set that to off so its not on screen
+        }
+        preMovePosition = unit.transform.position;
+        preMoveGridPos = unit.GridPosition;
+        this.enabled = false;
+    }
+
+    private void OnEnable()
+    {
+        ControlsManager.Instance.OnSelect += HandleSelect;
+    }
+
+    private void OnDisable()
+    {
+        ControlsManager.Instance.OnSelect -= HandleSelect;
+    }
+
+    public void SelectUnit()
+    {
+        // this all may be un-needed later
+        if (unit.team != Team.Player || TurnManager.Instance.currentTurn != TurnState.Player || (UnitManager.Instance.isAUnitSelected() && !UnitManager.Instance.isUnitSelected(unit))
+        || UIManager.Instance.GetCurrentMenuType() == MenuType.ActionMenu)
+        {
+            return; // you cant click on it if its not the player's unit OR turn OR if another unit is selected OR if the action menu is open (holy logic)
+        }
+
+        // this is 4 debugging
+        if (unit.state == UnitState.Tapped)
+        {
+            Debug.Log("this bitch is tapped");
+        }
+
+        if (unit.state == UnitState.Idle)
+        {
+            unit.state = UnitState.Selected;
+        }
+        else if (unit.state == UnitState.Selected)
+        {
+            unit.state = UnitState.Action;
+            Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
+            UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
+        }
+        else
+        {
+            return;
+        }
+
+        Debug.Log(unit.state.ToString());
+        Debug.Log($"position: {unit.GridPosition}");
+
+        if (unit.state == UnitState.Selected) // if selected
+        {
+            UnitManager.Instance.selectUnit(unit); // tell the unit manager the unit is selected
+            movementRange.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // Show move/attack range preview tiles
+        }
+        else // otherwise hide them
+        {
+            UnitManager.Instance.deselectedUnit(); // tell the unit manager to wipe its selected unit
+            movementRange.ClearHighlights(); // clear the range preview
+        }
+    }
+
+    private void Update()
+    {
+        if (unit.state != UnitState.Selected) return;
+
+        Vector3Int cell = CursorController.Instance.GetCursorGridPosition(); // grabs the cell of the cursor
+        Vector2Int targetPos = new(cell.x, cell.y); // set that as the target
+
+        if (movementRange.isMoveableTo(targetPos)) // if the target cell is blue and its not the selected units space
+        {
+            currentPath = Pathfinding.FindPath(unit.GridPosition, targetPos, movementRange.isMoveableTo, TerrainManager.Instance); // find a path between the unit and the target thats walkable
+            if (currentPath != null) DrawPath(currentPath); // if a path is found, draw it
+        }
+        else
+        {
+            pathLine.positionCount = 0; // otherwise, clear the line
+            if (arrowInstance != null) arrowInstance.SetActive(false); // set the arrow to invisible
+        }
+    }
+
+    public void HandleSelect()
+    {
+        Debug.Log("UnitMovement select pressed");
+        if (!controlBlock) return;
+
+        if (unit.state != UnitState.Selected) return;
+
+        if (ControlsManager.Instance.CurrentContext != InputContext.Gameplay) return;
+
+        if (currentPath != null && currentPath.Count > 0)
+        {
+            Vector3Int cell = CursorController.Instance.GetCursorGridPosition(); // grabs the cell of the cursor
+            Vector2Int gridPos = new(cell.x, cell.y); // set grid pos based off cell
+            if (!movementRange.isMoveableTo(gridPos)) // check if its moveable to
+            {
+                Debug.Log("Invalid Move.");
+                return; // return if not
+            }
+
+            preMovePosition = transform.position; // cache pre move coords for cancelling
+            preMoveGridPos = unit.GridPosition; // ^
+
+            if (currentPath.Count > 1) // only walk the path if going to a new place (otherwise it just reruns previous walk)
+            {
+                if (unit.animPrefab) unit.getAnimator().SetBool("isMoving", true); // start running animation
+                StartCoroutine(MoveAlongPath(currentPath)); // Sets the unit to move along the path set smoothly in a co-routine yeah bro we use co-routines get used to it
+            }
+            else
+            { // add the menu to the screen even if you dont move
+                Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
+                UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
+            }
+
+            // unit.state = UnitState.Tapped; // TURN THAT SHIT OFF CUH
+            currentPath = null;
+            UnitManager.Instance.deselectedUnit(); // tell the unit manager whats up
+            pathLine.positionCount = 0; // reset the line renderer
+            if (arrowInstance != null) arrowInstance.SetActive(false); // set the arrow to invisible
+            movementRange.ClearHighlights(); // clear all the tiles
+        }
+    }
+
+    private void DrawPath(List<Vector2Int> path)
+    {
+        // Draws a path line based of a given path 
+        pathLine.positionCount = path.Count; // sets the number of verticies in the linerenderer based of the found path
+
+        for (int i = 0; i < path.Count; i++) // for every cell in the path
+        {
+            Vector3 worldPos = GridManager.Instance.CellToWorld((Vector3Int)path[i]); // get its world pos
+            pathLine.SetPosition(i, new Vector3(worldPos.x + positionOffset.x, worldPos.y + positionOffset.y, transform.position.z - 0.1f)); // draw the line with offset, in front of everything (z axis)
+        }
+
+        if (arrowInstance != null && path.Count > 1) // if the arrow exists (insurance, it will usually) and the path has at least a line
+        {
+            Vector2Int last = path[^1]; // last cell
+            Vector2Int beforeLast = path[^2]; // second last cell
+
+            Vector3 lastWorld = GridManager.Instance.CellToWorld((Vector3Int)last) + positionOffset; // grab the last cell world pos with offset
+            Vector3 beforeWorld = GridManager.Instance.CellToWorld((Vector3Int)beforeLast) + positionOffset; // ^ second last cell
+            Vector3 dir = (lastWorld - beforeWorld).normalized; // get the direction of the overall movement
+
+            arrowInstance.transform.position = lastWorld; // set the arrow position
+            arrowInstance.transform.rotation = Quaternion.LookRotation(Vector3.forward, dir); // rotate it in the overall movement dir
+            arrowInstance.SetActive(true); // make it visible
+        }
+        else if (arrowInstance != null)
+        {
+            arrowInstance.SetActive(false); // make it invisible if no path
+        }
+    }
+
+    private IEnumerator MoveAlongPath(List<Vector2Int> path)
+    {
+        // Moves the unit smoothly along a given path
+        Vector2Int oldPos = unit.GridPosition; // keep track of the old position
+        Vector3 scale = transform.localScale; // this is for having the unit face the right direction when running
+        for (int i = 1; i < path.Count; i++) // for every cell in the path
+        {
+            Vector3Int cell = (Vector3Int)path[i]; // ref it so were not list accessing a ton (good performance)
+            Vector3 targetWorld = GridManager.Instance.CellToWorld(cell) + positionOffset; // get its world pos with offset
+
+            // flip unit depending on movement direction
+            scale = transform.localScale;
+            scale.x = (transform.position.x - targetWorld.x < 0) ? -1f : 1f;
+            transform.localScale = scale;
+
+            while ((transform.position - targetWorld).sqrMagnitude > 0) // while the length of the vec betwix the unit position and the target is non zero
+            {
+                transform.position = Vector3.MoveTowards(transform.position, targetWorld, moveSpeed * Time.deltaTime); // move the unit according to movespeed and time
+                yield return null; // insane backend shit but basically: wait for the next frame and continue execution from this line to give control back to editor
+            }
+
+            unit.GridPosition = path[i]; // sets its grid position for the interim
+        }
+
+        UnitManager.Instance.UpdateUnitPosition(unit, oldPos, unit.GridPosition); // tell the unit manager whats going on
+        if (arrowInstance != null) arrowInstance.SetActive(false);
+        if (unit.animPrefab) unit.getAnimator().SetBool("isMoving", false); // return to idle state at end of path
+        scale.x = 1f; // reset scale
+        transform.localScale = scale;
+        // jesus christ thomas yield return StartCoroutine(GameObject.Find("Main Camera").GetComponent<CameraPanner>().PanToLocation(transform.position)); // bruh hahahahahaha
+        if (unit.state != UnitState.Cutscene)
+        {
+            Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
+            UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
+        }
+    }
+
+    public void EnableControls()
+    {
+        controlBlock = true;
+    }
+
+    public void DisableControls()
+    {
+        controlBlock = false;
+    }
+
+    public void OnMenuSelect(UnitActionType action)
+    // this is only here cause a lot of these actions need refs already in this file and it would be work and a half to pass
+    // all the params
+    {
+        switch (action)
+        {
+            case UnitActionType.Attack:
+                Debug.Log("OnMenuSelect in UnitMovement: Attacking");
+                TargetSelector.Instance.BeginTargeting(unit);
+                break; // still thinking of what to put here
+
+            case UnitActionType.Wait:
+                Debug.Log("Unit waits.");
+                unit.state = UnitState.Tapped;
+                this.enabled = false;
+                // TurnManager.Instance.EndTurn(); // fo l8r
+                break;
+
+            case UnitActionType.Item:
+                Debug.Log("Show item UI (WIP).");
+                unit.state = UnitState.Tapped;
+                this.enabled = false;
+                break;
+
+            case UnitActionType.Cancel:
+                Debug.Log("Cancelling move in unitmovement.");
+                UnitManager.Instance.UpdateUnitPosition(unit, unit.GridPosition, preMoveGridPos); // tell unit manager whats up
+                transform.position = preMovePosition; // return to pre move coords
+                unit.GridPosition = preMoveGridPos; // ^
+                CursorController.Instance.SetCurrentGridPosition(new Vector3Int(Mathf.FloorToInt(preMovePosition.x), Mathf.FloorToInt(preMovePosition.y), 0));
+                CursorController.Instance.UpdateCursorTile();
+                //movementRange.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // show the movement range again
+                unit.state = UnitState.Idle; // idle that shit
+                //UnitManager.Instance.selectUnit(unit); // tell the unit manager the unit is selected
+                // we are NOT animating the move back lmao
+                this.enabled = false;
+                break;
+        }
+    }
+    public IEnumerator MoveTo(Vector2Int gridPos)
+    {
+        movementRange.PopulateHeightTileMap(unit.GridPosition, 9999, 0); // make it so that you can move places
+        currentPath = Pathfinding.FindPath(unit.GridPosition, gridPos, movementRange.isMoveableTo, TerrainManager.Instance); // calculate path
+        movementRange.highlightTilemap.gameObject.SetActive(false); // set move highlights to be invisible
+        if (unit.animPrefab) unit.getAnimator().SetBool("isMoving", true); // start running animation
+        if (currentPath != null && currentPath.Count > 0) yield return MoveAlongPath(currentPath); // move
+
+        // set movement positions
+        preMovePosition = unit.transform.position; 
+        preMoveGridPos = unit.GridPosition;
+
+        // reset pathfinding
+        currentPath = null;
+        movementRange.ClearHighlights();
+        movementRange.highlightTilemap.gameObject.SetActive(true); // re enable highlights
+        yield break;
+    }
+}
