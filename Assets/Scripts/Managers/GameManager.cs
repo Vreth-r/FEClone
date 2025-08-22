@@ -1,7 +1,8 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Yarn.Unity;
 
-// Ultra persistent script for "global" variable tracking and scene management
+// Ultra persistent script for "global" variable tracking and scene/gameflow management
 /*
 save from anywhere:
 SaveSystem.SaveGame(0);
@@ -16,6 +17,7 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
 
+    [Header("Game Variables")]
     // currency
     public int Gold;
 
@@ -36,6 +38,9 @@ public class GameManager : MonoBehaviour
     public SkillDatabase skillDatabase;
     public UnitClassDatabase unitClassDatabase;
 
+    [Header("Yarn")]
+    public DialogueRunner MasterYarnRunner;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -46,6 +51,7 @@ public class GameManager : MonoBehaviour
 
         Instance = this;
         DontDestroyOnLoad(gameObject);
+        DontDestroyOnLoad(MasterYarnRunner);
 
         terrainDatabase.Init();
         unitDatabase.Init();
@@ -78,4 +84,12 @@ public class GameManager : MonoBehaviour
     }
 
     public bool IsUnitRecruited(string unitID) => recruitedUnitIDs.Contains(unitID);
+
+    /***************(|)[ YARN SHIT ](|)***************** ///*/
+    [YarnCommand("LoadScene")]
+    public static void LoadSceneFromManager(string sceneName)
+    {
+        LoadingScreenManager.Instance.LoadScene(sceneName);
+        Debug.Log($"Loading {sceneName}");
+    }
 }
