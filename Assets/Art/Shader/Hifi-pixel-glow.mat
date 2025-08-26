@@ -20,7 +20,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Glow-pixel
+  m_Name: Hifi-pixel-glow
   m_Shader: {fileID: -6465566751694194690, guid: e92e55e3abb258d499e980a202e9cfd4, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -59,7 +59,7 @@ Material:
     m_Floats:
     - _AlphaClip: 0
     - _AlphaToMask: 0
-    - _Bits: 4
+    - _Bits: 16
     - _Blend: 2
     - _CastShadows: 1
     - _Cull: 2
