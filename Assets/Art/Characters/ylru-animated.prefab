@@ -98,7 +98,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -2253911629886400664, guid: 3174a7c893f9cac4caa320778ee62661, type: 3}
       propertyPath: m_Name
-      value: ylru-unity
+      value: ylru-animated
       objectReference: {fileID: 0}
     - target: {fileID: 1160356261127867848, guid: 3174a7c893f9cac4caa320778ee62661, type: 3}
       propertyPath: m_Controller
