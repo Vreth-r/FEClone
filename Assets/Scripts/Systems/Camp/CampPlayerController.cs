@@ -30,10 +30,10 @@ public class CampPlayerController : MonoBehaviour
     {
         if (CampInputBlocker.Blocked)
         {
-            rb.velocity = new Vector2(0, 0);
+            rb.linearVelocity = new Vector2(0, 0);
             return;
         }
-        rb.velocity = movement * moveSpeed;
+        rb.linearVelocity = movement * moveSpeed;
     }
 
     private void OnTriggerEnter2D(Collider2D other)

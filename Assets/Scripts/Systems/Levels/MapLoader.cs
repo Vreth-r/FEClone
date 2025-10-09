@@ -1,6 +1,9 @@
 using UnityEngine;
 using System.IO;
 
+/// THE MAP JSON IS SET TO BE MAINLY REPLACED WITH A SCENE SOLUTION INSTEAD, THIS CLASS WILL CHANGE.
+/// SORRY!
+
 /// <summary>
 ///  Class <c>MapLoader</c> loads all terrain and unit information for a level from its json file.
 /// </summary>

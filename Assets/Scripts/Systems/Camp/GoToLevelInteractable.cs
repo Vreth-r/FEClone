@@ -2,9 +2,11 @@ using UnityEngine;
 
 public class GoToLevelInteractable : CampInteractable
 {
+
+    public string sceneName;
     public override void Interact()
     {
-        Debug.Log("PORTAL NOISE");
-        LoadingScreenManager.Instance.LoadLevel("TerrainTestMap");
+        Debug.Log("Loading Level");
+        LoadingScreenManager.Instance.LoadScene(sceneName);
     }
 }

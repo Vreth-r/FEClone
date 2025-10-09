@@ -33,6 +33,7 @@ public class LoadingScreenManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    // set to be axed
     public void LoadLevel(string mapID)
     {
         LoadScene("LevelTemplate", () =>
@@ -45,7 +46,7 @@ public class LoadingScreenManager : MonoBehaviour
     {
         yield return null; // wait a frame
 
-        MapLoader loader = FindObjectOfType<MapLoader>(); // will make this a ref later maybe unsure i need to really diagram out all this code
+        MapLoader loader = FindFirstObjectByType<MapLoader>(); // will make this a ref later maybe unsure i need to really diagram out all this code
         if (loader == null)
         {
             Debug.LogError("No MapLoader found in template scene");
