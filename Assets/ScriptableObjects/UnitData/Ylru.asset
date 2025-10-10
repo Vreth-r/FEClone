@@ -17,7 +17,7 @@ MonoBehaviour:
   unitTitle: Idiot
   unitDescription: dumbass bitchass stupid ass
   team: 0
-  startingClass: {fileID: 11400000, guid: 1e94f7522add42d489a99241a7970b76, type: 2}
+  startingClass: {fileID: 11400000, guid: b59973926dc92eb49a8c8b6d8362675d, type: 2}
   level: 1
   maxHP: 20
   strength: 5
@@ -31,3 +31,7 @@ MonoBehaviour:
   equippedItem: {fileID: 11400000, guid: ee6301d1cf9dbbb41ae439eafe3b267e, type: 2}
   combatSprite: {fileID: 21300000, guid: 7698ea2fb13ee104e981bc7883988675, type: 3}
   animationPrefab: {fileID: 3311486882927418563, guid: 5dd62852637034848ad94189ae7cf488, type: 3}
+  proficiencyLevels:
+    profList:
+    - weaponType: {fileID: 11400000, guid: ac0e5d3e8271ac3419515dfaf3706c16, type: 2}
+      level: 0

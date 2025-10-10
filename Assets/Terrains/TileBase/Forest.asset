@@ -35,12 +35,12 @@ MonoBehaviour:
   m_Flags: 1
   m_ColliderType: 1
   terrainName: 
-  moveCost: 1
+  moveCost: 2
   impassable: 0
   blocksArmored: 0
-  blocksMounted: 0
+  blocksMounted: 1
   blocksNonFlying: 0
   ignoreForFlying: 1
   hitBonus: 0
-  avoidBonus: 0
+  avoidBonus: 10
   defenseBonus: 0

@@ -64,7 +64,21 @@ public class UnitSpawner : MonoBehaviour
             // was i high when i wrote this
         }
 
-        unit.equippedItem = data.equippedItem;
+        // need to init proficiencies b4 weapon equip otherwise itll error out and i don't want to write checkers
+        if (data.proficiencyLevels == null)
+        {
+            WeaponProficiency prof = new WeaponProficiency();
+            prof.Initialize();
+            unit.proficiencyLevels = prof;
+        }
+        else
+        {
+
+            unit.proficiencyLevels = data.proficiencyLevels;
+            unit.proficiencyLevels.Initialize();
+        }
+        
+        unit.Equip(data.equippedItem);
 
         if (data.animationPrefab)
         {

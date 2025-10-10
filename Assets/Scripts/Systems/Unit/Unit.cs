@@ -38,7 +38,7 @@ public class Unit : MonoBehaviour
     // Inventory 
     public List<Item> inventory = new(); // thinking of making a class for this but the inventory is so simple anyway
     public Item equippedItem; // the current equipped item (will always be a weapon)
-    public WeaponProficiency proficiencyLevels;
+    public WeaponProficiency proficiencyLevels; // proficiency levels for all weapons
 
     // Combat and Animation stuff (set in editor)
     public Sprite combatSprite;
@@ -57,11 +57,14 @@ public class Unit : MonoBehaviour
         GridPosition = (Vector2Int)GridManager.Instance.WorldToCell(transform.position);
         movementRange = unitClass.movementRange;
         UnitManager.Instance.RegisterUnit(this); // Tell the unit manager this thing exists
-        proficiencyLevels.Initialize();
-        unitClass.proficiencies.Initialize();
+        if (proficiencyLevels == null)
+        {
+            proficiencyLevels.Initialize();
+        }
+        unitClass.proficiencies.Initialize(); 
         CalculateStats();
         ApplyPassiveEffects();
-        proficiencyLevels.AddProficienciesFromOther(unitClass.proficiencies);
+        proficiencyLevels.AddProficienciesFromOther(unitClass.proficiencies); // wont overwrite existing proficiency 
         if (inventory.Count != 0) Equip(inventory[0]); // equip the first thing in the inventory(dev)
     }
 
@@ -197,9 +200,10 @@ public class Unit : MonoBehaviour
 
         var weapon = item as WeaponItem; // HOLY coding
         weapon.proficiency.Initialize();
+        // hnnn leave this in for now.
         if (!proficiencyLevels.CheckWeapon(weapon) || !unitClass.proficiencies.HasProficiency(weapon.weaponType))
         {
-            Debug.Log("Cannot use this type of weapon");
+            Debug.LogWarning($"{unitName} cannot use this {weapon.weaponType} weapons: from {weapon.itemName}");
             // functionality later
             return;
         }
