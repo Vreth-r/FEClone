@@ -34,11 +34,11 @@ public class LoadingScreenManager : MonoBehaviour
     }
 
     // set to be axed
-    public void LoadLevel(string mapID)
+    public void LoadLevel(string levelID)
     {
-        LoadScene("LevelTemplate", () =>
+        LoadScene(levelID, () =>
         {
-            StartCoroutine(FinishLevelLoad(mapID));
+            StartCoroutine(FinishLevelLoad(levelID));
         });
     }
 

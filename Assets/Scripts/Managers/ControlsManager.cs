@@ -12,11 +12,19 @@ public class ControlsManager : MonoBehaviour
 {
     public static ControlsManager Instance { get; private set; }
 
+    [Header("Context")]
     public InputContext CurrentContext { get; private set; } = InputContext.Gameplay;
 
-    private InputActions inputActions;
+    [Header("Gameplay Actions")]
+    [SerializeField] private InputActionReference moveCursorAction;
+    [SerializeField] private InputActionReference selectAction;
 
-    // Exposed movement and navigation vectors
+    [Header("Menu Actions")]
+    [SerializeField] private InputActionReference navigateAction;
+    [SerializeField] private InputActionReference submitAction;
+    [SerializeField] private InputActionReference cancelAction;
+
+    // Exposed input values
     public Vector2 MoveInput { get; private set; }
     public Vector2 NavigateInput { get; private set; }
 
@@ -27,29 +35,44 @@ public class ControlsManager : MonoBehaviour
 
     void Awake()
     {
+        // Singleton setup
         if (Instance != null && Instance != this)
         {
             Destroy(gameObject);
             return;
         }
-
         Instance = this;
-        DontDestroyOnLoad(gameObject);
+        //DontDestroyOnLoad(gameObject);
 
-        inputActions = new InputActions();
+        // --- Gameplay bindings that tie to events ---
+        // i might swap this to per bind references in each object, but this works for things that arent monos by subbing to events (i think)
+        if (moveCursorAction != null)
+        {
+            moveCursorAction.action.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
+            moveCursorAction.action.canceled += ctx => MoveInput = Vector2.zero;
+        }
 
-        // Gameplay bindings
-        inputActions.Gameplay.MoveCursor.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
-        inputActions.Gameplay.MoveCursor.canceled += ctx => MoveInput = Vector2.zero;
+        if (selectAction != null)
+        {
+            selectAction.action.performed += ctx => OnSelect?.Invoke();
+        }
 
-        inputActions.Gameplay.Select.performed += ctx => OnSelect?.Invoke();
+        // --- Menu bindings ---
+        if (navigateAction != null)
+        {
+            navigateAction.action.performed += ctx => NavigateInput = ctx.ReadValue<Vector2>();
+            navigateAction.action.canceled += ctx => NavigateInput = Vector2.zero;
+        }
 
-        // UI bindings
-        inputActions.Menu.Navigate.performed += ctx => NavigateInput = ctx.ReadValue<Vector2>();
-        inputActions.Menu.Navigate.canceled += ctx => NavigateInput = Vector2.zero;
+        if (submitAction != null)
+        {
+            submitAction.action.performed += ctx => OnSubmit?.Invoke();
+        }
 
-        inputActions.Menu.Submit.performed += ctx => OnSubmit?.Invoke();
-        inputActions.Menu.Cancel.performed += ctx => OnCancel?.Invoke();
+        if (cancelAction != null)
+        {
+            cancelAction.action.performed += ctx => OnCancel?.Invoke();
+        }
     }
 
     void OnEnable() => EnableCurrentMap();
@@ -67,14 +90,24 @@ public class ControlsManager : MonoBehaviour
     private void EnableCurrentMap()
     {
         if (CurrentContext == InputContext.Gameplay)
-            inputActions.Gameplay.Enable();
+        {
+            moveCursorAction?.action.Enable();
+            selectAction?.action.Enable();
+        }
         else if (CurrentContext == InputContext.Menu)
-            inputActions.Menu.Enable();
+        {
+            navigateAction?.action.Enable();
+            submitAction?.action.Enable();
+            cancelAction?.action.Enable();
+        }
     }
 
     private void DisableAllMaps()
     {
-        inputActions.Gameplay.Disable();
-        inputActions.Menu.Disable();
+        moveCursorAction?.action.Disable();
+        selectAction?.action.Disable();
+        navigateAction?.action.Disable();
+        submitAction?.action.Disable();
+        cancelAction?.action.Disable();
     }
 }

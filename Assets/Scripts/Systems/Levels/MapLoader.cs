@@ -43,12 +43,13 @@ public class MapLoader : MonoBehaviour
     public void BuildMap(LevelMapData data)
     {
         // clear current state
-        GridManager.Instance.ClearGrid();
+        //GridManager.Instance.ClearGrid();
         UnitManager.Instance.ClearAllUnits();
 
-        GridManager.Instance.Initialize();
+        //GridManager.Instance.Initialize();
 
         // load terrain from CSV
+        /*
         if (data.tileCSV != null && data.terrainKey != null)
         {
             string[] rows = data.tileCSV.Split('\n');
@@ -73,6 +74,7 @@ public class MapLoader : MonoBehaviour
                 GridManager.Instance.PlaceTerrain(tile.x, tile.y, tile.terrainType);
             }
         }
+        */
 
         // place player units
         foreach (UnitSpawnData player in data.playerUnits)

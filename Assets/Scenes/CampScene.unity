@@ -5048,7 +5048,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interactText: Press [E] to go to debug level
   menuType: 0
-  sceneName: Level 1 plains
+  sceneName: Level1
 --- !u!212 &2051013593
 SpriteRenderer:
   m_ObjectHideFlags: 0

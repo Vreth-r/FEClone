@@ -7,6 +7,6 @@ public class GoToLevelInteractable : CampInteractable
     public override void Interact()
     {
         Debug.Log("Loading Level");
-        LoadingScreenManager.Instance.LoadScene(sceneName);
+        LoadingScreenManager.Instance.LoadLevel(sceneName);
     }
 }

@@ -5,6 +5,7 @@ using UnityEngine;
 [Serializable]
 public class LevelMapData
 {
+    public int levelID;
     public string mapID;
     public string displayName;
 
