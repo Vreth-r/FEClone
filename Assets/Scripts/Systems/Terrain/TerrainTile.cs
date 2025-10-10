@@ -1,15 +1,11 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Collections;
+using System.Collections.Generic;
 
-// Stores data for each terrain type a tile could take
-
-[CreateAssetMenu(menuName = "Tactics RPG/Terain Tile")]
-public class TerrainTile : ScriptableObject, IIdentifiable
+[CreateAssetMenu(fileName = "New Terrain Tile Data", menuName = "Tactics RPG/Terrain Tile Data")]
+public class TerrainTile : Tile, IIdentifiable
 {
-    [Header("Tile Visual")]
-    public TileBase tileVisual; // the tile (not the tile art, the tile from unity)
     public string terrainName; // Name for later
     public string ID => terrainName;
 

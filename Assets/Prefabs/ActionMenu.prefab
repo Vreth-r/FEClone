@@ -391,7 +391,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   selectionIndicator: {fileID: 6916007114344242578}
-  indicatorOffset: {x: -20, y: 0, z: 0}
+  indicatorOffset: {x: -65, y: 0, z: 0}
   attackButton: {fileID: 5985140660916980736}
   waitButton: {fileID: 4475389519751495497}
   itemButton: {fileID: 5007452481684251760}

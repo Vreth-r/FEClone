@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
     public Transform[] playerSpawnPositions; // in editor
 
     [Header("Databases")]
-    public TerrainDatabase terrainDatabase;
+    //public TerrainDatabase terrainDatabase;
     public UnitDatabase unitDatabase;
     public ItemDatabase itemDatabase;
     public SkillDatabase skillDatabase;
@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(MasterYarnRunner);
 
-        terrainDatabase.Init();
+        //terrainDatabase.Init(); // this one is dead for now until i have a use for it
         unitDatabase.Init();
         //skillDatabase.OnEnable(); handle this stupid fucking shit later
         //itemDatabase.OnEnable();

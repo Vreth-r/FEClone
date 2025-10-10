@@ -46,7 +46,8 @@ public class CursorController : MonoBehaviour
 
     public void LoadGridBounds() // might make an interface for this
     {
-        Bounds mapBounds = terrainTilemap.localBounds;
+        //Bounds mapBounds = terrainTilemap.localBounds;
+        BoundsInt mapBounds = terrainTilemap.cellBounds;
         // clamp
         minCursorPos = mapBounds.min;
         maxCursorPos = mapBounds.max - new Vector3(1, 1, 0); // unknown why but without this the cursor can go *just* one over the tilemap out of bounds

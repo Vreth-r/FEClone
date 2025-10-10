@@ -1,10 +1,10 @@
+// SET TO BE AXED
 using UnityEngine;
 using System.Collections.Generic;
 using System.IO;
 
 // To be attached to an editor only game object 
 // for easily building levels in unity then exporting them to json
-
 public class MapEncoder : MonoBehaviour
 {
     public string outputFileName = "NewMap";
@@ -21,7 +21,7 @@ public class MapEncoder : MonoBehaviour
         // build terrain index map
         Dictionary<string, int> terrainKeyMap = new();
         List<string> terrainKey = new();
-        BoundsInt bounds = grid.tilemap.cellBounds;
+        BoundsInt bounds = grid.dataTilemap.cellBounds;
 
         int width = bounds.size.x;
         int height = bounds.size.y;
@@ -33,7 +33,7 @@ public class MapEncoder : MonoBehaviour
         /*
             OK SO, unity places a small internal buffer for the actual bounding of tilemap grids for whatever forsaken reason,
             so this encoder can return whole rows of just null tiles, which is hilarious.
-            Now, i dont plan on having null tiles the middle of the map, so ill just, not track them, but if you ever see something
+            Now, i dont plan on having null tiles the middle of the map, so ill just... not track them, but if you ever see something
             funny related to that, it's probably because of this.
         */
         for (int y = 0; y < height; y++)

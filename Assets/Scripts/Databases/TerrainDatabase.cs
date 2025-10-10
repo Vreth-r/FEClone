@@ -1,24 +1,26 @@
+/*
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-// Intended to hold all tile-to-terrain mappings for a single point of access code wise
+// now holds the string to terraintile mapping?
+// is this needed?
 
 [CreateAssetMenu(menuName = "Tactics RPG/Terrain Database")]
 public class TerrainDatabase : Database<TerrainTile>
 {
     public static TerrainDatabase Instance;
-    private Dictionary<TileBase, TerrainTile> tileByVisual; // this is an extra dict for a different inq
+    private Dictionary<string, TerrainTile> tileByName; // this is an extra dict for a different inq
 
     public void Init()
     {
         base.Initialize();
         if (Instance == null) Instance = this;
-        tileByVisual = new Dictionary<TileBase, TerrainTile>();
+        tileByName = new Dictionary<string, TerrainTile>();
         foreach (var terrain in allData)
         {
-            tileByVisual[terrain.tileVisual] = terrain;
+            tileByName[terrain.terrainName] = terrain;
         }
     }
 
@@ -28,9 +30,5 @@ public class TerrainDatabase : Database<TerrainTile>
         tileByVisual.TryGetValue(tile, out var result);
         return result;
     }
-
-    public TileBase GetTileByName(string name)
-    {
-        return GetByID(name).tileVisual;
-    }
 }
+*/
