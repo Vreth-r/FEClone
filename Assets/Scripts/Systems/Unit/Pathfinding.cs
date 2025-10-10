@@ -19,7 +19,7 @@ public class Pathfinding
         public Node(Vector2Int pos) => position = pos;
     }
 
-    public static List<Vector2Int> FindPath(Vector2Int start, Vector2Int target, System.Func<Vector2Int, bool> isMoveableTo, TerrainManager terrainManager)
+    public static List<Vector2Int> FindPath(Vector2Int start, Vector2Int target, System.Func<Vector2Int, bool> isMoveableTo)
     {
         Dictionary<Vector2Int, Node> allNodes = new();
         PriorityQueue<Node> open = new(); // simple priority queue
@@ -42,9 +42,9 @@ public class Pathfinding
                 Vector2Int neighborPos = current.position + dir;
                 if (closed.Contains(neighborPos) || !isMoveableTo(neighborPos))
                     continue;
-                TerrainTile terrain = terrainManager.GetTerrainAt(neighborPos);
+                TerrainTile terrain = GridManager.Instance.GetTerrainAt(neighborPos);
                 if (terrain == null) continue;
-                int terrainCost = terrainManager.GetTerrainCost(terrain);
+                int terrainCost = terrain.moveCost;
                 int moveCost = current.gCost + terrainCost;
 
                 if (!allNodes.TryGetValue(neighborPos, out Node neighbor))

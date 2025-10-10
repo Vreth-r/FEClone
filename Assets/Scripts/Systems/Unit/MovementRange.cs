@@ -12,15 +12,16 @@ public class MovementRange : MonoBehaviour
     // public static MovementRange Instance;
     private Unit unit;
 
-    public Tilemap highlightTilemap; // assigned in editor, tilemap for highlight tiles
+    public Tilemap highlightTilemap; // assigned dynamically, tilemap for highlight tiles
     public TileBase movementTile; // assigned in editor, tile for movement (blue)
     public TileBase attackTile; // assigned in editor, tile for attack range (red)
 
     private void Start()
     {
-        
+
         //Instance = this; // declare this instance for external ref
         unit = GetComponent<Unit>(); // grab unit reference on the prefab
+        highlightTilemap = GameObject.Find("Movement Highlights").GetComponent<Tilemap>();
     }
 
     // shows movement range (blue tiles) given a start and a range
@@ -40,7 +41,7 @@ public class MovementRange : MonoBehaviour
             for (int i = 1; i <= attackRange; i++) // for every tile of attack range
             {
                 Vector2Int pos = origin + dir * i; // get attack range for that direction
-                if(!isHighlighted(pos) && TerrainManager.Instance.GetTerrainAt(pos) != null)
+                if(!isHighlighted(pos) && GridManager.Instance.GetTerrainAt(pos) != null)
                 {
                     highlightTilemap.SetTile((Vector3Int)pos, attackTile); // set the red tiles on terrained empty tiles in this tilemap
                 }
@@ -72,7 +73,7 @@ public class MovementRange : MonoBehaviour
             {
                 Vector2Int neighbor = current + dir; // grab neighbor
                 // Terrain stuff below
-                TerrainTile terrain = TerrainManager.Instance.GetTerrainAt(neighbor);
+                TerrainTile terrain = GridManager.Instance.GetTerrainAt(neighbor);
                 if (terrain == null || terrain.impassable) continue; // if terrain is not there or impassable skip it
                 if (terrain.blocksArmored && unit.HasTag(ClassTag.Armored)) continue; // will change this logic later to just cover them all
                 if (terrain.blocksNonFlying && !unit.HasTag(ClassTag.Flying)) continue;

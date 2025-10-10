@@ -104,7 +104,7 @@ public class UnitMovement : MonoBehaviour
 
         if (movementRange.isMoveableTo(targetPos)) // if the target cell is blue and its not the selected units space
         {
-            currentPath = Pathfinding.FindPath(unit.GridPosition, targetPos, movementRange.isMoveableTo, TerrainManager.Instance); // find a path between the unit and the target thats walkable
+            currentPath = Pathfinding.FindPath(unit.GridPosition, targetPos, movementRange.isMoveableTo); // find a path between the unit and the target thats walkable
             if (currentPath != null) DrawPath(currentPath); // if a path is found, draw it
         }
         else
@@ -275,7 +275,7 @@ public class UnitMovement : MonoBehaviour
     public IEnumerator MoveTo(Vector2Int gridPos)
     {
         movementRange.PopulateHeightTileMap(unit.GridPosition, 9999, 0); // make it so that you can move places
-        currentPath = Pathfinding.FindPath(unit.GridPosition, gridPos, movementRange.isMoveableTo, TerrainManager.Instance); // calculate path
+        currentPath = Pathfinding.FindPath(unit.GridPosition, gridPos, movementRange.isMoveableTo); // calculate path
         movementRange.highlightTilemap.gameObject.SetActive(false); // set move highlights to be invisible
         if (unit.animPrefab) unit.getAnimator().SetBool("isMoving", true); // start running animation
         if (currentPath != null && currentPath.Count > 0) yield return MoveAlongPath(currentPath); // move
