@@ -30,4 +30,5 @@ public class UnitData : ScriptableObject, IIdentifiable
     public Item equippedItem;
     public Sprite combatSprite;
     public GameObject animationPrefab;
+    public WeaponProficiency proficiencyLevels;
 }

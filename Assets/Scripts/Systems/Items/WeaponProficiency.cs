@@ -5,8 +5,9 @@ using System.Collections.Generic;
 // designed to work both as a prof tracker for units and a stat container for classes and items
 
 [System.Serializable]
-public class WeaponProficiency
+public class WeaponProficiency // coulda named it better
 {
+    // the reference for all the proficiencies
     [SerializeField] private List<WeaponProficiencyEntry> profList = new List<WeaponProficiencyEntry>();
 
     private Dictionary<WeaponType, int> runtimeProfDict;
@@ -20,6 +21,7 @@ public class WeaponProficiency
         }
     }
 
+    // lmao why did i not use a constructor this isnt a monobehavior
     public void Initialize()
     {
         if (runtimeProfDict == null) BuildRuntimeDictionary();
@@ -27,6 +29,10 @@ public class WeaponProficiency
 
     public bool HasProficiency(WeaponType weapon)
     {
+        if(runtimeProfDict == null)
+        {
+            this.Initialize();
+        }
         return runtimeProfDict.ContainsKey(weapon);
     }
 
@@ -38,7 +44,7 @@ public class WeaponProficiency
     }
 
     public bool CheckWeapon(WeaponItem weapon)
-    {
+    {   
         if(weapon.proficiency.GetProficiencies() == null)
         {
             weapon.proficiency.Initialize();

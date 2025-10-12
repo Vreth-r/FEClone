@@ -72,9 +72,17 @@ public class CombatSceneManager : MonoBehaviour
         defenderStats.Open(defender);
 
         attackerWeaponName.text = context.attackerWeapon.itemName;
-        defenderWeaponName.text = context.defenderWeapon.itemName;
         attackerWeaponIcon.sprite = context.attackerWeapon.icon;
-        defenderWeaponIcon.sprite = context.defenderWeapon.icon;
+        if (context.defenderWeapon != null)
+        {
+            defenderWeaponName.text = context.defenderWeapon.itemName;
+            defenderWeaponIcon.sprite = context.defenderWeapon.icon;
+        }
+        else
+        {
+            defenderWeaponName.text = "None";
+            // gotta make a placeholder sprite
+        }
 
         StartCoroutine(PlayCombat(context, queue));
     }
