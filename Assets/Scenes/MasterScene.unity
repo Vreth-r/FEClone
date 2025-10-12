@@ -172,7 +172,6 @@ MonoBehaviour:
   convoy: []
   recruitedUnitIDs: []
   playerSpawnPositions: []
-  terrainDatabase: {fileID: 11400000, guid: 8ef33b932aa54fe44bae49fd2ccff93e, type: 2}
   unitDatabase: {fileID: 11400000, guid: 217924265ae289c4ab5a83a8d29fb808, type: 2}
   itemDatabase: {fileID: 11400000, guid: 38648cec8ad032c4fa3f34cb67e4e6cb, type: 2}
   skillDatabase: {fileID: 11400000, guid: a1034532dc055314f84762cee8f864fe, type: 2}

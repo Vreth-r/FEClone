@@ -30,10 +30,11 @@ public class StatsMenu : MonoBehaviour, IGameMenu
 
     private Unit currentUnit;
 
-    private Vector3 defaultPlacement = new Vector3(200, 125, 0);
+    private Vector3 defaultPlacement = new Vector3(0, 0, 0);
 
     public void Awake()
     {
+        // is this required?
         DontDestroyOnLoad(gameObject);
         escapable = false;
         IsOpen = false;
