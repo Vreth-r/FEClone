@@ -12,7 +12,7 @@ public class MapLoader : MonoBehaviour
         }
         else
         {
-            Debug.LogError($"Level scene not found: {level}");
+            Debug.LogError($"level scene not found: {level}");
         }
     }
 
