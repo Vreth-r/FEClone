@@ -5,6 +5,10 @@ public class MapLoader : MonoBehaviour
 {
     public void LoadMap(string level)
     {
+        // store the party before switching scenes
+        PlayerPersistor.Instance.StorePartyInContainer();
+        
+
         // just load whatever scene name is passed in
         if (SceneExists(level))
         {

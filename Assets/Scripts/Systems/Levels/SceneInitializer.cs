@@ -51,54 +51,26 @@ public class SceneInitializer : MonoBehaviour
         }
     }
 
-    // WIP
     private void SpawnPlayerUnits()
     {
-        // connects to existing save system for player data
-        if (SaveSystem.SaveExists(0))
+        Vector3Int[] spawnGridPositions = new Vector3Int[playerSpawnPositions.Length];
+        for (int i = 0; i < playerSpawnPositions.Length; i++)
         {
-            SaveSystem.LoadGame(0);
+            spawnGridPositions[i] = new Vector3Int(
+                Mathf.RoundToInt(playerSpawnPositions[i].position.x),
+                Mathf.RoundToInt(playerSpawnPositions[i].position.y),
+                0
+            );
+        }
+
+        if (PlayerPersistor.Instance.HasActiveParty())
+        {
+
+            PlayerPersistor.Instance.RestorePartyToScene(spawnGridPositions);
         }
         else
         {
-        //  create a default party if no save data exists
-        //  CreateDefaultParty();
-            Debug.LogError($"player save doesnt exist");
+            Debug.LogError("no party found");
         }
     }
-
-    // idk exactly how to do this but i imagine it would look something like this
-
-
-    // private void CreateDefaultParty()
-    // {
-    //     
-    //     idk how many characters default party is
-    //
-    //     string[] defaultUnitIDs = { "Ylru" };
-    //    
-    //     for (int i = 0; i < defaultUnitIDs.Length && i < playerSpawnPositions.Length; i++)
-    //     {
-    //         SpawnDefaultUnit(defaultUnitIDs[i], playerSpawnPositions[i]);
-    //     }
-    // }
-
-    // private void SpawnDefaultUnit(string unitID, Transform spawnPoint)
-    // {
-    //     UnitData unitData = GameManager.Instance.unitDatabase.GetByID(unitID);
-    //     if (unitData == null)
-    //     {
-    //         Debug.LogError($"unit not found in database: {unitID}");
-    //     }
-
-    //     Vector3Int gridPos = new Vector3Int(
-    //         Mathf.RoundToInt(spawnPoint.position.x),
-    //         Mathf.RoundToInt(spawnPoint.position.y),
-    //         0 
-    //     );
-        
-    //     Unit playerUnit = UnitSpawner.Instance.SpawnUnitFromTemplate(unitData, gridPos);
-    //     playerUnit.team = Team.Player;
-    //     UnitManager.Instance.RegisterUnit(playerUnit);
-    // }
 }
