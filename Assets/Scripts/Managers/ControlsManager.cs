@@ -8,6 +8,8 @@ public enum InputContext
     Menu
 }
 
+// ** IMPORTANT **
+// this is hardcoded to make additions and removals more clear, will switch to dynamic later maybe if im not lazy
 public class ControlsManager : MonoBehaviour
 {
     public static ControlsManager Instance { get; private set; }
@@ -18,6 +20,7 @@ public class ControlsManager : MonoBehaviour
     [Header("Gameplay Actions")]
     [SerializeField] private InputActionReference moveCursorAction;
     [SerializeField] private InputActionReference selectAction;
+    [SerializeField] private InputActionReference toggleGridAction;
 
     [Header("Menu Actions")]
     [SerializeField] private InputActionReference navigateAction;
@@ -32,6 +35,8 @@ public class ControlsManager : MonoBehaviour
     public event Action OnSubmit;
     public event Action OnSelect;
     public event Action OnCancel;
+
+    public event Action OnToggleGrid;
 
     void Awake()
     {
@@ -55,6 +60,11 @@ public class ControlsManager : MonoBehaviour
         if (selectAction != null)
         {
             selectAction.action.performed += ctx => OnSelect?.Invoke();
+        }
+
+        if (toggleGridAction != null)
+        {
+            toggleGridAction.action.performed += ctx => OnToggleGrid?.Invoke();
         }
 
         // --- Menu bindings ---
@@ -93,6 +103,7 @@ public class ControlsManager : MonoBehaviour
         {
             moveCursorAction?.action.Enable();
             selectAction?.action.Enable();
+            toggleGridAction?.action.Enable();
         }
         else if (CurrentContext == InputContext.Menu)
         {
@@ -106,6 +117,7 @@ public class ControlsManager : MonoBehaviour
     {
         moveCursorAction?.action.Disable();
         selectAction?.action.Disable();
+        toggleGridAction?.action.Disable();
         navigateAction?.action.Disable();
         submitAction?.action.Disable();
         cancelAction?.action.Disable();

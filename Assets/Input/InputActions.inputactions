@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "InputActions",
     "maps": [
         {
@@ -18,6 +19,15 @@
                     "name": "Select",
                     "type": "Button",
                     "id": "7fc718b8-80e6-43f0-b1b5-23606d4ea971",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ToggleGrid",
+                    "type": "Button",
+                    "id": "2b2a2f36-3453-424c-9ee4-bcf7534a2325",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -99,6 +109,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Select",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "20cf1920-d68f-4a9f-a5b6-3284ea4e0768",
+                    "path": "<Keyboard>/g",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ToggleGrid",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

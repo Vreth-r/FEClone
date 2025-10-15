@@ -238,6 +238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ControlsManager
   moveCursorAction: {fileID: -945563681593036706, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
   selectAction: {fileID: 303627853884267511, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
+  toggleGridAction: {fileID: 2423417206703982792, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
   navigateAction: {fileID: 3657226291200106666, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
   submitAction: {fileID: 8157198445712048558, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
   cancelAction: {fileID: 7378716944734307329, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
