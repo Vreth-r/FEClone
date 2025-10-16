@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using TMPro;
 using System.IO;
 using Newtonsoft.Json;
+using Yarn.Unity;
 
 public class LoadingScreenManager : MonoBehaviour
 {
@@ -18,6 +19,7 @@ public class LoadingScreenManager : MonoBehaviour
     private TextMeshProUGUI loadingText;
     private TextMeshProUGUI tipText;
     public Dictionary<string, List<string>> tips = new();
+    public DialogueRunner runner;
 
     private void Awake()
     {
@@ -36,6 +38,7 @@ public class LoadingScreenManager : MonoBehaviour
     // set to be axed
     public void LoadLevel(string levelID)
     {
+        //Debug.Log($"[LoadingScreenManager] LoadLevel CALLED by {new System.Diagnostics.StackTrace().GetFrame(1).GetMethod().DeclaringType}");
         LoadScene(levelID, () =>
         {
             StartCoroutine(FinishLevelLoad(levelID));
@@ -49,7 +52,7 @@ public class LoadingScreenManager : MonoBehaviour
         MapLoader loader = FindFirstObjectByType<MapLoader>(); // will make this a ref later maybe unsure i need to really diagram out all this code
         if (loader == null)
         {
-            Debug.LogError("No MapLoader found in template scene");
+            Debug.LogError("No MapLoader found in template scene, wasian girl winter is coming");
             yield break;
         }
 
@@ -58,6 +61,7 @@ public class LoadingScreenManager : MonoBehaviour
 
     public void LoadScene(string sceneName, System.Action onComplete = null)
     {
+        Debug.Log($"Loading Scene {sceneName}");
         StartCoroutine(LoadSceneRoutine(sceneName, onComplete));
     }
 

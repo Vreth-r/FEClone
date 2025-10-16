@@ -29,7 +29,7 @@ public class CameraPanner : MonoBehaviour
     private float halfCamWidth;
 
     // Cutscene variables
-    private bool inCutscene = false; // to enable/disable to regular panner behaviour
+    public bool inCutscene = false; // to enable/disable to regular panner behaviour
     public Vector3 shakeOffset = Vector3.zero;
     void Start()
     {

@@ -479,7 +479,7 @@ GameObject:
   - component: {fileID: 703649737}
   - component: {fileID: 703649736}
   - component: {fileID: 703649735}
-  - component: {fileID: 703649734}
+  - component: {fileID: 703649738}
   m_Layer: 0
   m_Name: DevGoToLibrary
   m_TagString: Untagged
@@ -487,21 +487,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &703649734
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 703649733}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f3c0729b7f66634eb2457a7399aa72a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactText: Press [E] to go to library level
-  menuType: 0
-  sceneName: Library
 --- !u!212 &703649735
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -622,6 +607,21 @@ Transform:
   - {fileID: 1627626270}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &703649738
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 703649733}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e78b9bb28b811b43881d63775b60662, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::GoToSceneInteractable
+  interactText: Press [E] to interact
+  menuType: 0
+  sceneName: Library
 --- !u!1 &738206141
 GameObject:
   m_ObjectHideFlags: 0

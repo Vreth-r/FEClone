@@ -1,13 +1,23 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Yarn.Unity;
+using System.Threading;
 
 // Cutscene Manager! 
 public class CutsceneManager : MonoBehaviour
 {
+    public static CutsceneManager Instance { get; private set; }
     public CameraPanner cameraPanner; // camera panner ref to do things with
     public CutsceneDescriptionData testCutscene; // Testing only
 
+    void Awake()
+    {
+        if(Instance == null)
+        {
+            Instance = this;
+        }
+    }
     void Start() // testing only
     {
         if (testCutscene) StartCoroutine(TestRun());
@@ -70,5 +80,23 @@ public class CutsceneManager : MonoBehaviour
                 yield return new WaitForSeconds(e.floatParam1);
                 break;
         }
+    }
+
+    public YarnTask YarnCoroutine(IEnumerator coroutine)
+    {
+        var tcs = new YarnTaskCompletionSource();
+        StartCoroutine(WrapCoroutine(coroutine, tcs));
+        return tcs.Task;
+    }
+
+    private IEnumerator WrapCoroutine(IEnumerator coroutine, YarnTaskCompletionSource tcs)
+    {
+        yield return coroutine;
+        tcs.TrySetResult();
+    }
+
+    public IEnumerator Wait(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
     }
 }

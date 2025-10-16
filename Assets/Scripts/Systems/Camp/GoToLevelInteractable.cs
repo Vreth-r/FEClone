@@ -1,5 +1,7 @@
 using UnityEngine;
 
+
+// this was rushed, need to reimplement
 public class GoToLevelInteractable : CampInteractable
 {
 
