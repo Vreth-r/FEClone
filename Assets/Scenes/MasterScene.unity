@@ -190,6 +190,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   loadingScreenPrefab: {fileID: 6910540426760335846, guid: 9a5495b777e847041bafaece56ef7f91, type: 3}
+  runner: {fileID: 0}
 --- !u!114 &105420750
 MonoBehaviour:
   m_ObjectHideFlags: 0

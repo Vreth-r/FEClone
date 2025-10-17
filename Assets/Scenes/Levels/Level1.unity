@@ -9052,10 +9052,15 @@ PrefabInstance:
       propertyPath: tilemap
       value: 
       objectReference: {fileID: 1680907660}
+    - target: {fileID: 8560587516324984912, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 8089680912543166895, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}
     m_RemovedGameObjects:
     - {fileID: 2173173086171379060, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}
+    - {fileID: 4492590848086958627, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}

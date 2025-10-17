@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Yarn.Unity;
 using System.Threading;
+using TMPro;
+using UnityEngine.UI;
 
 // Cutscene Manager! 
 public class CutsceneManager : MonoBehaviour
@@ -11,13 +13,27 @@ public class CutsceneManager : MonoBehaviour
     public CameraPanner cameraPanner; // camera panner ref to do things with
     public CutsceneDescriptionData testCutscene; // Testing only
 
+    [Header("Fade Elements")]
+    public Image fadeImage;
+    public TextMeshProUGUI fadeText;
+
     void Awake()
     {
-        if(Instance == null)
+        if (Instance == null)
         {
             Instance = this;
         }
+
+        if (fadeImage != null)
+        {
+            fadeImage.color = new Color(0, 0, 0, 0);
+        }
+        if (fadeText != null)
+        {
+            fadeText.alpha = 0;
+        }
     }
+
     void Start() // testing only
     {
         if (testCutscene) StartCoroutine(TestRun());
@@ -79,6 +95,70 @@ public class CutsceneManager : MonoBehaviour
             case CutsceneEventType.Wait:
                 yield return new WaitForSeconds(e.floatParam1);
                 break;
+        }
+    }
+
+    public IEnumerator FadeIn(float duration)
+    {
+        if (fadeImage == null)
+        {
+            yield break;
+        }
+
+        float t = 0;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float alpha = Mathf.Clamp01(t / duration);
+            fadeImage.color = new Color(0, 0, 0, alpha);
+            yield return null;
+        }
+    }
+
+    public IEnumerator FadeOut(float duration)
+    {
+        if (fadeImage == null)
+        {
+            yield break;
+        }
+
+        float t = 0;
+        Color c = fadeImage.color;
+        while (t < duration)
+        {
+            t += Time.deltaTime;
+            float alpha = Mathf.Clamp01(1 - t / duration);
+            fadeImage.color = new Color(0, 0, 0, alpha);
+            yield return null;
+        }
+
+        // hide text if any
+        if (fadeText != null)
+            fadeText.alpha = 0;
+    }
+
+    public IEnumerator ShowText(string text, float duration)
+    {
+        fadeText.text = text;
+
+        // fade in
+        float t = 0;
+        while (t < 0.5f)
+        {
+            t += Time.deltaTime;
+            fadeText.alpha = Mathf.Lerp(0, 1, t / 0.5f);
+            yield return null;
+        }
+
+        yield return new WaitForSeconds(duration);
+
+        // fade out
+        t = 0;
+        while (t < 0.5f)
+        {
+            t += Time.deltaTime;
+            fadeText.alpha = Mathf.Lerp(1, 0, t / 0.5f);
+            yield return null;
         }
     }
 

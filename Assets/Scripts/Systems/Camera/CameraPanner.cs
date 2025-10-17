@@ -21,6 +21,15 @@ public class CameraPanner : MonoBehaviour
     [Header("Camera Settings")]
     public float cameraSpeed = 1f;
 
+    [Tooltip("How fast the camera follows the target (higher = snappier)")]
+    public float panSmoothTime = 0.2f;
+
+    [Tooltip("How fast the camera zooms (higher = faster zoom)")]
+    public float zoomSmoothTime = 0.3f;
+
+    private Vector3 currentVelocity = Vector3.zero;
+    //private float zoomVelocity = 0f;
+
     private Camera cam;
     private Vector3 minCameraPos;
     private Vector3 maxCameraPos;
@@ -63,7 +72,8 @@ public class CameraPanner : MonoBehaviour
             targetWorldPos.y = Mathf.Clamp(targetWorldPos.y, minCameraPos.y, maxCameraPos.y);
 
             // smoove cam movement
-            transform.position = Vector3.Lerp(transform.position, targetWorldPos, cameraSpeed * Time.deltaTime);
+            // transform.position = Vector3.Lerp(transform.position, targetWorldPos, cameraSpeed * Time.deltaTime);
+            transform.position = Vector3.SmoothDamp(transform.position, targetWorldPos, ref currentVelocity, panSmoothTime);
         }
         transform.position += shakeOffset;
     }
@@ -72,10 +82,11 @@ public class CameraPanner : MonoBehaviour
     public IEnumerator PanToLocation(Vector3 targetPos, float speed)
     {
         Vector3 targetCameraPos = new Vector3(targetPos.x, targetPos.y, -10); // set the z to -10
+        Vector3 velocity = Vector3.zero;
 
         while (Vector3.Distance(transform.position, targetCameraPos) > 0.075f)
         {
-            transform.position = Vector3.MoveTowards(transform.position, targetCameraPos, speed * Time.deltaTime);
+            transform.position = Vector3.SmoothDamp(transform.position, targetCameraPos, ref velocity, 1f / speed);
             yield return null;
         }
 
@@ -116,6 +127,32 @@ public class CameraPanner : MonoBehaviour
     public void SetInCutscene(bool val)
     {
         inCutscene = val;
+    }
+
+    public IEnumerator ZoomCamera(float targetSize, float duration, float zoomSTime)
+    {
+        float startSize = cam.orthographicSize;
+        float elapsed = 0f;
+        float currentVelocity = 0f;
+        if (zoomSTime == -1)
+        {
+            zoomSTime = zoomSmoothTime;
+        }
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            cam.orthographicSize = Mathf.SmoothDamp(cam.orthographicSize, targetSize, ref currentVelocity, zoomSTime);
+            yield return null;
+        }
+
+        cam.orthographicSize = targetSize;
+    }
+
+    // Optionally, to instantly set zoom
+    public void SetZoom(float targetSize)
+    {
+        cam.orthographicSize = targetSize;
     }
 }
 

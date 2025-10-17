@@ -66,4 +66,49 @@ public class CutsceneYarnCommands : MonoBehaviour
             ? CutsceneManager.Instance.YarnCoroutine(CutsceneManager.Instance.Wait(duration))
             : YarnTask.CompletedTask;
     }
+
+    [YarnCommand("FadeInBlack")]
+    public static YarnTask FadeInBlack(float duration = 1f)
+    {
+        return CutsceneManager.Instance != null
+            ? CutsceneManager.Instance.YarnCoroutine(CutsceneManager.Instance.FadeIn(duration))
+            : YarnTask.CompletedTask;
+    }
+
+    [YarnCommand("FadeOutBlack")]
+    public static YarnTask FadeOutBlack(float duration = 1f)
+    {
+        return CutsceneManager.Instance != null
+            ? CutsceneManager.Instance.YarnCoroutine(CutsceneManager.Instance.FadeOut(duration))
+            : YarnTask.CompletedTask;
+    }
+
+    [YarnCommand("ShowBlackText")]
+    public static YarnTask ShowBlackText(string text, float duration = 2f)
+    {
+        return CutsceneManager.Instance != null
+            ? CutsceneManager.Instance.YarnCoroutine(CutsceneManager.Instance.ShowText(text, duration))
+            : YarnTask.CompletedTask;
+    }
+
+    [YarnCommand("CameraZoom")]
+    public static YarnTask CameraZoom(float targetSize, float duration = 1f, float zoomSmoothTime = -1)
+    {
+        var panner = FindFirstObjectByType<CameraPanner>();
+        if (panner == null)
+        {
+            Debug.LogWarning("CameraPanner not found in scene!");
+            return YarnTask.CompletedTask;
+        }
+
+        return CutsceneManager.Instance.YarnCoroutine(panner.ZoomCamera(targetSize, duration, zoomSmoothTime));
+    }
+
+    [YarnCommand("CameraSetZoom")]
+    public static void CameraSetZoom(float targetSize)
+    {
+        var panner = FindFirstObjectByType<CameraPanner>();
+        if (panner != null)
+            panner.SetZoom(targetSize);
+    }
 }
