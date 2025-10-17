@@ -6,7 +6,8 @@ using System.IO;
 public class SceneInitializer : MonoBehaviour
 {
     [Header("Scene References")]
-    public Transform[] playerSpawnPositions;
+    // unit spawns set in editor for each level manager
+    public Vector3[] playerUnitSpawnPositions;
     
     private List<Unit> preplacedEnemies = new List<Unit>();
 
@@ -22,7 +23,7 @@ public class SceneInitializer : MonoBehaviour
         
         FindAllEnemiesInScene();
         RegisterPreplacedUnits();
-        
+
         SpawnPlayerUnits();
     }
 
@@ -53,17 +54,13 @@ public class SceneInitializer : MonoBehaviour
 
     private void SpawnPlayerUnits()
     {
-        Vector3Int[] spawnGridPositions = new Vector3Int[playerSpawnPositions.Length];
-        for (int i = 0; i < playerSpawnPositions.Length; i++)
+        Vector3Int[] spawnGridPositions = new Vector3Int[playerUnitSpawnPositions.Length];
+        for (int i = 0; i < playerUnitSpawnPositions.Length; i++)
         {
-            spawnGridPositions[i] = new Vector3Int(
-                Mathf.RoundToInt(playerSpawnPositions[i].position.x),
-                Mathf.RoundToInt(playerSpawnPositions[i].position.y),
-                0
-            );
+            spawnGridPositions[i] = GridManager.Instance.WorldToCell(playerUnitSpawnPositions[i]);
         }
 
-        if (PlayerPersistor.Instance.HasActiveParty())
+        if (PlayerPersistor.Instance.HasStoredParty())
         {
 
             PlayerPersistor.Instance.RestorePartyToScene(spawnGridPositions);

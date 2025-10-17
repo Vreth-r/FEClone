@@ -1,3 +1,4 @@
+using TMPro;
 using UnityEngine;
 
 // creates an empty game object to store the player units while switching levels
@@ -41,23 +42,47 @@ public class PlayerPersistor : MonoBehaviour
         // move players back to the scene and position them
         for (int i = 0; i < partyContainer.transform.childCount && i < spawnPositions.Length; i++)
         {
-            Transform player = partyContainer.transform.GetChild(i);
-            player.SetParent(null); 
+            Transform playerUnit = partyContainer.transform.GetChild(i);
+            playerUnit.SetParent(null);
 
             // add to UnitManager
-            Unit unit = player.GetComponent<Unit>();
+            Unit unit = playerUnit.GetComponent<Unit>();
             if (unit != null)
             {
                 unit.transform.position = GridManager.Instance.CellToWorld(spawnPositions[i]);
                 unit.GridPosition = (Vector2Int)spawnPositions[i];
-
                 UnitManager.Instance.RegisterUnit(unit);
             }
         }
     }
 
-    public bool HasActiveParty()
+    public bool HasStoredParty()
     {
-        return partyContainer.transform.childCount > 0;
+        // check PartyContainer for party members
+        if (partyContainer.transform.childCount > 0)
+        {
+            return true;
+        }
+
+        // when party isnt stored yet (aka first level), check preplaced units
+        Unit[] allUnits = FindObjectsByType<Unit>(FindObjectsSortMode.None);
+        bool foundPlayerUnits = false;
+        
+        foreach (Unit unit in allUnits)
+        {
+            if (unit.team == Team.Player)
+            {
+                foundPlayerUnits = true;
+                break; // found at least one, stop searching
+            }
+        }
+        
+        // if we found player units in the scene, store them all
+        if (foundPlayerUnits)
+        {
+            StorePartyInContainer();
+        }
+        
+        return foundPlayerUnits;
     }
 }

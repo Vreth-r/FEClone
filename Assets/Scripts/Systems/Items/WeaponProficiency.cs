@@ -38,6 +38,12 @@ public class WeaponProficiency // coulda named it better
 
     public void AddProficiency(WeaponType weapon, int level = 0)
     {
+        // kept getting an error with preplaced units in scene
+        if (runtimeProfDict == null)
+        {
+            this.Initialize();
+        }
+        
         if(runtimeProfDict.ContainsKey(weapon)) return;
         profList.Add(new WeaponProficiencyEntry { weaponType = weapon, level = level });
         runtimeProfDict[weapon] = level;
