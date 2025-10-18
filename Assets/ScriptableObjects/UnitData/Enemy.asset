@@ -16,7 +16,7 @@ MonoBehaviour:
   unitName: Enemy
   unitTitle: broke
   unitDescription: broke ass jobless bum
-  team: 0
+  team: 1
   startingClass: {fileID: 11400000, guid: b53ca2d9fcea9094f8028c81e45e043e, type: 2}
   level: 1
   maxHP: 20
@@ -31,3 +31,5 @@ MonoBehaviour:
   equippedItem: {fileID: 11400000, guid: 36b1a8b3f564659469c4954711af5bad, type: 2}
   combatSprite: {fileID: 21300000, guid: 850b535ab0f2bfb4aadd8a28ab6d9edc, type: 3}
   animationPrefab: {fileID: 0}
+  proficiencyLevels:
+    profList: []
