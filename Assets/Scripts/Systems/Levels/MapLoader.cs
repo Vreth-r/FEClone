@@ -1,97 +1,35 @@
 using UnityEngine;
-using System.IO;
+using UnityEngine.SceneManagement;
 
-/// THE MAP JSON IS SET TO BE MAINLY REPLACED WITH A SCENE SOLUTION INSTEAD, THIS CLASS WILL CHANGE.
-/// SORRY!
-
-/// <summary>
-///  Class <c>MapLoader</c> loads all terrain and unit information for a level from its json file.
-/// </summary>
 public class MapLoader : MonoBehaviour
 {
-    [Header("References")]
-    public UnitSpawner unitSpawner; // the unit spawner is to be attatched to the game manager
-    public CameraPanner panner; // so the camera loads the tilemap bounds at the right time
-    public CursorController cursor; // ^
-
-    [Header("Data")]
-    public string mapFileName; // for dev reasons will be set in editor for now
-
-    public void LoadMap(string fileName)
+    public void LoadMap(string level)
     {
-        string path = Path.Combine(Application.streamingAssetsPath, "Maps", fileName + ".json"); // find the file
-        if (!File.Exists(path))
+        // store the party before switching scenes
+        PlayerPersistor.Instance.StorePartyInContainer();
+
+        // just load whatever scene name is passed in
+        if (SceneExists(level))
         {
-            Debug.LogError("Map file not found: " + path); // error handling
-            return;
+            SceneManager.LoadScene(level);
         }
-
-        string json = File.ReadAllText(path);
-        LevelMapData mapData = JsonUtility.FromJson<LevelMapData>(json); // grab json reference
-
-        if (mapData == null)
+        else
         {
-            Debug.LogError("Failed to parse map data");
-            return;
+            Debug.LogError($"level scene not found: {level}");
         }
-
-        BuildMap(mapData); // begin parsing
     }
 
-    public void LoadFromField() => LoadMap(mapFileName);
-
-    public void BuildMap(LevelMapData data)
+    private bool SceneExists(string sceneName)
     {
-        // clear current state
-        //GridManager.Instance.ClearGrid();
-        UnitManager.Instance.ClearAllUnits();
-
-        //GridManager.Instance.Initialize();
-
-        // load terrain from CSV
-        /*
-        if (data.tileCSV != null && data.terrainKey != null)
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
         {
-            string[] rows = data.tileCSV.Split('\n');
-            for (int y = 0; y < rows.Length; y++)
+            string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
+            string sceneNameInBuild = System.IO.Path.GetFileNameWithoutExtension(scenePath);
+            if (sceneNameInBuild == sceneName)
             {
-                string[] cells = rows[y].Trim().Split(',');
-                for (int x = 0; x < cells.Length; x++)
-                {
-                    if (int.TryParse(cells[x], out int terrainIndex) && terrainIndex >= 0 && terrainIndex < data.terrainKey.Count)
-                    {
-                        string terrainType = data.terrainKey[terrainIndex];
-                        GridManager.Instance.PlaceTerrain(x, y, terrainType);
-                    }
-                }
+                return true;
             }
         }
-        else if (data.tiles != null && data.tiles.Count > 0)
-        {
-            // fallback to the uncompressed format
-            foreach (TileData tile in data.tiles)
-            {
-                GridManager.Instance.PlaceTerrain(tile.x, tile.y, tile.terrainType);
-            }
-        }
-        */
-
-        // place player units
-        foreach (UnitSpawnData player in data.playerUnits)
-        {
-            UnitData unitData = UnitDatabase.Instance.GetByID(player.unitID);
-            unitSpawner.SpawnUnitFromTemplate(unitData, new Vector3Int(player.x, player.y, 0));
-        }
-
-        // place enemies
-        foreach (UnitSpawnData enemy in data.enemyUnits)
-        {
-            UnitData unitData = UnitDatabase.Instance.GetByID(enemy.unitID);
-            var unit = unitSpawner.SpawnUnitFromTemplate(unitData, new Vector3Int(enemy.x, enemy.y, 0));
-            unit.team = Team.Enemy;
-        }
-        panner.LoadGridBounds();
-        cursor.LoadGridBounds();
-        Debug.Log($"Loaded map: {data.displayName}");
+        return false;
     }
 }
