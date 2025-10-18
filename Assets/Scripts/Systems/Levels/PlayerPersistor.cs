@@ -21,7 +21,7 @@ public class PlayerPersistor : MonoBehaviour
 
         partyContainer = new GameObject("PartyContainer");
         partyContainer.transform.SetParent(transform);
-        DontDestroyOnLoad(partyContainer);
+        //DontDestroyOnLoad(partyContainer);
     }
 
     public void StorePartyInContainer()

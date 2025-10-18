@@ -616,9 +616,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 703649733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3e78b9bb28b811b43881d63775b60662, type: 3}
+  m_Script: {fileID: 11500000, guid: 6f3c0729b7f66634eb2457a7399aa72a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GoToSceneInteractable
+  m_EditorClassIdentifier: Assembly-CSharp::GoToLevelInteractable
   interactText: Press [E] to interact
   menuType: 0
   sceneName: Library

@@ -1452,6 +1452,9 @@ MonoBehaviour:
   tilemap: {fileID: 0}
   cursor: {fileID: 4595987145018045725}
   cameraSpeed: 2
+  panSmoothTime: 0.2
+  zoomSmoothTime: 0.3
+  inCutscene: 0
   shakeOffset: {x: 0, y: 0, z: 0}
 --- !u!114 &2942857634612152747
 MonoBehaviour:
@@ -1467,6 +1470,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cameraPanner: {fileID: 8495137812314641832}
   testCutscene: {fileID: 0}
+  fadeImage: {fileID: 0}
+  fadeText: {fileID: 0}
 --- !u!114 &7852965921891382084
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4088,9 +4093,9 @@ GameObject:
   - component: {fileID: 1638433636024979578}
   - component: {fileID: 2575021078966588874}
   - component: {fileID: 6379571432920881332}
-  - component: {fileID: 4982891434447181953}
   - component: {fileID: 7947383711016115493}
   - component: {fileID: 4595987145018045725}
+  - component: {fileID: 1410972170788093256}
   m_Layer: 0
   m_Name: Level Manager
   m_TagString: Untagged
@@ -4202,22 +4207,6 @@ MonoBehaviour:
   defenderWeaponName: {fileID: 9188794691156682896}
   attackerWeaponIcon: {fileID: 509574319360739155}
   defenderWeaponIcon: {fileID: 1267602923483969486}
---- !u!114 &4982891434447181953
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6227158450644518853}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 95a820da58182964a97e083cdb8cccda, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  unitSpawner: {fileID: 7947383711016115493}
-  panner: {fileID: 8495137812314641832}
-  cursor: {fileID: 4595987145018045725}
-  mapFileName: 
 --- !u!114 &7947383711016115493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4250,6 +4239,20 @@ MonoBehaviour:
   terrainTilemap: {fileID: 0}
   cursorTile: {fileID: 11400000, guid: 37c4c03511b76f247b1dbdb45dd896f3, type: 2}
   grid: {fileID: 0}
+--- !u!114 &1410972170788093256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227158450644518853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56e4870f8f6d7704cac81e8315503ce0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SceneInitializer
+  playerUnitSpawnPositions:
+  - {x: 5, y: 3, z: 0}
 --- !u!1 &6245859660617926812
 GameObject:
   m_ObjectHideFlags: 0

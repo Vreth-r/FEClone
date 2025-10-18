@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f3d7a80d42b353b4ab2eb1a0343a11cd, type: 3}
-  m_Name: Forest
-  m_EditorClassIdentifier: Assembly-CSharp::TerrainTileBase
-  m_Sprite: {fileID: 665071057, guid: c8499a616a88faf43bf8bd85330b9237, type: 3}
+  m_Name: Impassable
+  m_EditorClassIdentifier: Assembly-CSharp::TerrainTile
+  m_Sprite: {fileID: -449598293, guid: c8499a616a88faf43bf8bd85330b9237, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Transform:
     e00: 1
@@ -34,13 +34,13 @@ MonoBehaviour:
   m_InstancedGameObject: {fileID: 0}
   m_Flags: 1
   m_ColliderType: 1
-  terrainName: Forest
-  moveCost: 2
-  impassable: 0
-  blocksArmored: 0
+  terrainName: Impassable
+  moveCost: 1
+  impassable: 1
+  blocksArmored: 1
   blocksMounted: 1
-  blocksNonFlying: 0
+  blocksNonFlying: 1
   ignoreForFlying: 1
   hitBonus: 0
-  avoidBonus: 10
+  avoidBonus: 0
   defenseBonus: 0
