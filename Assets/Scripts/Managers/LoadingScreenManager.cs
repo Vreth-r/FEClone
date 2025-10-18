@@ -47,22 +47,35 @@ public class LoadingScreenManager : MonoBehaviour
 
     private IEnumerator FinishLevelLoad(string mapID)
     {
-        yield return null; // wait a frame
-
-        MapLoader loader = FindFirstObjectByType<MapLoader>(); // will make this a ref later maybe unsure i need to really diagram out all this code
-        if (loader == null)
-        {
-            Debug.LogError("No MapLoader found in template scene, wasian girl winter is coming");
-            yield break;
-        }
-
-        loader.LoadMap(mapID);
+        yield return null; // wait a frame for full load
+        PlayerPersistor.Instance.StorePartyInContainer();
+        GameManager.Instance.MasterYarnRunner.StartDialogue(mapID);
     }
 
     public void LoadScene(string sceneName, System.Action onComplete = null)
     {
+        if (!SceneExists(sceneName))// break out if scene doesnt exist
+        {
+            Debug.Log($"No scene '{sceneName} found in build settings");
+            return;
+        }
+             
         Debug.Log($"Loading Scene {sceneName}");
         StartCoroutine(LoadSceneRoutine(sceneName, onComplete));
+    }
+
+    private bool SceneExists(string sceneName)
+    {
+        for (int i = 0; i < SceneManager.sceneCountInBuildSettings; i++)
+        {
+            string scenePath = SceneUtility.GetScenePathByBuildIndex(i);
+            string sceneNameInBuild = System.IO.Path.GetFileNameWithoutExtension(scenePath);
+            if (sceneNameInBuild == sceneName)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 
     private IEnumerator LoadSceneRoutine(string sceneName, System.Action onComplete)

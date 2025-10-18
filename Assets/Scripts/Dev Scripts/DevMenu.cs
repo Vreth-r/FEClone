@@ -8,7 +8,6 @@ public class DevMenu : MonoBehaviour
     public Button encodeMap;
 
     public MapEncoder mapEncoder;
-    public MapLoader mapLoader;
 
     public TextMeshProUGUI controlContextText;
 
