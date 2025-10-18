@@ -1,21 +1,32 @@
 title: Library
 ---
-<<CameraSetZoom 3>>
-<<FadeInBlack 0.01>>
-<<ShowBlackText "The Academy, Arcane Exarchate of Ilgrad, Year 43 of the Fallen Age" 4>>
-<<wait 0.5>>
-<<FadeOutBlack 1.5>>
-<<wait 2>>
+<<SetControlContext "Cutscene">>
+// <<CameraSetZoom 3>>
+// <<FadeInBlack 0.01>>
+// <<ShowBlackText "The Academy, Arcane Exarchate of Ilgrad, Year 43 of the Fallen Age" 4>>
+// <<wait 0.5>>
+// <<FadeOutBlack 1.5>>
+// <<wait 2>>
 
-<<PanToLocation 10 2 10 2>>
-<<wait 1>>
-<<CameraZoom 5 4 0.9>>
-<<wait 1>>
-The rain taps faintly on the high windows of Ilgrad Academy’s Grand Library.
-Somewhere, a clock tolls the midnight hour.
-(insert ylru sprite actions here when we have them + backend)
-Ylru: Done, finally.
-<<PanToLocation 10 4 10 2>>
-(ylru sprite action spell cast in the circle)
-Ylru: I wish I had a white monster right about now.
+// <<PanToLocation 10 2 10 2>>
+// <<wait 1>>
+// <<CameraZoom 5 4 0.9>>
+// <<wait 1>>
+// The rain taps faintly on the high windows of Ilgrad Academy’s Grand Library.
+// Somewhere, a clock tolls the midnight hour.
+// (insert ylru sprite actions here when we have them + backend)
+// Ylru: Done, finally.
+// <<PanToLocation 10 4 10 2>>
+// (ylru sprite action spell cast in the circle)
+// Ylru: I wish I had a white monster right about now.
+
+// debugging
+<<FadeInBlack 0.01>>
+<<ShowBlackText "Fuck you." 1>>
+<<wait 0.5>>
+<<FadeOutBlack 1>>
+
+<<PanToUnit "Ylru" 5>>
+Bitch.
+<<SetControlContext "Gameplay">>
 ===

@@ -786,6 +786,10 @@ PrefabInstance:
       propertyPath: m_BlocksRaycasts
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2958262985454349548, guid: 52571f68872914e24837210513edea1d, type: 3}
+      propertyPath: autoAdvance
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2958262986520364887, guid: 52571f68872914e24837210513edea1d, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -836,8 +840,20 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3859336324316773513, guid: 52571f68872914e24837210513edea1d, type: 3}
       propertyPath: inputMode
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3859336324316773513, guid: 52571f68872914e24837210513edea1d, type: 3}
+      propertyPath: nextLineAction
+      value: 
+      objectReference: {fileID: 4067110577441381167, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
+    - target: {fileID: 3859336324316773513, guid: 52571f68872914e24837210513edea1d, type: 3}
+      propertyPath: hurryUpLineAction
+      value: 
+      objectReference: {fileID: 4316336135174012145, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
+    - target: {fileID: 3859336324316773513, guid: 52571f68872914e24837210513edea1d, type: 3}
+      propertyPath: cancelDialogueAction
+      value: 
+      objectReference: {fileID: -7813967025810434486, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
     - target: {fileID: 7227784380660382400, guid: 52571f68872914e24837210513edea1d, type: 3}
       propertyPath: m_BlockingMask.m_Bits
       value: 0
@@ -1457,7 +1473,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   encodeMap: {fileID: 1781323892}
   mapEncoder: {fileID: 1716026049}
-  mapLoader: {fileID: 0}
   controlContextText: {fileID: 676270588}
   uiMenuCountText: {fileID: 685563519}
 --- !u!114 &1716026049

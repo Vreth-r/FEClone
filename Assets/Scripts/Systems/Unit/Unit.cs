@@ -56,7 +56,7 @@ public class Unit : MonoBehaviour
         // Start will run at the start of EVERY start, even if booting into a save
         GridPosition = (Vector2Int)GridManager.Instance.WorldToCell(transform.position);
         movementRange = unitClass.movementRange;
-        UnitManager.Instance.RegisterUnit(this); // Tell the unit manager this thing exists
+        //UnitManager.Instance.RegisterUnit(this); // Tell the unit manager this thing exists (now handled in scene initializer)
         if (proficiencyLevels == null)
         {
             proficiencyLevels.Initialize();

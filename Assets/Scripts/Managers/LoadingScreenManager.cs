@@ -48,7 +48,7 @@ public class LoadingScreenManager : MonoBehaviour
     private IEnumerator FinishLevelLoad(string mapID)
     {
         yield return null; // wait a frame for full load
-        PlayerPersistor.Instance.StorePartyInContainer();
+        //PlayerPersistor.Instance.StorePartyInContainer();
         GameManager.Instance.MasterYarnRunner.StartDialogue(mapID);
     }
 

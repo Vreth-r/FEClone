@@ -16,11 +16,13 @@ public class UnitManager : MonoBehaviour
 
     public void RegisterUnit(Unit unit)
     {
+        Debug.Log($"Registering {unit.unitName}");
         unitPositions[unit.GridPosition] = unit; // track this unit 
     }
 
     public void UnregisterUnit(Unit unit)
     {
+        Debug.Log($"Unregistering {unit.unitName}");
         unitPositions.Remove(unit.GridPosition); // stop tracking unit (cause it died lmao)
     }
 
@@ -54,6 +56,7 @@ public class UnitManager : MonoBehaviour
         unitPositions.Clear();
     }
 
+    // why are these four methods lowercase?
     public void selectUnit(Unit unit)
     {
         selectedUnit = unit; // selected a unit
@@ -74,6 +77,19 @@ public class UnitManager : MonoBehaviour
     public bool isAUnitSelected()
     {
         return selectedUnit != null; // returns if there is a selected unit
+    }
+
+    public Vector2Int GetUnitPositionByName(string unitName)
+    {
+        foreach (Vector2Int pos in GetAllOccupiedPositions())
+        {
+            unitPositions.TryGetValue(pos, out Unit unit);
+            if (unit.unitName == unitName)
+            {
+                return pos;
+            }
+        }
+        return new Vector2Int(0, 0);
     }
 
     public Unit FindUnitByName(string unitName)

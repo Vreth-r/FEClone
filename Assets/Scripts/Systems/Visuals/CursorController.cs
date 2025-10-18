@@ -18,7 +18,7 @@ public class CursorController : MonoBehaviour
     private Vector3 minCursorPos;
     private Vector3 maxCursorPos;
 
-    public static CursorController Instance;
+    public static CursorController Instance; // this could probably be not singleton maybe
 
     void Awake()
     {
@@ -30,7 +30,8 @@ public class CursorController : MonoBehaviour
 
     void Start()
     {
-        currentGridPosition = Vector3Int.zero;
+        // semantically there will always be an Ylru to latch onto (hardcoding at its finest)
+        currentGridPosition = (Vector3Int)UnitManager.Instance.GetUnitPositionByName("Ylru");
         UpdateCursorTile();
     }
 

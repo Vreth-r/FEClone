@@ -7,17 +7,12 @@ public class SceneInitializer : MonoBehaviour
 {
     [Header("Scene References")]
     // unit spawns set in editor for each level manager
-    public Vector3[] playerUnitSpawnPositions;
+    public Vector3[] playerUnitSpawnPositions; // world position
     
     private List<Unit> preplacedEnemies = new List<Unit>();
 
     private void Start()
     {
-        InitializeLevel();
-    }
-
-    public void InitializeLevel()
-    {   
         // clear previous state
         UnitManager.Instance.ClearAllUnits();
         

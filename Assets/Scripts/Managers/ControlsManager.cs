@@ -5,17 +5,20 @@ using System;
 public enum InputContext
 {
     Gameplay,
-    Menu
+    Menu,
+    Cutscene
 }
 
 // ** IMPORTANT **
-// this is hardcoded to make additions and removals more clear, will switch to dynamic later maybe if im not lazy
+// this is hardcoded to make additions and removals more clear, will switch to dynamic later maybe if im not lazy and theres a need
+
+// while this is hardcoded you must update this with every new bind and map added. also update CutsceneYarnCommands.SetControlContext()
 public class ControlsManager : MonoBehaviour
 {
     public static ControlsManager Instance { get; private set; }
 
     [Header("Context")]
-    public InputContext CurrentContext { get; private set; } = InputContext.Gameplay;
+    public InputContext CurrentContext { get; private set; } = InputContext.Menu;
 
     [Header("Gameplay Actions")]
     [SerializeField] private InputActionReference moveCursorAction;
@@ -26,6 +29,12 @@ public class ControlsManager : MonoBehaviour
     [SerializeField] private InputActionReference navigateAction;
     [SerializeField] private InputActionReference submitAction;
     [SerializeField] private InputActionReference cancelAction;
+
+    /* unsure if these need to be here cause yarn
+    [Header("Cutscene Actions")]
+    [SerializeField] private InputActionReference hurryAction;
+    [SerializeField] private InputActionReference nextLineAction;
+    */
 
     // Exposed input values
     public Vector2 MoveInput { get; private set; }
@@ -99,17 +108,28 @@ public class ControlsManager : MonoBehaviour
 
     private void EnableCurrentMap()
     {
+        // yarg there exists an InputContext.Cutscene that just has the yarn binds but they dont need to be here
+        // cause yarn handles its own binds but having the map is useful to lock out controls during cutscenes
         if (CurrentContext == InputContext.Gameplay)
         {
             moveCursorAction?.action.Enable();
             selectAction?.action.Enable();
             toggleGridAction?.action.Enable();
+            // i might make a sub event for whenever the context switches but for now ill put shit here
+            CameraPanner cam = FindFirstObjectByType<CameraPanner>();
+            if(cam != null)
+                cam.inCutscene = false;
         }
         else if (CurrentContext == InputContext.Menu)
         {
             navigateAction?.action.Enable();
             submitAction?.action.Enable();
             cancelAction?.action.Enable();
+        }
+        else if (CurrentContext == InputContext.Cutscene)
+        {
+            CameraPanner cam = FindFirstObjectByType<CameraPanner>();
+            cam.inCutscene = true;
         }
     }
 

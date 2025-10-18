@@ -4,6 +4,24 @@ using System.Collections;
 
 public class CutsceneYarnCommands : MonoBehaviour
 {
+    // this one feels wrong but im too lazy to find a better way when i might be changing control contexts soon
+    [YarnCommand("SetControlContext")]
+    public static void SetControlContext(string context)
+    {
+        if (context == "Gameplay")
+        {
+            ControlsManager.Instance.SetContext(InputContext.Gameplay);
+        }
+        else if (context == "Menu")
+        {
+            ControlsManager.Instance.SetContext(InputContext.Menu);
+        }
+        else if (context == "Cutscene")
+        {
+            ControlsManager.Instance.SetContext(InputContext.Cutscene);
+        }
+    }
+    
     // Example: <<PanToLocation 0 10 0 2>>
     [YarnCommand("PanToLocation")]
     public static YarnTask PanToLocation(float x, float y, float z, float speed)

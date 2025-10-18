@@ -247,6 +247,74 @@
                     "isPartOfComposite": false
                 }
             ]
+        },
+        {
+            "name": "Cutscene",
+            "id": "d99f6eea-beaa-4885-bf39-92449b2601af",
+            "actions": [
+                {
+                    "name": "HurryUp",
+                    "type": "Button",
+                    "id": "b0a14440-2bee-4d01-b187-b2c7de4bfa2e",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "NextLine",
+                    "type": "Button",
+                    "id": "a3b9153d-3976-4358-b96f-ad1ef8c798d7",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CancelDialogue",
+                    "type": "Button",
+                    "id": "b5f44bfe-9b21-416a-b9d8-0f292f125edd",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "87d0e5f7-6dbc-4b47-874f-8515e04236d9",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "HurryUp",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "d467525a-7eb1-4b6b-890e-728a53480ce9",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "NextLine",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "6fb5f5c6-b478-4705-ad69-acb2967007eb",
+                    "path": "",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CancelDialogue",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
