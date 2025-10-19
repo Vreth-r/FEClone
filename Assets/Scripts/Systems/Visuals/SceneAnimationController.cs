@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 
 public class SceneAnimationController : MonoBehaviour
 {
@@ -26,11 +27,8 @@ public class SceneAnimationController : MonoBehaviour
         }
         Instance = this;
         //DontDestroyOnLoad(gameObject);
-        foreach (var entry in animatorList)
-        {
-            if (!animators.ContainsKey(entry.objectName))
-                animators.Add(entry.objectName, entry.animator);
-        }
+
+        RegisterAllSceneAnimators();
     }
 
     // Register animators by name later i think i need this
@@ -38,6 +36,35 @@ public class SceneAnimationController : MonoBehaviour
     {
         if (!animators.ContainsKey(key))
             animators.Add(key, animator);
+    }
+
+    /// <summary>Scans the entire active scene for any objects with Animator components and registers them.</summary>
+    public void RegisterAllSceneAnimators()
+    {
+        Animator[] foundAnimators = FindObjectsByType<Animator>(FindObjectsSortMode.None);
+
+        foreach (var animator in foundAnimators)
+        {
+            if(animator.gameObject.name == "LoadingScreen(Clone)")
+            {
+                continue; // skip the loading screen
+            }
+            string key = animator.gameObject.name;
+
+            if (!animators.ContainsKey(key))
+            {
+                animators.Add(key, animator);
+                animatorList.Add(new AnimEntry { objectName = key, animator = animator });
+                //Debug.Log($"Registered animator: {key}");
+            }
+        }
+    }
+
+    public void RefreshAnimators()
+    {
+        animators.Clear();
+        animatorList.Clear();
+        RegisterAllSceneAnimators();
     }
 
     /// <summary>Play an animation immediately. Optionally loop it.</summary>
@@ -96,6 +123,7 @@ public class SceneAnimationController : MonoBehaviour
     {
         foreach (var entry in animatorList)
         {
+            Debug.Log(entry.objectName);
             entry.animator.speed = time;
         }
     } 

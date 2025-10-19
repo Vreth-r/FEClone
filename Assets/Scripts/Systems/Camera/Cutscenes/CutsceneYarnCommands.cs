@@ -149,4 +149,16 @@ public class CutsceneYarnCommands : MonoBehaviour
         if (panner != null)
             panner.SetZoom(targetSize);
     }
+
+    [YarnCommand("StartParticles")]
+    public static void StartParticles(string systemName)
+    {
+        ParticleController.Instance.StartPS(systemName);
+    }
+
+    [YarnCommand("StopParticles")]
+    public static void StopParticles(string systemName)
+    {
+        ParticleController.Instance.StopPS(systemName);
+    }
 }
