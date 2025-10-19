@@ -32,17 +32,20 @@ public class CursorController : MonoBehaviour
     {
         // semantically there will always be an Ylru to latch onto (hardcoding at its finest)
         currentGridPosition = (Vector3Int)UnitManager.Instance.GetUnitPositionByName("Ylru");
+        LoadGridBounds();
         UpdateCursorTile();
     }
 
     void OnEnable()
     {
         ControlsManager.Instance.OnSelect += HandleSelect;
+        ControlsManager.Instance.OnContextSwitch += HandleContextSwitch;
     }
 
     void OnDisable() // this may not be a neccessary function
     {
         ControlsManager.Instance.OnSelect -= HandleSelect;
+        ControlsManager.Instance.OnContextSwitch -= HandleContextSwitch;
     }
 
     public void LoadGridBounds() // might make an interface for this
@@ -93,6 +96,19 @@ public class CursorController : MonoBehaviour
             unit.GetComponent<UnitMovement>().enabled = true;
             unit.GetComponent<UnitMovement>().SelectUnit(); // blocking enemy selection is baked into method, a little wasteful but it makes this look nice and clean
             unit.GetComponent<UnitMovement>().EnableControls(); // this is my temp solution
+        }
+    }
+
+    void HandleContextSwitch(InputContext newContext)
+    {
+        switch(newContext) 
+        {
+            case InputContext.Gameplay:
+                cursorTilemap.gameObject.SetActive(true);
+                break;
+            case InputContext.Cutscene:
+                cursorTilemap.gameObject.SetActive(false);
+                break;
         }
     }
 

@@ -47,6 +47,8 @@ public class ControlsManager : MonoBehaviour
 
     public event Action OnToggleGrid;
 
+    public event Action<InputContext> OnContextSwitch;
+
     void Awake()
     {
         // Singleton setup
@@ -104,6 +106,9 @@ public class ControlsManager : MonoBehaviour
         DisableAllMaps();
         CurrentContext = context;
         EnableCurrentMap();
+
+        // notifiy subscribers
+        OnContextSwitch?.Invoke(CurrentContext);
     }
 
     private void EnableCurrentMap()
@@ -115,10 +120,6 @@ public class ControlsManager : MonoBehaviour
             moveCursorAction?.action.Enable();
             selectAction?.action.Enable();
             toggleGridAction?.action.Enable();
-            // i might make a sub event for whenever the context switches but for now ill put shit here
-            CameraPanner cam = FindFirstObjectByType<CameraPanner>();
-            if(cam != null)
-                cam.inCutscene = false;
         }
         else if (CurrentContext == InputContext.Menu)
         {
@@ -128,8 +129,7 @@ public class ControlsManager : MonoBehaviour
         }
         else if (CurrentContext == InputContext.Cutscene)
         {
-            CameraPanner cam = FindFirstObjectByType<CameraPanner>();
-            cam.inCutscene = true;
+            return;
         }
     }
 

@@ -1,32 +1,101 @@
 title: Library
 ---
 <<SetControlContext "Cutscene">>
-// <<CameraSetZoom 3>>
-// <<FadeInBlack 0.01>>
-// <<ShowBlackText "The Academy, Arcane Exarchate of Ilgrad, Year 43 of the Fallen Age" 4>>
-// <<wait 0.5>>
-// <<FadeOutBlack 1.5>>
-// <<wait 2>>
-
-// <<PanToLocation 10 2 10 2>>
-// <<wait 1>>
-// <<CameraZoom 5 4 0.9>>
-// <<wait 1>>
-// The rain taps faintly on the high windows of Ilgrad Academy’s Grand Library.
-// Somewhere, a clock tolls the midnight hour.
-// (insert ylru sprite actions here when we have them + backend)
-// Ylru: Done, finally.
-// <<PanToLocation 10 4 10 2>>
-// (ylru sprite action spell cast in the circle)
-// Ylru: I wish I had a white monster right about now.
-
-// debugging
+<<CameraSetZoom 3>>
 <<FadeInBlack 0.01>>
-<<ShowBlackText "Fuck you." 1>>
+<<ShowBlackText "The Academy, Arcane Exarchate of Ilgrad, Year 43 of the Fallen Age" 4>>
 <<wait 0.5>>
-<<FadeOutBlack 1>>
+<<FadeOutBlack 1.5>>
+<<wait 2>>
 
+<<PanToLocation 10 3 10 2>>
+<<wait 1>>
+<<CameraZoom 5 3.5 0.9>>
+<<wait 1>>
+The rain taps faintly on the high windows of Ilgrad Academy’s Grand Library.
+Somewhere, a clock tolls the midnight hour.
+<<UnitMoveToPos "Ylru" 10 6>>
+<<PanToLocation 10 7 10 2>>
+<<CameraZoom 3 3 0.9>>
+<<wait 0.5>>
+Ylru: …Anchor the glyph… stabilize the weave…
+<<PlayAnim "Ylru" "write">>
+<<wait 2>>
+<<PlayAnim "Ylru" "idle">>
+Ylru: Done, finally.
+<<wait 1.5>>
+<<PlayAnim "Ylru" "spell short">>
+Ylru: Vel tuhrik zal’am nuh reh…
+<<wait 1>>
+<<CameraShake 0.01 1>>
+<<PanToLocation 10 6 10 5>>
+// add vfx here
+<<wait 0.5>>
+<<UnitEmote "Ylru" "!!" 1>>
+<<SetAllAnimSpeed 0>>
+<<SetAnimSpeed "Ylru" 1>>
+<<SetAnimSpeed "eyes" 1>>
+<<UnitMoveToPos "Ylru" 8 7>>
+<<wait 0.5>>
+<<UnitMoveToPos "Ylru" 12 6>>
+<<wait 0.5>>
+<<UnitMoveToPos "Ylru" 10 6>>
+<<wait 3>>
+Ylru: It worked.
+<<wait 0.5>>
+He turns with rare giddiness to the window, eager to see the raindrops still in the air.
+<<wait 0.5>>
+<<UnitMoveToPos "Ylru" 10 8>>
+<<PanToLocation 10 8 10 2>>
+<<wait 0.5>>
+<<UnitEmote "Ylru" "!!!" 1>>
+The raindrops do indeed hang frozen in the air.
+<<wait 2>>
+<<UnitEmote "Ylru" "?" 1>>
+But something else is frozen with them.
+<<wait 1>>
+Ylru: ... what?
+<<PanToLocation 10 10 10 2>>
+<<CameraZoom 2 1>>
+<<SetAnimSpeed "eyes" 1>>
+<<PlayAnim "eyes" "open eye">>
+<<Wait 2>>
+<<PlayAnim "eyes" "stare">>
+<<wait 0.5>>
+<<UnitEmote "Ylru" "!?!?" 2>>
+Eyes.
+Set in a face that isn’t fully there.
+Watching. Not seeing. 
+A presence outside the frame of reality.
+<<wait 1>>
+Ylru: What-?
+<<FadeInBlack 0.01>>
+<<PlayAnim "eyes" "eyeIdle">>
+<<wait 0.2>>
+<<FadeOutBlack 0.01>>
+<<wait 1>>
+He blinks.
+The figure is gone.
+Only the silence remains.
+<<wait 0.5>>
+<<UnitEmote "Ylru" "???" 1>>
 <<PanToUnit "Ylru" 5>>
-Bitch.
+He searches his mind for an explanation.
+His thoughts race. Then snag- on a myth, half-forgotten.
+A name...
+<<wait 0.5>>
+Ylru: No... that's not possible. That's not-
+<<wait 0.5>>
+<<PanToLocation 10 6 10 2>> // pan to the circle
+(show circle vfx fading out)
+<<SetAllAnimSpeed 1>>
+(add enemies here once i get backend written)
+
+
+// <<PlayAnim "eyes" "fragmenting">>
+// <<CameraZoom 5 2 0.9>>
+// <<wait 3>>
+// <<SetAllAnimSpeed 1>>
+<<CameraZoom 5 2 0.9>>
 <<SetControlContext "Gameplay">>
 ===

@@ -47,6 +47,21 @@ public class CameraPanner : MonoBehaviour
         // get cam dimensions
         halfCamHeight = cam.orthographicSize;
         halfCamWidth = halfCamHeight * cam.aspect;
+        LoadGridBounds();
+        ControlsManager.Instance.OnContextSwitch += HandleContextSwitch;
+    }
+
+    void HandleContextSwitch(InputContext newContext)
+    {
+        switch(newContext) 
+        {
+            case InputContext.Gameplay:
+                inCutscene = false;
+                break;
+            case InputContext.Cutscene:
+                inCutscene = true;
+                break;
+        }
     }
 
     public void LoadGridBounds()

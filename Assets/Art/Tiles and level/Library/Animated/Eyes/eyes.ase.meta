@@ -2,7 +2,22 @@ fileFormatVersion: 2
 guid: 8878ff8cd274dcb418cd1915ebf0cca5
 ScriptedImporter:
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:AnimationClip
+      assembly: UnityEngine.AnimationModule
+      name: fragmenting
+    second: {fileID: 7400000, guid: 41829fc7cd70b3640b46e4eafd14516a, type: 2}
+  - first:
+      type: UnityEngine:AnimationClip
+      assembly: UnityEngine.AnimationModule
+      name: open eye
+    second: {fileID: 7400000, guid: afac3997f1d231d4a8485e8399aeb3af, type: 2}
+  - first:
+      type: UnityEngine:AnimationClip
+      assembly: UnityEngine.AnimationModule
+      name: stare
+    second: {fileID: 7400000, guid: 2206d595ec2351e4e927b7d7294bfc87, type: 2}
   serializedVersion: 2
   userData: 
   assetBundleName: 
@@ -102,7 +117,7 @@ ScriptedImporter:
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638912271598351028
+  platformSettingsDirtyTick: 638964645809961273
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -1199,6 +1214,18 @@ ScriptedImporter:
     resizeAlgorithm: 0
     textureFormat: -1
     textureCompression: 1
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
+  - name: WebGL
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
     compressionQuality: 50
     forceMaximumCompressionQuality_BC6H_BC7: 0
     crunchedCompression: 0

@@ -49,8 +49,9 @@ public class PlayerPersistor : MonoBehaviour
             Unit unit = playerUnit.GetComponent<Unit>();
             if (unit != null)
             {
-                unit.transform.position = GridManager.Instance.CellToWorld(spawnPositions[i]);
+                unit.transform.position = GridManager.Instance.CellToWorld(spawnPositions[i]) + new Vector3(0.5f, 0.5f, 0);;
                 unit.GridPosition = (Vector2Int)spawnPositions[i];
+                playerUnit.SetParent(GameObject.Find("Units").GetComponent<Transform>());
                 UnitManager.Instance.RegisterUnit(unit);
             }
         }

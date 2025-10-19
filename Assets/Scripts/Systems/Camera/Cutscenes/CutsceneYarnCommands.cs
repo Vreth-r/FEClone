@@ -21,6 +21,26 @@ public class CutsceneYarnCommands : MonoBehaviour
             ControlsManager.Instance.SetContext(InputContext.Cutscene);
         }
     }
+
+    [YarnCommand("PlayAnim")]
+    public static void PlayAnim(string key, string animName)
+    {
+        SceneAnimationController.Instance.PlayAnimation(key, animName);
+    }
+
+    // 0 is time stop, 1 is full speed
+    [YarnCommand("SetAllAnimSpeed")]
+    public static void SetAllAnimatorSpeeds(float time)
+    {
+        SceneAnimationController.Instance.SetAllAnimatorSpeeds(time);
+    }
+
+    // 0 is time stop, 1 is full speed
+    [YarnCommand("SetAnimSpeed")]
+    public static void SetAnimSpeed(string key, float time)
+    {
+        SceneAnimationController.Instance.SetAnimatorSpeed(key, time);
+    }
     
     // Example: <<PanToLocation 0 10 0 2>>
     [YarnCommand("PanToLocation")]

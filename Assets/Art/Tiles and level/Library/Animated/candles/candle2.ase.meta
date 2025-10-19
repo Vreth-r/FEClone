@@ -1,8 +1,13 @@
 fileFormatVersion: 2
-guid: e1b7c0ecd9a25264494be97fc13bfcd3
+guid: b17e0bc178f457a49a60c7eeed3ff8a1
 ScriptedImporter:
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:AnimationClip
+      assembly: UnityEngine.AnimationModule
+      name: candle2_Clip
+    second: {fileID: 7400000, guid: fb9156fa98e21884ab947902244b2618, type: 2}
   serializedVersion: 2
   userData: 
   assetBundleName: 
@@ -102,7 +107,7 @@ ScriptedImporter:
     generateIndividualEvents: 1
     generateSpriteAtlas: 1
   importFileNodeState: 1
-  platformSettingsDirtyTick: 638912274251498959
+  platformSettingsDirtyTick: 638964648075936283
   textureAssetName: 
   singleSpriteImportData:
   - name: 
@@ -129,17 +134,17 @@ ScriptedImporter:
   animatedSpriteImportData:
   - name: Frame_0
     originalName: 
-    pivot: {x: 0.4666667, y: -0.041666668}
+    pivot: {x: 0.45833334, y: -0.06896552}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 27
+      x: 4
       y: 4
-      width: 15
-      height: 24
-    spriteID: e20275e074823d64282dc9e833be95f2
+      width: 12
+      height: 29
+    spriteID: afd8f9ce239129a4ab567c5120e1317a
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -147,10 +152,10 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 27, y: 4}
+    uvTransform: {x: 4, y: 4}
   - name: Frame_1
     originalName: 
-    pivot: {x: 0.4666667, y: -0.037037037}
+    pivot: {x: 0.45833334, y: -0.06896552}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
@@ -158,9 +163,9 @@ ScriptedImporter:
       serializedVersion: 2
       x: 4
       y: 41
-      width: 15
-      height: 27
-    spriteID: 5de65bddb1ff3524b87f886f17903b10
+      width: 12
+      height: 29
+    spriteID: 93f6aa055a63a00418acf8a53a741902
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -171,17 +176,17 @@ ScriptedImporter:
     uvTransform: {x: 4, y: 41}
   - name: Frame_2
     originalName: 
-    pivot: {x: 0.4666667, y: -0.03448276}
+    pivot: {x: 0.45833334, y: -0.08695652}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
-      x: 4
+      x: 24
       y: 4
-      width: 15
-      height: 29
-    spriteID: 7d1276507edba044688edfce8d3f8b4f
+      width: 12
+      height: 23
+    spriteID: 33e19d65420aeaf408449e876157cced
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -189,20 +194,20 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 4}
+    uvTransform: {x: 24, y: 4}
   - name: Frame_3
     originalName: 
-    pivot: {x: 0.4666667, y: -0.04}
+    pivot: {x: 0.45833334, y: -0.07692308}
     alignment: 9
     border: {x: 0, y: 0, z: 0, w: 0}
     customData: 
     rect:
       serializedVersion: 2
       x: 4
-      y: 76
-      width: 15
-      height: 25
-    spriteID: 1ec942e2567c0b84b909da5db5e9551a
+      y: 78
+      width: 12
+      height: 26
+    spriteID: a389a76bef5b99947b07b5efba5dced4
     spriteBone: []
     spriteOutline: []
     vertices: []
@@ -210,18 +215,18 @@ ScriptedImporter:
     indices: 
     edges: []
     tessellationDetail: 0
-    uvTransform: {x: 4, y: 76}
+    uvTransform: {x: 4, y: 78}
   spriteSheetImportData: []
   tileSetImportData: []
   asepriteLayers:
   - layerIndex: 0
     uuid:
-      value0: 3385526382
+      value0: 3385526383
       value1: 0
       value2: 0
       value3: 0
-    guid: -909440914
-    name: candle1
+    guid: -909440913
+    name: candle2
     layerFlags: 0
     layerType: 0
     blendMode: 0
@@ -230,38 +235,38 @@ ScriptedImporter:
       frameIndex: 0
       additiveSortOrder: 0
       cellRect:
-        x: 1
-        y: 1
-        width: 15
-        height: 24
-      spriteId: e20275e074823d64282dc9e833be95f2
+        x: 2
+        y: 2
+        width: 12
+        height: 29
+      spriteId: afd8f9ce239129a4ab567c5120e1317a
     - name: Frame_1
       frameIndex: 1
       additiveSortOrder: 0
       cellRect:
-        x: 1
-        y: 1
-        width: 15
-        height: 27
-      spriteId: 5de65bddb1ff3524b87f886f17903b10
+        x: 2
+        y: 2
+        width: 12
+        height: 29
+      spriteId: 93f6aa055a63a00418acf8a53a741902
     - name: Frame_2
       frameIndex: 2
       additiveSortOrder: 0
       cellRect:
-        x: 1
-        y: 1
-        width: 15
-        height: 29
-      spriteId: 7d1276507edba044688edfce8d3f8b4f
+        x: 2
+        y: 2
+        width: 12
+        height: 23
+      spriteId: 33e19d65420aeaf408449e876157cced
     - name: Frame_3
       frameIndex: 3
       additiveSortOrder: 0
       cellRect:
-        x: 1
-        y: 1
-        width: 15
-        height: 25
-      spriteId: 1ec942e2567c0b84b909da5db5e9551a
+        x: 2
+        y: 2
+        width: 12
+        height: 26
+      spriteId: a389a76bef5b99947b07b5efba5dced4
     linkedCells: []
     tileCells: []
     tileSetIndex: 0
@@ -304,8 +309,20 @@ ScriptedImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     androidETC2FallbackOverride: 0
+  - name: WebGL
+    overridden: 0
+    ignorePlatformSupport: 0
+    maxTextureSize: 16384
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    androidETC2FallbackOverride: 0
   generatePhysicsShape: 0
   secondarySpriteTextures: []
   spritePackingTag: 
-  canvasSize: {x: 16, y: 32}
+  canvasSize: {x: 15, y: 32}
   previousTextureSize: {x: 64, y: 128}

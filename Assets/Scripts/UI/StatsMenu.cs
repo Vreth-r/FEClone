@@ -30,7 +30,7 @@ public class StatsMenu : MonoBehaviour, IGameMenu
 
     private Unit currentUnit;
 
-    private Vector3 defaultPlacement = new Vector3(0, 0, 0);
+    private Vector3 defaultPlacement = new Vector3(0, 0, 0); // this menu is a whole screen canvas, so these are exact screen coords
 
     public void Awake()
     {
@@ -52,7 +52,7 @@ public class StatsMenu : MonoBehaviour, IGameMenu
         currentUnit = unit;
         unitNameText.text = unit.unitName;
 
-        background.transform.position = defaultPlacement;
+        //background.transform.position = defaultPlacement;
 
         DisplayStat("MHP", unit.maxHP, unit.GetModifiedStat(StatType.MHP), mhpText);
         DisplayStat("CHP", unit.currentHP, unit.GetStatByType(StatType.CHP), chpText);

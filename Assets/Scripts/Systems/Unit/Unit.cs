@@ -302,7 +302,7 @@ public class Unit : MonoBehaviour
     public IEnumerator MoveTo(Vector2Int gridPos)
     {
         UnitState currentState = state; // save current state
-        state = UnitState.Cutscene; // set to cutscene mode (ill have to move this more so the state can stop inputs entirely)
+        state = UnitState.Cutscene; // set to cutscene mode (ill have to move this more so the state can stop inputs entirely) // dw about that the controls manage takes care of that -m
         yield return GetComponent<UnitMovement>().MoveTo(gridPos); // tell unit to move
         state = currentState; // revert state
     }

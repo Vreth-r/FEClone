@@ -7,7 +7,7 @@ public class SceneInitializer : MonoBehaviour
 {
     [Header("Scene References")]
     // unit spawns set in editor for each level manager
-    public Vector3[] playerUnitSpawnPositions; // world position
+    public Vector3Int[] playerUnitSpawnPositions; // grid position
     
     private List<Unit> preplacedEnemies = new List<Unit>();
 
@@ -49,16 +49,10 @@ public class SceneInitializer : MonoBehaviour
 
     private void SpawnPlayerUnits()
     {
-        Vector3Int[] spawnGridPositions = new Vector3Int[playerUnitSpawnPositions.Length];
-        for (int i = 0; i < playerUnitSpawnPositions.Length; i++)
-        {
-            spawnGridPositions[i] = GridManager.Instance.WorldToCell(playerUnitSpawnPositions[i]);
-        }
-
         if (PlayerPersistor.Instance.HasStoredParty())
         {
 
-            PlayerPersistor.Instance.RestorePartyToScene(spawnGridPositions);
+            PlayerPersistor.Instance.RestorePartyToScene(playerUnitSpawnPositions);
         }
         else
         {
