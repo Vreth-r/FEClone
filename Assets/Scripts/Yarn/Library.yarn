@@ -24,10 +24,13 @@ Ylru: …Anchor the glyph… stabilize the weave…
 <<PlayAnim "Ylru" "idle">>
 Ylru: Done, finally.
 <<wait 1.5>>
-<<PlayAnim "Ylru" "spell short">>
+<<PlayAnim "Ylru" "spell-enter">>
 Ylru: Vel tuhrik zal’am nuh reh…
 <<wait 1>>
+<<StartParticles "SpellCircleVFX">>
+<<wait 2>>
 <<CameraShake 0.01 1>>
+<<PlayAnim "Ylru" "spell-exit">>
 <<PanToLocation 10 6 10 5>>
 // add vfx here
 <<wait 0.5>>
@@ -35,6 +38,7 @@ Ylru: Vel tuhrik zal’am nuh reh…
 <<SetAllAnimSpeed 0>>
 <<SetAnimSpeed "Ylru" 1>>
 <<SetAnimSpeed "eyes" 1>>
+<<wait 3>>
 <<UnitMoveToPos "Ylru" 8 7>>
 <<wait 0.5>>
 <<UnitMoveToPos "Ylru" 12 6>>
@@ -43,6 +47,7 @@ Ylru: Vel tuhrik zal’am nuh reh…
 <<wait 3>>
 Ylru: It worked.
 <<wait 0.5>>
+Indeed, time had stopped.
 He turns with rare giddiness to the window, eager to see the raindrops still in the air.
 <<wait 0.5>>
 <<UnitMoveToPos "Ylru" 10 8>>
@@ -59,9 +64,7 @@ Ylru: ... what?
 <<CameraZoom 2 1>>
 <<SetAnimSpeed "eyes" 1>>
 <<PlayAnim "eyes" "open eye">>
-<<Wait 2>>
-<<PlayAnim "eyes" "stare">>
-<<wait 0.5>>
+<<wait 1.5>>
 <<UnitEmote "Ylru" "!?!?" 2>>
 Eyes.
 Set in a face that isn’t fully there.
@@ -69,6 +72,11 @@ Watching. Not seeing.
 A presence outside the frame of reality.
 <<wait 1>>
 Ylru: What-?
+<<Wait 0.5>>
+<<PlayAnim "eyes" "stare">>
+<<wait 0.5>>
+<<PlayAnim "eyes" "fragmenting">>
+<<wait 2>>
 <<FadeInBlack 0.01>>
 <<PlayAnim "eyes" "eyeIdle">>
 <<wait 0.2>>
@@ -87,12 +95,13 @@ A name...
 Ylru: No... that's not possible. That's not-
 <<wait 0.5>>
 <<PanToLocation 10 6 10 2>> // pan to the circle
-(show circle vfx fading out)
+<<StopParticles "SpellCircleVFX">>
+<<StartParticles "SpellCircleVFXR">>
+<<wait 1.5>>
+<<StopParticles "SpellCircleVFXR">>
 <<SetAllAnimSpeed 1>>
 (add enemies here once i get backend written)
 
-
-// <<PlayAnim "eyes" "fragmenting">>
 // <<CameraZoom 5 2 0.9>>
 // <<wait 3>>
 // <<SetAllAnimSpeed 1>>
