@@ -8,22 +8,19 @@ using TMPro;
 
 public class CombatSceneManager : MonoBehaviour
 {
-    public CombatUnitView leftUnit;
-    public CombatUnitView rightUnit;
     public CombatNarrator narrator;
-    public GameObject dimmerOverlay;
     public CombatStatMenu attackerStats;
     public CombatStatMenu defenderStats;
 
-    public GameObject rootObject; // the canvas root to activate/deactivate for sprites
     public GameObject uiObject;
-    public Transform cameraPos; // to get camera position
-
     public HealthBarUI attackerHealthBar;
     public HealthBarUI defenderHealthBar;
 
     public float attackDelay = 0.8f;
     public float hitPause = 0.3f;
+    public float cameraZoomDuration = 1f;
+    public float cameraZoomTarget = 3f;
+    public float cameraZoomDefault = 5f;
 
     public static CombatSceneManager Instance;
 
@@ -39,19 +36,14 @@ public class CombatSceneManager : MonoBehaviour
     public Image attackerWeaponIcon;
     public Image defenderWeaponIcon;
 
-    private void Awake() => Instance = this; // declare this instance for external ref
+    private void Awake()
+    {
+        Instance = this; // singleton
+    }
 
     public void EnterCombatScene(Unit attacker, Unit defender, CombatContext context, CombatQueue queue)
     {
-        //ControlsManager.Instance.EnableInput = false; //  disable the tile highlights when the combat scene is running
-        rootObject.SetActive(true); // can also be faded in later
-        rootObject.transform.position = new Vector3(cameraPos.position.x, cameraPos.position.y, 0);
         uiObject.SetActive(true);
-
-        leftUnit.SetFromUnit(attacker, true);
-        rightUnit.SetFromUnit(defender, false);
-
-        leftUnit.FlipSprite(true);
 
         attackerName.text = attacker.unitName;
         defenderName.text = defender.unitName;
@@ -81,19 +73,35 @@ public class CombatSceneManager : MonoBehaviour
         else
         {
             defenderWeaponName.text = "None";
-            // gotta make a placeholder sprite
+            // gotta make a placeholder sprite later
         }
 
-        StartCoroutine(PlayCombat(context, queue));
+        StartCoroutine(StartCombatSequence(attacker, defender, context, queue));
+    }
+
+    private IEnumerator StartCombatSequence(Unit attacker, Unit defender, CombatContext context, CombatQueue queue)
+    {
+        // cam setup
+        CutsceneManager.Instance.cameraPanner.SetInCutscene(true);
+
+        // pan to midpoint and zoom
+        yield return StartCoroutine(CutsceneManager.Instance.cameraPanner.PanToLocation((attacker.transform.position + defender.transform.position) / 2f, 2f));
+        yield return StartCoroutine(CutsceneManager.Instance.cameraPanner.ZoomCamera(cameraZoomTarget, 2f, 0.15f));
+
+        // wait a second for cinema
+        yield return new WaitForSeconds(0.3f);
+
+        // begin fighting
+        yield return StartCoroutine(PlayCombat(context, queue));
+
+        // reset cam
+        yield return StartCoroutine(CutsceneManager.Instance.cameraPanner.ZoomCamera(cameraZoomDefault, cameraZoomDuration, -1f));
+        CutsceneManager.Instance.cameraPanner.SetInCutscene(false);
     }
 
     public void ExitCombat()
     {
-        leftUnit.ExitCombat(); // just to remove animation child thingy
-        rightUnit.ExitCombat();
-        rootObject.SetActive(false);
         uiObject.SetActive(false);
-        //ControlsManager.Instance.EnableInput = true;
     }
 
     public IEnumerator PlayCombat(CombatContext context, CombatQueue queue)
@@ -102,8 +110,6 @@ public class CombatSceneManager : MonoBehaviour
         {
             var attacker = action.attacker; // this is fucked up a bit but basically switches the attacker and defender based on which unit in the combat scene is attacking 
             var defender = action.defender;
-            var attackerView = attacker == context.attacker ? leftUnit : rightUnit;
-            var defenderView = defender == context.attacker ? leftUnit : rightUnit;
             var attackerHPBar = attacker == context.attacker ? attackerHealthBar : defenderHealthBar;
             var defenderHPBar = defender == context.attacker ? attackerHealthBar : defenderHealthBar;
             var attackerHPText = attacker == context.attacker ? attackerHP : defenderHP;
@@ -118,14 +124,9 @@ public class CombatSceneManager : MonoBehaviour
             if (action.isFollowUp) message += " (Follow-up)";
             yield return narrator.ShowMessageAndClear(message, 0.8f);
 
-            if (attacker == leftUnit)
-            {
-                yield return attackerView.Lunge(1.0f);
-            }
-            else
-            {
-                yield return attackerView.Lunge(-1.0f);
-            }
+            // start anims
+            attacker.animator?.SetTrigger("Attack");
+
             yield return new WaitForSeconds(attackDelay);
 
             // Capture HP before damage
@@ -136,7 +137,7 @@ public class CombatSceneManager : MonoBehaviour
             {
                 if (context.critting)
                 {
-                    yield return attackerView.CritEffect();
+                    // attacker crit visuals, maybe a light object or something i dunno think of this later
                     yield return narrator.ShowMessageAndClear("CRIT!", 0.4f);
                 }
                 else
@@ -144,12 +145,12 @@ public class CombatSceneManager : MonoBehaviour
                     yield return narrator.ShowMessageAndClear("HIT!");
                 }
 
-                yield return defenderView.FlashHit();
+                defender.animator?.SetTrigger("Hit");
             }
             else
             {
                 yield return narrator.ShowMessage("Miss!");
-                yield return defenderView.Dodge();
+                defender.animator?.SetTrigger("Dodge");
             }
 
             // Update health bar and HP text
@@ -160,7 +161,7 @@ public class CombatSceneManager : MonoBehaviour
             if (defender.currentHP <= 0)
             {
                 yield return narrator.ShowMessage($"{defender.unitName} was defeated!");
-                yield return defenderView.PlayDeath();
+                // defender death here
                 break; // cause he died
             }
 

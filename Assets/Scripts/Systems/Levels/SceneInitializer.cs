@@ -17,7 +17,6 @@ public class SceneInitializer : MonoBehaviour
         UnitManager.Instance.ClearAllUnits();
         
         FindAllEnemiesInScene();
-        RegisterPreplacedUnits();
 
         SpawnPlayerUnits();
     }
@@ -31,18 +30,9 @@ public class SceneInitializer : MonoBehaviour
         {
             if (unit.team == Team.Enemy)
             {
+                unit.GridPosition = (Vector2Int)GridManager.Instance.WorldToCell(unit.gameObject.transform.position);
                 preplacedEnemies.Add(unit);
-            }
-        }
-    }
-
-    private void RegisterPreplacedUnits()
-    {
-        foreach (Unit enemy in preplacedEnemies)
-        {
-            if (enemy != null)
-            {
-                UnitManager.Instance.RegisterUnit(enemy);
+                UnitManager.Instance.RegisterUnit(unit);
             }
         }
     }

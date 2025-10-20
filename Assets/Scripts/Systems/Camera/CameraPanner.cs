@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.Tilemaps;
 using System.Collections;
+using System;
+using System.Collections.Generic;
 
 /* READ THIS
 so the camera follows the cursor pretty closely in the ds titles of fe, so i might just copy that
@@ -96,6 +98,7 @@ public class CameraPanner : MonoBehaviour
 
     public IEnumerator PanToLocation(Vector3 targetPos, float speed)
     {
+        Debug.Log("panning");
         Vector3 targetCameraPos = new Vector3(targetPos.x, targetPos.y, -10); // set the z to -10
         Vector3 velocity = Vector3.zero;
 
@@ -130,8 +133,8 @@ public class CameraPanner : MonoBehaviour
             elapsed += Time.deltaTime;
             percentComplete = elapsed / duration;
             currentIntensity = intensity * -0.7f * (Mathf.Pow(2f * percentComplete - 1f, 2f) + 1); // some basic parabola stuff, fades in an out shake, maybe add param controlling this
-            float offsetX = Random.Range(-0.5f, 0.5f) * currentIntensity;
-            float offsetY = Random.Range(-0.5f, 0.5f) * currentIntensity;
+            float offsetX = UnityEngine.Random.Range(-0.5f, 0.5f) * currentIntensity;
+            float offsetY = UnityEngine.Random.Range(-0.5f, 0.5f) * currentIntensity;
 
             shakeOffset = new Vector3(offsetX, offsetY, 0f);
             yield return null;
@@ -144,8 +147,9 @@ public class CameraPanner : MonoBehaviour
         inCutscene = val;
     }
 
-    public IEnumerator ZoomCamera(float targetSize, float duration, float zoomSTime)
+    public IEnumerator ZoomCamera(float targetSize, float duration, float zoomSTime = -1)
     {
+        Debug.Log("ZOoming");
         float startSize = cam.orthographicSize;
         float elapsed = 0f;
         float currentVelocity = 0f;

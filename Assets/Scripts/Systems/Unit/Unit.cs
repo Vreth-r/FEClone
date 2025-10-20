@@ -42,16 +42,15 @@ public class Unit : MonoBehaviour
 
     // Combat and Animation stuff (set in editor)
     public Sprite combatSprite;
-    public GameObject animPrefab; // this is a game object so it can have more flexibility 
-    private Animator animator;
+    
+    public Animator animator;
 
-    public Vector2Int GridPosition { get; set; } // is this even being used?
+    public Vector2Int GridPosition { get; set; } // used by unit manager
 
     public UnitState state = UnitState.Idle;
 
     private void Start()
     {
-        if (animPrefab) animator = animPrefab?.GetComponent<Animator>(); // only set animator if animPrefab exists
         statBonuses = new StatBonusSet();
         // Start will run at the start of EVERY start, even if booting into a save
         GridPosition = (Vector2Int)GridManager.Instance.WorldToCell(transform.position);
@@ -64,8 +63,12 @@ public class Unit : MonoBehaviour
         unitClass.proficiencies.Initialize(); 
         CalculateStats();
         ApplyPassiveEffects();
-        proficiencyLevels.AddProficienciesFromOther(unitClass.proficiencies); // wont overwrite existing proficiency 
-        if (inventory.Count != 0) Equip(inventory[0]); // equip the first thing in the inventory(dev)
+        proficiencyLevels.AddProficienciesFromOther(unitClass.proficiencies); // wont overwrite existing proficiency
+        // REMOVE THIS STUFF LATER WHEN U HAVE BETTER SYSTEMS 
+        if (inventory.Count != 0)
+        {
+            Equip(inventory[0]); // equip the first thing in the inventory(dev)
+        } 
     }
 
     public void ApplyPassiveEffects()
@@ -268,11 +271,6 @@ public class Unit : MonoBehaviour
     public void Heal(int amount)
     {
         currentHP = Mathf.FloorToInt(Mathf.Clamp((float)amount, 0f, (float)maxHP));
-    }
-
-    public Animator getAnimator() // getter for animator
-    {
-        return animator;
     }
 
     public IEnumerator Jump(float numJumps)

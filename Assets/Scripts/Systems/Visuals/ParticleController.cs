@@ -1,6 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
+// this also handles vfx
 public class ParticleController : MonoBehaviour
 {
     public static ParticleController Instance { get; private set; }

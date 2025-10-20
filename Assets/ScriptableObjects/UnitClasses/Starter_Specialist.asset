@@ -15,9 +15,12 @@ MonoBehaviour:
   className: Specialist
   classDescription: default value placeholder
   movementRange: 5
-  allowedWeapons:
-  - {fileID: 11400000, guid: ac0e5d3e8271ac3419515dfaf3706c16, type: 2}
-  - {fileID: 11400000, guid: 2e690e767cf9a7d429af373fbd1be237, type: 2}
+  proficiencies:
+    profList:
+    - weaponType: {fileID: 11400000, guid: ac0e5d3e8271ac3419515dfaf3706c16, type: 2}
+      level: 29
+    - weaponType: {fileID: 11400000, guid: 2e690e767cf9a7d429af373fbd1be237, type: 2}
+      level: 9
   classTags: 03000000
   hpGrowth: 50
   strengthGrowth: 30

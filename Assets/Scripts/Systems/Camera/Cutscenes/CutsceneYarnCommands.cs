@@ -4,6 +4,13 @@ using System.Collections;
 
 public class CutsceneYarnCommands : MonoBehaviour
 {
+    [YarnCommand("FireEvent")]
+    public static void FireEvent(string eventName)
+    {
+        // c# throws a fit if you dont wrap this
+        CutsceneManager.Instance.FireEvent(eventName);
+    }
+
     // this one feels wrong but im too lazy to find a better way when i might be changing control contexts soon
     [YarnCommand("SetControlContext")]
     public static void SetControlContext(string context)

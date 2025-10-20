@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 
 // designed to work both as a prof tracker for units and a stat container for classes and items
+// HORRIBLE CODING PRACTICE
 
 [System.Serializable]
 public class WeaponProficiency // coulda named it better
@@ -22,6 +23,8 @@ public class WeaponProficiency // coulda named it better
     }
 
     // lmao why did i not use a constructor this isnt a monobehavior
+    // its because im actually super smart and a constructor would not be useful in this use case because we never technically
+    // instantiate this factory class
     public void Initialize()
     {
         if (runtimeProfDict == null) BuildRuntimeDictionary();
@@ -57,7 +60,7 @@ public class WeaponProficiency // coulda named it better
         }
         foreach (var proficiency in weapon.proficiency.GetProficiencies())
         {
-            if(this.runtimeProfDict.ContainsKey(proficiency.Key) && (this.runtimeProfDict[proficiency.Key] >= proficiency.Value))
+            if(runtimeProfDict.ContainsKey(proficiency.Key) && (runtimeProfDict[proficiency.Key] >= proficiency.Value))
             {
                 return true;
             }

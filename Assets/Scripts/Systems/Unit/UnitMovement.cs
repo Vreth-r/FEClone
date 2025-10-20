@@ -138,7 +138,7 @@ public class UnitMovement : MonoBehaviour
 
             if (currentPath.Count > 1) // only walk the path if going to a new place (otherwise it just reruns previous walk)
             {
-                if (unit.animPrefab) unit.getAnimator().SetBool("isMoving", true); // start running animation
+                unit.animator.SetBool("isMoving", true); // start running animation
                 StartCoroutine(MoveAlongPath(currentPath)); // Sets the unit to move along the path set smoothly in a co-routine yeah bro we use co-routines get used to it
             }
             else
@@ -212,7 +212,7 @@ public class UnitMovement : MonoBehaviour
 
         UnitManager.Instance.UpdateUnitPosition(unit, oldPos, unit.GridPosition); // tell the unit manager whats going on
         if (arrowInstance != null) arrowInstance.SetActive(false);
-        if (unit.animPrefab) unit.getAnimator().SetBool("isMoving", false); // return to idle state at end of path
+        unit.animator.SetBool("isMoving", false); // return to idle state at end of path
         scale.x = 1f; // reset scale
         transform.localScale = scale;
         // jesus christ thomas yield return StartCoroutine(GameObject.Find("Main Camera").GetComponent<CameraPanner>().PanToLocation(transform.position)); // bruh hahahahahaha
@@ -277,7 +277,7 @@ public class UnitMovement : MonoBehaviour
         movementRange.PopulateHeightTileMap(unit.GridPosition, 9999, 0); // make it so that you can move places
         currentPath = Pathfinding.FindPath(unit.GridPosition, gridPos, movementRange.isMoveableTo); // calculate path
         movementRange.highlightTilemap.gameObject.SetActive(false); // set move highlights to be invisible
-        if (unit.animPrefab) unit.getAnimator().SetBool("isMoving", true); // start running animation
+        unit.animator.SetBool("isMoving", true); // start running animation
         if (currentPath != null && currentPath.Count > 0) yield return MoveAlongPath(currentPath); // move
 
         // set movement positions

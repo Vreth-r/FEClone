@@ -16,7 +16,7 @@ public class UnitManager : MonoBehaviour
 
     public void RegisterUnit(Unit unit)
     {
-        Debug.Log($"Registering {unit.unitName}");
+        Debug.Log($"Registering {unit.unitName} at {unit.GridPosition}");
         unitPositions[unit.GridPosition] = unit; // track this unit 
     }
 

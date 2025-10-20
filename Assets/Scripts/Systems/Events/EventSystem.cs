@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+
+// rah i made a custom event system because combat is weird sometimes and i was unsure if unity events could
+// cover the implementation, they probably can now that combat is more defined but ill keep this here as a resume flex
 public static class EventSystem
 {
     public static void TriggerEvent(
@@ -7,7 +10,7 @@ public static class EventSystem
         Unit target, // the target of the unit source
         Event evnt, // what event to actually trigger
         CombatContext combatContext = null // if theres a need for combat
-    ) 
+    )
     {
         EffectContext ctx = new() { combat = combatContext }; // add the context
 
@@ -24,7 +27,7 @@ public static class EventSystem
         if(evnt == Event.OnTurnEnd)
         {
             
-        }*/ 
+        }*/
     }
 }
 

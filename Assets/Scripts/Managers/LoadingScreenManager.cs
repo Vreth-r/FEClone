@@ -144,6 +144,7 @@ public class LoadingScreenManager : MonoBehaviour
         // Fade out
         yield return FadeCanvas(1f, 0f, 0.5f);
 
+        yield return null;
         Destroy(currentScreen);
     }
 

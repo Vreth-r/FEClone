@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using Yarn.Unity;
 using System.Threading;
@@ -16,6 +17,8 @@ public class CutsceneManager : MonoBehaviour
     [Header("Fade Elements")]
     public Image fadeImage;
     public TextMeshProUGUI fadeText;
+
+    public event Action<string> CutsceneCue;
 
     void Awake()
     {
@@ -37,6 +40,11 @@ public class CutsceneManager : MonoBehaviour
     void Start() // testing only
     {
         if (testCutscene) StartCoroutine(TestRun());
+    }
+
+    public void FireEvent(string eventName)
+    {
+        CutsceneCue?.Invoke(eventName);
     }
 
     public IEnumerator TestRun() // testing only

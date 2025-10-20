@@ -21,7 +21,7 @@ MonoBehaviour:
   maxRange: 2
   effects: []
   weaponType: {fileID: 11400000, guid: ac0e5d3e8271ac3419515dfaf3706c16, type: 2}
-  hit: 10
+  hit: 70
   avoid: 15
   crit: 0
   durability: 50

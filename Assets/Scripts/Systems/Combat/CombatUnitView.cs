@@ -1,3 +1,4 @@
+/*
 using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,7 +10,7 @@ public class CombatUnitView : MonoBehaviour
     private Animator animator;
     public void SetFromUnit(Unit unit, bool isLeft)
     {
-        if (unit.animPrefab) // this if is just because there are some units without animations yet and it would crash otherwise
+        if (unit.animator) // this if is just because there are some units without animations yet and it would crash otherwise
         {
             spriteRenderer.sprite = null; // set sprite to null (remove sprite renderer from combat scene later, then this line not needed)
             animPrefab = Instantiate(unit.animPrefab, transform); // add the animation in
@@ -143,3 +144,4 @@ public class CombatUnitView : MonoBehaviour
         }
     }
 }
+*/
