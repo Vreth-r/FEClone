@@ -11,9 +11,17 @@ public class TurnManager : MonoBehaviour
 
     private void Awake() => Instance = this;
 
-    public void EndTurn()
+    // for when all roster units are tapped and the game auto ends the turn
+    public void TryEndPlayerTurn()
     {
-        currentTurn = currentTurn == TurnState.Player ? TurnState.Enemy : TurnState.Player;
+        foreach(Unit u in UnitManager.Instance.playerUnits)
+        {
+            if(u.state != UnitState.Tapped)
+            {
+                return;
+            }
+        }
+        currentTurn = TurnState.Enemy;
         Debug.Log($"Turn changed to: {currentTurn}");
     }
 }

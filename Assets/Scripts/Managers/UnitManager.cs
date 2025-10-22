@@ -8,6 +8,8 @@ public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance;
     private readonly Dictionary<Vector2Int, Unit> unitPositions = new(); // keeps track of occupied tiles by all units
+    public List<Unit> playerUnits = new List<Unit>(); // record of all alive player units (not positions)
+    public List<Unit> enemyUnits = new List<Unit>(); // record of all alive enemy units (not positions)
 
     public Unit selectedUnit; // for use in keeping track what unit is selected so others cant be selected at the same time
     public StatsMenu statsUI; // unit stat previewer
@@ -18,12 +20,40 @@ public class UnitManager : MonoBehaviour
     {
         Debug.Log($"Registering {unit.unitName} at {unit.GridPosition}");
         unitPositions[unit.GridPosition] = unit; // track this unit 
+        if (unit.team == Team.Player)
+        {
+            playerUnits.Add(unit);
+        }
+        else if (unit.team == Team.Enemy) //there might be more teams later if we do npc's but i doubt it
+        {
+            enemyUnits.Add(unit);
+        }
     }
 
     public void UnregisterUnit(Unit unit)
     {
         Debug.Log($"Unregistering {unit.unitName}");
         unitPositions.Remove(unit.GridPosition); // stop tracking unit (cause it died lmao)
+        if (unit.team == Team.Player)
+        {
+            foreach (Unit u in playerUnits)
+            {
+                if (u.unitID == unit.unitID)
+                {
+                    playerUnits.Remove(u);
+                }
+            }
+        }
+        else if (unit.team == Team.Enemy)
+        {
+            foreach (Unit u in enemyUnits)
+            {
+                if (u.unitID == unit.unitID)
+                {
+                    enemyUnits.Remove(u);
+                }
+            }
+        }
     }
 
     public void UpdateUnitPosition(Unit unit, Vector2Int oldPos, Vector2Int newPos)

@@ -17,6 +17,7 @@ public class CursorController : MonoBehaviour
     public Grid grid;
     private Vector3 minCursorPos;
     private Vector3 maxCursorPos;
+    private bool targetMode = false;
 
     public static CursorController Instance; // this could probably be not singleton maybe
 
@@ -67,14 +68,31 @@ public class CursorController : MonoBehaviour
         if (Time.time - lastMoveTime < moveCooldown || input == Vector2.zero)
             return;
 
-        Vector2Int direction = Vector2Int.zero;
+        // if in targeting mode, cycle targets instead of moving
+        if (targetMode)
+        {
+            int direction = 0;
+            if (input.x > 0.5f || input.y > 0.5f)
+                direction = 1;
+            else if (input.x < -0.5f || input.y < -0.5f)
+                direction = -1;
+
+            if (direction != 0)
+            {
+                TargetSelector.Instance.CycleTarget(direction);
+                lastMoveTime = Time.time;
+            }
+            return;
+        }
+
+        Vector2Int directionVec = Vector2Int.zero;
 
         if (Mathf.Abs(input.x) > Mathf.Abs(input.y))
-            direction.x = (int)Mathf.Sign(input.x);
+            directionVec.x = (int)Mathf.Sign(input.x);
         else
-            direction.y = (int)Mathf.Sign(input.y);
+            directionVec.y = (int)Mathf.Sign(input.y);
 
-        currentGridPosition += new Vector3Int(direction.x, direction.y, 0);
+        currentGridPosition += new Vector3Int(directionVec.x, directionVec.y, 0);
         Vector3Int clampedPosition = new Vector3Int(
         (int)Mathf.Clamp(currentGridPosition.x, minCursorPos.x, maxCursorPos.x),
         (int)Mathf.Clamp(currentGridPosition.y, minCursorPos.y, maxCursorPos.y),
@@ -126,5 +144,10 @@ public class CursorController : MonoBehaviour
     public void SetCurrentGridPosition(Vector3Int pos)
     {
         currentGridPosition = pos;
+    }
+
+    public void SetTargetMode(bool mode)
+    {
+        targetMode = mode;
     }
 }

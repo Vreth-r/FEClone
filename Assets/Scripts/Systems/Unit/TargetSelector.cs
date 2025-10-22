@@ -11,6 +11,7 @@ public class TargetSelector : MonoBehaviour
 
     private Unit attacker;
     private List<Unit> validTargets = new();
+    private int currentTargetIndex = 0;
     private bool targeting = false;
 
     public Tilemap highlightTilemap;
@@ -24,11 +25,13 @@ public class TargetSelector : MonoBehaviour
     void OnEnable()
     {
         ControlsManager.Instance.OnSelect += HandleSelect;
+        //ControlsManager.Instance.OnCancel += HandleCancel;
     }
 
     void OnDisable()
     {
         ControlsManager.Instance.OnSelect -= HandleSelect;
+        //ControlsManager.Instance.OnCancel -= HandleCancel;
     }
 
     private void HandleSelect()
@@ -51,6 +54,12 @@ public class TargetSelector : MonoBehaviour
         }
 
         Debug.Log("Invalid Target");
+    }
+
+    private void HandleCancel()
+    {
+        if (!targeting) return;
+        Clear();
     }
 
     public void BeginTargeting(Unit unit)
@@ -89,13 +98,32 @@ public class TargetSelector : MonoBehaviour
 
         Debug.Log("Select an enemy to attack.");
         targeting = true; // enable targeting mode
+        CursorController.Instance.SetTargetMode(true);
+
+        CursorController.Instance.SetCurrentGridPosition(new Vector3Int(validTargets[0].GridPosition.x, validTargets[0].GridPosition.y, 0));
+        CursorController.Instance.UpdateCursorTile();
     }
     
+    public void CycleTarget(int direction)
+    {
+        if (!targeting || validTargets.Count == 0) return;
+        currentTargetIndex += direction;
+        if (currentTargetIndex >= validTargets.Count)
+            currentTargetIndex = 0;
+        else if (currentTargetIndex < 0)
+            currentTargetIndex = validTargets.Count - 1;
+
+        CursorController.Instance.SetCurrentGridPosition(new Vector3Int(validTargets[currentTargetIndex].GridPosition.x, validTargets[currentTargetIndex].GridPosition.y, 0));
+        CursorController.Instance.UpdateCursorTile();
+    }
+
     public void Clear()
     {
         attacker.GetComponent<MovementRange>().ClearHighlights();
         attacker = null;
         validTargets.Clear();
         targeting = false;
+        currentTargetIndex = 0;
+        CursorController.Instance.SetTargetMode(false);
     }
 }

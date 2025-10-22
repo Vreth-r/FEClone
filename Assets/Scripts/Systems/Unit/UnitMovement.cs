@@ -242,19 +242,21 @@ public class UnitMovement : MonoBehaviour
             case UnitActionType.Attack:
                 Debug.Log("OnMenuSelect in UnitMovement: Attacking");
                 TargetSelector.Instance.BeginTargeting(unit);
+                // try end player turn after combat
                 break; // still thinking of what to put here
 
             case UnitActionType.Wait:
                 Debug.Log("Unit waits.");
                 unit.state = UnitState.Tapped;
                 this.enabled = false;
-                // TurnManager.Instance.EndTurn(); // fo l8r
+                TurnManager.Instance.TryEndPlayerTurn();
                 break;
 
             case UnitActionType.Item:
                 Debug.Log("Show item UI (WIP).");
                 unit.state = UnitState.Tapped;
                 this.enabled = false;
+                // try end player turn after item use resolve
                 break;
 
             case UnitActionType.Cancel:
