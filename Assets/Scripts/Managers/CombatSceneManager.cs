@@ -16,7 +16,7 @@ public class CombatSceneManager : MonoBehaviour
     public HealthBarUI attackerHealthBar;
     public HealthBarUI defenderHealthBar;
 
-    public float attackDelay = 0.8f;
+    public float attackDelay = 1f;
     public float hitPause = 0.3f;
     public float cameraZoomDuration = 1f;
     public float cameraZoomTarget = 3f;
@@ -89,7 +89,7 @@ public class CombatSceneManager : MonoBehaviour
         yield return StartCoroutine(CutsceneManager.Instance.cameraPanner.ZoomCamera(cameraZoomTarget, 2f, 0.15f));
 
         // wait a second for cinema
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.5f);
 
         // begin fighting
         yield return StartCoroutine(PlayCombat(context, queue));
@@ -122,12 +122,16 @@ public class CombatSceneManager : MonoBehaviour
             string message = $"{attacker.unitName} attacks!";
             if (action.isCounter) message += " (Counter)";
             if (action.isFollowUp) message += " (Follow-up)";
-            yield return narrator.ShowMessageAndClear(message, 0.8f);
+            yield return narrator.ShowMessageAndClear(message, 1f);
 
             // start anims
             attacker.animator?.SetTrigger("Attack");
-
-            yield return new WaitForSeconds(attackDelay);
+            // the length property of AnimatorStateInfo gives the duration of the clip in seconds
+            yield return new WaitForSeconds(attacker.animator.GetCurrentAnimatorStateInfo(0).length);
+            if (action.attackerWeapon.visuals != null)
+            {
+                VFXManager.Instance.PlayEffect(action.attackerWeapon.visuals, attacker.gameObject.transform.position, defender.gameObject.transform.position);
+            }
 
             // Capture HP before damage
             context.defenderPrevHP = defender.currentHP;
@@ -138,19 +142,21 @@ public class CombatSceneManager : MonoBehaviour
                 if (context.critting)
                 {
                     // attacker crit visuals, maybe a light object or something i dunno think of this later
-                    yield return narrator.ShowMessageAndClear("CRIT!", 0.4f);
+                    yield return narrator.ShowMessageAndClear("CRIT!", 1f);
                 }
                 else
                 {
-                    yield return narrator.ShowMessageAndClear("HIT!");
+                    yield return narrator.ShowMessageAndClear("HIT!", 1f);
                 }
 
                 defender.animator?.SetTrigger("Hit");
+                yield return new WaitForSeconds(0.5f);
             }
             else
             {
                 yield return narrator.ShowMessage("Miss!");
                 defender.animator?.SetTrigger("Dodge");
+                yield return new WaitForSeconds(defender.animator.GetCurrentAnimatorStateInfo(0).length);
             }
 
             // Update health bar and HP text
@@ -165,7 +171,7 @@ public class CombatSceneManager : MonoBehaviour
                 break; // cause he died
             }
 
-            yield return new WaitForSeconds(hitPause);
+            yield return new WaitForSeconds(1f);
         }
 
         yield return new WaitForSeconds(0.5f);

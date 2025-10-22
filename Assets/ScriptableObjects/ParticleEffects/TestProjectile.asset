@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab771301fb345bd4abf37acfc2008bba, type: 3}
+  m_Name: TestProjectile
+  m_EditorClassIdentifier: Assembly-CSharp::ParticleEffectSequence
+  steps:
+  - effectPrefab: {fileID: 4918568645005530689, guid: 59fc871d66e90a8459badb8ae33f546e, type: 3}
+    delay: 0
+    lifetime: 1
+    destination: origin
+    isTravelEffect: 0
+    speed: 0
+    groupID: 0
+  - effectPrefab: {fileID: 6116490471196680996, guid: a31dfc529b02d094d8f1b310750a3205, type: 3}
+    delay: 0
+    lifetime: 0
+    destination: target
+    isTravelEffect: 1
+    speed: 4
+    groupID: 1
+  - effectPrefab: {fileID: 2608352455822274240, guid: ca9dcdeb1b0c28644a52af2ed47e8581, type: 3}
+    delay: 0
+    lifetime: 1.5
+    destination: target
+    isTravelEffect: 0
+    speed: 4
+    groupID: 2

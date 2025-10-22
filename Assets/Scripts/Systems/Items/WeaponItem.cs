@@ -20,6 +20,7 @@ public class WeaponItem : Item // holy coding btw
     public int bonusLuck;
     public WeaponProficiency proficiency;
     public DamageType damageType;
+    public ParticleEffectSequence visuals;
 
     private void OnEnable()
     {

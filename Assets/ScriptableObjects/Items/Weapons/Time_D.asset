@@ -37,3 +37,4 @@ MonoBehaviour:
     - weaponType: {fileID: 11400000, guid: ac0e5d3e8271ac3419515dfaf3706c16, type: 2}
       level: 0
   damageType: 1
+  visuals: {fileID: 11400000, guid: c1ede8c368ef69b41a06f206f7174d80, type: 2}

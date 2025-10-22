@@ -4261,6 +4261,7 @@ GameObject:
   - component: {fileID: 4595987145018045725}
   - component: {fileID: 1410972170788093256}
   - component: {fileID: 8305286129723098015}
+  - component: {fileID: 5694770505714326747}
   m_Layer: 0
   m_Name: Level Manager
   m_TagString: Untagged
@@ -4362,7 +4363,6 @@ MonoBehaviour:
   cameraZoomDuration: 1
   cameraZoomTarget: 3
   cameraZoomDefault: 5
-  cameraPanner: {fileID: 0}
   attackerName: {fileID: 6956459672636221203}
   defenderName: {fileID: 3191548764481857727}
   attackerHP: {fileID: 7142879470217045565}
@@ -4435,6 +4435,19 @@ MonoBehaviour:
   testCutscene: {fileID: 0}
   fadeImage: {fileID: 8373165654222741242}
   fadeText: {fileID: 5502969277909046465}
+--- !u!114 &5694770505714326747
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6227158450644518853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 922309c3e764ee34fa1788c812aa7ad3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VFXManager
+  playerPrefab: {fileID: 6525423055087535907, guid: 5867fc2736680f24687146d5d9b6c073, type: 3}
 --- !u!1 &6245859660617926812
 GameObject:
   m_ObjectHideFlags: 0
