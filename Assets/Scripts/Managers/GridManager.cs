@@ -20,6 +20,10 @@ public class GridManager : MonoBehaviour
 
     public Vector3Int WorldToCell(Vector3 worldPos) => dataTilemap.WorldToCell(worldPos);
     public Vector3 CellToWorld(Vector3Int cellPos) => dataTilemap.CellToWorld(cellPos);
+    public int GetTileDistance(Vector2Int pos1, Vector2Int pos2)
+    {
+        return Mathf.Abs(pos1.x - pos2.x) + Mathf.Abs(pos1.y - pos2.y);
+    }
 
     /*
     public void ClearGrid()

@@ -113,6 +113,7 @@ public class MovementRange : MonoBehaviour
 
     public bool isMoveableTo(Vector2Int pos)
     {
+        // this is good for player units that spawn blue tiles, but not enemies that move without doing that.
         return highlightTilemap.GetTile((Vector3Int)pos) == movementTile && IsWalkable(pos); // returns if tile is blue and not occupied
     }
 

@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 3715088351686450520}
   - component: {fileID: 4536577457962426672}
   - component: {fileID: 1152811067334096762}
+  - component: {fileID: 6106070032102097793}
   m_Layer: 0
   m_Name: Time Echo
   m_TagString: Untagged
@@ -185,10 +186,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   team: 1
-  unitClass: {fileID: 11400000, guid: b59973926dc92eb49a8c8b6d8362675d, type: 2}
+  unitClass: {fileID: 11400000, guid: 1e94f7522add42d489a99241a7970b76, type: 2}
   unitName: Time Echo
   unitDescription: Ethereal Spirit
-  unitID: 11
+  unitID: 0
   movementRange: 0
   attackRange: 0
   level: 1
@@ -205,8 +206,9 @@ MonoBehaviour:
   crit: 0
   hit: 0
   skills: []
-  inventory: []
-  equippedItem: {fileID: 11400000, guid: dd93d43264e2c72449403a27c6e11392, type: 2}
+  inventory:
+  - {fileID: 11400000, guid: dd93d43264e2c72449403a27c6e11392, type: 2}
+  equippedItem: {fileID: 0}
   proficiencyLevels:
     profList: []
   combatSprite: {fileID: 0}
@@ -298,6 +300,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &6106070032102097793
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799637953519756220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a9259f54f7d3e5b4f81327ff87ec6f35, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
 --- !u!1 &8608570206293145580
 GameObject:
   m_ObjectHideFlags: 0

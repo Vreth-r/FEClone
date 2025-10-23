@@ -233,6 +233,11 @@ public class UnitMovement : MonoBehaviour
         controlBlock = false;
     }
 
+    public MovementRange GetMovementRange()
+    {
+        return movementRange;
+    }
+
     public void OnMenuSelect(UnitActionType action)
     // this is only here cause a lot of these actions need refs already in this file and it would be work and a half to pass
     // all the params

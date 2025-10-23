@@ -75,4 +75,5 @@ public class ActionMenu : NavMenu
     }
 }
 
+// this is fucking stupid and has to change to support Abilities
 public enum UnitActionType { Attack, Wait, Item, Cancel }

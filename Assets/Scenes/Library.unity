@@ -14945,11 +14945,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7947383711016115493, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}
       propertyPath: spawnEvents.Array.data[1].gridPos.x
-      value: 11
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7947383711016115493, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}
       propertyPath: spawnEvents.Array.data[1].gridPos.y
-      value: 1
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7947383711016115493, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}
       propertyPath: spawnEvents.Array.data[0].unitToSpawn
