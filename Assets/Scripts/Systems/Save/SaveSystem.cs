@@ -80,7 +80,7 @@ public static class SaveSystem
         {
             foreach (var unitData in data.savedUnits)
             {
-                UnitSpawner.Instance.SpawnUnitFromSaveData(unitData, (Vector3Int)unitData.gridPosition);
+                //UnitSpawner.Instance.SpawnUnitFromSaveData(unitData, (Vector3Int)unitData.gridPosition);
             }
         };
     }

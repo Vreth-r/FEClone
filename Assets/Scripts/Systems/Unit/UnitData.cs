@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections.Generic;
 
-//  This one is for defining the characters initial stats and shit
+//  This one is now for making specifications for spawning units dyanimcally
 
 [CreateAssetMenu(menuName = "Tactics RPG/Unit Data")]
 public class UnitData : ScriptableObject, IIdentifiable
@@ -26,9 +26,8 @@ public class UnitData : ScriptableObject, IIdentifiable
     public int resistance;
     public int luck;
 
-    public List<Item> startingInventory;
+    public List<Item> inventory;
     public Item equippedItem;
-    public Sprite combatSprite;
-    public GameObject animationPrefab;
     public WeaponProficiency proficiencyLevels;
+    public List<Skill> skills;
 }

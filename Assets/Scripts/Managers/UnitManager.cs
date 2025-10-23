@@ -14,6 +14,9 @@ public class UnitManager : MonoBehaviour
     public Unit selectedUnit; // for use in keeping track what unit is selected so others cant be selected at the same time
     public StatsMenu statsUI; // unit stat previewer
     public GameObject EmotePrefab; // Speech bubble w/ text prefab
+
+    public int nextID = 11; // the reserved ID's end with Peril's ID of 10
+
     private void Awake() => Instance = this; // declare this instance for external ref
 
     public void RegisterUnit(Unit unit)
@@ -27,6 +30,12 @@ public class UnitManager : MonoBehaviour
         else if (unit.team == Team.Enemy) //there might be more teams later if we do npc's but i doubt it
         {
             enemyUnits.Add(unit);
+            // assign ID
+            if (unit.unitID == 0)
+            {
+                unit.unitID = nextID;
+                nextID++;
+            }
         }
     }
 

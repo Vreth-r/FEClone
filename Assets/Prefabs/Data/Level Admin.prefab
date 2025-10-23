@@ -4298,6 +4298,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   visualTilemap: {fileID: 0}
   dataTilemap: {fileID: 0}
+  highlightTilemap: {fileID: 0}
 --- !u!114 &5163106304350702774
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4310,7 +4311,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5c124b3649bfe1d45b1414365de4cbd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentTurn: 0
+  turnNum: -1
+  currentTurn: 1
 --- !u!114 &1638433636024979578
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4323,9 +4325,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b1d89cd39a223b4aa02e7d8ffcadb30, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerUnits: []
+  enemyUnits: []
   selectedUnit: {fileID: 0}
   statsUI: {fileID: 0}
   EmotePrefab: {fileID: 3094928628839400196, guid: 756e233a1ada3074791a67235200064c, type: 3}
+  nextID: 11
 --- !u!114 &2575021078966588874
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4385,9 +4390,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2a52147a2df03674dbddb537261cb372, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  highlightTilemap: {fileID: 0}
   unitFolder: {fileID: 3759377588905383167}
-  unitPrefab: {fileID: 7799637953519756220, guid: 048bf8b999c26d440a86ff3daee67ea2, type: 3}
+  spawnEvents: []
 --- !u!114 &4595987145018045725
 MonoBehaviour:
   m_ObjectHideFlags: 0

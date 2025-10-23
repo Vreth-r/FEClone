@@ -10,6 +10,7 @@ public class GridManager : MonoBehaviour
 
     public Tilemap visualTilemap;
     public Tilemap dataTilemap;
+    public Tilemap highlightTilemap;
     //public TerrainDatabase terrainDatabase;
 
     private void Awake()

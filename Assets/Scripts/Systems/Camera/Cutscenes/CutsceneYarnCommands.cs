@@ -11,6 +11,12 @@ public class CutsceneYarnCommands : MonoBehaviour
         CutsceneManager.Instance.FireEvent(eventName);
     }
 
+    [YarnCommand("FlipTurn")]
+    public static void FlipTurn()
+    {
+        TurnManager.Instance.TurnFlip();
+    }
+
     // this one feels wrong but im too lazy to find a better way when i might be changing control contexts soon
     [YarnCommand("SetControlContext")]
     public static void SetControlContext(string context)

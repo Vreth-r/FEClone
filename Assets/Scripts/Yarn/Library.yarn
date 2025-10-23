@@ -109,4 +109,5 @@ title: Library
 // <<SetAllAnimSpeed 1>>
 <<CameraZoom 5 2 0.9>>
 <<SetControlContext "Gameplay">>
+<<FlipTurn>>
 ===
