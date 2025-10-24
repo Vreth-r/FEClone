@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 // Handles unit movement, a complex endeavor apparently
 // To be attached to each unit instance
@@ -288,7 +289,7 @@ public class UnitMovement : MonoBehaviour
         if (currentPath != null && currentPath.Count > 0) yield return MoveAlongPath(currentPath); // move
 
         // set movement positions
-        preMovePosition = unit.transform.position; 
+        preMovePosition = unit.transform.position;
         preMoveGridPos = unit.GridPosition;
 
         // reset pathfinding
@@ -296,5 +297,10 @@ public class UnitMovement : MonoBehaviour
         movementRange.ClearHighlights();
         movementRange.highlightTilemap.gameObject.SetActive(true); // re enable highlights
         yield break;
+    }
+    
+    public async UniTask MoveToAsync(Vector2Int destination)
+    {
+        await MoveTo(destination).ToUniTask();
     }
 }

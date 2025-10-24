@@ -3,6 +3,7 @@ using UnityEngine.Tilemaps;
 using System.Collections;
 using System;
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 
 /* READ THIS
 so the camera follows the cursor pretty closely in the ds titles of fe, so i might just copy that
@@ -111,6 +112,11 @@ public class CameraPanner : MonoBehaviour
         transform.position = targetCameraPos; // Snap to final position
     }
 
+    public async UniTask PanToLocationAsync(Vector3 targetPos, float speed)
+    {
+        await PanToLocation(targetPos, speed).ToUniTask();
+    }
+
     // Same as pan to location but just get location of unit
     public IEnumerator PanToUnit(string unitName, float speed)
     {
@@ -166,6 +172,11 @@ public class CameraPanner : MonoBehaviour
         }
 
         cam.orthographicSize = targetSize;
+    }
+
+    public async UniTask ZoomCameraAsync(float targetSize, float duration, float zoomSTime = -1)
+    {
+        await ZoomCamera(targetSize, duration, zoomSTime).ToUniTask();
     }
 
     // Optionally, to instantly set zoom

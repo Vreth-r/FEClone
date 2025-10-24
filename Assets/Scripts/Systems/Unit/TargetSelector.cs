@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using Cysharp.Threading.Tasks;
 
 // waiting to document this one i still have to test and tweak
 
@@ -34,7 +35,7 @@ public class TargetSelector : MonoBehaviour
         //ControlsManager.Instance.OnCancel -= HandleCancel;
     }
 
-    private void HandleSelect()
+    private async void HandleSelect()
     {
         if (!targeting) return;
 
@@ -46,7 +47,7 @@ public class TargetSelector : MonoBehaviour
         {
             if (target.GridPosition == gridPos)
             {
-                CombatSystem.StartCombat(attacker, target);
+                await CombatSystem.StartCombat(attacker, target);
                 attacker.state = UnitState.Tapped;
                 Clear();
                 return;

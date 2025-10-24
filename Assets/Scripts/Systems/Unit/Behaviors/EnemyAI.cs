@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 [RequireComponent(typeof(Unit))]
@@ -9,25 +10,18 @@ public class EnemyAI : MonoBehaviour
     private UnitMovement _movement;
     private BehaviourNode _rootNode;
 
-    private bool _turnInProgress = false;
-    private bool _turnDone = false;
+    public bool TurnComplete { get; private set; }
 
     private void Awake()
     {
         _unit = GetComponent<Unit>();
         _movement = GetComponent<UnitMovement>();
-    }
 
-    private void Start()
-    {
-        // RAH THIS IS HARDCODING
-        // i will be making a visual aid i think later
-
+        // --- Build the behaviour tree (predefined list of nodes) ---
         var findTarget = new FindNearestPlayerNode(_unit);
         var moveToTarget = new MoveTowardsTargetNode(_unit, _movement, findTarget);
         var attackTarget = new AttackTargetNode(_unit, findTarget);
 
-        // ai will try to attack immediately; if not possible, move then attack.
         _rootNode = new Sequence(new List<BehaviourNode>
         {
             findTarget,
@@ -39,38 +33,16 @@ public class EnemyAI : MonoBehaviour
         });
     }
 
-    public void RunTurn()
+    public async UniTask RunTurnAsync()
     {
-        if (_turnInProgress) return;
-        _turnInProgress = true;
-        _turnDone = false;
+        TurnComplete = false;
+        Debug.Log($"[EnemyAI] {_unit.unitName} starting turn...");
 
-        Debug.Log("Executing Turn");
-        StartCoroutine(ExecuteTurn());
-    }
+        await _rootNode.RunAsync();
 
-    private System.Collections.IEnumerator ExecuteTurn()
-    {
-        while (true)
-        {
-            var result = _rootNode.Evaluate();
-
-            if (result == BehaviourNode.State.Success || result == BehaviourNode.State.Failure)
-                break;
-
-            yield return null;
-        }
-
-        _turnDone = true;
-        _turnInProgress = false;
         _unit.state = UnitState.Tapped;
-    }
+        TurnComplete = true;
 
-    public void SetTurnInProgress(bool status)
-    {
-        _turnInProgress = status;
+        Debug.Log($"[EnemyAI] {_unit.unitName} finished turn.");
     }
-
-    public bool IsIdle() => !_turnInProgress;
-    public bool IsDone() => _turnDone;
 }

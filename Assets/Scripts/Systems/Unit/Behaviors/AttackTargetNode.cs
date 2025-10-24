@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class AttackTargetNode : BehaviourNode
@@ -11,28 +12,17 @@ public class AttackTargetNode : BehaviourNode
         _targetFinder = targetFinder;
     }
 
-    public override State Evaluate()
+    public override async UniTask<State> RunAsync()
     {
-        Unit target = _targetFinder.GetTarget();
+        Unit target = _targetFinder.Target;
         if (target == null)
-        {
-            _state = State.Failure;
-            return _state;
-        }
+            return State.Failure;
 
         float dist = GridManager.Instance.GetTileDistance(_enemy.GridPosition, target.GridPosition);
         if (dist > _enemy.attackRange)
-        {
-            _state = State.Failure;
-            return _state;
-        }
+            return State.Failure;
 
-        // hook combat logic here
-        Debug.Log($"{_enemy.unitName} attacks {_targetFinder.GetTarget().unitName}!");
-        CombatSystem.StartCombat(_enemy, target);
-
-        _enemy.state = UnitState.Tapped;
-        _state = State.Success;
-        return _state;
+        await CombatSystem.StartCombat(_enemy, target);
+        return State.Success;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 
 // still need to add stuff like
 /*
@@ -24,10 +25,9 @@ public class CombatSystem
     private const int WeaponDisadvantageHitPenalty = -10;
 
     // This gets called whenever combat is to be initiated
-    public static void StartCombat(Unit attacker, Unit defender)
-    // called at the start of combat and initializes everything
+    public static async UniTask StartCombat(Unit attacker, Unit defender)
     {
-        CombatContext context = new () // creates the combat context and initialzizes it
+        CombatContext context = new()
         {
             isPlayerAttack = true,
             attacker = attacker,
@@ -36,22 +36,26 @@ public class CombatSystem
             defenderWeapon = defender.equippedItem as WeaponItem
         };
 
-        if (context.attackerWeapon == null) // if no weapon, no combat
+        if (context.attackerWeapon == null)
         {
             Debug.Log("No weapon equipped");
             return;
         }
-        context.attackerPrevHP = context.attacker.currentHP; // cache old HP values for visuals
+
+        context.attackerPrevHP = context.attacker.currentHP;
         context.defenderPrevHP = context.defender.currentHP;
 
-        // if the attacker speed is 5 greater than the defender, the attacker gets to make a followup attack
-        context.isFollowingUp = context.attacker.GetModifiedStat(StatType.SPD) - context.defender.GetModifiedStat(StatType.SPD) >= followUpSpeedThreshold;
+        context.isFollowingUp = context.attacker.GetModifiedStat(StatType.SPD) - 
+                                context.defender.GetModifiedStat(StatType.SPD) >= followUpSpeedThreshold;
 
-        EventSystem.TriggerEvent(context.attacker, context.defender, Event.OnCombatStart, context); // trigger combat start event
+        EventSystem.TriggerEvent(context.attacker, context.defender, Event.OnCombatStart, context);
 
-        var queue = BuildCombatQueue(context); // build the combat event queue
-        CombatSceneManager.Instance.EnterCombatScene(attacker, defender, context, queue); // tell the scene manager to start the scene
+        var queue = BuildCombatQueue(context);
+
+        // Wait for the combat scene to finish
+        await CombatSceneManager.Instance.EnterCombatSceneAsync(attacker, defender, context, queue);
     }
+
 
     // builds a combat event queue based off many factors
     public static CombatQueue BuildCombatQueue(CombatContext context)

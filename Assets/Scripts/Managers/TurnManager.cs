@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
 using System;
 
 public enum TurnState { Player, Enemy}
@@ -34,7 +35,7 @@ public class TurnManager : MonoBehaviour
         // run enemy turns
         if(currentTurn == TurnState.Enemy)
         {
-            StartCoroutine(RunEnemyTurn());
+            _ = RunEnemyTurnAsync();
         }
     }
 
@@ -57,40 +58,22 @@ public class TurnManager : MonoBehaviour
         TurnFlip();
     }
     
-    public IEnumerator RunEnemyTurn()
-{
-    Debug.Log("=== Enemy Turn Start ===");
-
-    // Small pre-delay for clarity / pacing
-    yield return new WaitForSeconds(0.5f);
-
-    foreach (var enemy in UnitManager.Instance.enemyUnits)
+    public async UniTask RunEnemyTurnAsync()
     {
-        if (enemy == null) continue;
+        Debug.Log("=== Enemy Turn Start ===");
+        await UniTask.Delay(500);
 
-        EnemyAI ai = enemy.GetComponent<EnemyAI>();
-        if (ai == null) continue;
+        foreach (var enemy in UnitManager.Instance.enemyUnits)
+        {
+            if (enemy == null) continue;
+            EnemyAI ai = enemy.GetComponent<EnemyAI>();
+            if (ai == null) continue;
 
-        Debug.Log($"[TurnManager] Starting turn for enemy: {enemy.unitName} | ID: {enemy.unitID}");
+            await ai.RunTurnAsync();
+            await UniTask.Delay(250);
+        }
 
-        // Begin AI's turn
-        //ai.SetTurnInProgress(true);
-        ai.RunTurn();
-
-        // Wait until it reports finished
-        yield return new WaitUntil(() => ai.IsDone());
-
-        Debug.Log($"[TurnManager] {enemy.unitName} finished turn.");
-
-        // Add small delay between enemies for pacing
-        yield return new WaitForSeconds(0.25f);
+        Debug.Log("=== Enemy Turn End ===");
+        TurnFlip();
     }
-
-    Debug.Log("=== Enemy Turn End ===");
-
-    // Flip back to player after all enemies are done
-    TurnFlip();
-}
-
-
 }

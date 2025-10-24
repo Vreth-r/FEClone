@@ -1,58 +1,63 @@
+using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+
 public abstract class BehaviourNode
 {
     public enum State { Running, Success, Failure }
-    protected State _state;
-    public State CurrentState => _state;
+    public State CurrentState { get; protected set; } = State.Running;
 
-    public abstract State Evaluate();
+    public abstract UniTask<State> RunAsync();
 }
+
 
 public class Sequence : BehaviourNode
 {
     private readonly List<BehaviourNode> _children;
-    public Sequence(List<BehaviourNode> children) => _children = children;
 
-    public override State Evaluate()
+    public Sequence(List<BehaviourNode> children)
     {
-        bool anyRunning = false;
-        foreach (var node in _children)
+        _children = children;
+    }
+
+    public override async UniTask<State> RunAsync()
+    {
+        foreach (var child in _children)
         {
-            switch (node.Evaluate())
+            var result = await child.RunAsync();
+            if (result == State.Failure)
             {
-                case State.Failure:
-                    _state = State.Failure;
-                    return _state;
-                case State.Running:
-                    anyRunning = true;
-                    break;
+                CurrentState = State.Failure;
+                return CurrentState;
             }
         }
-        _state = anyRunning ? State.Running : State.Success;
-        return _state;
+
+        CurrentState = State.Success;
+        return CurrentState;
     }
 }
 
 public class Selector : BehaviourNode
 {
     private readonly List<BehaviourNode> _children;
-    public Selector(List<BehaviourNode> children) => _children = children;
 
-    public override State Evaluate()
+    public Selector(List<BehaviourNode> children)
     {
-        foreach (var node in _children)
+        _children = children;
+    }
+
+    public override async UniTask<State> RunAsync()
+    {
+        foreach (var child in _children)
         {
-            switch (node.Evaluate())
+            var result = await child.RunAsync();
+            if (result == State.Success)
             {
-                case State.Success:
-                    _state = State.Success;
-                    return _state;
-                case State.Running:
-                    _state = State.Running;
-                    return _state;
+                CurrentState = State.Success;
+                return CurrentState;
             }
         }
-        _state = State.Failure;
-        return _state;
+
+        CurrentState = State.Failure;
+        return CurrentState;
     }
 }

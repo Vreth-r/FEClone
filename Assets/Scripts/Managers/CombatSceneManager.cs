@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using Cysharp.Threading.Tasks;
 
 // Need to condense some of the UI shit but honestly it all might change when the actual final UI is designed so im holding off
 
@@ -41,7 +42,7 @@ public class CombatSceneManager : MonoBehaviour
         Instance = this; // singleton
     }
 
-    public void EnterCombatScene(Unit attacker, Unit defender, CombatContext context, CombatQueue queue)
+    public async UniTask EnterCombatSceneAsync(Unit attacker, Unit defender, CombatContext context, CombatQueue queue)
     {
         uiObject.SetActive(true);
 
@@ -75,27 +76,26 @@ public class CombatSceneManager : MonoBehaviour
             defenderWeaponName.text = "None";
             // gotta make a placeholder sprite later
         }
-
-        StartCoroutine(StartCombatSequence(attacker, defender, context, queue));
+        await StartCombatSequenceAsync(attacker, defender, context, queue);
     }
 
-    private IEnumerator StartCombatSequence(Unit attacker, Unit defender, CombatContext context, CombatQueue queue)
+    private async UniTask StartCombatSequenceAsync(Unit attacker, Unit defender, CombatContext context, CombatQueue queue)
     {
         // cam setup
         CutsceneManager.Instance.cameraPanner.SetInCutscene(true);
 
         // pan to midpoint and zoom
-        yield return StartCoroutine(CutsceneManager.Instance.cameraPanner.PanToLocation((attacker.transform.position + defender.transform.position) / 2f, 2f));
-        yield return StartCoroutine(CutsceneManager.Instance.cameraPanner.ZoomCamera(cameraZoomTarget, 2f, 0.15f));
+        await CutsceneManager.Instance.cameraPanner.PanToLocationAsync((attacker.transform.position + defender.transform.position) / 2f, 2f);
+        await CutsceneManager.Instance.cameraPanner.ZoomCameraAsync(cameraZoomTarget, 2f, 0.15f);
 
         // wait a second for cinema
-        yield return new WaitForSeconds(0.5f);
+        await UniTask.Delay(500);
 
         // begin fighting
-        yield return StartCoroutine(PlayCombat(context, queue));
+        await PlayCombatAsync(context, queue);
 
         // reset cam
-        yield return StartCoroutine(CutsceneManager.Instance.cameraPanner.ZoomCamera(cameraZoomDefault, cameraZoomDuration, -1f));
+        await CutsceneManager.Instance.cameraPanner.ZoomCameraAsync(cameraZoomDefault, cameraZoomDuration, -1f);
         CutsceneManager.Instance.cameraPanner.SetInCutscene(false);
     }
 
@@ -104,7 +104,7 @@ public class CombatSceneManager : MonoBehaviour
         uiObject.SetActive(false);
     }
 
-    public IEnumerator PlayCombat(CombatContext context, CombatQueue queue)
+    public async UniTask PlayCombatAsync(CombatContext context, CombatQueue queue)
     {
         foreach (var action in queue.actions)
         {
@@ -122,12 +122,12 @@ public class CombatSceneManager : MonoBehaviour
             string message = $"{attacker.unitName} attacks!";
             if (action.isCounter) message += " (Counter)";
             if (action.isFollowUp) message += " (Follow-up)";
-            yield return narrator.ShowMessageAndClear(message, 1f);
+            await narrator.ShowMessageAndClearAsync(message, 1f);
 
             // start anims
             attacker.animator?.SetTrigger("Attack");
             // the length property of AnimatorStateInfo gives the duration of the clip in seconds
-            yield return new WaitForSeconds(attacker.animator.GetCurrentAnimatorStateInfo(0).length);
+            await UniTask.Delay((int)(attacker.animator.GetCurrentAnimatorStateInfo(0).length) * 1000);
             if (action.attackerWeapon.visuals != null)
             {
                 VFXManager.Instance.PlayEffect(action.attackerWeapon.visuals, attacker.gameObject.transform.position, defender.gameObject.transform.position);
@@ -142,21 +142,21 @@ public class CombatSceneManager : MonoBehaviour
                 if (context.critting)
                 {
                     // attacker crit visuals, maybe a light object or something i dunno think of this later
-                    yield return narrator.ShowMessageAndClear("CRIT!", 1f);
+                    await narrator.ShowMessageAndClearAsync("CRIT!", 1f);
                 }
                 else
                 {
-                    yield return narrator.ShowMessageAndClear("HIT!", 1f);
+                    await narrator.ShowMessageAndClearAsync("HIT!", 1f);
                 }
 
                 defender.animator?.SetTrigger("Hit");
-                yield return new WaitForSeconds(0.5f);
+                await UniTask.Delay(500);
             }
             else
             {
-                yield return narrator.ShowMessage("Miss!");
+                await narrator.ShowMessageAsync("Miss!");
                 defender.animator?.SetTrigger("Dodge");
-                yield return new WaitForSeconds(defender.animator.GetCurrentAnimatorStateInfo(0).length);
+                await UniTask.Delay((int)(defender.animator.GetCurrentAnimatorStateInfo(0).length) * 1000);
             }
 
             // Update health bar and HP text
@@ -166,15 +166,15 @@ public class CombatSceneManager : MonoBehaviour
             // Death check
             if (defender.currentHP <= 0)
             {
-                yield return narrator.ShowMessage($"{defender.unitName} was defeated!");
+                await narrator.ShowMessageAsync($"{defender.unitName} was defeated!");
                 // defender death here
                 break; // cause he died
             }
 
-            yield return new WaitForSeconds(1f);
+            await UniTask.Delay(1000);
         }
 
-        yield return new WaitForSeconds(0.5f);
+        await UniTask.Delay(500);
         ExitCombat();
     }
 }
