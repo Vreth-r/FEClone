@@ -50,6 +50,7 @@ public class TargetSelector : MonoBehaviour
                 await CombatSystem.StartCombat(attacker, target);
                 attacker.state = UnitState.Tapped;
                 Clear();
+                TurnManager.Instance.TryEndPlayerTurn();
                 return;
             }
         }

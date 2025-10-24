@@ -40,6 +40,7 @@ public class Unit : MonoBehaviour
     public List<Item> inventory = new(); // thinking of making a class for this but the inventory is so simple anyway
     public Item equippedItem; // the current equipped item (will always be a weapon)
     public WeaponProficiency proficiencyLevels; // proficiency levels for all weapons
+    public int currentXP = 0;
 
     // Combat and Animation stuff (set in editor)
     public Sprite combatSprite;
@@ -109,6 +110,35 @@ public class Unit : MonoBehaviour
                 skills.Add(skillEntry.skill);
                 Debug.Log($"{unitName} learned skill: {skillEntry.skill.skillName}");
             }
+        }
+    }
+
+    public void GainXP(int enemyLevel)
+    {
+        // base XP for same level enemies
+        int baseXP = 20;
+
+        // level difference (positive if enemy is stronger)
+        int levelDiff = enemyLevel - level;
+
+        // scale XP with harder enemies giving more, weaker give less
+        float xpMultiplier = 1f + (levelDiff * 0.2f);
+
+        // clamp multiplier so it doesn’t go too low or too high
+        xpMultiplier = Mathf.Clamp(xpMultiplier, 0.1f, 3f);
+
+        // Calculate final XP gain
+        int gainedXP = Mathf.FloorToInt(baseXP * xpMultiplier);
+
+        // Add XP
+        currentXP += gainedXP;
+        Debug.Log($"Gained {gainedXP} XP! Total: {currentXP}/100");
+
+        // Level up if XP crosses 100
+        while (currentXP >= 100)
+        {
+            currentXP -= 100;
+            LevelUp();
         }
     }
 
@@ -250,12 +280,12 @@ public class Unit : MonoBehaviour
         if (inventory.Contains(item)) inventory.Remove(item);
     }
 
-    public void TakeDamage(int damage)
+    public void TakeDamage(int damage, Unit source)
     {
         if (damage >= currentHP)
         {
             currentHP = 0;
-            this.Die();
+            //this.Die(source); // this makes sense on paper but we need to do all the visuals shit first before they actually get deleted
         }
         else
         {
@@ -263,10 +293,16 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void Die()
+    public void Die(Unit source)
     {
         Debug.Log($"{unitName} died lmao.");
-        //  more logic goes here
+        UnitManager.Instance.UnregisterUnit(this);
+        if(source.team == Team.Player)
+        {
+            source.GainXP(level);
+            // await a gain xp visual here or in the gain xp method
+        }
+        Destroy(gameObject);
     }
 
     public void Heal(int amount)

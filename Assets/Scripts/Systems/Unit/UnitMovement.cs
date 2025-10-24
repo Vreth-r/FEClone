@@ -216,11 +216,11 @@ public class UnitMovement : MonoBehaviour
         unit.animator.SetBool("isMoving", false); // return to idle state at end of path
         scale.x = 1f; // reset scale
         transform.localScale = scale;
-        // jesus christ thomas yield return StartCoroutine(GameObject.Find("Main Camera").GetComponent<CameraPanner>().PanToLocation(transform.position)); // bruh hahahahahaha
         if (unit.state != UnitState.Cutscene)
         {
             Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
-            UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
+            // no menu for enemies
+            if(unit.team == Team.Player) UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
         }
     }
 

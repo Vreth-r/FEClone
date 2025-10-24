@@ -1,6 +1,8 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
+using System;
 
+[Serializable]
 public abstract class BehaviourNode
 {
     public enum State { Running, Success, Failure }
@@ -9,7 +11,7 @@ public abstract class BehaviourNode
     public abstract UniTask<State> RunAsync();
 }
 
-
+[Serializable]
 public class Sequence : BehaviourNode
 {
     private readonly List<BehaviourNode> _children;
@@ -36,6 +38,7 @@ public class Sequence : BehaviourNode
     }
 }
 
+[Serializable]
 public class Selector : BehaviourNode
 {
     private readonly List<BehaviourNode> _children;

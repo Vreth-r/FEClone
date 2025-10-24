@@ -166,10 +166,9 @@ public class CombatSystem
             {
                 context.finalDamage = Mathf.FloorToInt((context.baseDamage + context.bonusDamage) * context.damageMult); // calculate final damage (not critting)
             }
-
-            defender.TakeDamage(context.finalDamage); // defender actually takes the damage
             Debug.Log($"{attacker.unitName} deals {context.finalDamage} damage to {defender.unitName}" +
-                      (context.critting ? " (Crit!)" : ""));
+                (context.critting ? " (Crit!)" : ""));
+            defender.TakeDamage(context.finalDamage, attacker); // defender actually takes the damage
         }
         else
         {

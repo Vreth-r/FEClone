@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Cysharp.Threading.Tasks;
+using System.Threading;
 
 // Need to condense some of the UI shit but honestly it all might change when the actual final UI is designed so im holding off
 
@@ -25,6 +26,8 @@ public class CombatSceneManager : MonoBehaviour
 
     public static CombatSceneManager Instance;
 
+    CancellationTokenSource cts = new CancellationTokenSource();
+
     // Text Fields
     public TextMeshProUGUI attackerName;
     public TextMeshProUGUI defenderName;
@@ -40,6 +43,12 @@ public class CombatSceneManager : MonoBehaviour
     private void Awake()
     {
         Instance = this; // singleton
+    }
+
+    private void OnDestroy()
+    {
+        cts?.Cancel();
+        cts?.Dispose();
     }
 
     public async UniTask EnterCombatSceneAsync(Unit attacker, Unit defender, CombatContext context, CombatQueue queue)
@@ -92,10 +101,11 @@ public class CombatSceneManager : MonoBehaviour
         await UniTask.Delay(500);
 
         // begin fighting
-        await PlayCombatAsync(context, queue);
+        await PlayCombatAsync(context, queue, cts.Token);
 
         // reset cam
         await CutsceneManager.Instance.cameraPanner.ZoomCameraAsync(cameraZoomDefault, cameraZoomDuration, -1f);
+        // death anims go here
         CutsceneManager.Instance.cameraPanner.SetInCutscene(false);
     }
 
@@ -104,7 +114,7 @@ public class CombatSceneManager : MonoBehaviour
         uiObject.SetActive(false);
     }
 
-    public async UniTask PlayCombatAsync(CombatContext context, CombatQueue queue)
+    public async UniTask PlayCombatAsync(CombatContext context, CombatQueue queue, CancellationToken cancellationToken)
     {
         foreach (var action in queue.actions)
         {

@@ -12,7 +12,7 @@ public class KillUnitEffect : Effect
 {
     public override void Apply(Unit source, Unit target, EffectContext context)
     {
-        target.TakeDamage(target.GetStatByType(StatType.CHP)); 
+        target.TakeDamage(target.GetStatByType(StatType.CHP), source); 
         // death logic is handled through that method
     }
 }
