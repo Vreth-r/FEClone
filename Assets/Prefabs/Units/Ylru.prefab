@@ -123,6 +123,7 @@ MonoBehaviour:
   equippedItem: {fileID: 11400000, guid: dd93d43264e2c72449403a27c6e11392, type: 2}
   proficiencyLevels:
     profList: []
+  currentXP: 0
   combatSprite: {fileID: 0}
   animator: {fileID: 5233289551272694056}
   state: 0
@@ -213,13 +214,48 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 3311486882927418563, guid: 5dd62852637034848ad94189ae7cf488, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8838380991466245289}
+    - targetCorrespondingSourceObject: {fileID: 3311486882927418563, guid: 5dd62852637034848ad94189ae7cf488, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7359160478667891168}
   m_SourcePrefab: {fileID: 100100000, guid: 5dd62852637034848ad94189ae7cf488, type: 3}
 --- !u!4 &3886480165245182957 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2312942873370604710, guid: 5dd62852637034848ad94189ae7cf488, type: 3}
   m_PrefabInstance: {fileID: 1582650607457326923}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &4035919684930751368 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3311486882927418563, guid: 5dd62852637034848ad94189ae7cf488, type: 3}
+  m_PrefabInstance: {fileID: 1582650607457326923}
+  m_PrefabAsset: {fileID: 0}
+--- !u!225 &8838380991466245289
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4035919684930751368}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &7359160478667891168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4035919684930751368}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e6c5e3fc4edd41b41bb957c3a3a5fe6d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UniversalFader
 --- !u!95 &5233289551272694056 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 6725797604029072995, guid: 5dd62852637034848ad94189ae7cf488, type: 3}

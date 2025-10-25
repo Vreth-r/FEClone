@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Cysharp.Threading.Tasks;
+using System;
 
 public class Unit : MonoBehaviour
 {
@@ -32,6 +34,7 @@ public class Unit : MonoBehaviour
     public int crit; // base % chance to deal a critical hit (damage increase depends on class)
     public int hit; // hit affects how likely the unit is to actually hit the unit they are attacking (see avoidance)
 
+    public bool IsDead => currentHP <= 0;
     // Skills
     public List<Skill> skills = new();
     public StatBonusSet statBonuses = new(); // its for all stat modifications i was high when i wrote the name to be only positive
@@ -44,15 +47,19 @@ public class Unit : MonoBehaviour
 
     // Combat and Animation stuff (set in editor)
     public Sprite combatSprite;
-    
+
     public Animator animator;
+    public UniversalFader fader;
 
     public Vector2Int GridPosition { get; set; } // used by unit manager
 
     public UnitState state = UnitState.Idle;
 
+    public event Action<Unit> OnDeath;
+
     private void Start()
     {
+        fader = animator.gameObject.GetComponent<UniversalFader>();
         statBonuses = new StatBonusSet();
         // Start will run at the start of EVERY start, even if booting into a save
         GridPosition = (Vector2Int)GridManager.Instance.WorldToCell(transform.position);
@@ -145,7 +152,7 @@ public class Unit : MonoBehaviour
     // Might have some roll effects later so using this as a roll function
     public bool Roll(int percent)
     {
-        return Random.Range(0, 100) <= percent;
+        return UnityEngine.Random.Range(0, 100) <= percent;
     }
 
     public bool HasTag(ClassTag tag)
@@ -293,15 +300,19 @@ public class Unit : MonoBehaviour
         }
     }
 
-    public void Die(Unit source)
+    public async UniTask Die(Unit source)
     {
         Debug.Log($"{unitName} died lmao.");
         UnitManager.Instance.UnregisterUnit(this);
-        if(source.team == Team.Player)
+        if (source.team == Team.Player)
         {
             source.GainXP(level);
             // await a gain xp visual here or in the gain xp method
         }
+        OnDeath?.Invoke(this);
+        await fader.FadeRoutineAsync(0f, 1f);
+
+        await UniTask.NextFrame(PlayerLoopTiming.LastPostLateUpdate);
         Destroy(gameObject);
     }
 

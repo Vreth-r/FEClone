@@ -34,9 +34,11 @@ public class CombatContext
 
     public bool attackerHasWeaponAdvantage;
     public bool attackerHasWeaponDisadvantage;
-    public bool attackerHasClassAdvantage; 
+    public bool attackerHasClassAdvantage;
     public bool attackerHasClassDisadvantage; // if even applicable, just making it just in case
-    // based off their weapon (like "effective against dragons"), there is no class vs class bonuses
+                                              // based off their weapon (like "effective against dragons"), there is no class vs class bonuses
+    public bool attackerKilledSelf = false; // future proofing
+    public bool defenderKilledSelf = false;
     public bool triggeredSkill;
 
     public bool defenderDied;

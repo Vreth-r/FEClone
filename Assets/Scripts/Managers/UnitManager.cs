@@ -8,8 +8,8 @@ public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance;
     private readonly Dictionary<Vector2Int, Unit> unitPositions = new(); // keeps track of occupied tiles by all units
-    public List<Unit> playerUnits = new List<Unit>(); // record of all alive player units (not positions)
-    public List<Unit> enemyUnits = new List<Unit>(); // record of all alive enemy units (not positions)
+    public Dictionary<int, Unit> playerUnits = new Dictionary<int, Unit>(); // record of all alive player units (not positions)
+    public Dictionary<int, Unit> enemyUnits = new Dictionary<int, Unit>(); // record of all alive enemy units (not positions)
 
     public Unit selectedUnit; // for use in keeping track what unit is selected so others cant be selected at the same time
     public StatsMenu statsUI; // unit stat previewer
@@ -25,17 +25,17 @@ public class UnitManager : MonoBehaviour
         unitPositions[unit.GridPosition] = unit; // track this unit 
         if (unit.team == Team.Player)
         {
-            playerUnits.Add(unit);
+            playerUnits[unit.unitID] = unit;
         }
         else if (unit.team == Team.Enemy) //there might be more teams later if we do npc's but i doubt it
         {
-            enemyUnits.Add(unit);
             // assign ID
             if (unit.unitID == 0)
             {
                 unit.unitID = nextID;
                 nextID++;
             }
+            enemyUnits[unit.unitID] = unit;
         }
     }
 
@@ -45,23 +45,11 @@ public class UnitManager : MonoBehaviour
         unitPositions.Remove(unit.GridPosition); // stop tracking unit (cause it died lmao)
         if (unit.team == Team.Player)
         {
-            foreach (Unit u in playerUnits)
-            {
-                if (u.unitID == unit.unitID)
-                {
-                    playerUnits.Remove(u);
-                }
-            }
+            playerUnits.Remove(unit.unitID);
         }
         else if (unit.team == Team.Enemy)
         {
-            foreach (Unit u in enemyUnits)
-            {
-                if (u.unitID == unit.unitID)
-                {
-                    enemyUnits.Remove(u);
-                }
-            }
+            enemyUnits.Remove(unit.unitID);
         }
     }
 

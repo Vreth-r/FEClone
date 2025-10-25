@@ -1,5 +1,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using System;
+using System.Threading;
 
 public class FindNearestPlayerNode : BehaviourNode
 {
@@ -11,18 +13,18 @@ public class FindNearestPlayerNode : BehaviourNode
         _enemy = enemy;
     }
 
-    public override UniTask<State> RunAsync()
+    public override UniTask<State> RunAsync(CancellationToken token = default)
     {
         float minDist = float.MaxValue;
         Target = null;
 
-        foreach (var player in UnitManager.Instance.playerUnits)
+        foreach (var entry in UnitManager.Instance.playerUnits)
         {
-            float dist = Vector2Int.Distance(_enemy.GridPosition, player.GridPosition);
+            float dist = Vector2Int.Distance(_enemy.GridPosition, entry.Value.GridPosition);
             if (dist < minDist)
             {
                 minDist = dist;
-                Target = player;
+                Target = entry.Value;
             }
         }
 

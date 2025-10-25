@@ -7922,6 +7922,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ylru
       objectReference: {fileID: 0}
+    - target: {fileID: 4035919684930751368, guid: 88b1da5fdbc5f2248a8d7d49ee2b08c4, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5714633483327390401, guid: 88b1da5fdbc5f2248a8d7d49ee2b08c4, type: 3}
       propertyPath: highlightTilemap
       value: 
