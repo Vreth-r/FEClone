@@ -51,10 +51,10 @@ public class Unit : MonoBehaviour
     public Animator animator;
     public UniversalFader fader;
 
+    // admin stuff
     public Vector2Int GridPosition { get; set; } // used by unit manager
-
     public UnitState state = UnitState.Idle;
-
+    public List<UnitAction> actions;
     public event Action<Unit> OnDeath;
 
     private void Start()
@@ -345,6 +345,7 @@ public class Unit : MonoBehaviour
             transform.position = startPos; // snap back to start jic
         }
     }
+
     public IEnumerator MoveTo(Vector2Int gridPos)
     {
         UnitState currentState = state; // save current state
@@ -352,6 +353,7 @@ public class Unit : MonoBehaviour
         yield return GetComponent<UnitMovement>().MoveTo(gridPos); // tell unit to move
         state = currentState; // revert state
     }
+    
     public IEnumerator Emote(GameObject emotePrefab, string emote, float duration)
     {
         // note: i shall try to optimize this later maybe so it doesn't have to spawn a new prefab every time

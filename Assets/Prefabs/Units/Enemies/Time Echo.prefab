@@ -214,7 +214,12 @@ MonoBehaviour:
   currentXP: 0
   combatSprite: {fileID: 0}
   animator: {fileID: 564601906527186252}
+  fader: {fileID: 0}
   state: 0
+  actions:
+  - {fileID: 11400000, guid: f5771c39eed8a7d4086dbb501381bd2e, type: 2}
+  - {fileID: 11400000, guid: 4f7547b706e0073499110941ac31e477, type: 2}
+  - {fileID: 11400000, guid: 43bc4ca94c2bfa840b18552ec40d4c20, type: 2}
 --- !u!114 &3715088351686450520
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -325,6 +330,7 @@ GameObject:
   - component: {fileID: 2709709646659186784}
   - component: {fileID: 564601906527186252}
   - component: {fileID: 7006254440190380669}
+  - component: {fileID: 1421932210676115572}
   m_Layer: 0
   m_Name: time-echo
   m_TagString: Untagged
@@ -443,3 +449,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6c5e3fc4edd41b41bb957c3a3a5fe6d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Fader
+--- !u!225 &1421932210676115572
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8608570206293145580}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0

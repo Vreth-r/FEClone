@@ -74,7 +74,7 @@ public class UnitMovement : MonoBehaviour
         {
             unit.state = UnitState.Action;
             Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
-            UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
+            UIManager.Instance.OpenMenu(MenuType.ActionMenu, unit, menuWorldPos, unit.actions);
         }
         else
         {
@@ -145,7 +145,7 @@ public class UnitMovement : MonoBehaviour
             else
             { // add the menu to the screen even if you dont move
                 Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
-                UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
+                UIManager.Instance.OpenMenu(MenuType.ActionMenu, unit, menuWorldPos, unit.actions);
             }
 
             // unit.state = UnitState.Tapped; // TURN THAT SHIT OFF CUH
@@ -220,7 +220,7 @@ public class UnitMovement : MonoBehaviour
         {
             Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
             // no menu for enemies
-            if(unit.team == Team.Player) UIManager.Instance.OpenMenu(MenuType.ActionMenu, this, menuWorldPos);
+            if(unit.team == Team.Player) UIManager.Instance.OpenMenu(MenuType.ActionMenu, unit, menuWorldPos, unit.actions);
         }
     }
 
@@ -239,6 +239,7 @@ public class UnitMovement : MonoBehaviour
         return movementRange;
     }
 
+    /*
     public void OnMenuSelect(UnitActionType action)
     // this is only here cause a lot of these actions need refs already in this file and it would be work and a half to pass
     // all the params
@@ -280,6 +281,20 @@ public class UnitMovement : MonoBehaviour
                 break;
         }
     }
+    */
+
+    public void CancelMove()
+    {
+        UnitManager.Instance.UpdateUnitPosition(unit, unit.GridPosition, preMoveGridPos); // tell unit manager whats up
+        transform.position = preMovePosition; // return to pre move coords
+        unit.GridPosition = preMoveGridPos; // ^
+        CursorController.Instance.SetCurrentGridPosition(new Vector3Int(Mathf.FloorToInt(preMovePosition.x), Mathf.FloorToInt(preMovePosition.y), 0));
+        CursorController.Instance.UpdateCursorTile();
+        unit.state = UnitState.Idle; // idle that shit
+        // we are NOT animating the move back lmao
+        this.enabled = false;
+    }
+
     public IEnumerator MoveTo(Vector2Int gridPos)
     {
         movementRange.PopulateHeightTileMap(unit.GridPosition, 9999, 0); // make it so that you can move places

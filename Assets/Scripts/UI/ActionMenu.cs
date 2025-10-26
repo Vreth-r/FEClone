@@ -1,79 +1,80 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 using UnityEngine.UI;
-
-// Gives functionality to action menu ui buttons
 
 public class ActionMenu : NavMenu
 {
-    public Button attackButton; //  button references
-    public Button waitButton;
-    public Button itemButton;
-    public Button cancelButton;
-    public GameObject background;
+    [Header("UI References")]
+    [SerializeField] private GameObject buttonPrefab;
+    [SerializeField] private Transform buttonParent;
+    [SerializeField] private GameObject background;
+    [SerializeField] private Vector2 size = new Vector2(125, 30);
 
-    private UnitMovement activeUnit; // the unit in question:
+    private Unit _unit;
+    private readonly List<GameObject> _spawnedButtons = new();
 
     public override MenuType MenuID => MenuType.ActionMenu;
 
     public override void Open()
     {
+        // override just to ensure indicator refreshes properly
         base.Open();
     }
 
-    public void Open(UnitMovement unit, Vector3 worldPos) // overload
+    public void Open(Unit unit, Vector3 worldPos, List<UnitAction> availableActions)
     {
-        activeUnit = unit; // set the active unit for later
-        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos + new Vector3(1f, 1.5f, 0)); // get world to screen coords
-        background.transform.position = screenPos; // set position
+        _unit = unit;
+        ClearButtons();
+        menuButtons.Clear();
 
-        menuButtons = new List<Button> { attackButton, waitButton, itemButton, cancelButton };
+        // position menu near unit in screen space
+        Vector3 screenPos = Camera.main.WorldToScreenPoint(worldPos + new Vector3(1f, 1.5f, 0));
+        background.transform.position = screenPos;
 
-        // button callbacks
-        attackButton.onClick.RemoveAllListeners();
-        attackButton.onClick.AddListener(OnAttack);
+        // create a button for each available action
+        foreach (var action in availableActions)
+        {
+            if (!action.IsAvailable(unit))
+                continue;
 
-        waitButton.onClick.RemoveAllListeners();
-        waitButton.onClick.AddListener(OnWait);
+            var buttonGO = Instantiate(buttonPrefab, buttonParent);
+            var bTransform = buttonGO.GetComponent<RectTransform>();
+            bTransform.sizeDelta = size;
+            _spawnedButtons.Add(buttonGO);
 
-        itemButton.onClick.RemoveAllListeners();
-        itemButton.onClick.AddListener(OnItem);
+            var button = buttonGO.GetComponent<Button>();
+            var label = buttonGO.GetComponentInChildren<TextMeshProUGUI>();
 
-        cancelButton.onClick.RemoveAllListeners();
-        cancelButton.onClick.AddListener(OnCancel);
+            label.text = action.actionName;
 
-        Open();
+            // action on click
+            button.onClick.AddListener(async () =>
+            {
+                UIManager.Instance.CloseTopMenu();
+                await action.ExecuteAsync(unit);
+            });
+
+            menuButtons.Add(button);// add to nav list
+        }
+
+        base.Open();
     }
 
-    private void OnAttack()
+    private void ClearButtons()
     {
-        Debug.Log("Attack!");
-        activeUnit.OnMenuSelect(UnitActionType.Attack);
-        UIManager.Instance.CloseTopMenu();
+        foreach (var b in _spawnedButtons)
+        {
+            if (b != null)
+                Destroy(b);
+        }
+        _spawnedButtons.Clear();
+        menuButtons.Clear();
     }
 
-    private void OnWait()
+    public override void Close()
     {
-        Debug.Log("Wait.");
-        activeUnit.OnMenuSelect(UnitActionType.Wait);
-        UIManager.Instance.CloseTopMenu();
-    }
-
-    private void OnItem()
-    {
-        Debug.Log("Use Item.");
-        activeUnit.OnMenuSelect(UnitActionType.Item);
-        UIManager.Instance.CloseTopMenu();
-    }
-
-    private void OnCancel()
-    {
-        Debug.Log("Cancel move.");
-        UIManager.Instance.CloseTopMenu();
-        activeUnit.OnMenuSelect(UnitActionType.Cancel);
+        base.Close();
+        ClearButtons();
     }
 }
-
-// this is fucking stupid and has to change to support Abilities
-public enum UnitActionType { Attack, Wait, Item, Cancel }
