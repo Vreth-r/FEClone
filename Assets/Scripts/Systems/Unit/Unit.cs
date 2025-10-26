@@ -50,6 +50,7 @@ public class Unit : MonoBehaviour
 
     public Animator animator;
     public UniversalFader fader;
+    public UnitMovement unitMovement;
 
     // admin stuff
     public Vector2Int GridPosition { get; set; } // used by unit manager
@@ -59,6 +60,7 @@ public class Unit : MonoBehaviour
 
     private void Start()
     {
+        unitMovement = GetComponent<UnitMovement>();
         fader = animator.gameObject.GetComponent<UniversalFader>();
         statBonuses = new StatBonusSet();
         // Start will run at the start of EVERY start, even if booting into a save

@@ -27,6 +27,11 @@ public class CombatSystem
     // This gets called whenever combat is to be initiated
     public static async UniTask StartCombat(Unit attacker, Unit defender)
     {
+        if (attacker.team == Team.Player)
+        {
+            attacker.unitMovement.GetMovementRange().ClearHighlights();
+        }
+        
         CombatContext context = new()
         {
             isPlayerAttack = true,

@@ -220,7 +220,8 @@ public class UnitMovement : MonoBehaviour
         {
             Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
             // no menu for enemies
-            if(unit.team == Team.Player) UIManager.Instance.OpenMenu(MenuType.ActionMenu, unit, menuWorldPos, unit.actions);
+            if (unit.team == Team.Player) UIManager.Instance.OpenMenu(MenuType.ActionMenu, unit, menuWorldPos, unit.actions);
+            movementRange.ShowAttackRange(unit.GridPosition, unit.attackRange);
         }
     }
 
@@ -239,52 +240,9 @@ public class UnitMovement : MonoBehaviour
         return movementRange;
     }
 
-    /*
-    public void OnMenuSelect(UnitActionType action)
-    // this is only here cause a lot of these actions need refs already in this file and it would be work and a half to pass
-    // all the params
-    {
-        switch (action)
-        {
-            case UnitActionType.Attack:
-                Debug.Log("OnMenuSelect in UnitMovement: Attacking");
-                TargetSelector.Instance.BeginTargeting(unit);
-                // try end player turn after combat
-                break; // still thinking of what to put here
-
-            case UnitActionType.Wait:
-                Debug.Log("Unit waits.");
-                unit.state = UnitState.Tapped;
-                this.enabled = false;
-                TurnManager.Instance.TryEndPlayerTurn();
-                break;
-
-            case UnitActionType.Item:
-                Debug.Log("Show item UI (WIP).");
-                unit.state = UnitState.Tapped;
-                this.enabled = false;
-                // try end player turn after item use resolve
-                break;
-
-            case UnitActionType.Cancel:
-                Debug.Log("Cancelling move in unitmovement.");
-                UnitManager.Instance.UpdateUnitPosition(unit, unit.GridPosition, preMoveGridPos); // tell unit manager whats up
-                transform.position = preMovePosition; // return to pre move coords
-                unit.GridPosition = preMoveGridPos; // ^
-                CursorController.Instance.SetCurrentGridPosition(new Vector3Int(Mathf.FloorToInt(preMovePosition.x), Mathf.FloorToInt(preMovePosition.y), 0));
-                CursorController.Instance.UpdateCursorTile();
-                //movementRange.ShowRange(unit.GridPosition, unit.movementRange, unit.attackRange); // show the movement range again
-                unit.state = UnitState.Idle; // idle that shit
-                //UnitManager.Instance.selectUnit(unit); // tell the unit manager the unit is selected
-                // we are NOT animating the move back lmao
-                this.enabled = false;
-                break;
-        }
-    }
-    */
-
     public void CancelMove()
     {
+        movementRange.ClearHighlights();
         UnitManager.Instance.UpdateUnitPosition(unit, unit.GridPosition, preMoveGridPos); // tell unit manager whats up
         transform.position = preMovePosition; // return to pre move coords
         unit.GridPosition = preMoveGridPos; // ^

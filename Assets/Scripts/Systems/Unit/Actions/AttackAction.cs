@@ -6,6 +6,7 @@ public class AttackAction : UnitAction
 {
     public override async UniTask ExecuteAsync(Unit unit)
     {
+        unit.unitMovement.GetMovementRange().ClearHighlights();
         TargetSelector.Instance.BeginTargeting(unit);
         await UniTask.Yield();
         TurnManager.Instance.TryEndPlayerTurn();

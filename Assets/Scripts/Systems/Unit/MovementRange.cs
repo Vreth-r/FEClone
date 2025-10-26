@@ -36,14 +36,33 @@ public class MovementRange : MonoBehaviour
     // shows attack range (red tiles) given a start and an attack range
     public void ShowAttackRange(Vector2Int origin, int attackRange)
     {
-        foreach(var dir in Directions) // sprawl out
+        foreach (var dir in Directions) // sprawl out
         {
             for (int i = 1; i <= attackRange; i++) // for every tile of attack range
             {
                 Vector2Int pos = origin + dir * i; // get attack range for that direction
-                if(!isHighlighted(pos) && GridManager.Instance.GetTerrainAt(pos) != null)
+                if (!isHighlighted(pos) && GridManager.Instance.GetTerrainAt(pos) != null)
                 {
                     highlightTilemap.SetTile((Vector3Int)pos, attackTile); // set the red tiles on terrained empty tiles in this tilemap
+                }
+            }
+        }
+
+        if (attackRange >= 2)
+        {
+            // Diagonals within (range - 1)
+            for (int dx = -attackRange + 1; dx <= attackRange - 1; dx++)
+            {
+                for (int dy = -attackRange + 1; dy <= attackRange - 1; dy++)
+                {
+                    if (Mathf.Abs(dx) == Mathf.Abs(dy) && Mathf.Abs(dx) > 0) // diagonals only
+                    {
+                        Vector2Int pos = origin + new Vector2Int(dx, dy);
+                        if (!isHighlighted(pos) && GridManager.Instance.GetTerrainAt(pos) != null)
+                        {
+                            highlightTilemap.SetTile((Vector3Int)pos, attackTile);
+                        }
+                    }
                 }
             }
         }
