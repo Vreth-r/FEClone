@@ -6,10 +6,13 @@ public abstract class UnitAction : ScriptableObject
 {
     [Header("UI")]
     public string actionName = "Action";
+    public Color color = Color.black;
     public Sprite icon;
 
     [Header("Conditions")]
     public bool requiresTarget = false;
+    public bool onCooldown = false;
+    public int cooldown = 0;
 
     public virtual bool IsAvailable(Unit unit) => true;
 

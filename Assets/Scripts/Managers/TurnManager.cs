@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using System.Linq;
 using System;
 
 public enum TurnState { Player, Enemy}
@@ -27,6 +28,16 @@ public class TurnManager : MonoBehaviour
         // untap all units
         if (currentTurn == TurnState.Player)
         {
+            // move this to when the enemy turn starts, then disable the cursor movement during enemy turn
+            // go to lowest ID that is still alive
+            foreach (var key in UnitManager.Instance.playerUnits.Keys.OrderBy(k => k))
+            {
+                // Guard against missing keys (dictionary changed during iteration)
+                if (!UnitManager.Instance.playerUnits.TryGetValue(key, out var value)) continue;
+                CursorController.Instance.SetCurrentGridPosition((Vector3Int)value.GridPosition);
+                CursorController.Instance.UpdateCursorTile();
+                break;
+            }
             foreach (var entry in UnitManager.Instance.playerUnits)
             {
                 entry.Value.state = UnitState.Idle;

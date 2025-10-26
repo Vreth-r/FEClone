@@ -15,10 +15,12 @@ public class EffectInstance
     public List<Parameter> parameters; // set in editor
     public List<EffectTriggerData> triggerConditions; // set in editor
     public bool selfTarget; // set in editor
+    public UnitAction action;
 
     public void Apply(Unit source, Unit target, EffectContext context = null)
     {
         context.parameters = new ParameterMap(parameters); // load the parameters into the map
+        context.action = action;
         if (selfTarget)
         {
             effect.Apply(source, source, context);
@@ -239,6 +241,7 @@ public class EffectContext
     public ParameterMap parameters;
     public CombatContext combat;
     public GridManager grid;
+    public UnitAction action;
 }
 
 public enum ParameterType

@@ -47,6 +47,7 @@ public class ActionMenu : NavMenu
             var label = buttonGO.GetComponentInChildren<TextMeshProUGUI>();
 
             label.text = action.actionName;
+            label.color = action.color;
 
             // action on click
             button.onClick.AddListener(async () =>
