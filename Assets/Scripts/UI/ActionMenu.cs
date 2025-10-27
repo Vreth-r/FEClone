@@ -3,7 +3,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 
-public class ActionMenu : NavMenu
+public class ActionMenu : NavMenu, IGameMenu
 {
     [Header("UI References")]
     [SerializeField] private GameObject buttonPrefab;
@@ -53,7 +53,7 @@ public class ActionMenu : NavMenu
             button.onClick.AddListener(async () =>
             {
                 UIManager.Instance.CloseTopMenu();
-                await action.ExecuteAsync(unit);
+                await action.TryExecuteAsync(unit);
             });
 
             menuButtons.Add(button);// add to nav list

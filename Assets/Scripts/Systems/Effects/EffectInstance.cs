@@ -12,13 +12,53 @@ using UnityEngine;
 public class EffectInstance
 {
     public Effect effect; // logic
+    public string effectName;
     public List<Parameter> parameters; // set in editor
     public List<EffectTriggerData> triggerConditions; // set in editor
     public bool selfTarget; // set in editor
     public UnitAction action;
 
+    [Header("Optional Turn Timer")]
+    public bool hasTurnTimer;
+    public int durationTurns;
+    private int remainingTurns;
+
+    private bool expired;
+
+    public void Initialize() //AAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    // HLIUJ SHLIFUH ALK JFH LKXUH CIOUAEWQNF OIUSDHGVLIJHG EOIF UHG EOIFGHZXLKFJBNWEWIUF H
+    {
+        if (hasTurnTimer)
+        {
+            remainingTurns = durationTurns;
+            TurnManager.Instance.OnTurnFlip += OnTurnFlip;
+        }
+    }
+
+    private void OnTurnFlip(int turn)
+    {
+        if (!hasTurnTimer || expired) return;
+
+        Debug.Log($"{remainingTurns} turns remanaining for {effectName}");
+        remainingTurns--;
+        if (remainingTurns <= 0)
+        {
+            Expire();
+        }
+    }
+
+    public void Expire()
+    {
+        expired = true;
+        TurnManager.Instance.OnTurnFlip -= OnTurnFlip;
+    }
+
+    public bool IsExpired => expired;
+
     public void Apply(Unit source, Unit target, EffectContext context = null)
     {
+        if(context == null) context = new EffectContext();
         context.parameters = new ParameterMap(parameters); // load the parameters into the map
         context.action = action;
         if (selfTarget)
@@ -241,6 +281,7 @@ public class EffectContext
     public ParameterMap parameters;
     public CombatContext combat;
     public GridManager grid;
+
     public UnitAction action;
 }
 

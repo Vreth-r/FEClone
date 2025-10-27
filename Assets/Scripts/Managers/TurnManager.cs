@@ -13,7 +13,7 @@ public class TurnManager : MonoBehaviour
 
     public TurnState currentTurn = TurnState.Enemy;
 
-    public event Action<int> OnTurnFlip;
+    public event Action<int> OnTurnFlip; // different event for non effect/action based objects
 
     private void Awake() => Instance = this;
 
