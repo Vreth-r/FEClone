@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ad1b68864ba5844194d1363865987e4, type: 3}
+  m_Name: TestAbilitySkill
+  m_EditorClassIdentifier: Assembly-CSharp::Skill
+  skillName: Chronis
+  description: 
+  icon: {fileID: 0}
+  effects:
+  - effect: {fileID: 11400000, guid: 7d046698073fb8f4fa67d4d6f6801e88, type: 2}
+    effectName: 
+    parameters: []
+    triggerConditions:
+    - evnt: 0
+      procs: []
+      flatChance: 0
+      conditions: []
+    selfTarget: 1
+    action: {fileID: 11400000, guid: 758eaeae1c584704e8ea0428d0e9ead2, type: 2}
+    hasTurnTimer: 0
+    durationTurns: 0

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Cysharp.Threading.Tasks;
+using System.Linq;
 using System;
 
 public enum TurnState { Player, Enemy}
@@ -12,7 +13,7 @@ public class TurnManager : MonoBehaviour
 
     public TurnState currentTurn = TurnState.Enemy;
 
-    public event Action<int> OnTurnFlip;
+    public event Action<int> OnTurnFlip; // different event for non effect/action based objects
 
     private void Awake() => Instance = this;
 
@@ -27,14 +28,30 @@ public class TurnManager : MonoBehaviour
         // untap all units
         if (currentTurn == TurnState.Player)
         {
-            foreach (Unit u in UnitManager.Instance.playerUnits)
+            // move this to when the enemy turn starts, then disable the cursor movement during enemy turn
+            // go to lowest ID that is still alive
+            foreach (var key in UnitManager.Instance.playerUnits.Keys.OrderBy(k => k))
             {
-                u.state = UnitState.Idle;
+                // Guard against missing keys (dictionary changed during iteration)
+                if (!UnitManager.Instance.playerUnits.TryGetValue(key, out var value)) continue;
+                CursorController.Instance.SetCurrentGridPosition((Vector3Int)value.GridPosition);
+                CursorController.Instance.UpdateCursorTile();
+                break;
+            }
+            foreach (var entry in UnitManager.Instance.playerUnits)
+            {
+                entry.Value.state = UnitState.Idle;
+                entry.Value.statBonuses.TickDownModifiers();
             }
         }
         // run enemy turns
         if(currentTurn == TurnState.Enemy)
         {
+            foreach (var entry in UnitManager.Instance.enemyUnits)
+            {
+                entry.Value.state = UnitState.Idle;
+                entry.Value.statBonuses.TickDownModifiers();
+            }
             _ = RunEnemyTurnAsync();
         }
     }
@@ -42,9 +59,9 @@ public class TurnManager : MonoBehaviour
     // for when all roster units are tapped and the game auto ends the turn
     public void TryEndPlayerTurn()
     {
-        foreach (Unit u in UnitManager.Instance.playerUnits)
+        foreach (var entry in UnitManager.Instance.playerUnits)
         {
-            if (u.state != UnitState.Tapped)
+            if (entry.Value.state != UnitState.Tapped)
             {
                 return;
             }
@@ -62,11 +79,12 @@ public class TurnManager : MonoBehaviour
     {
         Debug.Log("=== Enemy Turn Start ===");
         await UniTask.Delay(500);
-
-        foreach (var enemy in UnitManager.Instance.enemyUnits)
+        var enemiesSnapshot = new Dictionary<int, Unit>(UnitManager.Instance.enemyUnits);
+        foreach (var entry in enemiesSnapshot)
         {
-            if (enemy == null) continue;
-            EnemyAI ai = enemy.GetComponent<EnemyAI>();
+            if (entry.Value == null || entry.Value.state != UnitState.Idle) continue;
+            if (entry.Value.IsDead) continue;
+            EnemyAI ai = entry.Value.GetComponent<EnemyAI>();
             if (ai == null) continue;
 
             await ai.RunTurnAsync();

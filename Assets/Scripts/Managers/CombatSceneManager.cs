@@ -105,7 +105,17 @@ public class CombatSceneManager : MonoBehaviour
 
         // reset cam
         await CutsceneManager.Instance.cameraPanner.ZoomCameraAsync(cameraZoomDefault, cameraZoomDuration, -1f);
-        // death anims go here
+        // death anims 
+        if (attacker.currentHP == 0 && !context.attackerKilledSelf)
+        {
+            await attacker.Die(defender); // when these become cinematic (maybe) with a fade effect or something, await them
+            await UniTask.Delay(500);
+        }
+        if(defender.currentHP == 0 && !context.defenderKilledSelf)
+        {
+            await defender.Die(attacker);
+            await UniTask.Delay(500);
+        }
         CutsceneManager.Instance.cameraPanner.SetInCutscene(false);
     }
 
@@ -177,8 +187,7 @@ public class CombatSceneManager : MonoBehaviour
             if (defender.currentHP <= 0)
             {
                 await narrator.ShowMessageAsync($"{defender.unitName} was defeated!");
-                // defender death here
-                break; // cause he died
+                break; // this SHOULD be good enough for cancelling the rest of combat because of death but hey we'll see
             }
 
             await UniTask.Delay(1000);

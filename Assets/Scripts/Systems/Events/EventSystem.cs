@@ -1,8 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 
-// rah i made a custom event system because combat is weird sometimes and i was unsure if unity events could
-// cover the implementation, they probably can now that combat is more defined but ill keep this here as a resume flex
+// unity has a custom fire and forget event system but its not super flexible for this use case
+// this event system lets individual units call event triggers with more context.
 public static class EventSystem
 {
     public static void TriggerEvent(
@@ -21,6 +21,8 @@ public static class EventSystem
         {
             skill.ProcEffects(source, target, evnt, ctx);
         }
+
+        // proc effects for target too per event
 
         // need to add weapon effects later not sure how rn
         /* for ticking down turn timers

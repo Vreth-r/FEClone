@@ -12,13 +12,55 @@ using UnityEngine;
 public class EffectInstance
 {
     public Effect effect; // logic
+    public string effectName;
     public List<Parameter> parameters; // set in editor
     public List<EffectTriggerData> triggerConditions; // set in editor
     public bool selfTarget; // set in editor
+    public UnitAction action;
+
+    [Header("Optional Turn Timer")]
+    public bool hasTurnTimer;
+    public int durationTurns;
+    private int remainingTurns;
+
+    private bool expired;
+
+    public void Initialize() //AAAAAAAAAAAAAAAAAAAAAAAAA AAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    // AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    // HLIUJ SHLIFUH ALK JFH LKXUH CIOUAEWQNF OIUSDHGVLIJHG EOIF UHG EOIFGHZXLKFJBNWEWIUF H
+    {
+        if (hasTurnTimer)
+        {
+            remainingTurns = durationTurns;
+            TurnManager.Instance.OnTurnFlip += OnTurnFlip;
+        }
+    }
+
+    private void OnTurnFlip(int turn)
+    {
+        if (!hasTurnTimer || expired) return;
+
+        Debug.Log($"{remainingTurns} turns remanaining for {effectName}");
+        remainingTurns--;
+        if (remainingTurns <= 0)
+        {
+            Expire();
+        }
+    }
+
+    public void Expire()
+    {
+        expired = true;
+        TurnManager.Instance.OnTurnFlip -= OnTurnFlip;
+    }
+
+    public bool IsExpired => expired;
 
     public void Apply(Unit source, Unit target, EffectContext context = null)
     {
+        if(context == null) context = new EffectContext();
         context.parameters = new ParameterMap(parameters); // load the parameters into the map
+        context.action = action;
         if (selfTarget)
         {
             effect.Apply(source, source, context);
@@ -74,7 +116,7 @@ public class ParameterMap
 
     public float GetFloat(string key, float defaultValue = 0f)
     {
-        if (paramMap.TryGetValue(key, out var param) && param.type == ParameterType.Float)
+        if (paramMap.TryGetValue(key, out var param))
         {
             return param.floatValue;
         }
@@ -83,7 +125,7 @@ public class ParameterMap
 
     public int GetInt(string key, float defaultValue = 0f)
     {
-        if (paramMap.TryGetValue(key, out var param) && param.type == ParameterType.Float)
+        if (paramMap.TryGetValue(key, out var param))
         {
             return Mathf.FloorToInt(param.floatValue);
         }
@@ -92,7 +134,7 @@ public class ParameterMap
 
     public bool GetBool(string key, bool defaultValue = false)
     {
-        if (paramMap.TryGetValue(key, out var param) && param.type == ParameterType.Bool)
+        if (paramMap.TryGetValue(key, out var param))
         {
             return param.boolValue;
         }
@@ -101,7 +143,7 @@ public class ParameterMap
 
     public string GetString(string key, string defaultValue = "")
     {
-        if (paramMap.TryGetValue(key, out var param) && param.type == ParameterType.String)
+        if (paramMap.TryGetValue(key, out var param))
         {
             return param.stringValue;
         }
@@ -239,6 +281,8 @@ public class EffectContext
     public ParameterMap parameters;
     public CombatContext combat;
     public GridManager grid;
+
+    public UnitAction action;
 }
 
 public enum ParameterType

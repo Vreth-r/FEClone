@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using System;
+using System.Threading;
 
 public class MoveTowardsTargetNode : BehaviourNode
 {
@@ -15,7 +17,7 @@ public class MoveTowardsTargetNode : BehaviourNode
         _targetFinder = targetFinder;
     }
 
-    public override async UniTask<State> RunAsync()
+    public override async UniTask<State> RunAsync(CancellationToken token = default)
     {
         Unit target = _targetFinder.Target;
         if (target == null)
@@ -28,6 +30,7 @@ public class MoveTowardsTargetNode : BehaviourNode
         if (destination == start)
             return State.Success;
 
+        token.ThrowIfCancellationRequested();
         await _movement.MoveToAsync(destination);
         return State.Success;
     }

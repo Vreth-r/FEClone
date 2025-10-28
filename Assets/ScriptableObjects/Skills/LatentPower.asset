@@ -17,6 +17,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   effects:
   - effect: {fileID: 11400000, guid: 6a35fe03de459f640ab08c39b629978c, type: 2}
+    effectName: 
     parameters:
     - key: ARC
       type: 0
@@ -28,3 +29,7 @@ MonoBehaviour:
       procs: []
       flatChance: 0
       conditions: []
+    selfTarget: 0
+    action: {fileID: 0}
+    hasTurnTimer: 0
+    durationTurns: 0

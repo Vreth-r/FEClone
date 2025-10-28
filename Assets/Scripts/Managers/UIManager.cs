@@ -110,13 +110,13 @@ public class UIManager : MonoBehaviour
     }
 
     // Overload for ActionMenu
-    public void OpenMenu(MenuType type, UnitMovement unit, Vector3 worldPos)
+    public void OpenMenu(MenuType type, Unit unit, Vector3 worldPos, List<UnitAction> availableActions)
     {
 
         var menu = GetOrCreateMenu(type);
         if (menu is ActionMenu aMenu)
         {
-            aMenu.Open(unit, worldPos);
+            aMenu.Open(unit, worldPos, availableActions);
             //currentMenu = menu;
             menuStack.Push(menu);
             ControlsManager.Instance.SetContext(InputContext.Menu);

@@ -1,6 +1,7 @@
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
 using System;
+using System.Threading;
 
 [Serializable]
 public abstract class BehaviourNode
@@ -8,7 +9,7 @@ public abstract class BehaviourNode
     public enum State { Running, Success, Failure }
     public State CurrentState { get; protected set; } = State.Running;
 
-    public abstract UniTask<State> RunAsync();
+    public abstract UniTask<State> RunAsync(CancellationToken token = default);
 }
 
 [Serializable]
@@ -21,11 +22,11 @@ public class Sequence : BehaviourNode
         _children = children;
     }
 
-    public override async UniTask<State> RunAsync()
+    public override async UniTask<State> RunAsync(CancellationToken token = default)
     {
         foreach (var child in _children)
         {
-            var result = await child.RunAsync();
+            var result = await child.RunAsync(token);
             if (result == State.Failure)
             {
                 CurrentState = State.Failure;
@@ -48,11 +49,11 @@ public class Selector : BehaviourNode
         _children = children;
     }
 
-    public override async UniTask<State> RunAsync()
+    public override async UniTask<State> RunAsync(CancellationToken token = default)
     {
         foreach (var child in _children)
         {
-            var result = await child.RunAsync();
+            var result = await child.RunAsync(token);
             if (result == State.Success)
             {
                 CurrentState = State.Success;
