@@ -41,12 +41,13 @@ public class UnitSpawner : MonoBehaviour
 
     public void HandleTurnFlip(int turnNum)
     {
-        foreach (UnitSpawnEvent se in spawnEvents)
+        for (int i = spawnEvents.Count - 1; i >= 0; i--)
         {
-            if (se.spawnTurn == turnNum)
+            if (spawnEvents[i].spawnTurn == turnNum)
             {
-                Debug.Log($"Spawning Unit at: {se.gridPos}");
-                SpawnUnitFromPrefab(se.unitToSpawn, se.gridPos, se.unitData);
+                Debug.Log($"Spawning Unit at: {spawnEvents[i].gridPos}");
+                SpawnUnitFromPrefab(spawnEvents[i].unitToSpawn, spawnEvents[i].gridPos, spawnEvents[i].unitData);
+                spawnEvents.RemoveAt(i);
             }
         }
     }

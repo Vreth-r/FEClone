@@ -17,6 +17,12 @@ public class CutsceneYarnCommands : MonoBehaviour
         TurnManager.Instance.TurnFlip();
     }
 
+    [YarnCommand("SetLevelCompleteNode")]
+    public static void SetLevelCompleteNode(string nodeName)
+    {
+        TurnManager.Instance.levelCompleteYarnNode = nodeName;
+    }
+
     // this one feels wrong but im too lazy to find a better way when i might be changing control contexts soon
     [YarnCommand("SetControlContext")]
     public static void SetControlContext(string context)

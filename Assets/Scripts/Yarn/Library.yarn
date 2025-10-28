@@ -108,6 +108,17 @@ title: Library
 // <<wait 3>>
 // <<SetAllAnimSpeed 1>>
 <<CameraZoom 5 2 0.9>>
+<<SetLevelCompleteNode "LibraryComplete">>
+<<FlipTurn>> // trigger spawns and such
+Ylru: Of course a time stop would attract anomaly wraiths...
 <<SetControlContext "Gameplay">>
-<<FlipTurn>>
+===
+
+title: LibraryComplete
+---
+<<CameraZoom 5 2 0.9>>
+<<PanToLocation 10 2 10 2>>
+Ylru: My friends... I have to find them.
+<<UnitMoveToPos "Ylru" 9 -2>>
+Ylru runs to the dorms, worried about his friends.
 ===
