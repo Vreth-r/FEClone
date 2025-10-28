@@ -16,8 +16,8 @@ public class ApplyEffectAction : UnitAction
         foreach (var e in effects)
         {
             e.Apply(unit, unit);
-            await UniTask.Yield();
         }
         TurnManager.Instance.TryEndPlayerTurn();
+        await UniTask.Yield();
     }
 }

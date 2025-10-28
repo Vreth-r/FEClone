@@ -116,7 +116,7 @@ public class ParameterMap
 
     public float GetFloat(string key, float defaultValue = 0f)
     {
-        if (paramMap.TryGetValue(key, out var param) && param.type == ParameterType.Float)
+        if (paramMap.TryGetValue(key, out var param))
         {
             return param.floatValue;
         }
@@ -125,7 +125,7 @@ public class ParameterMap
 
     public int GetInt(string key, float defaultValue = 0f)
     {
-        if (paramMap.TryGetValue(key, out var param) && param.type == ParameterType.Float)
+        if (paramMap.TryGetValue(key, out var param))
         {
             return Mathf.FloorToInt(param.floatValue);
         }
@@ -134,7 +134,7 @@ public class ParameterMap
 
     public bool GetBool(string key, bool defaultValue = false)
     {
-        if (paramMap.TryGetValue(key, out var param) && param.type == ParameterType.Bool)
+        if (paramMap.TryGetValue(key, out var param))
         {
             return param.boolValue;
         }
@@ -143,7 +143,7 @@ public class ParameterMap
 
     public string GetString(string key, string defaultValue = "")
     {
-        if (paramMap.TryGetValue(key, out var param) && param.type == ParameterType.String)
+        if (paramMap.TryGetValue(key, out var param))
         {
             return param.stringValue;
         }

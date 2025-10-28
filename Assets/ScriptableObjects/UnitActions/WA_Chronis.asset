@@ -26,12 +26,12 @@ MonoBehaviour:
       type: 0
       floatValue: 20
       boolValue: 0
-      stringValue: 
+      stringValue: TURN|1
     - key: AVO
       type: 0
       floatValue: 10
       boolValue: 0
-      stringValue: 
+      stringValue: TURN|1
     triggerConditions: []
     selfTarget: 1
     action: {fileID: 0}

@@ -41,11 +41,17 @@ public class TurnManager : MonoBehaviour
             foreach (var entry in UnitManager.Instance.playerUnits)
             {
                 entry.Value.state = UnitState.Idle;
+                entry.Value.statBonuses.TickDownModifiers();
             }
         }
         // run enemy turns
         if(currentTurn == TurnState.Enemy)
         {
+            foreach (var entry in UnitManager.Instance.enemyUnits)
+            {
+                entry.Value.state = UnitState.Idle;
+                entry.Value.statBonuses.TickDownModifiers();
+            }
             _ = RunEnemyTurnAsync();
         }
     }
@@ -76,7 +82,7 @@ public class TurnManager : MonoBehaviour
         var enemiesSnapshot = new Dictionary<int, Unit>(UnitManager.Instance.enemyUnits);
         foreach (var entry in enemiesSnapshot)
         {
-            if (entry.Value == null) continue;
+            if (entry.Value == null || entry.Value.state != UnitState.Idle) continue;
             if (entry.Value.IsDead) continue;
             EnemyAI ai = entry.Value.GetComponent<EnemyAI>();
             if (ai == null) continue;

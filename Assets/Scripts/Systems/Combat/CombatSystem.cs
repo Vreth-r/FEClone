@@ -147,11 +147,11 @@ public class CombatSystem
             }
         }
 
-        context.hitRate = attacker.hit + context.hitRateBonus; // calculate the hit chance 
-        context.avoid = defender.avoidance;
+        context.hitRate = attacker.GetModifiedStat(StatType.HIT) + context.hitRateBonus; // calculate the hit chance 
+        context.avoid = defender.GetModifiedStat(StatType.AVO);
         context.hitChance = Mathf.Clamp(context.hitRate - context.avoid, 0, 100);
 
-        context.critRate = attacker.crit; // calculate the crit chance
+        context.critRate = attacker.GetModifiedStat(StatType.CRI); // calculate the crit chance
         context.critAvoid = Mathf.FloorToInt(defender.GetModifiedStat(StatType.LCK) / 3f);
         context.critChance = Mathf.Clamp(context.critRate - context.critAvoid, 0, 100);
 
@@ -256,8 +256,8 @@ public static class CombatPreviewHelper
         baseDamage = Mathf.Max(0, attackStat - defenseStat);
         bonusDamage = 0;
 
-        hit = Mathf.Clamp(attacker.hit - defender.avoidance, 0, 100);
-        crit = Mathf.Clamp(attacker.crit - Mathf.FloorToInt(defender.GetModifiedStat(StatType.LCK) / 3f), 0, 100);
+        hit = Mathf.Clamp(attacker.GetModifiedStat(StatType.HIT) - defender.GetModifiedStat(StatType.AVO), 0, 100);
+        crit = Mathf.Clamp(attacker.GetModifiedStat(StatType.CRI) - Mathf.FloorToInt(defender.GetModifiedStat(StatType.LCK) / 3f), 0, 100);
     }
 
     public static string FormatCombatText(int baseDmg, int bonusDmg, int hit, int crit)

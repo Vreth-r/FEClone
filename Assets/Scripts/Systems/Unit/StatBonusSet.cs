@@ -32,20 +32,20 @@ public class StatBonusSet
         float mult = 0;
         float cross = 0;
 
-        foreach(var mod in modifiers)
+        foreach (var mod in modifiers)
         {
-            if(mod.targetStat != targetStat) continue;
+            if (mod.targetStat != targetStat) continue;
 
             switch (mod.modType)
             {
                 case StatModType.Flat:
                     flat += mod.flatValue;
                     break;
-                
+
                 case StatModType.Multiplier:
                     mult += mod.multiplier;
                     break;
-                
+
                 case StatModType.CrossStat:
                     float sourceValue = unit.GetStatByType(mod.sourceStat);
                     cross += sourceValue * mod.multiplier;
@@ -54,6 +54,26 @@ public class StatBonusSet
         }
 
         return Mathf.FloorToInt(flat + cross + (unit.GetStatByType(targetStat) * mult));
+    }
+    
+    public void TickDownModifiers()
+    {
+        foreach (var mod in modifiers)
+        {
+            if (mod.expireCond == ExpireType.Turn && mod.turnCount > 0)
+            {
+                mod.turnCount--;
+            }
+        }
+        
+        // backwards iteration to avoid index issues when removing
+        for (int i = modifiers.Count - 1; i >= 0; i--)
+        {
+            if (modifiers[i].turnCount == 0) // Remove expired mods
+            {
+                modifiers.RemoveAt(i);
+            }
+        }
     }
 
     // returns just flat, useful for UI
