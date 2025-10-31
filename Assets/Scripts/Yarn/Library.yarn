@@ -102,7 +102,6 @@ title: Library
 // <<StopParticles "SpellCircleVFXR">>
 // <<SetAllAnimSpeed 1>>
 // <<FireEvent "timestart">>
-// (add enemies here once i get backend written)
 
 // <<CameraZoom 5 2 0.9>>
 // <<wait 3>>
@@ -119,6 +118,45 @@ title: LibraryComplete
 <<CameraZoom 5 2 0.9>>
 <<PanToLocation 10 2 10 2>>
 Ylru: My friends... I have to find them.
-<<UnitMoveToPos "Ylru" 9 -2>>
+<<UnitMoveToPos "Ylru" 9 -7>>
 Ylru runs to the dorms, worried about his friends.
+<<PanToLocation 10 -6 10 2>>
+<<wait 1>>
+<<UnitMoveToPosNoBlock "Ylru" 20 -7>>
+<<PanToLocation 20 -6 10 1>>
+The hallway stretches long and dark. His footsteps echo.
+Ylru: They're fine. They're fine. It's me — 
+Ylru: it's just me.
+<<UnitMoveToPosNoBlock "Ylru" 35 -7>>
+<<PanToLocation 36 -6 10 1>>
+The air hums—low, like a heartbeat behind the walls.
+<<FireEvent "globallightdark">>
+<<PanToLocation 36 6 10 1>>
+<<UnitMoveToPos "Ylru" 35 4>>
+In the darkness, he listens closely, hoping for the sound of soft sleeping breath or the stirring of one of his friends.
+<<wait 1>>
+He is met only with silence.
+Ylru: ...Hello....?
+<<wait 1>>
+<<FadeInBlack 0.01>>
+<<FireEvent "lightson">>
+<<wait 0.2>>
+<<FadeOutBlack 0.01>>
+<<wait 2>>
+<<PanToLocation 36 8 10 0.5>>
+<<PanToLocation 36 4 10 0.5>>
+<<wait 1>>
+Ylru: ...Twelve help me.
+<<wait 1>>
+The stones underfoot hum like they're remembering something.
+Ylru's primal urges kick in, and he has only one thought.
+<<wait 1>>
+Flee.
+He has to make it out of the academy.
+Through whatever this is.
+<<wait 1>>
+<<UnitMoveToPos "Ylru" 35 -7>>
+<<FireEvent "globallightdim">>
+<<PanToLocation 36 -6 10 1>>
+Ylru: Just get to the doors. Just keep moving.
 ===

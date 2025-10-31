@@ -16,7 +16,7 @@ public class CameraPanner : MonoBehaviour
 {
     [Header("References")]
     public Grid grid;
-    public Tilemap tilemap;
+    public Collider2D boundsCollider;
 
     [Header("Cursor")]
     public CursorController cursor;
@@ -69,7 +69,7 @@ public class CameraPanner : MonoBehaviour
 
     public void LoadGridBounds()
     {
-        Bounds mapBounds = tilemap.localBounds;
+        Bounds mapBounds = boundsCollider.bounds;
         // clamp
         minCameraPos = mapBounds.min + new Vector3(halfCamWidth, halfCamHeight, 0f);
         maxCameraPos = mapBounds.max - new Vector3(halfCamWidth, halfCamHeight, 0f);

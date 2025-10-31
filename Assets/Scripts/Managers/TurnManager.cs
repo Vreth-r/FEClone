@@ -14,7 +14,7 @@ public class TurnManager : MonoBehaviour
     public TurnState currentTurn = TurnState.Enemy;
 
     public event Action<int> OnTurnFlip; // different event for non effect/action based objects
-    public string levelCompleteYarnNode;
+    public string levelCompleteYarnNode = "";
 
     private void Awake() => Instance = this;
 
@@ -27,7 +27,7 @@ public class TurnManager : MonoBehaviour
         Debug.Log($"Turn changed to: {currentTurn} | Turn Number: {turnNum}");
 
         // check if the game is done, which is really just if all enemy units are dead and none are spawning (for right now)
-        if (UnitManager.Instance.enemyUnits.Count == 0 && UnitSpawner.Instance.spawnEvents.Count == 0)
+        if (UnitManager.Instance.enemyUnits.Count == 0 && UnitSpawner.Instance.spawnEvents.Count == 0 && levelCompleteYarnNode != "")
         {
             ControlsManager.Instance.SetContext(InputContext.Cutscene);
             GameManager.Instance.MasterYarnRunner.StartDialogue(levelCompleteYarnNode);

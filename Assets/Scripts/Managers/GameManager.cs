@@ -90,6 +90,5 @@ public class GameManager : MonoBehaviour
     public static void LoadSceneFromManager(string sceneName)
     {
         LoadingScreenManager.Instance.LoadScene(sceneName);
-        Debug.Log($"Loading {sceneName}");
     }
 }

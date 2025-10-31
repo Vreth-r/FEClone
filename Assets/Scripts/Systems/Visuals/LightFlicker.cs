@@ -27,13 +27,20 @@ public class LightFlicker : MonoBehaviour
 
     private void HandleCutsceneCue(string eventName)
     {
-        if (eventName == "timestop")
+        switch (eventName)
         {
-            working = false;
-        }
-        else if (eventName == "timestart")
-        {
-            working = true;
+            case "timestop":
+                working = false;
+                break;
+            case "timestart":
+                working = true;
+                break;
+            case "lightson":
+                light2D.enabled = true;
+                break;
+            case "lightsoff":
+                light2D.enabled = false;
+                break;
         }
     }
 }

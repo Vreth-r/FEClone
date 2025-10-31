@@ -106,6 +106,19 @@ public class CutsceneYarnCommands : MonoBehaviour
             : YarnTask.CompletedTask;
     }
 
+    // non-blocking version (Yarn continues immediately)
+    [YarnCommand("UnitMoveToPosNoBlock")]
+    public static void UnitMoveToPosNoBlock(string unitName, int x, int y)
+    {
+        if (CutsceneManager.Instance == null)
+            return;
+
+        // yarn doesn’t wait for this
+        CutsceneManager.Instance.StartCoroutine(
+            UnitManager.Instance.MoveUnitTo(unitName, new Vector2Int(x, y))
+        );
+    }
+
     // Example: <<UnitEmote "Ylru" "Gay" 2>>
     [YarnCommand("UnitEmote")]
     public static YarnTask UnitEmote(string unitName, string emote, float duration)

@@ -256,6 +256,7 @@ public class UnitMovement : MonoBehaviour
     public IEnumerator MoveTo(Vector2Int gridPos)
     {
         movementRange.PopulateHeightTileMap(unit.GridPosition, 9999, 0); // make it so that you can move places
+        // this ^ might be problematic later
         currentPath = Pathfinding.FindPath(unit.GridPosition, gridPos, movementRange.isMoveableTo); // calculate path
         movementRange.highlightTilemap.gameObject.SetActive(false); // set move highlights to be invisible
         unit.animator.SetBool("isMoving", true); // start running animation

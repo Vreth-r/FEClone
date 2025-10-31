@@ -13,13 +13,18 @@ public class CursorController : MonoBehaviour
     [Header("Tilemap & Tile Settings")]
     public Tilemap cursorTilemap;
     public Tilemap terrainTilemap;
+    public Collider2D boundsCollider;
     public TileBase cursorTile;
     public Grid grid;
     private Vector3 minCursorPos;
     private Vector3 maxCursorPos;
     private bool targetMode = false;
 
-    public static CursorController Instance; // this could probably be not singleton maybe
+    [Header("Tile Info Display")]
+    public TileInfo tileInfoDisplay;
+    public UnitInfo unitInfoDisplay;
+
+    public static CursorController Instance; // this could probably be not singleton maybe idk check later
 
     void Awake()
     {
@@ -52,7 +57,7 @@ public class CursorController : MonoBehaviour
     public void LoadGridBounds() // might make an interface for this
     {
         //Bounds mapBounds = terrainTilemap.localBounds;
-        BoundsInt mapBounds = terrainTilemap.cellBounds;
+        Bounds mapBounds = boundsCollider.bounds;
         // clamp
         minCursorPos = mapBounds.min;
         maxCursorPos = mapBounds.max - new Vector3(1, 1, 0); // unknown why but without this the cursor can go *just* one over the tilemap out of bounds
@@ -134,6 +139,27 @@ public class CursorController : MonoBehaviour
     {
         cursorTilemap.ClearAllTiles(); // only one tile visible at a time
         cursorTilemap.SetTile(currentGridPosition, cursorTile);
+        TerrainTile terrain = GridManager.Instance.GetTerrainAt((Vector2Int)currentGridPosition);
+        if (terrain == null)
+        {
+            tileInfoDisplay.gameObject.SetActive(false);
+        }
+        else
+        {
+            tileInfoDisplay.gameObject.SetActive(true);
+            tileInfoDisplay.UpdateInfo(terrain.terrainName, terrain.moveCost);
+        }
+
+        Unit unitRef = UnitManager.Instance.GetUnitAt((Vector2Int)currentGridPosition);
+        if (unitRef == null)
+        {
+            unitInfoDisplay.gameObject.SetActive(false);
+        }
+        else
+        {
+            unitInfoDisplay.gameObject.SetActive(true);
+            unitInfoDisplay.UpdateInfo(unitRef.unitName, unitRef.currentHP, unitRef.maxHP);
+        }
     }
 
     public Vector3Int GetCursorGridPosition()
