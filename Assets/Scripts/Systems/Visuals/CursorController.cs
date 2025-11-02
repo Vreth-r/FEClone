@@ -128,9 +128,12 @@ public class CursorController : MonoBehaviour
         {
             case InputContext.Gameplay:
                 cursorTilemap.gameObject.SetActive(true);
+                UpdateInfoDisplays();
                 break;
             case InputContext.Cutscene:
                 cursorTilemap.gameObject.SetActive(false);
+                tileInfoDisplay.gameObject.SetActive(false);
+                unitInfoDisplay.gameObject.SetActive(false);
                 break;
         }
     }
@@ -139,6 +142,15 @@ public class CursorController : MonoBehaviour
     {
         cursorTilemap.ClearAllTiles(); // only one tile visible at a time
         cursorTilemap.SetTile(currentGridPosition, cursorTile);
+
+        if (ControlsManager.Instance.CurrentContext != InputContext.Gameplay)
+            return;
+
+        UpdateInfoDisplays();
+    }
+
+    public void UpdateInfoDisplays()
+    {
         TerrainTile terrain = GridManager.Instance.GetTerrainAt((Vector2Int)currentGridPosition);
         if (terrain == null)
         {

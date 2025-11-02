@@ -27,6 +27,7 @@ public class CombatSystem
     // This gets called whenever combat is to be initiated
     public static async UniTask StartCombat(Unit attacker, Unit defender)
     {
+        ControlsManager.Instance.SetContext(InputContext.Cutscene);
         if (attacker.team == Team.Player)
         {
             attacker.unitMovement.GetMovementRange().ClearHighlights();
@@ -59,6 +60,7 @@ public class CombatSystem
 
         // Wait for the combat scene to finish
         await CombatSceneManager.Instance.EnterCombatSceneAsync(attacker, defender, context, queue);
+        ControlsManager.Instance.SetContext(InputContext.Gameplay);
     }
 
 
