@@ -44,7 +44,7 @@ public class TilemapGridToggle : MonoBehaviour
         enabledState = defaultEnabled;
         runtimeMat.SetFloat("_GridEnabled", enabledState ? 1f : 0f);
 
-        // 🔹 Subscribe to ControlsManager input
+        // Subscribe to ControlsManager input
         if (ControlsManager.Instance != null)
         {
             Debug.Log("Subbed to event");

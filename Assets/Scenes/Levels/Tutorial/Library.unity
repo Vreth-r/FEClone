@@ -11226,6 +11226,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2cdbc4458b86a4246bb536edff6fd3ac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GlobalLightController
+  on: 1
+  off: 0
+  dim: 0.1
+  dark: 0.01
+  fadeDuration: 1
 --- !u!1001 &884959166
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -19338,6 +19343,7 @@ GameObject:
   - component: {fileID: 1680907658}
   - component: {fileID: 1680907660}
   - component: {fileID: 1680907659}
+  - component: {fileID: 1680907661}
   m_Layer: 0
   m_Name: Terrain
   m_TagString: Untagged
@@ -26567,6 +26573,24 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &1680907661
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1680907657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3689f2165d22d7745b92651ccc7fe8cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TilemapGridToggle
+  gridMaterial: {fileID: 2100000, guid: 40243a784893501428ea1b7464fb3126, type: 2}
+  defaultEnabled: 0
+  gridColor: {r: 0.3660378, g: 0.3660378, b: 0.3660378, a: 1}
+  cellSize: {x: 1, y: 1}
+  thickness: 0.02
+  opacity: 1
 --- !u!1 &1710836081
 GameObject:
   m_ObjectHideFlags: 0
@@ -34350,6 +34374,7 @@ GameObject:
   - component: {fileID: 2083487479}
   - component: {fileID: 2083487481}
   - component: {fileID: 2083487480}
+  - component: {fileID: 2083487482}
   m_Layer: 0
   m_Name: Dorm Terrain
   m_TagString: Untagged
@@ -42159,6 +42184,24 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!114 &2083487482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2083487478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3689f2165d22d7745b92651ccc7fe8cc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TilemapGridToggle
+  gridMaterial: {fileID: 2100000, guid: 40243a784893501428ea1b7464fb3126, type: 2}
+  defaultEnabled: 0
+  gridColor: {r: 0.36862746, g: 0.36862746, b: 0.36862746, a: 1}
+  cellSize: {x: 1, y: 1}
+  thickness: 0.02
+  opacity: 1
 --- !u!1001 &2091336677
 PrefabInstance:
   m_ObjectHideFlags: 0
