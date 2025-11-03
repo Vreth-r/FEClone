@@ -2,94 +2,86 @@ Shader "Unlit/TilemapGridOverlay"
 {
     Properties
     {
-        _MainTex ("Texture", 2D) = "white" {}
-        _GridEnabled ("Grid Enabled (0/1)", Float) = 1
-        _GridColor ("Grid Color", Color) = (1,0.8,0,1)
-        _CellSize ("Cell Size (world units)", Vector) = (1,1,0,0)
-        _Thickness ("Thickness (world units)", Float) = 0.02
-        _Opacity ("Grid Opacity", Range(0,1)) = 1.0
+        _GridColor ("Grid Color", Color) = (1,1,1,1)
+        _CellSize ("Cell Size", Vector) = (1,1,0,0)
+        _Thickness ("Line Thickness", Range(0.001, 0.1)) = 0.02
+        _Opacity ("Opacity", Range(0,1)) = 1.0
+        _GridEnabled ("Grid Enabled", Float) = 1.0
     }
+
     SubShader
     {
-        Tags { "RenderType"="Transparent" "Queue"="Transparent" }
+        Tags
+        {
+            "Queue"="Transparent"
+            "RenderType"="Transparent"
+            "IgnoreProjector"="True"
+        }
+
         LOD 100
         Blend SrcAlpha OneMinusSrcAlpha
+        ZWrite Off
+        Cull Off
 
         Pass
         {
-            CGPROGRAM
+            HLSLPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #include "UnityCG.cginc"
+            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
 
-            sampler2D _MainTex;
-            float4 _MainTex_ST;
+            struct Attributes
+            {
+                float4 positionOS : POSITION;
+                float2 uv : TEXCOORD0;
+            };
 
-            float _GridEnabled;
+            struct Varyings
+            {
+                float4 positionHCS : SV_POSITION;
+                float3 positionWS : TEXCOORD0;
+            };
+
             float4 _GridColor;
             float4 _CellSize;
             float _Thickness;
             float _Opacity;
+            float _GridEnabled;
 
-            struct appdata
+            Varyings vert (Attributes IN)
             {
-                float4 vertex : POSITION;
-                float2 uv : TEXCOORD0;
-            };
-
-            struct v2f
-            {
-                float2 uv : TEXCOORD0;
-                float4 vertex : SV_POSITION;
-                float2 worldPosXY : TEXCOORD1;
-            };
-
-            v2f vert (appdata v)
-            {
-                v2f o;
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
-                o.vertex = UnityObjectToClipPos(v.vertex);
-                float4 worldPos = mul(unity_ObjectToWorld, v.vertex);
-                o.worldPosXY = worldPos.xy;
-                return o;
+                Varyings OUT;
+                OUT.positionHCS = TransformObjectToHClip(IN.positionOS.xyz);
+                OUT.positionWS = TransformObjectToWorld(IN.positionOS.xyz);
+                return OUT;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            half4 frag (Varyings IN) : SV_Target
             {
-                fixed4 baseCol = tex2D(_MainTex, i.uv);
-
+                // If disabled, make transparent
                 if (_GridEnabled < 0.5)
-                    return baseCol;
+                    return half4(0,0,0,0);
 
-                float2 worldPos = i.worldPosXY;
-                float2 cell = max(_CellSize.xy, float2(1e-6, 1e-6));
+                // World position, scaled to cell size
+                float2 gridUV = IN.positionWS.xy / _CellSize.xy;
 
-                // position inside each cell (0–1)
-                float2 cellUV = frac(worldPos / cell);
+                // Fractional position within each grid cell
+                float2 cellPos = frac(gridUV);
 
-                // distance (in world units) to nearest vertical & horizontal edges
-                float distToVerticalEdge = min(cellUV.x, 1.0 - cellUV.x) * cell.x;
-                float distToHorizontalEdge = min(cellUV.y, 1.0 - cellUV.y) * cell.y;
+                // Distance to the nearest horizontal and vertical grid lines
+                float2 edgeDist = min(cellPos, 1.0 - cellPos);
 
-                // Anti-aliasing width
-                float pixelWidth = length(fwidth(worldPos));
-                float edgeAA = max(_Thickness * 0.5, pixelWidth);
+                // Determine if this fragment is part of a grid line
+                float lineMask = step(edgeDist.x, _Thickness) + step(edgeDist.y, _Thickness);
+                lineMask = saturate(lineMask); // clamp between 0–1
 
-                // Compute smooth edges (1 at line center, 0 in between)
-                float vLine = smoothstep(edgeAA, 0.0, distToVerticalEdge);
-                float hLine = smoothstep(edgeAA, 0.0, distToHorizontalEdge);
+                // Apply opacity
+                float alpha = lineMask * _GridColor.a * _Opacity;
 
-                // Combine both lines (max of both)
-                float lineMask = saturate(max(vLine, hLine));
-
-                fixed4 gridCol = fixed4(_GridColor.rgb, _Opacity * lineMask);
-
-                // Blend grid over base texture
-                return lerp(baseCol, gridCol, gridCol.a);
+                // Transparent tiles, visible grid lines
+                return half4(_GridColor.rgb, alpha);
             }
-            ENDCG
+            ENDHLSL
         }
     }
-
-    FallBack "Unlit/Texture"
 }

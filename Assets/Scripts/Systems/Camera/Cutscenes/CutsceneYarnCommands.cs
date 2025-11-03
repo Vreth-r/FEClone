@@ -4,6 +4,19 @@ using System.Collections;
 
 public class CutsceneYarnCommands : MonoBehaviour
 {
+    [YarnCommand("LoadScene")]
+    public static void LoadSceneFromManager(string sceneName)
+    {
+        LoadingScreenManager.Instance.LoadScene(sceneName);
+    }
+
+    // to be fully made into saving, but for now this is just for the player persistor
+    [YarnCommand("SaveGame")]
+    public static void SaveGame()
+    {
+        PlayerPersistor.Instance.StorePartyInContainer();
+    }
+    
     [YarnCommand("FireEvent")]
     public static void FireEvent(string eventName)
     {

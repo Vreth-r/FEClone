@@ -84,11 +84,4 @@ public class GameManager : MonoBehaviour
     }
 
     public bool IsUnitRecruited(string unitID) => recruitedUnitIDs.Contains(unitID);
-
-    /***************(|)[ YARN SHIT ](|)***************** ///*/
-    [YarnCommand("LoadScene")]
-    public static void LoadSceneFromManager(string sceneName)
-    {
-        LoadingScreenManager.Instance.LoadScene(sceneName);
-    }
 }
