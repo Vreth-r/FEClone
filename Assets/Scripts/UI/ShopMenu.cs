@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class ShopMenu : MonoBehaviour, IGameMenu
 {
@@ -6,10 +8,15 @@ public class ShopMenu : MonoBehaviour, IGameMenu
     public bool IsOpen { get; private set; }
     public bool escapable { get; private set; }
 
+    public Button enterButton;
+    public Button talkButton;
+    public Button exitButton;
+
     public void Awake()
     {
         escapable = true;
         IsOpen = false;
+        exitButton.onClick.AddListener(OnExit);
     }
 
     public void Open()
@@ -26,5 +33,9 @@ public class ShopMenu : MonoBehaviour, IGameMenu
         Debug.Log("ShopMenu.cs: Shop menu closed");
     }
 
-    // button hooks go here
+    private void OnExit()
+    {
+        Close();
+        CampInputBlocker.SetBlocked(false);
+    }
 }
