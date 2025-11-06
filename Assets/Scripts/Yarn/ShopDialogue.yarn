@@ -1,0 +1,17 @@
+title: ShopChat
+---
+<<set $speaker = "Ylru">>
+<<set $side = "left">>
+
+<<set $speaker = "Shopkeep">>
+<<set $side = "right">>
+
+-> Who are you?
+    Ylru: Who are you?
+    Shopkeep: I'm Mr. Shopkeep
+    <<jump ShopChat>>
+-> Ok Bye!
+    Ylru: Bye!
+    Shopkeep: Bye :)
+
+===

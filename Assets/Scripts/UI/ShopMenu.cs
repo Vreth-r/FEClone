@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class ShopMenu : MonoBehaviour, IGameMenu
@@ -16,6 +15,7 @@ public class ShopMenu : MonoBehaviour, IGameMenu
     {
         escapable = true;
         IsOpen = false;
+        talkButton.onClick.AddListener(OnTalk);
         exitButton.onClick.AddListener(OnExit);
     }
 
@@ -33,6 +33,11 @@ public class ShopMenu : MonoBehaviour, IGameMenu
         Debug.Log("ShopMenu.cs: Shop menu closed");
     }
 
+    private void OnTalk()
+    {
+        throw new System.NotImplementedException();
+        //GameManager.Instance.MasterYarnRunner.StartDialogue("ShopChat");
+    }
     private void OnExit()
     {
         Close();
