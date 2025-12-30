@@ -105,6 +105,7 @@ public class CursorController : MonoBehaviour
         );
         currentGridPosition = clampedPosition;
         UpdateCursorTile();
+        AudioEvents.Play("cursor_tile_move");
         lastMoveTime = Time.time;
     }
 
@@ -120,6 +121,7 @@ public class CursorController : MonoBehaviour
             unit.GetComponent<UnitMovement>().SelectUnit(); // blocking enemy selection is baked into method, a little wasteful but it makes this look nice and clean
             unit.GetComponent<UnitMovement>().EnableControls(); // this is my temp solution
         }
+        AudioEvents.Play("cursor_tile_click");
     }
 
     void HandleContextSwitch(InputContext newContext)

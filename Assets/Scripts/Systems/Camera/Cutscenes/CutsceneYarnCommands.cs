@@ -4,6 +4,14 @@ using System.Collections;
 
 public class CutsceneYarnCommands : MonoBehaviour
 {
+    // fires an event to the audio manager
+    [YarnCommand("PlaySound")]
+    public static void PlaySound(string soundId)
+    {
+        AudioEvents.Play(soundId);
+    }
+
+    // Loads a scene with the loading screen through the manager
     [YarnCommand("LoadScene")]
     public static void LoadSceneFromManager(string sceneName)
     {

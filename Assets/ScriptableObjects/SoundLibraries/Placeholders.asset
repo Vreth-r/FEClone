@@ -1,0 +1,33 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5af2ea04bbd005d428ce69a97378e0bd, type: 3}
+  m_Name: Placeholders
+  m_EditorClassIdentifier: Assembly-CSharp::SoundLibrary
+  sounds:
+  - soundId: button_click
+    category: 1
+    clip: {fileID: 8300000, guid: e8e53556bcc20ec41864f8cccc26b320, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - soundId: cursor_tile_move
+    category: 1
+    clip: {fileID: 8300000, guid: 2bafc61256bf9f64184fd783b06ef221, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
+  - soundId: cursor_tile_click
+    category: 1
+    clip: {fileID: 8300000, guid: 0425c977c35524e4a9c5b63d40d5b824, type: 3}
+    volume: 1
+    pitch: 1
+    loop: 0
