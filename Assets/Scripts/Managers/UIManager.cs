@@ -144,6 +144,21 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void OpenTutorial(List<TutorialStep> steps)
+    {
+        var menu = GetOrCreateMenu(MenuType.TutorialPopup);
+        if (menu is TutorialPopupMenu tutorial)
+        {
+            tutorial.Open(steps);
+            menuStack.Push(menu);
+            ControlsManager.Instance.SetContext(InputContext.Menu);
+        }
+        else
+        {
+            Debug.LogError("TutorialPopupMenu prefab is missing or incorrect.");
+        }
+    }
+
     public void CloseCurrentMenu()
     {
         if (currentMenu != null && currentMenu.IsOpen && currentMenu.escapable)

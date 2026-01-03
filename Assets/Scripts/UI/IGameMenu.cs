@@ -18,6 +18,7 @@ public enum MenuType
     OptionsMenu,
     LoadMenu,
     MainMenu,
-    PauseMenu
+    PauseMenu,
+    TutorialPopup
     // add more if needed
 }
