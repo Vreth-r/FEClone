@@ -189,7 +189,7 @@ public class UnitSpawner : MonoBehaviour
         Unit unit = go.GetComponent<Unit>();
 
         unit.unitName = data.unitID;
-        unit.unitClass = UnitClassDatabase.Instance.GetByID(data.unitClassName);
+        //unit.unitClass = UnitClassDatabase.Instance.GetByID(data.unitClassName);
 
         unit.level = data.level;
         unit.maxHP = data.maxHP;
@@ -204,17 +204,17 @@ public class UnitSpawner : MonoBehaviour
         unit.luck = data.luck;
 
         unit.inventory.Clear();
-        foreach (string id in data.inventoryIDs)
-        {
-            var item = ItemDatabase.Instance.GetByID(id);
-            if (item != null) unit.AddItem(Instantiate(item));
-        }
+        // foreach (string id in data.inventoryIDs)
+        // {
+        //     //var item = ItemDatabase.Instance.GetByID(id);
+        //     if (item != null) unit.AddItem(Instantiate(item));
+        // }
 
-        if (!string.IsNullOrEmpty(data.equippedItemID))
-        {
-            var item = ItemDatabase.Instance.GetByID(data.equippedItemID);
-            if (item != null) unit.Equip(item);
-        }
+        // if (!string.IsNullOrEmpty(data.equippedItemID))
+        // {
+        //     //var item = ItemDatabase.Instance.GetByID(data.equippedItemID);
+        //     if (item != null) unit.Equip(item);
+        // }
 
         unit.transform.position = GridManager.Instance.CellToWorld(gridPos) - positionOffset;
         unit.GridPosition = (Vector2Int)gridPos;

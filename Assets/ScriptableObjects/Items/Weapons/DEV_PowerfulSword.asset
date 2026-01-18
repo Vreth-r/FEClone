@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DEV_PowerfulSword
   m_EditorClassIdentifier: 
   itemName: Powerful Sword
-  itemID: 
+  itemID: pow_sword
   description: 
   itemType: 0
   icon: {fileID: 21300000, guid: d0605e4918d81be4ea6de1567beaecfa, type: 3}
@@ -37,3 +37,4 @@ MonoBehaviour:
     - weaponType: {fileID: 11400000, guid: bb92431d8d1919144ad028e47cec9b41, type: 2}
       level: 100
   damageType: 0
+  visuals: {fileID: 0}

@@ -30,7 +30,7 @@ public class WeaponItem : Item // holy coding btw
     public override void Use(Unit user, Unit target)
     {
         Debug.Log($"{user.name} attacks {target.name} with {itemName}!");
-        // placeholder for now, combat logic maybe later 
+        // is this needed?
     }
 
     public bool IsEffectiveAgainstWeapon(WeaponType targetType)

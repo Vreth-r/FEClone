@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Default Local Group
+  m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
+  m_GroupName: Default Local Group
+  m_GUID: cf4413f7ca8143843a27805f847ade6d
+  m_SerializeEntries:
+  - m_GUID: 36b1a8b3f564659469c4954711af5bad
+    m_Address: Assets/ScriptableObjects/Items/Weapons/IronSword.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9cdcf53718a25ed4ca6a4677c34dc217
+    m_Address: Assets/ScriptableObjects/Items/Weapons/DEV_PowerfulSword.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b35987891faf6fa45a750e0d521f17a0
+    m_Address: Assets/ScriptableObjects/Items/Weapons/BasicDark.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: dd93d43264e2c72449403a27c6e11392
+    m_Address: Assets/ScriptableObjects/Items/Weapons/Time_D.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ee6301d1cf9dbbb41ae439eafe3b267e
+    m_Address: Assets/ScriptableObjects/Items/Weapons/BasicFire.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 994585ddc754f714595107f7635a31e8, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 4d71962cc52ccc2489d6f6bcc31cfffd, type: 2}
+    - {fileID: 11400000, guid: cf85c9b2b1b654a44a9b1247309e14c2, type: 2}

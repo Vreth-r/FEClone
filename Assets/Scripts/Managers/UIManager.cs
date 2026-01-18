@@ -206,16 +206,16 @@ public class UIManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "MainMenu") return;
 
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            if (IsMenuOpen())
-            {
-                CloseCurrentMenu();
-            }
-            else
-            {
-                OpenMenu(MenuType.PauseMenu);
-            }
-        }
+        // if (Input.GetKeyDown(KeyCode.Escape))
+        // {
+        //     if (IsMenuOpen())
+        //     {
+        //         CloseCurrentMenu();
+        //     }
+        //     else
+        //     {
+        //         OpenMenu(MenuType.PauseMenu);
+        //     }
+        // }
     }
 }

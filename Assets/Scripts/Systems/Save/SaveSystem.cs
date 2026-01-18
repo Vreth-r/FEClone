@@ -69,11 +69,11 @@ public static class SaveSystem
 
         GameManager.Instance.Gold = data.gold;
         GameManager.Instance.convoy.Clear();
-        foreach (string itemID in data.convoyItemIDs)
-        {
-            var item = ItemDatabase.Instance.GetByID(itemID);
-            if (item != null) GameManager.Instance.convoy.Add(item);
-        }
+        // foreach (string itemID in data.convoyItemIDs)
+        // {
+        //     var item = ItemDatabase.Instance.GetByID(itemID);
+        //     if (item != null) GameManager.Instance.convoy.Add(item);
+        // }
 
         // Delay until scene finishes loading
         SceneLoader.OnSceneLoaded += () =>

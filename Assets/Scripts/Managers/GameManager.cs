@@ -33,10 +33,10 @@ public class GameManager : MonoBehaviour
 
     [Header("Databases")]
     //public TerrainDatabase terrainDatabase;
-    public UnitDatabase unitDatabase;
+    // public UnitDatabase unitDatabase;
     public ItemDatabase itemDatabase;
-    public SkillDatabase skillDatabase;
-    public UnitClassDatabase unitClassDatabase;
+    // public SkillDatabase skillDatabase;
+    // public UnitClassDatabase unitClassDatabase;
 
     [Header("Yarn")]
     public DialogueRunner MasterYarnRunner;
@@ -54,10 +54,13 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(MasterYarnRunner);
 
         //terrainDatabase.Init(); // this one is dead for now until i have a use for it
-        unitDatabase.Init();
+        //unitDatabase.Init();
         //skillDatabase.OnEnable(); handle this stupid fucking shit later
-        //itemDatabase.OnEnable();
+        itemDatabase.Initialize();
+        //itemDatabase.DebugPrintThatShit();
         //unitClassDatabase.OnEnable();
+
+        Gold = 999;
     }
 
     // Gold Management

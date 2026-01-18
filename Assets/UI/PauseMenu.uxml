@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/Editor/PauseMenu.uss?fileID=7433441132597879392&amp;guid=64087fb525a213647b687a8887def4c8&amp;type=3#PauseMenu" />
+    <ui:VisualElement name="Panel" class="panel" style="flex-grow: 1;">
+        <ui:VisualElement name="Container" class="menu">
+            <ui:Button text="Resume" name="ResumeButton" />
+            <ui:Button text="Quit" name="QuitButton" />
+            <ui:Button text="Save" name="SaveButton" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

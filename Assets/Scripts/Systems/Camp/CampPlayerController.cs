@@ -13,14 +13,25 @@ public class CampPlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
     }
 
+    private void Start()
+    {
+        if (ControlsManager.Instance != null)
+        {
+            ControlsManager.Instance.OnInteract += HandleInteract;
+        }
+    }
+
     private void Update()
     {
         if (CampInputBlocker.Blocked) return;
         movement.x = Input.GetAxisRaw("Horizontal");
         movement.y = Input.GetAxisRaw("Vertical");
         movement = movement.normalized;
+    }
 
-        if (Input.GetKeyDown(KeyCode.E) && currentInteractable != null)
+    private void HandleInteract()
+    {
+        if (currentInteractable != null)
         {
             currentInteractable.Interact();
         }

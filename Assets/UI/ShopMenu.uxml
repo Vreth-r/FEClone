@@ -1,0 +1,20 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="True">
+    <Style src="project://database/Assets/UI/ShopMenu.uss?fileID=7433441132597879392&amp;guid=21ee199f59558e24abfd71100c4c77e3&amp;type=3#ShopMenu" />
+    <ui:VisualElement class="overlay">
+        <ui:VisualElement class="shop-card" style="flex-grow: 0;">
+            <ui:Label text="Shop" class="shop-title" />
+            <ui:Label name="GoldLabel" class="gold-label" />
+            <ui:TabView name="ShopTabs">
+                <ui:Tab label="Buy">
+                    <ui:ScrollView name="BuyContent" class="tab-content" />
+                </ui:Tab>
+                <ui:Tab label="Sell">
+                    <ui:ScrollView name="SellContent" class="tab-content" />
+                </ui:Tab>
+                <ui:Tab label="Upgrade">
+                    <ui:ScrollView name="UpgradeContent" class="tab-content" />
+                </ui:Tab>
+            </ui:TabView>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

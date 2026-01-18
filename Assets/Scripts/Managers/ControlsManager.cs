@@ -12,7 +12,7 @@ public enum InputContext
 // ** IMPORTANT **
 // this is hardcoded to make additions and removals more clear, will switch to dynamic later maybe if im not lazy and theres a need
 
-// while this is hardcoded you must update this with every new bind and map added. also update CutsceneYarnCommands.SetControlContext()
+// while this is hardcoded you must update this with every new bind and map added. also update CutsceneYarnCommands.SetControlContext() if adding a new context
 public class ControlsManager : MonoBehaviour
 {
     public static ControlsManager Instance { get; private set; }
@@ -24,6 +24,8 @@ public class ControlsManager : MonoBehaviour
     [SerializeField] private InputActionReference moveCursorAction;
     [SerializeField] private InputActionReference selectAction;
     [SerializeField] private InputActionReference toggleGridAction;
+    [SerializeField] private InputActionReference pauseGameAction;
+    [SerializeField] private InputActionReference interactAction; // for camp stuff
 
     [Header("Menu Actions")]
     [SerializeField] private InputActionReference navigateAction;
@@ -44,6 +46,8 @@ public class ControlsManager : MonoBehaviour
     public event Action OnSubmit;
     public event Action OnSelect;
     public event Action OnCancel;
+    public event Action OnPause;
+    public event Action OnInteract;
 
     public event Action OnToggleGrid;
 
@@ -76,6 +80,16 @@ public class ControlsManager : MonoBehaviour
         if (toggleGridAction != null)
         {
             toggleGridAction.action.performed += ctx => OnToggleGrid?.Invoke();
+        }
+
+        if (pauseGameAction != null)
+        {
+            pauseGameAction.action.performed += ctx => OnPause?.Invoke();
+        }
+
+        if (interactAction != null)
+        {
+            interactAction.action.performed += ctx => OnInteract?.Invoke();
         }
 
         // --- Menu bindings ---
@@ -120,6 +134,8 @@ public class ControlsManager : MonoBehaviour
             moveCursorAction?.action.Enable();
             selectAction?.action.Enable();
             toggleGridAction?.action.Enable();
+            pauseGameAction?.action.Enable();
+            interactAction?.action.Enable();
         }
         else if (CurrentContext == InputContext.Menu)
         {
@@ -138,6 +154,8 @@ public class ControlsManager : MonoBehaviour
         moveCursorAction?.action.Disable();
         selectAction?.action.Disable();
         toggleGridAction?.action.Disable();
+        pauseGameAction?.action.Disable();
+        interactAction?.action.Disable();
         navigateAction?.action.Disable();
         submitAction?.action.Disable();
         cancelAction?.action.Disable();

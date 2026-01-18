@@ -4,11 +4,11 @@ public class CampInteractable : MonoBehaviour
 {
     [TextArea]
     public string interactText = "Press [E] to interact";
-    public MenuType menuType; // set in editor
+    public MenuType menuType; // change this later to support new UI system
 
     public virtual void Interact()
     {
-        UIManager.Instance.OpenMenu(menuType);
+        UIManagerTheSecond.Instance.OpenMenu<ShopMenuTheSecond>("ShopMenu");
         CampInputBlocker.SetBlocked(true);
     }
 }

@@ -1,14 +1,35 @@
-using UnityEngine;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
-[CreateAssetMenu(menuName = "Tactics RPG/Item Database")]
-public class ItemDatabase : Database<Item>
+[CreateAssetMenu(menuName = "Databases/Item Databse")]
+public class ItemDatabase : AddressableDatabase<Item>
 {
-    public static ItemDatabase Instance; // singleton reference
+    // load all items with the Item label
+    protected override string Label => "Item";
 
-    public void Init()
+    public IReadOnlyList<WeaponItem> Weapons =>
+        items.OfType<WeaponItem>().ToList();
+
+    public IReadOnlyList<ConsumableItem> Consumables => 
+        items.OfType<ConsumableItem>().ToList();
+    
+    public IReadOnlyList<Item> GetByType(ItemType type)
     {
-        base.Initialize(); // Init db
-        if (Instance == null) Instance = this; // Assign singleton
+        return items.Where(i => i.itemType == type).ToList();
+    }
+
+    public IReadOnlyList<Item> GetAll()
+    {
+        return items;
+    }
+
+    public void DebugPrintThatShit()
+    {
+        Debug.Log("We out here");
+        foreach (var item in items)
+        {
+            Debug.Log($"{item.ID}");
+        }
     }
 }
