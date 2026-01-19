@@ -35,6 +35,12 @@ public class LoadingScreenManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
+    private bool IsLeavingMainMenu(string targetScene)
+    {
+        string active = SceneManager.GetActiveScene().name;
+        return active == "MainMenu" && targetScene != "MainMenu";
+    }
+
     // set to be axed
     public void LoadLevel(string levelID)
     {
@@ -80,6 +86,8 @@ public class LoadingScreenManager : MonoBehaviour
 
     private IEnumerator LoadSceneRoutine(string sceneName, System.Action onComplete)
     {
+        bool databasesReady = false;
+        bool needsDatabaseWait = IsLeavingMainMenu(sceneName);
         if (loadingScreenPrefab == null)
         {
             Debug.LogError("Loading screen prefab not assigned.");
@@ -107,6 +115,12 @@ public class LoadingScreenManager : MonoBehaviour
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         asyncLoad.allowSceneActivation = false;
 
+        if(needsDatabaseWait)
+        {
+            yield return StartCoroutine(GameManager.Instance.InitializeAllDatabases());
+        }
+        databasesReady = true;
+
         // Update progress bar
         float targetProgress = 0f;
 
@@ -122,10 +136,11 @@ public class LoadingScreenManager : MonoBehaviour
             int percent = Mathf.RoundToInt(progressBar.value * 100f);
             loadingText.text = $"Loading... {percent}%";
 
-            if (asyncLoad.progress >= 0.9f)
+            if (asyncLoad.progress >= 0.9f && databasesReady)
             {
                 asyncLoad.allowSceneActivation = true;
             }
+
             yield return null;
         }
         // Set progress to full and display a short message

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 using Yarn.Unity;
 
 // Ultra persistent script for "global" variable tracking and scene/gameflow management
@@ -56,11 +57,45 @@ public class GameManager : MonoBehaviour
         //terrainDatabase.Init(); // this one is dead for now until i have a use for it
         //unitDatabase.Init();
         //skillDatabase.OnEnable(); handle this stupid fucking shit later
-        itemDatabase.Initialize();
+        //itemDatabase.Initialize();
         //itemDatabase.DebugPrintThatShit();
         //unitClassDatabase.OnEnable();
 
         Gold = 999;
+    }
+
+    // game stuff
+    public IEnumerator InitializeAllDatabases()
+    {
+        bool done = false;
+        InitializeDatabases(() => done = true);
+
+        yield return new WaitUntil(() => done);
+    }
+
+    public void InitializeDatabases(System.Action onComplete)
+    {
+        int pending = 0;
+
+        void Track(System.Action initCall)
+        {
+            pending++;
+            initCall();
+        }
+
+        void OnOneDone()
+        {
+            pending--;
+            if (pending <= 0)
+            {
+                onComplete?.Invoke();
+            }
+        }
+
+        Track(() => itemDatabase.Initialize(OnOneDone));
+        // soon (tm)
+        // Track(() => skillDatabase.Initialize(OnOneDone));
+        // Track(() => classDatabase.Initialize(OnOneDone));
     }
 
     // Gold Management
@@ -87,4 +122,14 @@ public class GameManager : MonoBehaviour
     }
 
     public bool IsUnitRecruited(string unitID) => recruitedUnitIDs.Contains(unitID);
+}
+
+// code utilities
+public static class CoroutineExtensions
+{
+    public static IEnumerator ContinueWith(this IEnumerator routine, System.Action onComplete)
+    {
+        yield return routine;
+        onComplete?.Invoke();
+    }
 }

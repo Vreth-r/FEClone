@@ -14,11 +14,11 @@ public abstract class AddressableDatabase<T> : ScriptableObject
 
     protected abstract string Label { get; }
 
-    public void Initialize(Action onComplete = null)
+    public void Initialize(Action onDBINITComplete = null)
     {
         if (IsInitialized)
         {
-            onComplete?.Invoke();
+            onDBINITComplete?.Invoke();
             return;
         }
 
@@ -30,7 +30,7 @@ public abstract class AddressableDatabase<T> : ScriptableObject
         ).Completed += handle =>
         {
             IsInitialized = true;
-            onComplete?.Invoke();
+            onDBINITComplete?.Invoke();
         };
     }
 

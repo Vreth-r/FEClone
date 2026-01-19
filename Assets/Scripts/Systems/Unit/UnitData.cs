@@ -26,8 +26,8 @@ public class UnitData : ScriptableObject, IIdentifiable
     public int resistance;
     public int luck;
 
-    public List<Item> inventory;
-    public Item equippedItem;
+    public UnitInventory inventory;
+    public ItemInstance equippedItem;
     public WeaponProficiency proficiencyLevels;
     public List<Skill> skills;
 }

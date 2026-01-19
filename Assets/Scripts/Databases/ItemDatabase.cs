@@ -26,7 +26,7 @@ public class ItemDatabase : AddressableDatabase<Item>
 
     public void DebugPrintThatShit()
     {
-        Debug.Log("We out here");
+        Debug.Log($"{items.Count} items registered.");
         foreach (var item in items)
         {
             Debug.Log($"{item.ID}");

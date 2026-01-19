@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3839534964333802901}
   - component: {fileID: 5651185647597150883}
   - component: {fileID: 5714633483327390401}
+  - component: {fileID: 4802630110591296709}
   m_Layer: 0
   m_Name: Ylru
   m_TagString: Untagged
@@ -119,14 +120,18 @@ MonoBehaviour:
   crit: 0
   hit: 0
   skills: []
-  inventory: []
-  equippedItem: {fileID: 11400000, guid: dd93d43264e2c72449403a27c6e11392, type: 2}
+  inventory: {fileID: 4802630110591296709}
+  equippedItem:
+    definition: {fileID: 0}
+    currentDurability: 0
+    maxDurability: 0
   proficiencyLevels:
     profList: []
   currentXP: 0
   combatSprite: {fileID: 0}
   animator: {fileID: 5233289551272694056}
   fader: {fileID: 0}
+  unitMovement: {fileID: 0}
   state: 0
   actions:
   - {fileID: 11400000, guid: f5771c39eed8a7d4086dbb501381bd2e, type: 2}
@@ -160,6 +165,21 @@ MonoBehaviour:
   highlightTilemap: {fileID: 0}
   movementTile: {fileID: 11400000, guid: 39fc1c9fc045ce040bde82dbbbda97d1, type: 2}
   attackTile: {fileID: 11400000, guid: 1674420e29a875341a2c655636abaf33, type: 2}
+--- !u!114 &4802630110591296709
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9102339848089107935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee98d1bdbbcb30b4daf41c06ef8f3ffd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitInventory
+  capacity: 5
+  items: []
+  owner: {fileID: 3839534964333802901}
 --- !u!1001 &1582650607457326923
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -101,7 +101,7 @@ public class TargetSelector : MonoBehaviour
 
         validUnitTargets.Clear();
 
-        if (attacker.equippedItem is not WeaponItem weapon)
+        if (!attacker.equippedItem.IsWeapon)
         {
             Debug.Log("No weapon equipped");
             return;
@@ -113,7 +113,7 @@ public class TargetSelector : MonoBehaviour
             if (other == null || other.team != Team.Enemy) continue;
 
             int dist = Mathf.Abs(unit.GridPosition.x - pos.x) + Mathf.Abs(unit.GridPosition.y - pos.y);
-            if (dist >= weapon.minRange && dist <= weapon.maxRange)
+            if (dist >= attacker.equippedItem.AsWeapon.minRange && dist <= attacker.equippedItem.AsWeapon.maxRange)
             {
                 validUnitTargets.Add(other);
                 highlightTilemap.SetTile(new Vector3Int(pos.x, pos.y, 0), targetHighlightTile);

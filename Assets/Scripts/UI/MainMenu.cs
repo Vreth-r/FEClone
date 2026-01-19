@@ -39,13 +39,13 @@ public class MainMenu : MonoBehaviour, IGameMenu
     // These are mapped in the editor for each button listener
     public void ContinueGame()
     {
-        Debug.Log("Loading save...");
-        if (!SaveSystem.SaveExists(0))
-        {
-            Debug.LogWarning("No Save Data found for slot");
-            return;
-        }
-        SaveSystem.LoadGame(0);
+        Debug.Log("Loading save... (placeholder)");
+        // if (!SaveSystem.SaveExists(0))
+        // {
+        //     Debug.LogWarning("No Save Data found for slot");
+        //     return;
+        // }
+        // SaveSystem.LoadGame(0);
     }
 
     public void OpenOptions()

@@ -99,6 +99,7 @@ GameObject:
   - component: {fileID: 4536577457962426672}
   - component: {fileID: 1152811067334096762}
   - component: {fileID: 6106070032102097793}
+  - component: {fileID: -7561276484390825245}
   m_Layer: 0
   m_Name: Time Echo
   m_TagString: Untagged
@@ -206,15 +207,18 @@ MonoBehaviour:
   crit: 0
   hit: 0
   skills: []
-  inventory:
-  - {fileID: 11400000, guid: dd93d43264e2c72449403a27c6e11392, type: 2}
-  equippedItem: {fileID: 0}
+  inventory: {fileID: -7561276484390825245}
+  equippedItem:
+    definition: {fileID: 0}
+    currentDurability: 0
+    maxDurability: 0
   proficiencyLevels:
     profList: []
   currentXP: 0
   combatSprite: {fileID: 0}
   animator: {fileID: 564601906527186252}
   fader: {fileID: 0}
+  unitMovement: {fileID: 0}
   state: 0
   actions:
   - {fileID: 11400000, guid: f5771c39eed8a7d4086dbb501381bd2e, type: 2}
@@ -318,6 +322,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9259f54f7d3e5b4f81327ff87ec6f35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+--- !u!114 &-7561276484390825245
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7799637953519756220}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee98d1bdbbcb30b4daf41c06ef8f3ffd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::UnitInventory
+  capacity: 5
+  items: []
+  owner: {fileID: 2639678565397689818}
 --- !u!1 &8608570206293145580
 GameObject:
   m_ObjectHideFlags: 0

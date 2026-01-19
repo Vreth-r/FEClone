@@ -5,8 +5,8 @@ public class CombatContext
 {
     public Unit attacker; // the unit attacking
     public Unit defender; // the unit defending
-    public WeaponItem attackerWeapon; // the weapon the attacker is using
-    public WeaponItem defenderWeapon;
+    public ItemInstance attackerWeapon; // the weapon the attacker is using
+    public ItemInstance defenderWeapon;
     public int attackerPrevHP;
     public int defenderPrevHP;
 

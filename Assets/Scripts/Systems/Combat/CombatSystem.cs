@@ -38,8 +38,8 @@ public class CombatSystem
             isPlayerAttack = true,
             attacker = attacker,
             defender = defender,
-            attackerWeapon = attacker.equippedItem as WeaponItem,
-            defenderWeapon = defender.equippedItem as WeaponItem
+            attackerWeapon = attacker.equippedItem,
+            defenderWeapon = defender.equippedItem
         };
 
         if (context.attackerWeapon == null)
@@ -104,11 +104,11 @@ public class CombatSystem
         context.attackerHasClassDisadvantage = false;
         context.hitRateBonus = 0; // reset this in case of previous action changes.
 
-        int attackPower = weapon.damageType == DamageType.Physical // determine which offensive stat is being used
+        int attackPower = weapon.AsWeapon.damageType == DamageType.Physical // determine which offensive stat is being used
             ? attacker.GetModifiedStat(StatType.STR)
             : attacker.GetModifiedStat(StatType.ARC);
         Debug.Log(attacker.statBonuses.GetTotalModifier(attacker, StatType.STR));
-        int defensePower = weapon.damageType == DamageType.Physical // determine which defensive stat is being used
+        int defensePower = weapon.AsWeapon.damageType == DamageType.Physical // determine which defensive stat is being used
             ? defender.GetModifiedStat(StatType.DEF)
             : defender.GetModifiedStat(StatType.RES);
 
@@ -117,14 +117,14 @@ public class CombatSystem
         if(defWeapon != null) // if the defender has a weapon
         {
             // Dont know if I love the advantage/disadvantage being multiplicative, might change
-            if(weapon.IsEffectiveAgainstWeapon(defWeapon.weaponType)) // check if attacker has weapon advantage over defender
+            if(weapon.AsWeapon.IsEffectiveAgainstWeapon(defWeapon.AsWeapon.weaponType)) // check if attacker has weapon advantage over defender
             {
                 Debug.Log($"{attacker.unitName}'s weapon is strong against {defender.unitName}'s weapon");
                 context.damageMult *= WeaponAdvantageDamageMult; // increase the damage multiplier
                 context.hitRateBonus += WeaponAdvantageHitBonus; // add the hit bonus
                 context.attackerHasWeaponAdvantage = true; // set flag for the scene manager
             }
-            else if(weapon.IsWeakToWeapon(defWeapon.weaponType)) // check if attacker has weapon disadvantage over defender
+            else if(weapon.AsWeapon.IsWeakToWeapon(defWeapon.AsWeapon.weaponType)) // check if attacker has weapon disadvantage over defender
             {
                 Debug.Log($"{attacker.unitName}'s weapon is weak against {defender.unitName}'s weapon");
                 context.damageMult *= WeaponDisadvantageDamageMult; // see above 
@@ -134,13 +134,13 @@ public class CombatSystem
 
             foreach(var tag in defender.unitClass.classTags) // for every class tag the defender has
             {
-                if(weapon.IsEffectiveAgainstClass(tag)) // check if attacker has weapon advantage over defender class tags
+                if(weapon.AsWeapon.IsEffectiveAgainstClass(tag)) // check if attacker has weapon advantage over defender class tags
                 {
                     Debug.Log($"{attacker.unitName}'s weapon is strong against {defender.unitName}'s class");
                     context.damageMult *= WeaponAdvantageDamageMult; // see above
                     context.attackerHasClassAdvantage = true;
                 }
-                else if(weapon.IsWeakToClass(tag)) // check if attacker has weapon diadvantage over defender class tags
+                else if(weapon.AsWeapon.IsWeakToClass(tag)) // check if attacker has weapon diadvantage over defender class tags
                 {
                     Debug.Log($"{attacker.unitName}'s weapon is weak against {defender.unitName}'s class");
                     context.damageMult *= WeaponDisadvantageDamageMult; // see above
@@ -183,12 +183,13 @@ public class CombatSystem
         }
     }
 
-    private static bool InRange(Unit attacker, Unit target, WeaponItem weapon)
+    private static bool InRange(Unit attacker, Unit target, ItemInstance weapon)
     {
+        if(weapon == null) return false;
         int dist = Mathf.Abs(attacker.GridPosition.x - target.GridPosition.x) +
                     Mathf.Abs(attacker.GridPosition.y - target.GridPosition.y);
-        
-        return dist >= weapon.minRange && dist <= weapon.maxRange;
+        Debug.Log(weapon.Definition);
+        return dist >= weapon.AsWeapon.minRange && dist <= weapon.AsWeapon.maxRange;
     }
 }
 
@@ -197,12 +198,12 @@ public class CombatAction
 {
     public Unit attacker;
     public Unit defender;
-    public WeaponItem attackerWeapon;
-    public WeaponItem defenderWeapon;
+    public ItemInstance attackerWeapon;
+    public ItemInstance defenderWeapon;
     public bool isCounter;
     public bool isFollowUp;
 
-    public CombatAction(Unit attacker, Unit defender, WeaponItem attackerWeapon, WeaponItem defenderWeapon, bool isCounter = false, bool isFollowUp = false)
+    public CombatAction(Unit attacker, Unit defender, ItemInstance attackerWeapon, ItemInstance defenderWeapon, bool isCounter = false, bool isFollowUp = false)
     {
         this.attacker = attacker;
         this.defender = defender;
@@ -237,7 +238,7 @@ public class CombatQueue
 // A preview helper will forecast the basic, guaranteed damage a unit will deal to another should they strike them.
 public static class CombatPreviewHelper
 {
-    public static void GetCombatPreview(Unit attacker, Unit defender, WeaponItem weapon,
+    public static void GetCombatPreview(Unit attacker, Unit defender, ItemInstance weapon,
         out int baseDamage, out int bonusDamage, out int hit, out int crit)
     {
         baseDamage = 0; // attack power - defense power
@@ -247,11 +248,11 @@ public static class CombatPreviewHelper
 
         if(weapon == null) return;
 
-        int attackStat = weapon.damageType == DamageType.Physical
+        int attackStat = weapon.AsWeapon.damageType == DamageType.Physical
             ? attacker.GetModifiedStat(StatType.STR)
             : attacker.GetModifiedStat(StatType.ARC);
 
-        int defenseStat = weapon.damageType == DamageType.Physical
+        int defenseStat = weapon.AsWeapon.damageType == DamageType.Physical
             ? defender.GetModifiedStat(StatType.DEF)
             : defender.GetModifiedStat(StatType.RES);
         

@@ -17974,7 +17974,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3839534964333802901, guid: 88b1da5fdbc5f2248a8d7d49ee2b08c4, type: 3}
       propertyPath: skills.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3839534964333802901, guid: 88b1da5fdbc5f2248a8d7d49ee2b08c4, type: 3}
       propertyPath: inventory.Array.size
@@ -18048,6 +18048,18 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4802630110591296709, guid: 88b1da5fdbc5f2248a8d7d49ee2b08c4, type: 3}
+      propertyPath: items.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4802630110591296709, guid: 88b1da5fdbc5f2248a8d7d49ee2b08c4, type: 3}
+      propertyPath: items.Array.data[0].itemID
+      value: time_d
+      objectReference: {fileID: 0}
+    - target: {fileID: 4802630110591296709, guid: 88b1da5fdbc5f2248a8d7d49ee2b08c4, type: 3}
+      propertyPath: items.Array.data[0].definition
+      value: 
+      objectReference: {fileID: 11400000, guid: dd93d43264e2c72449403a27c6e11392, type: 2}
     - target: {fileID: 5714633483327390401, guid: 88b1da5fdbc5f2248a8d7d49ee2b08c4, type: 3}
       propertyPath: highlightTilemap
       value: 

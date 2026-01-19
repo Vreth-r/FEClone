@@ -5,7 +5,7 @@ public abstract class InventoryBase : MonoBehaviour, IInventory
 {
     [SerializeField] protected int capacity = -1; // -1 is unlimited
 
-    protected List<ItemInstance> items = new();
+    public List<ItemInstance> items = new();
 
     public IReadOnlyList<ItemInstance> Items => items;
 

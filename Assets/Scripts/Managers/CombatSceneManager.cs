@@ -73,12 +73,12 @@ public class CombatSceneManager : MonoBehaviour
         attackerStats.Open(attacker);
         defenderStats.Open(defender);
 
-        attackerWeaponName.text = context.attackerWeapon.itemName;
-        attackerWeaponIcon.sprite = context.attackerWeapon.icon;
+        attackerWeaponName.text = context.attackerWeapon.AsWeapon.itemName;
+        attackerWeaponIcon.sprite = context.attackerWeapon.AsWeapon.icon;
         if (context.defenderWeapon != null)
         {
-            defenderWeaponName.text = context.defenderWeapon.itemName;
-            defenderWeaponIcon.sprite = context.defenderWeapon.icon;
+            defenderWeaponName.text = context.defenderWeapon.AsWeapon.itemName;
+            defenderWeaponIcon.sprite = context.defenderWeapon.AsWeapon.icon;
         }
         else
         {
@@ -148,9 +148,9 @@ public class CombatSceneManager : MonoBehaviour
             attacker.animator?.SetTrigger("Attack");
             // the length property of AnimatorStateInfo gives the duration of the clip in seconds
             await UniTask.Delay((int)(attacker.animator.GetCurrentAnimatorStateInfo(0).length) * 1000);
-            if (action.attackerWeapon.visuals != null)
+            if (action.attackerWeapon.AsWeapon.visuals != null)
             {
-                VFXManager.Instance.PlayEffect(action.attackerWeapon.visuals, attacker.gameObject.transform.position, defender.gameObject.transform.position);
+                VFXManager.Instance.PlayEffect(action.attackerWeapon.AsWeapon.visuals, attacker.gameObject.transform.position, defender.gameObject.transform.position);
             }
 
             // Capture HP before damage

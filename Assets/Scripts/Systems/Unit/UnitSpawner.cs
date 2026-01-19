@@ -80,11 +80,10 @@ public class UnitSpawner : MonoBehaviour
             unit.skill = data.skill;
             unit.resistance = data.resistance;
             unit.luck = data.luck;
-
-            unit.inventory.Clear();
-            foreach (var item in data.inventory)
+            
+            foreach (var item in data.inventory.Items)
             {
-                unit.AddItem(Instantiate(item)); // instantiate if item has state
+                unit.inventory.Add(item); // instantiate if item has state
                 // was i high when i wrote this
             }
 
@@ -202,8 +201,6 @@ public class UnitSpawner : MonoBehaviour
         unit.skill = data.skill;
         unit.resistance = data.resistance;
         unit.luck = data.luck;
-
-        unit.inventory.Clear();
         // foreach (string id in data.inventoryIDs)
         // {
         //     //var item = ItemDatabase.Instance.GetByID(id);

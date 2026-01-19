@@ -40,8 +40,8 @@ public class Unit : MonoBehaviour
     public StatBonusSet statBonuses = new(); // its for all stat modifications i was high when i wrote the name to be only positive
 
     // Inventory 
-    public List<Item> inventory = new(); // thinking of making a class for this but the inventory is so simple anyway
-    public Item equippedItem; // the current equipped item (will always be a weapon)
+    public UnitInventory inventory; // All items a unit carries are referenced here
+    public ItemInstance equippedItem; // the current equipped item (will always be a weapon)
     public WeaponProficiency proficiencyLevels; // proficiency levels for all weapons
     public int currentXP = 0;
 
@@ -76,10 +76,14 @@ public class Unit : MonoBehaviour
         ApplyPassiveEffects();
         proficiencyLevels.AddProficienciesFromOther(unitClass.proficiencies); // wont overwrite existing proficiency
         // REMOVE THIS STUFF LATER WHEN U HAVE BETTER SYSTEMS 
-        if (inventory.Count != 0)
+        foreach(ItemInstance item in inventory.Items)
         {
-            Equip(inventory[0]); // equip the first thing in the inventory(dev)
-        } 
+            if (item.IsWeapon)
+            {
+                Equip(item);
+                break;
+            }
+        }
     }
 
     public void ApplyPassiveEffects()
@@ -220,11 +224,11 @@ public class Unit : MonoBehaviour
         int weaponHitBonus = 0;
         int weaponCritBonus = 0;
 
-        if (equippedItem is WeaponItem weapon)
+        if (equippedItem.IsWeapon)
         {
-            weaponAvoidBonus = weapon.avoid; // if weapon is valid, set the bonus stats
-            weaponHitBonus = weapon.hit;
-            weaponCritBonus = weapon.crit;
+            weaponAvoidBonus = equippedItem.AsWeapon.avoid; // if weapon is valid, set the bonus stats
+            weaponHitBonus = equippedItem.AsWeapon.hit;
+            weaponCritBonus = equippedItem.AsWeapon.crit;
         }
 
 
@@ -232,62 +236,46 @@ public class Unit : MonoBehaviour
         hit = tempHit + weaponHitBonus + statBonuses.GetTotalModifier(this, StatType.HIT);
         crit = tempCrit + weaponCritBonus + statBonuses.GetTotalModifier(this, StatType.CRI);
     }
-    public void Equip(Item item)
+    public void Equip(ItemInstance item)
     {
-        if (item.itemType != ItemType.Weapon)
+        if (!item.IsWeapon)
         {
             Debug.Log("Cannot Equip non-weapon item.");
             // add functionality later
             return;
         }
 
-        var weapon = item as WeaponItem; // HOLY coding
-        weapon.proficiency.Initialize();
+        item.AsWeapon.proficiency.Initialize(); // look at WeaponProficiency and youll see why
         // hnnn leave this in for now.
-        if (!proficiencyLevels.CheckWeapon(weapon) || !unitClass.proficiencies.HasProficiency(weapon.weaponType))
+        if (!proficiencyLevels.CheckWeapon(item.AsWeapon) || !unitClass.proficiencies.HasProficiency(item.AsWeapon.weaponType))
         {
-            Debug.LogWarning($"{unitName} cannot use this {weapon.weaponType} weapons: from {weapon.itemName}");
+            Debug.LogWarning($"{unitName} cannot use this {item.AsWeapon.weaponType} weapons: from {item.AsWeapon.itemName}");
             // functionality later
             return;
         }
 
         equippedItem = item;
-        attackRange = item.maxRange;
+        attackRange = item.AsWeapon.maxRange;
         CalculateStats();
-        Debug.Log($"{unitName} equipped {item.itemName}");
+        Debug.Log($"{unitName} equipped {item.AsWeapon.itemName}");
     }
 
-    public void UnEquip(Item item)
+    public void UnEquip()
     {
-        if (equippedItem == null || equippedItem != item) return; // cant unequip nothing or what you dont have equipped!
+        if (equippedItem == null) return; // cant unequip nothing
         equippedItem = null;
         CalculateStats();
     }
 
-    public void UseItem(int index, Unit target = null)
-    {
-        // validate the index
-        if (index < 0 || index >= inventory.Count) return;
+    // use item needs to be reworked, this is an artifact from the old item system
+    // public void UseItem(int index, Unit target = null)
+    // {
+    //     // validate the index
+    //     if (index < 0 || index >= inventory.Count) return;
 
-        var item = inventory[index];
-        item.Use(this, target ?? this); // default use on self
-    }
-
-    public void AddItem(Item item)
-    {
-        if (inventory.Count >= 5)
-        {
-            Debug.Log("Inventory full bruh.");
-            return;
-        }
-
-        inventory.Add(item);
-    }
-
-    public void RemoveItem(Item item)
-    {
-        if (inventory.Contains(item)) inventory.Remove(item);
-    }
+    //     var item = inventory[index];
+    //     item.Use(this, target ?? this); // default use on self
+    // }
 
     public void TakeDamage(int damage, Unit source)
     {

@@ -4,13 +4,25 @@ using UnityEngine;
 [Serializable]
 public class ItemInstance
 {
-    [SerializeField] private Item definition;
+    [SerializeField] private string itemID;
+    [System.NonSerialized] private Item definition;
 
     // runtime
     [SerializeField] private int currentDurability;
     [SerializeField] private int maxDurability;
 
-    public Item Definition => definition;
+    public Item Definition
+    {
+        get
+        {
+            if (definition == null)
+            {
+                definition = GameManager.Instance.itemDatabase.GetByID(itemID);
+            }
+
+            return definition;
+        }
+    }
 
     // construction
 
