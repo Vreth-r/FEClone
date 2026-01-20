@@ -39,14 +39,6 @@ public class SceneInitializer : MonoBehaviour
 
     private void SpawnPlayerUnits()
     {
-        if (PlayerPersistor.Instance.HasStoredParty())
-        {
-
-            PlayerPersistor.Instance.RestorePartyToScene(playerUnitSpawnPositions);
-        }
-        else
-        {
-            Debug.LogError("no party found");
-        }
+        // change this to use the roster.
     }
 }

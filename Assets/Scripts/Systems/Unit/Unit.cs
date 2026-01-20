@@ -10,8 +10,7 @@ public class Unit : MonoBehaviour
     public UnitClass unitClass; // class the unit belongs to
     public string unitName; // name of the unit in game, like Corrin, Robin, etc
     public string unitDescription; // small description of their personality because fire emblem is actually a dating sim
-    public int unitID; // unique ID for backend reasons, to denote individual units despite sharing a name or something, per level
-    // each actual roster character will be numbered 1-10 as reserved ID's (hardcoded), then all other units will get an id after that per level (dynamic)
+    public string unitID; // unique ID for backend reasons, to denote individual units despite sharing a name or something, per level
 
     // Main Stats (Mostly set in editor to start with)
     // If i could do it differently i would make a class for this and put it on both weapons, effects, and units but hey, im just a guy.
@@ -98,6 +97,23 @@ public class Unit : MonoBehaviour
         }
 
         // need to add weapon effects as well later not sure how yet
+    }
+
+    // this method will certainly grow
+    public void ApplyRuntimeState(UnitRuntimeState state)
+    {
+        currentHP = state.CurrentHP;
+        inventory = state.Inventory;
+        // more fields here once logic is ironed out
+    }
+
+    public UnitRuntimeState ExtractRuntimeState()
+    {
+        return new UnitRuntimeState
+        {
+            CurrentHP = currentHP,
+            Inventory = inventory
+        };
     }
 
     public void LevelUp()

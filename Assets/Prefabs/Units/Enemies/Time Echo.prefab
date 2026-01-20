@@ -190,7 +190,7 @@ MonoBehaviour:
   unitClass: {fileID: 11400000, guid: 1e94f7522add42d489a99241a7970b76, type: 2}
   unitName: Time Echo
   unitDescription: Ethereal Spirit
-  unitID: 0
+  unitID: timeecho
   movementRange: 0
   attackRange: 0
   level: 1
@@ -209,7 +209,7 @@ MonoBehaviour:
   skills: []
   inventory: {fileID: -7561276484390825245}
   equippedItem:
-    definition: {fileID: 0}
+    itemID: 
     currentDurability: 0
     maxDurability: 0
   proficiencyLevels:

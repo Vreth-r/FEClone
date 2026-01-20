@@ -20,6 +20,7 @@ public class LoadingScreenManager : MonoBehaviour
     private TextMeshProUGUI tipText;
     public Dictionary<string, List<string>> tips = new();
     public DialogueRunner runner;
+    public bool newGameFlag = false;
 
     private void Awake()
     {
@@ -54,7 +55,7 @@ public class LoadingScreenManager : MonoBehaviour
     private IEnumerator FinishLevelLoad(string mapID)
     {
         yield return null; // wait a frame for full load
-        //PlayerPersistor.Instance.StorePartyInContainer();
+        
         GameManager.Instance.MasterYarnRunner.StartDialogue(mapID);
     }
 
@@ -151,6 +152,12 @@ public class LoadingScreenManager : MonoBehaviour
 
         // Wait one frame for scene to switch
         yield return null;
+        
+        if (newGameFlag)
+        {
+            GameManager.Instance.OnNewGame();
+            newGameFlag = false;
+        }
 
         onComplete?.Invoke(); // run after scene loads
 

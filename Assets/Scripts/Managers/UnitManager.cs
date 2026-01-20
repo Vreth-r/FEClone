@@ -8,35 +8,61 @@ public class UnitManager : MonoBehaviour
 {
     public static UnitManager Instance;
     private readonly Dictionary<Vector2Int, Unit> unitPositions = new(); // keeps track of occupied tiles by all units
-    public Dictionary<int, Unit> playerUnits = new Dictionary<int, Unit>(); // record of all alive player units (not positions)
-    public Dictionary<int, Unit> enemyUnits = new Dictionary<int, Unit>(); // record of all alive enemy units (not positions)
+    public Dictionary<string, Unit> playerUnits = new Dictionary<string, Unit>(); // record of all alive player units (not positions)
+    public Dictionary<string, Unit> enemyUnits = new Dictionary<string, Unit>(); // record of all alive enemy units (not positions)
 
     public Unit selectedUnit; // for use in keeping track what unit is selected so others cant be selected at the same time
     public StatsMenu statsUI; // unit stat previewer
     public GameObject EmotePrefab; // Speech bubble w/ text prefab
-
-    public int nextID = 11; // the reserved ID's end with Peril's ID of 10
 
     private void Awake() => Instance = this; // declare this instance for external ref
 
     public void RegisterUnit(Unit unit)
     {
         Debug.Log($"Registering {unit.unitName} at {unit.GridPosition}");
-        unitPositions[unit.GridPosition] = unit; // track this unit 
+
+        // Track grid position
+        unitPositions[unit.GridPosition] = unit;
+
+        // Assign ID if missing
+        if (string.IsNullOrEmpty(unit.unitID))
+        {
+            unit.unitID = GenerateUnitID(unit);
+        }
+
         if (unit.team == Team.Player)
         {
             playerUnits[unit.unitID] = unit;
         }
-        else if (unit.team == Team.Enemy) //there might be more teams later if we do npc's but i doubt it
+        else if (unit.team == Team.Enemy)
         {
-            // assign ID
-            if (unit.unitID == 0)
-            {
-                unit.unitID = nextID;
-                nextID++;
-            }
             enemyUnits[unit.unitID] = unit;
         }
+    }
+    
+    private string NormalizeName(string name)
+    {
+        return name.ToLower().Replace(" ", "");
+    }
+
+    private string GenerateUnitID(Unit unit)
+    {
+        string baseName = NormalizeName(unit.unitName);
+
+        Dictionary<string, Unit> dict =
+            unit.team == Team.Player ? playerUnits : enemyUnits;
+
+        int index = 0;
+        string candidate;
+
+        do
+        {
+            candidate = $"{baseName}_{index}";
+            index++;
+        }
+        while (dict.ContainsKey(candidate));
+
+        return candidate;
     }
 
     public void UnregisterUnit(Unit unit)

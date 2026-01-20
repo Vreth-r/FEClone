@@ -51,6 +51,33 @@ public class UnitSpawner : MonoBehaviour
             }
         }
     }
+
+    public void SpawnRosterUnits(Vector3Int[] spawnPositions)
+    {
+        int index = 0;
+
+        foreach (var entry in GameManager.Instance.PlayerRoster.Entries)
+        {
+            if (!entry.IsAlive || index >= spawnPositions.Length)
+            {
+                continue;
+            }
+
+            Vector3 worldPos = GridManager.Instance.CellToWorld(spawnPositions[index]) + new Vector3(0.5f, 0.5f, 0f);
+
+            Unit unit = Object.Instantiate(
+                entry.UnitPrefab,
+                worldPos,
+                Quaternion.identity,
+                unitFolder
+            );
+
+            unit.ApplyRuntimeState(entry.RuntimeState);
+            UnitManager.Instance.RegisterUnit(unit);
+
+            index++;
+        }
+    }
     
     public void SpawnUnitFromPrefab(GameObject unitPrefab, Vector2Int gridPos, UnitData data)
     {
@@ -182,40 +209,40 @@ public class UnitSpawner : MonoBehaviour
         return unit;
     }
     */
-    public Unit SpawnUnitFromSaveData(GameObject unitPrefab, SavedUnitData data, Vector3Int gridPos)
-    {
-        GameObject go = Instantiate(unitPrefab, unitFolder);
-        Unit unit = go.GetComponent<Unit>();
+    // public Unit SpawnUnitFromSaveData(GameObject unitPrefab, SavedUnitData data, Vector3Int gridPos)
+    // {
+    //     GameObject go = Instantiate(unitPrefab, unitFolder);
+    //     Unit unit = go.GetComponent<Unit>();
 
-        unit.unitName = data.unitID;
-        //unit.unitClass = UnitClassDatabase.Instance.GetByID(data.unitClassName);
+    //     unit.unitName = data.unitID;
+    //     //unit.unitClass = UnitClassDatabase.Instance.GetByID(data.unitClassName);
 
-        unit.level = data.level;
-        unit.maxHP = data.maxHP;
-        unit.currentHP = data.currentHP;
+    //     unit.level = data.level;
+    //     unit.maxHP = data.maxHP;
+    //     unit.currentHP = data.currentHP;
 
-        unit.strength = data.strength;
-        unit.arcane = data.arcane;
-        unit.defense = data.defense;
-        unit.speed = data.speed;
-        unit.skill = data.skill;
-        unit.resistance = data.resistance;
-        unit.luck = data.luck;
-        // foreach (string id in data.inventoryIDs)
-        // {
-        //     //var item = ItemDatabase.Instance.GetByID(id);
-        //     if (item != null) unit.AddItem(Instantiate(item));
-        // }
+    //     unit.strength = data.strength;
+    //     unit.arcane = data.arcane;
+    //     unit.defense = data.defense;
+    //     unit.speed = data.speed;
+    //     unit.skill = data.skill;
+    //     unit.resistance = data.resistance;
+    //     unit.luck = data.luck;
+    //     // foreach (string id in data.inventoryIDs)
+    //     // {
+    //     //     //var item = ItemDatabase.Instance.GetByID(id);
+    //     //     if (item != null) unit.AddItem(Instantiate(item));
+    //     // }
 
-        // if (!string.IsNullOrEmpty(data.equippedItemID))
-        // {
-        //     //var item = ItemDatabase.Instance.GetByID(data.equippedItemID);
-        //     if (item != null) unit.Equip(item);
-        // }
+    //     // if (!string.IsNullOrEmpty(data.equippedItemID))
+    //     // {
+    //     //     //var item = ItemDatabase.Instance.GetByID(data.equippedItemID);
+    //     //     if (item != null) unit.Equip(item);
+    //     // }
 
-        unit.transform.position = GridManager.Instance.CellToWorld(gridPos) - positionOffset;
-        unit.GridPosition = (Vector2Int)gridPos;
+    //     unit.transform.position = GridManager.Instance.CellToWorld(gridPos) - positionOffset;
+    //     unit.GridPosition = (Vector2Int)gridPos;
 
-        return unit;
-    }
+    //     return unit;
+    // }
 }

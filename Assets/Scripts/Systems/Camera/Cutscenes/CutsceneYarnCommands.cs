@@ -18,11 +18,11 @@ public class CutsceneYarnCommands : MonoBehaviour
         LoadingScreenManager.Instance.LoadScene(sceneName);
     }
 
-    // to be fully made into saving, but for now this is just for the player persistor
+    // to be fully made into saving
     [YarnCommand("SaveGame")]
     public static void SaveGame()
     {
-        PlayerPersistor.Instance.StorePartyInContainer();
+        return;
     }
     
     [YarnCommand("FireEvent")]

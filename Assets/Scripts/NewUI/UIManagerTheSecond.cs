@@ -40,6 +40,7 @@ public class UIManagerTheSecond : MonoBehaviour
         if (ControlsManager.Instance != null)
         {
             ControlsManager.Instance.OnPause += () => {OpenMenu<PauseMenuTheSecond>("PauseMenu"); };
+            ControlsManager.Instance.OnCancel += () => {CloseTopMenu(); };
         }
     }
 
@@ -88,6 +89,9 @@ public class UIManagerTheSecond : MonoBehaviour
 
         menu.OnOpen();
         menuStack.Push(menu);
+
+        // might need to make a cond where this doesnt proc on popup menus
+        ControlsManager.Instance.SetContext(InputContext.Menu);
     }
 
     private void TrySetData(UIMenuBase menu, object data)
@@ -115,6 +119,10 @@ public class UIManagerTheSecond : MonoBehaviour
         var menu = menuStack.Pop();
         menu.OnClose();
         menu.Root.RemoveFromHierarchy();
+        if(menuStack.Count == 0)
+        {
+            ControlsManager.Instance.SetContext(InputContext.Gameplay);
+        }
     }
 
     // clear all menus

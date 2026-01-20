@@ -87,7 +87,7 @@ public class TurnManager : MonoBehaviour
     {
         Debug.Log("=== Enemy Turn Start ===");
         await UniTask.Delay(500);
-        var enemiesSnapshot = new Dictionary<int, Unit>(UnitManager.Instance.enemyUnits);
+        var enemiesSnapshot = new Dictionary<string, Unit>(UnitManager.Instance.enemyUnits);
         foreach (var entry in enemiesSnapshot)
         {
             if (entry.Value == null || entry.Value.state != UnitState.Idle) continue;

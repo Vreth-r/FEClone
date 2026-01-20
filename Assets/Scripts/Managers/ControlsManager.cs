@@ -17,6 +17,8 @@ public class ControlsManager : MonoBehaviour
 {
     public static ControlsManager Instance { get; private set; }
 
+    public InputActionAsset inputActions; // set in editor
+
     [Header("Context")]
     public InputContext CurrentContext { get; private set; } = InputContext.Menu;
 

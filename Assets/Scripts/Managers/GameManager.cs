@@ -32,9 +32,11 @@ public class GameManager : MonoBehaviour
 
     public Transform[] playerSpawnPositions; // in editor
 
+    public UnitRoster PlayerRoster { get; private set;}
+
     [Header("Databases")]
     //public TerrainDatabase terrainDatabase;
-    // public UnitDatabase unitDatabase;
+    public UnitAddressableDatabase unitDatabase;
     public ItemDatabase itemDatabase;
     // public SkillDatabase skillDatabase;
     // public UnitClassDatabase unitClassDatabase;
@@ -61,7 +63,8 @@ public class GameManager : MonoBehaviour
         //itemDatabase.DebugPrintThatShit();
         //unitClassDatabase.OnEnable();
 
-        Gold = 999;
+        PlayerRoster = new UnitRoster();
+        Gold = 999; 
     }
 
     // game stuff
@@ -71,6 +74,12 @@ public class GameManager : MonoBehaviour
         InitializeDatabases(() => done = true);
 
         yield return new WaitUntil(() => done);
+    }
+
+    // anything for a new game gets made here, assume everything is empty on run and load save data only when told
+    public void OnNewGame()
+    {
+        Instance.PlayerRoster.Add(Instance.unitDatabase.GetPrefab("ylru").GetComponent<Unit>());
     }
 
     public void InitializeDatabases(System.Action onComplete)
@@ -93,10 +102,29 @@ public class GameManager : MonoBehaviour
         }
 
         Track(() => itemDatabase.Initialize(OnOneDone));
+        Track(() => unitDatabase.Initialize(OnOneDone));
         // soon (tm)
         // Track(() => skillDatabase.Initialize(OnOneDone));
         // Track(() => classDatabase.Initialize(OnOneDone));
     }
+
+    // for when a level ends
+    // public static void SyncSceneUnitsToRoster()
+    // {
+    //     foreach (Unit unit in Object.FindObjectsByType<Unit>(FindObjectsSortMode.None))
+    //     {
+    //         if (unit.team != Team.Player)
+    //             continue;
+
+    //         var roster = GameManager.Instance.PlayerRoster;
+    //         var entry = roster.Get(unit.unitID);
+
+    //         if (entry != null)
+    //         {
+    //             entry.RuntimeState = unit.ExtractRuntimeState();
+    //         }
+    //     }
+    // }
 
     // Gold Management
     public void AddGold(int amount) => Gold += amount;

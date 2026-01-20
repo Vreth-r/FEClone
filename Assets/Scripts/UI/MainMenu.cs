@@ -27,12 +27,7 @@ public class MainMenu : MonoBehaviour, IGameMenu
     public void NewGame()
     {
         Debug.Log("Starting New Game");
-        // game data init goes here
-        /*
-        foreach (var data in roster.startingUnits)
-        {
-            UnitSpawner.SpawnUnitFromTemplate(data, spawnLocation);
-        } */
+        LoadingScreenManager.Instance.newGameFlag = true;
         LoadingScreenManager.Instance.LoadScene("CampScene");
     }
 

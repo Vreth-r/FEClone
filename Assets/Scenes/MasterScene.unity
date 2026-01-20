@@ -176,6 +176,7 @@ MonoBehaviour:
   convoy: []
   recruitedUnitIDs: []
   playerSpawnPositions: []
+  unitDatabase: {fileID: 11400000, guid: b3cd5074b76d7c747830ddbebdc3a75e, type: 2}
   itemDatabase: {fileID: 11400000, guid: d18cc068facd4284c987deb4928c6c99, type: 2}
   MasterYarnRunner: {fileID: 745131629}
 --- !u!114 &105420749
@@ -238,6 +239,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cc7bb3029df40144bbe3302a1b4e072, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlsManager
+  inputActions: {fileID: -944628639613478452, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
   moveCursorAction: {fileID: -945563681593036706, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
   selectAction: {fileID: 303627853884267511, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
   toggleGridAction: {fileID: 2423417206703982792, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
@@ -298,6 +300,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerInventory
   capacity: -1
+  items: []
 --- !u!1 &173640941
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +374,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!81 &202811698
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1445,50 +1448,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1030773091}
   m_CullTransparentMesh: 1
---- !u!1 &1044815006
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1044815008}
-  - component: {fileID: 1044815007}
-  m_Layer: 0
-  m_Name: PlayerPersistor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1044815007
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044815006}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 27717c882c7a1d745b6f87206bd509ab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerPersistor
---- !u!4 &1044815008
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1044815006}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16.48546, y: 9.79366, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1716026043
 GameObject:
   m_ObjectHideFlags: 0
@@ -1888,4 +1847,3 @@ SceneRoots:
   - {fileID: 1716026047}
   - {fileID: 745131628}
   - {fileID: 202811700}
-  - {fileID: 1044815008}
