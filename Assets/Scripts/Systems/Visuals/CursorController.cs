@@ -117,6 +117,7 @@ public class CursorController : MonoBehaviour
         var unit = UnitManager.Instance.GetUnitAt((Vector2Int)currentGridPosition);
         if (unit != null)
         {
+            Debug.Log("Unit Found");
             unit.GetComponent<UnitMovement>().enabled = true;
             unit.GetComponent<UnitMovement>().SelectUnit(); // blocking enemy selection is baked into method, a little wasteful but it makes this look nice and clean
             unit.GetComponent<UnitMovement>().EnableControls(); // this is my temp solution

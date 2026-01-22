@@ -1,6 +1,6 @@
 title: Library
 ---
-// <<SetControlContext "Cutscene">>
+//<<SetControlContext "Cutscene">>
 // <<CameraSetZoom 3>>
 // <<FadeInBlack 0.01>>
 // <<ShowBlackText "The Academy, Arcane Exarchate of Ilgrad, Year 43 of the Fallen Age" 4>>
@@ -106,6 +106,7 @@ title: Library
 // <<CameraZoom 5 2 0.9>>
 // <<wait 3>>
 // <<SetAllAnimSpeed 1>>
+<<SetControlContext "Cutscene">>
 <<CameraZoom 5 2 0.9>>
 <<SetLevelCompleteNode "LibraryComplete">>
 <<FlipTurn>> // trigger spawns and such

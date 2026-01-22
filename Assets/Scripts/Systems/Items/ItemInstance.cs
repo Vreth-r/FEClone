@@ -29,7 +29,7 @@ public class ItemInstance
     public ItemInstance(Item item)
     {
         definition = item;
-
+        itemID = item.ID;
         switch (item)
         {
             case WeaponItem weapon:

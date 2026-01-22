@@ -73,6 +73,7 @@ public class UnitSpawner : MonoBehaviour
             );
 
             unit.ApplyRuntimeState(entry.RuntimeState);
+            unit.GridPosition = (Vector2Int)spawnPositions[index];
             UnitManager.Instance.RegisterUnit(unit);
 
             index++;

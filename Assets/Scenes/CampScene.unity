@@ -826,7 +826,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Interactable
   interactableName: NextLevel
   interactionText: Go To Next Level
-  interactAction: {fileID: 0}
+  interactAction: {fileID: 11400000, guid: 915c0292a4b329641ab90e152452a92d, type: 2}
 --- !u!1 &738206141
 GameObject:
   m_ObjectHideFlags: 0

@@ -39,6 +39,6 @@ public class SceneInitializer : MonoBehaviour
 
     private void SpawnPlayerUnits()
     {
-        // change this to use the roster.
+        UnitSpawner.Instance.SpawnRosterUnits(playerUnitSpawnPositions);
     }
 }

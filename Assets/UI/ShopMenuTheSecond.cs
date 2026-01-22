@@ -81,7 +81,7 @@ public class ShopMenuTheSecond : UIMenuBase
         GameManager.Instance.Gold -= price;
 
         PlayerInventory.Instance.Add(new ItemInstance(item));
-        Debug.Log($"Bough: {item.itemName}");
+        Debug.Log($"Bought: {item.itemName}");
         RefreshGold();
         PopulateSell();
     }
