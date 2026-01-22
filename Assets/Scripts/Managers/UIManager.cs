@@ -52,7 +52,7 @@ public class UIManager : MonoBehaviour
 
         if (menuStack.Count == 0)
             ControlsManager.Instance.SetContext(InputContext.Gameplay);
-            CampInputBlocker.SetBlocked(false);
+            //CampInputBlocker.SetBlocked(false);
             
     }
 
@@ -165,7 +165,7 @@ public class UIManager : MonoBehaviour
         {
             currentMenu.Close();
             currentMenu = null;
-            CampInputBlocker.SetBlocked(false);
+            //CampInputBlocker.SetBlocked(false);
         }
     }
 

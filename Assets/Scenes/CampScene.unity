@@ -821,12 +821,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 703649733}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f3c0729b7f66634eb2457a7399aa72a, type: 3}
+  m_Script: {fileID: 11500000, guid: ddef20f301c35bb4abc385af47dea4d4, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::GoToLevelInteractable
-  interactText: Press [E] to interact
-  menuType: 0
-  sceneName: Library
+  m_EditorClassIdentifier: Assembly-CSharp::Interactable
+  interactableName: NextLevel
+  interactionText: Go To Next Level
+  interactAction: {fileID: 0}
 --- !u!1 &738206141
 GameObject:
   m_ObjectHideFlags: 0
@@ -1763,8 +1763,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddef20f301c35bb4abc385af47dea4d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactText: Press [E] to open the barracks
-  menuType: 3
+  interactableName: Barracks
+  interactionText: Open Barracks
+  interactAction: {fileID: 11400000, guid: de238e2bac6460c40883711906655665, type: 2}
 --- !u!1 &1599994092
 GameObject:
   m_ObjectHideFlags: 0
@@ -1915,8 +1916,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ddef20f301c35bb4abc385af47dea4d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactText: Press [E] to open the shop
-  menuType: 2
+  interactableName: Shop
+  interactionText: Open Shop
+  interactAction: {fileID: 11400000, guid: ecc1c2b522db70340a960b471378903d, type: 2}
 --- !u!1 &1627626269
 GameObject:
   m_ObjectHideFlags: 0

@@ -39,9 +39,15 @@ public class UIManagerTheSecond : MonoBehaviour
         // Subscribe to ControlsManager input
         if (ControlsManager.Instance != null)
         {
-            ControlsManager.Instance.OnPause += () => {OpenMenu<PauseMenuTheSecond>("PauseMenu"); };
+            ControlsManager.Instance.OnPause += HandlePause;
             ControlsManager.Instance.OnCancel += () => {CloseTopMenu(); };
         }
+    }
+
+    private void HandlePause()
+    {
+        if(menuStack.Count != 0) return;
+        OpenMenu<PauseMenuTheSecond>("PauseMenu");
     }
 
     // Open Menu (no data)

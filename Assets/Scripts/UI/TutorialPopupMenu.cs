@@ -55,7 +55,7 @@ public class TutorialPopupMenu : MonoBehaviour, IGameMenu
         canvasGroup.alpha = 0;
         canvasGroup.blocksRaycasts = false;
 
-        CampInputBlocker.SetBlocked(false);
+        //CampInputBlocker.SetBlocked(false);
         UIManager.Instance.CloseTopMenu();
     }
 
@@ -80,7 +80,7 @@ public class TutorialPopupMenu : MonoBehaviour, IGameMenu
             illustrationImage.sprite = currentStep.illustration;
         }
 
-        CampInputBlocker.SetBlocked(currentStep.blockInput);
+        //CampInputBlocker.SetBlocked(currentStep.blockInput);
     }
 
     private void NextStep()

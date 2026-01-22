@@ -1,6 +1,8 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 
 public enum InputContext
 {
@@ -22,17 +24,20 @@ public class ControlsManager : MonoBehaviour
     [Header("Context")]
     public InputContext CurrentContext { get; private set; } = InputContext.Menu;
 
-    [Header("Gameplay Actions")]
-    [SerializeField] private InputActionReference moveCursorAction;
-    [SerializeField] private InputActionReference selectAction;
-    [SerializeField] private InputActionReference toggleGridAction;
-    [SerializeField] private InputActionReference pauseGameAction;
-    [SerializeField] private InputActionReference interactAction; // for camp stuff
+    // action maps
+    private Dictionary<string, InputActionMap> actionMaps = new Dictionary<string, InputActionMap>();
 
-    [Header("Menu Actions")]
-    [SerializeField] private InputActionReference navigateAction;
-    [SerializeField] private InputActionReference submitAction;
-    [SerializeField] private InputActionReference cancelAction;
+    // [Header("Gameplay Actions")]
+    // [SerializeField] private InputActionReference moveCursorAction;
+    // [SerializeField] private InputActionReference selectAction;
+    // [SerializeField] private InputActionReference toggleGridAction;
+    // [SerializeField] private InputActionReference pauseGameAction;
+    // [SerializeField] private InputActionReference interactAction; // for camp stuff
+
+    // [Header("Menu Actions")]
+    // [SerializeField] private InputActionReference navigateAction;
+    // [SerializeField] private InputActionReference submitAction;
+    // [SerializeField] private InputActionReference cancelAction;
 
     /* unsure if these need to be here cause yarn
     [Header("Cutscene Actions")]
@@ -64,56 +69,100 @@ public class ControlsManager : MonoBehaviour
             return;
         }
         Instance = this;
-        //DontDestroyOnLoad(gameObject);
 
-        // --- Gameplay bindings that tie to events ---
-        // i might swap this to per bind references in each object, but this works for things that arent monos by subbing to events (i think)
-        if (moveCursorAction != null)
-        {
-            moveCursorAction.action.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
-            moveCursorAction.action.canceled += ctx => MoveInput = Vector2.zero;
-        }
+        // // --- Gameplay bindings that tie to events ---
+        // // i might swap this to per bind references in each object, but this works for things that arent monos by subbing to events (i think)
+        // if (moveCursorAction != null)
+        // {
+        //     moveCursorAction.action.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
+        //     moveCursorAction.action.canceled += ctx => MoveInput = Vector2.zero;
+        // }
 
-        if (selectAction != null)
-        {
-            selectAction.action.performed += ctx => OnSelect?.Invoke();
-        }
+        // if (selectAction != null)
+        // {
+        //     selectAction.action.performed += ctx => OnSelect?.Invoke();
+        // }
 
-        if (toggleGridAction != null)
-        {
-            toggleGridAction.action.performed += ctx => OnToggleGrid?.Invoke();
-        }
+        // if (toggleGridAction != null)
+        // {
+        //     toggleGridAction.action.performed += ctx => OnToggleGrid?.Invoke();
+        // }
 
-        if (pauseGameAction != null)
-        {
-            pauseGameAction.action.performed += ctx => OnPause?.Invoke();
-        }
+        // if (pauseGameAction != null)
+        // {
+        //     pauseGameAction.action.performed += ctx => OnPause?.Invoke();
+        // }
 
-        if (interactAction != null)
-        {
-            interactAction.action.performed += ctx => OnInteract?.Invoke();
-        }
+        // if (interactAction != null)
+        // {
+        //     interactAction.action.performed += ctx => OnInteract?.Invoke();
+        // }
 
-        // --- Menu bindings ---
-        if (navigateAction != null)
-        {
-            navigateAction.action.performed += ctx => NavigateInput = ctx.ReadValue<Vector2>();
-            navigateAction.action.canceled += ctx => NavigateInput = Vector2.zero;
-        }
+        // // --- Menu bindings ---
+        // if (navigateAction != null)
+        // {
+        //     navigateAction.action.performed += ctx => NavigateInput = ctx.ReadValue<Vector2>();
+        //     navigateAction.action.canceled += ctx => NavigateInput = Vector2.zero;
+        // }
 
-        if (submitAction != null)
-        {
-            submitAction.action.performed += ctx => OnSubmit?.Invoke();
-        }
+        // if (submitAction != null)
+        // {
+        //     submitAction.action.performed += ctx => OnSubmit?.Invoke();
+        // }
 
-        if (cancelAction != null)
-        {
-            cancelAction.action.performed += ctx => OnCancel?.Invoke();
-        }
+        // if (cancelAction != null)
+        // {
+        //     cancelAction.action.performed += ctx => OnCancel?.Invoke();
+        // }
+
+        CacheActionMaps();
     }
 
     void OnEnable() => EnableCurrentMap();
     void OnDisable() => DisableAllMaps();
+
+
+    private void CacheActionMaps()
+    {
+        foreach (var actionMap in inputActions.actionMaps)
+        {
+            
+            actionMaps[actionMap.name] = actionMap;
+            // atuo bind actions within map
+            foreach (var action in actionMap.actions)
+            {   
+                if (action.name.Equals("MoveCursor"))
+                {
+                    action.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
+                    action.canceled += ctx => MoveInput = Vector2.zero;
+                }
+                else if (action.name.Equals("Select"))
+                {
+                    action.performed += ctx => OnSelect?.Invoke();
+                }
+                else if (action.name.Equals("Submit"))
+                {
+                    action.performed += ctx => OnSubmit?.Invoke();
+                }
+                else if (action.name.Equals("Cancel"))
+                {
+                    action.performed += ctx => OnCancel?.Invoke();
+                }
+                else if (action.name.Equals("Pause"))
+                {
+                    action.performed += ctx => OnPause?.Invoke();
+                }
+                else if (action.name.Equals("Interact"))
+                {
+                    action.performed += ctx => OnInteract?.Invoke();
+                }
+                else if (action.name.Equals("ToggleGrid"))
+                {
+                    action.performed += ctx => OnToggleGrid?.Invoke();
+                }
+            }
+        }
+    }
 
     public void SetContext(InputContext context)
     {
@@ -129,37 +178,47 @@ public class ControlsManager : MonoBehaviour
 
     private void EnableCurrentMap()
     {
-        // yarg there exists an InputContext.Cutscene that just has the yarn binds but they dont need to be here
-        // cause yarn handles its own binds but having the map is useful to lock out controls during cutscenes
-        if (CurrentContext == InputContext.Gameplay)
+        // // yarg there exists an InputContext.Cutscene that just has the yarn binds but they dont need to be here
+        // // cause yarn handles its own binds but having the map is useful to lock out controls during cutscenes
+        // if (CurrentContext == InputContext.Gameplay)
+        // {
+        //     moveCursorAction?.action.Enable();
+        //     selectAction?.action.Enable();
+        //     toggleGridAction?.action.Enable();
+        //     pauseGameAction?.action.Enable();
+        //     interactAction?.action.Enable();
+        // }
+        // else if (CurrentContext == InputContext.Menu)
+        // {
+        //     navigateAction?.action.Enable();
+        //     submitAction?.action.Enable();
+        //     cancelAction?.action.Enable();
+        // }
+        // else if (CurrentContext == InputContext.Cutscene)
+        // {
+        //     return;
+        // }
+        string contextName = CurrentContext.ToString();
+
+        if (actionMaps.TryGetValue(contextName, out var map))
         {
-            moveCursorAction?.action.Enable();
-            selectAction?.action.Enable();
-            toggleGridAction?.action.Enable();
-            pauseGameAction?.action.Enable();
-            interactAction?.action.Enable();
-        }
-        else if (CurrentContext == InputContext.Menu)
-        {
-            navigateAction?.action.Enable();
-            submitAction?.action.Enable();
-            cancelAction?.action.Enable();
-        }
-        else if (CurrentContext == InputContext.Cutscene)
-        {
-            return;
+            map.Enable();
         }
     }
 
     private void DisableAllMaps()
     {
-        moveCursorAction?.action.Disable();
-        selectAction?.action.Disable();
-        toggleGridAction?.action.Disable();
-        pauseGameAction?.action.Disable();
-        interactAction?.action.Disable();
-        navigateAction?.action.Disable();
-        submitAction?.action.Disable();
-        cancelAction?.action.Disable();
+        // moveCursorAction?.action.Disable();
+        // selectAction?.action.Disable();
+        // toggleGridAction?.action.Disable();
+        // pauseGameAction?.action.Disable();
+        // interactAction?.action.Disable();
+        // navigateAction?.action.Disable();
+        // submitAction?.action.Disable();
+        // cancelAction?.action.Disable();
+        foreach (var map in actionMaps.Values)
+        {
+            map.Disable();
+        }
     }
 }

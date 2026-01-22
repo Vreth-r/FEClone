@@ -1,5 +1,6 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
+
 public class UnitRoster
 {
     private readonly Dictionary<string, UnitRosterEntry> entries = new();

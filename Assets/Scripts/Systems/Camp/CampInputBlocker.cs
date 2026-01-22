@@ -1,11 +1,11 @@
-using UnityEngine;
+// using UnityEngine;
 
-public static class CampInputBlocker
-{
-    public static bool Blocked { get; private set; }
+// public static class CampInputBlocker
+// {
+//     public static bool Blocked { get; private set; }
 
-    public static void SetBlocked(bool value)
-    {
-        Blocked = value;
-    }
-}
+//     public static void SetBlocked(bool value)
+//     {
+//         Blocked = value;
+//     }
+// }

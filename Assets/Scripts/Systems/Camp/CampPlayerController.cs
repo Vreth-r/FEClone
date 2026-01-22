@@ -8,7 +8,7 @@ public class CampPlayerController : MonoBehaviour
     public Animator animator;
     private Vector2 movement;
     private Vector2 lastMoveDir = Vector2.left;
-    private CampInteractable currentInteractable;
+    private Interactable currentInteractable;
 
     private void Awake()
     {
@@ -25,14 +25,12 @@ public class CampPlayerController : MonoBehaviour
 
     private void Update()
     {
-        if (CampInputBlocker.Blocked)
+        if (ControlsManager.Instance.CurrentContext != InputContext.Gameplay)
         {
             SetIdle();
             return;
         }
-        movement.x = Input.GetAxisRaw("Horizontal"); // holy fuck this was hardcoded the whole fucking time?
-        movement.y = Input.GetAxisRaw("Vertical");
-        movement = movement.normalized;
+        movement = ControlsManager.Instance.MoveInput;
 
         UpdateAnimation();
     }
@@ -47,7 +45,7 @@ public class CampPlayerController : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (CampInputBlocker.Blocked)
+        if (ControlsManager.Instance.CurrentContext != InputContext.Gameplay)
         {
             rb.linearVelocity = new Vector2(0, 0);
             return;
@@ -97,7 +95,7 @@ public class CampPlayerController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.TryGetComponent(out CampInteractable interactable))
+        if (other.TryGetComponent(out Interactable interactable))
         {
             currentInteractable = interactable;
             // show press e prompt here once u add that slime
@@ -106,7 +104,7 @@ public class CampPlayerController : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D other)
     {
-        if (other.TryGetComponent(out CampInteractable interactable) && currentInteractable == interactable)
+        if (other.TryGetComponent(out Interactable interactable) && currentInteractable == interactable)
         {
             currentInteractable = null;
             // hide press e prompt

@@ -35,8 +35,7 @@ public abstract class InventoryBase : MonoBehaviour, IInventory
         return items.Remove(item);
     }
 
-    public static bool Move(
-        IInventory from,
+    public virtual bool Move(
         IInventory to,
         ItemInstance item)
     {
@@ -45,7 +44,7 @@ public abstract class InventoryBase : MonoBehaviour, IInventory
             return false;
         }
 
-        if (!from.Remove(item))
+        if (!this.Remove(item))
         {
             return false;
         }

@@ -159,6 +159,12 @@ public class LoadingScreenManager : MonoBehaviour
             newGameFlag = false;
         }
 
+        if (needsDatabaseWait)
+        {
+            Debug.Log("Swapping to Gameplay Context");
+            ControlsManager.Instance.SetContext(InputContext.Gameplay);
+        }
+
         onComplete?.Invoke(); // run after scene loads
 
         // idk maybe move this somewhere else I just couldn't find where

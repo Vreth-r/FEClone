@@ -41,6 +41,6 @@ public class ShopMenu : MonoBehaviour, IGameMenu
     private void OnExit()
     {
         Close();
-        CampInputBlocker.SetBlocked(false);
+        //CampInputBlocker.SetBlocked(false);
     }
 }

@@ -193,6 +193,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   loadingScreenPrefab: {fileID: 6910540426760335846, guid: 9a5495b777e847041bafaece56ef7f91, type: 3}
   runner: {fileID: 0}
+  newGameFlag: 0
 --- !u!114 &105420750
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -240,14 +241,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlsManager
   inputActions: {fileID: -944628639613478452, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
-  moveCursorAction: {fileID: -945563681593036706, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
-  selectAction: {fileID: 303627853884267511, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
-  toggleGridAction: {fileID: 2423417206703982792, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
-  pauseGameAction: {fileID: 8981961516861611583, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
-  interactAction: {fileID: -6759011675787321946, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
-  navigateAction: {fileID: 3657226291200106666, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
-  submitAction: {fileID: 8157198445712048558, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
-  cancelAction: {fileID: 7378716944734307329, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
 --- !u!114 &105420753
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -286,6 +279,10 @@ MonoBehaviour:
   - id: ShopMenu
     uxml: {fileID: 9197481963319205126, guid: 67f79fed898e5ac4d98986df7e968140, type: 3}
     stylesheet: {fileID: 7433441132597879392, guid: 21ee199f59558e24abfd71100c4c77e3, type: 3}
+    menuType: 0
+  - id: InventoryManagerMenu
+    uxml: {fileID: 9197481963319205126, guid: 2ccfe1d3037235445af12303e5bdf327, type: 3}
+    stylesheet: {fileID: 7433441132597879392, guid: 230b48fdc1864f64b840883fda57eba7, type: 3}
     menuType: 0
 --- !u!114 &105420755
 MonoBehaviour:
