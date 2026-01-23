@@ -74,7 +74,6 @@ public class Unit : MonoBehaviour
         CalculateStats();
         ApplyPassiveEffects();
         proficiencyLevels.AddProficienciesFromOther(unitClass.proficiencies); // wont overwrite existing proficiency
-        // REMOVE THIS STUFF LATER WHEN U HAVE BETTER SYSTEMS 
         foreach(ItemInstance item in inventory.Items)
         {
             if (item.IsWeapon)

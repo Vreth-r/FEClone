@@ -23,6 +23,8 @@ public abstract class UIMenuBase
 
     // called when the menu is removed or covered
     public virtual void OnClose() { }
+
+    public virtual void Tick(float deltaTime) { }
 }
 
 public interface IMenuWithData<in T>

@@ -55,7 +55,7 @@ public class UnitMovement : MonoBehaviour
     {
         // this all may be un-needed later
         if (unit.team != Team.Player || TurnManager.Instance.currentTurn != TurnState.Player || (UnitManager.Instance.isAUnitSelected() && !UnitManager.Instance.isUnitSelected(unit))
-        || UIManager.Instance.GetCurrentMenuType() == MenuType.ActionMenu)
+        || UIManagerTheSecond.Instance.GetTopMenu() is ActionMenuTheSecond)
         {
             return; // you cant click on it if its not the player's unit OR turn OR if another unit is selected OR if the action menu is open (holy logic)
         }
@@ -73,8 +73,15 @@ public class UnitMovement : MonoBehaviour
         else if (unit.state == UnitState.Selected)
         {
             unit.state = UnitState.Action;
-            Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
-            UIManager.Instance.OpenMenu(MenuType.ActionMenu, unit, menuWorldPos, unit.actions);
+            //UIManager.Instance.OpenMenu(MenuType.ActionMenu, unit, menuWorldPos, unit.actions);
+            UIManagerTheSecond.Instance.OpenMenu<ActionMenuTheSecond, ActionMenuData>(
+                "ActionMenu",
+                new ActionMenuData {
+                    unit = unit,
+                    worldPosition = transform.position,
+                    actions = unit.actions
+                }
+            );
         }
         else
         {
@@ -144,8 +151,15 @@ public class UnitMovement : MonoBehaviour
             }
             else
             { // add the menu to the screen even if you dont move
-                Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
-                UIManager.Instance.OpenMenu(MenuType.ActionMenu, unit, menuWorldPos, unit.actions);
+                //UIManager.Instance.OpenMenu(MenuType.ActionMenu, unit, menuWorldPos, unit.actions);
+                UIManagerTheSecond.Instance.OpenMenu<ActionMenuTheSecond, ActionMenuData>(
+                    "ActionMenu",
+                    new ActionMenuData {
+                        unit = unit,
+                        worldPosition = transform.position,
+                        actions = unit.actions
+                    }
+                );
             }
 
             // unit.state = UnitState.Tapped; // TURN THAT SHIT OFF CUH
@@ -218,9 +232,18 @@ public class UnitMovement : MonoBehaviour
         transform.localScale = scale;
         if (unit.state != UnitState.Cutscene)
         {
-            Vector3 menuWorldPos = transform.position + new Vector3(0, 0.5f, 0); // get a good pos for the menu
             // no menu for enemies
-            if (unit.team == Team.Player) UIManager.Instance.OpenMenu(MenuType.ActionMenu, unit, menuWorldPos, unit.actions);
+            if (unit.team == Team.Player)
+            {
+                UIManagerTheSecond.Instance.OpenMenu<ActionMenuTheSecond, ActionMenuData>(
+                    "ActionMenu",
+                    new ActionMenuData {
+                        unit = unit,
+                        worldPosition = transform.position,
+                        actions = unit.actions
+                    }
+                );
+            }
             movementRange.ShowAttackRange(unit.GridPosition, unit.attackRange);
         }
     }

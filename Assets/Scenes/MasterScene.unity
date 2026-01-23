@@ -173,8 +173,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Gold: 0
-  convoy: []
-  recruitedUnitIDs: []
   playerSpawnPositions: []
   unitDatabase: {fileID: 11400000, guid: b3cd5074b76d7c747830ddbebdc3a75e, type: 2}
   itemDatabase: {fileID: 11400000, guid: d18cc068facd4284c987deb4928c6c99, type: 2}
@@ -284,6 +282,10 @@ MonoBehaviour:
     uxml: {fileID: 9197481963319205126, guid: 2ccfe1d3037235445af12303e5bdf327, type: 3}
     stylesheet: {fileID: 7433441132597879392, guid: 230b48fdc1864f64b840883fda57eba7, type: 3}
     menuType: 0
+  - id: ActionMenu
+    uxml: {fileID: 9197481963319205126, guid: f8fcca7ecf7534045a8ef19f6b683ce2, type: 3}
+    stylesheet: {fileID: 7433441132597879392, guid: 11b8cf7c18d79f64fac4b655854ec029, type: 3}
+    menuType: 1
 --- !u!114 &105420755
 MonoBehaviour:
   m_ObjectHideFlags: 0

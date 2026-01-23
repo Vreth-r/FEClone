@@ -18,6 +18,7 @@ public class UnitSpawner : MonoBehaviour
         public int spawnTurn;
         public GameObject unitToSpawn; // from a prefab per specific unit 
         public Vector2Int gridPos;
+        public List<string> inventory_ids;
 
         [Header("OPTIONAL OVERWRITE DATA")]
         public UnitData unitData; // optional data
@@ -46,7 +47,20 @@ public class UnitSpawner : MonoBehaviour
             if (spawnEvents[i].spawnTurn == turnNum)
             {
                 Debug.Log($"Spawning Unit at: {spawnEvents[i].gridPos}");
-                SpawnUnitFromPrefab(spawnEvents[i].unitToSpawn, spawnEvents[i].gridPos, spawnEvents[i].unitData);
+                Unit unit = SpawnUnitFromPrefab(spawnEvents[i].unitToSpawn, spawnEvents[i].gridPos, spawnEvents[i].unitData);
+                foreach(string itemid in spawnEvents[i].inventory_ids)
+                {
+                    unit.inventory.Add(new ItemInstance(GameManager.Instance.itemDatabase.GetByID(itemid)));
+                }
+                // equip first item in inventory
+                foreach(ItemInstance item in unit.inventory.Items)
+                {
+                    if (item.IsWeapon)
+                    {
+                        unit.Equip(item);
+                        break;
+                    }
+                }
                 spawnEvents.RemoveAt(i);
             }
         }
@@ -80,7 +94,7 @@ public class UnitSpawner : MonoBehaviour
         }
     }
     
-    public void SpawnUnitFromPrefab(GameObject unitPrefab, Vector2Int gridPos, UnitData data)
+    public Unit SpawnUnitFromPrefab(GameObject unitPrefab, Vector2Int gridPos, UnitData data)
     {
         // base instantiate
         GameObject go = Instantiate(unitPrefab, unitFolder); // make game object under the unit folder
@@ -133,6 +147,7 @@ public class UnitSpawner : MonoBehaviour
         }
 
         UnitManager.Instance.RegisterUnit(unit); //register this cunt
+        return unit;
         // perhaps a fade in effect?
     }
 

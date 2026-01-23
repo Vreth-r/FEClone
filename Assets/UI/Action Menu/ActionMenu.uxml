@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Action%20Menu/ActionMenu.uss?fileID=7433441132597879392&amp;guid=11b8cf7c18d79f64fac4b655854ec029&amp;type=3#ActionMenu" />
+    <ui:VisualElement name="action-menu-root" class="action-menu" style="position: absolute;">
+        <ui:VisualElement name="selection-indicator" class="selection-indicator" />
+        <ui:VisualElement name="button-container" class="button-container" />
+    </ui:VisualElement>
+</ui:UXML>

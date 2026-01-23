@@ -28238,6 +28238,30 @@ PrefabInstance:
       propertyPath: spawnEvents.Array.data[2].unitToSpawn
       value: 
       objectReference: {fileID: 7799637953519756220, guid: cb05eb2852534e34fb2c87b50afb863a, type: 3}
+    - target: {fileID: 7947383711016115493, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}
+      propertyPath: spawnEvents.Array.data[0].inventory.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947383711016115493, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}
+      propertyPath: spawnEvents.Array.data[0].inventory_ids.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947383711016115493, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}
+      propertyPath: 'spawnEvents.Array.data[0].inventory_ids.Array.data[0]'
+      value: time_d
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947383711016115493, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}
+      propertyPath: spawnEvents.Array.data[0].inventory.Array.data[0].itemID
+      value: time_d
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947383711016115493, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}
+      propertyPath: spawnEvents.Array.data[0].inventory.Array.data[0].maxDurability
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 7947383711016115493, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}
+      propertyPath: spawnEvents.Array.data[0].inventory.Array.data[0].currentDurability
+      value: 50
+      objectReference: {fileID: 0}
     - target: {fileID: 8087440583134930668, guid: dffcce8be98ba1246ad7332eb402f1f1, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1

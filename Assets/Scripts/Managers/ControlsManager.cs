@@ -136,6 +136,11 @@ public class ControlsManager : MonoBehaviour
                     action.performed += ctx => MoveInput = ctx.ReadValue<Vector2>();
                     action.canceled += ctx => MoveInput = Vector2.zero;
                 }
+                else if (action.name.Equals("Navigate"))
+                {
+                    action.performed += ctx => NavigateInput = ctx.ReadValue<Vector2>();
+                    action.canceled += ctx => NavigateInput = Vector2.zero;
+                }
                 else if (action.name.Equals("Select"))
                 {
                     action.performed += ctx => OnSelect?.Invoke();

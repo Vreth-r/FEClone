@@ -131,6 +131,25 @@ public class UIManagerTheSecond : MonoBehaviour
         }
     }
 
+    public UIMenuBase GetTopMenu()
+    {
+        if (menuStack.Count == 0)
+            return null;
+
+        return menuStack.Peek();
+    }
+
+    // tick menus for navigation and other frame functions
+    private void Update()
+    {
+        if (menuStack.Count == 0)
+        {
+            return;
+        }
+
+        menuStack.Peek().Tick(Time.deltaTime);
+    }
+
     // clear all menus
     public void ClearStack()
     {

@@ -54,9 +54,9 @@ public class WeaponProficiency // coulda named it better
 
     public bool CheckWeapon(WeaponItem weapon)
     {   
-        if(weapon.proficiency.GetProficiencies() == null)
+        if (runtimeProfDict == null)
         {
-            weapon.proficiency.Initialize();
+            this.Initialize();
         }
         foreach (var proficiency in weapon.proficiency.GetProficiencies())
         {

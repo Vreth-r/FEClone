@@ -30,7 +30,6 @@ public class GameManager : MonoBehaviour
     public UnitRoster PlayerRoster { get; private set;}
 
     [Header("Databases")]
-    //public TerrainDatabase terrainDatabase;
     public UnitAddressableDatabase unitDatabase;
     public ItemDatabase itemDatabase;
     // public SkillDatabase skillDatabase;
@@ -51,11 +50,8 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         DontDestroyOnLoad(MasterYarnRunner);
 
-        //terrainDatabase.Init(); // this one is dead for now until i have a use for it
         //unitDatabase.Init();
         //skillDatabase.OnEnable(); handle this stupid fucking shit later
-        //itemDatabase.Initialize();
-        //itemDatabase.DebugPrintThatShit();
         //unitClassDatabase.OnEnable();
 
         PlayerRoster = new UnitRoster();
