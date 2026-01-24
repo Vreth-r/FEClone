@@ -278,10 +278,9 @@ public class UnitMovement : MonoBehaviour
 
     public IEnumerator MoveTo(Vector2Int gridPos)
     {
-        movementRange.PopulateHeightTileMap(unit.GridPosition, 9999, 0); // make it so that you can move places
-        // this ^ might be problematic later
-        currentPath = Pathfinding.FindPath(unit.GridPosition, gridPos, movementRange.isMoveableTo); // calculate path
-        movementRange.highlightTilemap.gameObject.SetActive(false); // set move highlights to be invisible
+        // do path finding
+        currentPath = Pathfinding.FindPath(unit.GridPosition, gridPos, movementRange.IsWalkable); // calculate path // uses is walkable now instead of the other one
+    
         unit.animator.SetBool("isMoving", true); // start running animation
         if (currentPath != null && currentPath.Count > 0) yield return MoveAlongPath(currentPath); // move
 
@@ -291,8 +290,7 @@ public class UnitMovement : MonoBehaviour
 
         // reset pathfinding
         currentPath = null;
-        movementRange.ClearHighlights();
-        movementRange.highlightTilemap.gameObject.SetActive(true); // re enable highlights
+
         yield break;
     }
     
