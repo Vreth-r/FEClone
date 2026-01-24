@@ -48,6 +48,7 @@ public class UnitSpawner : MonoBehaviour
             {
                 Debug.Log($"Spawning Unit at: {spawnEvents[i].gridPos}");
                 Unit unit = SpawnUnitFromPrefab(spawnEvents[i].unitToSpawn, spawnEvents[i].gridPos, spawnEvents[i].unitData);
+                SceneAnimationController.Instance.RegisterAnimator(unit.unitName, unit.animator);
                 foreach(string itemid in spawnEvents[i].inventory_ids)
                 {
                     unit.inventory.Add(new ItemInstance(GameManager.Instance.itemDatabase.GetByID(itemid)));
@@ -89,7 +90,7 @@ public class UnitSpawner : MonoBehaviour
             unit.ApplyRuntimeState(entry.RuntimeState);
             unit.GridPosition = (Vector2Int)spawnPositions[index];
             UnitManager.Instance.RegisterUnit(unit);
-
+            SceneAnimationController.Instance.RegisterAnimator(unit.unitName, unit.animator); // since the units get spawned after Awake is called they dont get registered with the animation controller
             index++;
         }
     }
