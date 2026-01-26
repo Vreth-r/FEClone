@@ -17,6 +17,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/LevelTemplate.unity
     guid: 720efbfdb1ac3e846a9d1bd0bcb73e8e
+  - enabled: 1
+    path: Assets/Scenes/Levels/Tutorial/Library.unity
+    guid: 73a0a00cdf4dc6240aa6ce98dad9ff4d
+  - enabled: 1
+    path: Assets/Scenes/Levels/Tutorial/Dorms.unity
+    guid: db99be534bf831a49beb6ef13c9ea426
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: e0cf7b0b37641a346b1d0075c99b1bdf, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: f49718e4b6acf9b47b926814626fa902, type: 3}

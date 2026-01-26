@@ -2,17 +2,17 @@ using UnityEngine;
 using Steamworks;
 using System.Collections.Generic;
 
-public class StatsAndAchievementManager : MonoBehaviour
+// these are just examples/for testing
+public enum Achievement : int
 {
-    private enum Achievement : int
-    {
-        ACH_1M_GOLD_EARNED,
-        ACH_100K_GOLD_SPENT,
-        ACH_1M_GOLD_EARNED_LT_250_CURRENT,
-        ACH_1K_ENEMIES,
-    }
+    ACH_FIRST_GOLD,
+    ACH_FIRST_GOLD_SPENT,
+    ACH_1M_GOLD_EARNED_LT_250_CURRENT, // example for multi variable
+    ACH_FIRST_ENEMY,
+    ACH_FINISH_LIBRARY
+}
 // stat type enum
-public enum Stat : int
+public enum GameStat : int
 {
     TOTAL_GOLD_EARNED,
     TOTAL_GOLD_SPENT,
@@ -20,24 +20,29 @@ public enum Stat : int
     TOTAL_ENEMIES_DEFEATED,
 }
 
+public class StatsAndAchievementManager : MonoBehaviour
+{
 
     // these are just some generic examples 
-    private Achievement_t[] achievementsList = new Achievement_t[] { // apparently _t postfix means typedef
-		new Achievement_t(Achievement.ACH_1M_GOLD_EARNED, "Financial Freedom", "Earn 1 000 000 gold"),
-		new Achievement_t(Achievement.ACH_100K_GOLD_SPENT, "Big Spender", "Spent 100 000 gold"),
-		new Achievement_t(Achievement.ACH_1M_GOLD_EARNED_LT_250_CURRENT, "Financial Mismanagement", "Had at least 1 000 000 gold, later had less than 250"),
-		new Achievement_t(Achievement.ACH_1K_ENEMIES, "Killer", "Killed 1 000 enemies")
-	};
+    // i gotta rename the classes this is getting confusing
+    private Dictionary<Achievement, Achievement_t> achievements = new Dictionary<Achievement, Achievement_t>
+    {
+        {Achievement.ACH_FIRST_GOLD, new Achievement_t(Achievement.ACH_FIRST_GOLD, "Pocket Change", "Earn your first gold")},
+        {Achievement.ACH_FIRST_GOLD_SPENT, new Achievement_t(Achievement.ACH_FIRST_GOLD_SPENT, "Trip to the Shops", "Spent your first gold")},
+        {Achievement.ACH_1M_GOLD_EARNED_LT_250_CURRENT, new Achievement_t(Achievement.ACH_1M_GOLD_EARNED_LT_250_CURRENT, "Financial Mismanagement", "Had at least 1 000 000 gold, later had less than 250")},
+        {Achievement.ACH_FIRST_ENEMY, new Achievement_t(Achievement.ACH_FIRST_ENEMY, "A Tarnished Soul", "Killed your first enemy")},
+        {Achievement.ACH_FINISH_LIBRARY, new Achievement_t(Achievement.ACH_FINISH_LIBRARY, "Schools out!", "Finish the Library Scene")}
+    };
 
 
     // thought it would be better to store stats in a dictionary for easier lookup, although now the stat stat type is stored twice, might revisit later
     // also these are just examples
-    public Dictionary<Stat, GameStatistic> statistics = new Dictionary<Stat, GameStatistic>
+    public Dictionary<GameStat, GameStatistic> statistics = new Dictionary<GameStat, GameStatistic>
     {
-        {Stat.TOTAL_GOLD_EARNED, new GameStatistic(Stat.TOTAL_GOLD_EARNED, "Total Gold Earned", StatDataType.INT)},
-        {Stat.TOTAL_GOLD_SPENT, new GameStatistic(Stat.TOTAL_GOLD_SPENT, "Total Gold Spent", StatDataType.INT)},
-        {Stat.MAX_GOLD_BALANCE, new GameStatistic(Stat.MAX_GOLD_BALANCE, "Highest Gold Balance", StatDataType.INT)},
-        {Stat.TOTAL_GOLD_EARNED, new GameStatistic(Stat.TOTAL_GOLD_EARNED, "Total Enemies Defeated", StatDataType.INT)}        
+        {GameStat.TOTAL_GOLD_EARNED, new GameStatistic(GameStat.TOTAL_GOLD_EARNED, "Total Gold Earned", StatDataType.INT)},
+        {GameStat.TOTAL_GOLD_SPENT, new GameStatistic(GameStat.TOTAL_GOLD_SPENT, "Total Gold Spent", StatDataType.INT)},
+        {GameStat.MAX_GOLD_BALANCE, new GameStatistic(GameStat.MAX_GOLD_BALANCE, "Highest Gold Balance", StatDataType.INT)},
+        {GameStat.TOTAL_ENEMIES_DEFEATED, new GameStatistic(GameStat.TOTAL_ENEMIES_DEFEATED, "Total Enemies Defeated", StatDataType.INT)}        
     };
 
     private CGameID gameID; // proj. iron game id (steam)
@@ -59,7 +64,6 @@ public enum Stat : int
     {
         if (Instance == null)
             Instance = this;
-        DontDestroyOnLoad(gameObject); // idk how exactly you are handling the scene loading because i didn't look at it, but if this isn't needed then remove it
     }
 
     void OnEnable()
@@ -82,7 +86,7 @@ public enum Stat : int
     }
 
     // generalized stat updater for calling from other classes mainly
-    public bool UpdateStat(Stat statID, float? floatData=null, int? intData=null, float? sessionCountData=null)
+    public bool UpdateStat(GameStat statID, float? floatData=null, int? intData=null, float? sessionCountData=null)
     {
         statistics.TryGetValue(statID,  out GameStatistic statistic);
         switch (statistic.dataType)
@@ -90,18 +94,22 @@ public enum Stat : int
             case StatDataType.FLOAT:
                 if (floatData != null)
                 {
+                    Debug.Log($"{statID} updated to {floatData}");
                     statistic.SetStatistic((float)floatData); // cast because of float? (this isn't a question lol)
                     CheckAchievements();
-                    statistic.SendUserStat();
+                    if (SteamManager.Initialized)
+                        statistic.SendUserStat();
                     return true;
                 }
                 break;
             case StatDataType.INT:
                 if (intData != null)
                 {
+                    Debug.Log($"{statID} updated to {intData}");
                     statistic.SetStatistic((int)intData); // cast because of int?
                     CheckAchievements();
-                    statistic.SendUserStat();
+                    if (SteamManager.Initialized)
+                        statistic.SendUserStat();
                     return true;
                 }
                 break;
@@ -111,7 +119,8 @@ public enum Stat : int
                     sessionLength = Time.time - tickGameStart;
                     statistic.SetStatistic((float)sessionCountData, sessionLength);
                     CheckAchievements();
-                    statistic.SendUserStat();
+                    if (SteamManager.Initialized)
+                        statistic.SendUserStat();
                     return true;
                 }
                 break;
@@ -121,7 +130,7 @@ public enum Stat : int
     }
 
     // realized it was good/useful to have this 
-     public void AddToStatistic(Stat statID, float? floatData=null, int? intData=null, float? sessionCountData=null)
+     public void AddToStatistic(GameStat statID, float? floatData=null, int? intData=null, float? sessionCountData=null)
     {
         statistics.TryGetValue(statID, out GameStatistic statistic);
         switch (statistic.dataType)
@@ -129,16 +138,16 @@ public enum Stat : int
             case StatDataType.FLOAT:
                 if (floatData != null)
                 {
-                    float currentStatValue = statistic.GetStat();
-                    UpdateStat(statID, floatData: statistic.floatData + currentStatValue);
+                    statistic.AddToStatistic((float)floatData);
+                    UpdateStat(statID, floatData: statistic.GetStat());
                     return;
                 }
                 break;
             case StatDataType.INT:
                 if (intData != null)
                 {
-                    int currentStatValue = (int)statistic.GetStat();
-                    UpdateStat(statID, intData: statistic.intData + currentStatValue);
+                    statistic.AddToStatistic((int)intData);
+                    UpdateStat(statID, intData: (int)statistic.GetStat());
                     return;
                 }
                 break;
@@ -147,38 +156,41 @@ public enum Stat : int
         return;
     }
 
-    private void CheckAchievements () // this is also kind of clunky, might change later
+    // this is also kind of clunky, might change later, only to check stat based achievements
+    // this might actually be needed because not all achievements are stat based...
+    // or a there could be a flag in the Achievements_t class that tells the program if it is stat based or not
+    private void CheckAchievements ()
     {
         // just loop through and see if they have been done
         // it would look nicer if each achievement was a child of the Achievements_t class with a
         // success checker function but it would probably be annoying to pass in the user stats 
-        foreach (Achievement_t achievement in achievementsList)
+        foreach (Achievement_t achievement in achievements.Values)
         {
             if (achievement.achieved)
                 continue;
 
             switch (achievement.achievementID)
             {
-                case Achievement.ACH_1M_GOLD_EARNED:
-                    if (statistics[Stat.TOTAL_GOLD_EARNED].GetStat() >= 1000000)
+                case Achievement.ACH_FIRST_GOLD:
+                    if (statistics[GameStat.TOTAL_GOLD_EARNED].GetStat() >= 1)
                     {
                         UnlockAchievement(achievement);
                     }
                     break;
-                case Achievement.ACH_100K_GOLD_SPENT:
-                    if (statistics[Stat.TOTAL_GOLD_SPENT].GetStat() >= 100000)
+                case Achievement.ACH_FIRST_GOLD_SPENT:
+                    if (statistics[GameStat.TOTAL_GOLD_SPENT].GetStat() >= 1)
                         {
                             UnlockAchievement(achievement);
                         }
                     break;
                 case Achievement.ACH_1M_GOLD_EARNED_LT_250_CURRENT:
-                    if (statistics[Stat.MAX_GOLD_BALANCE].GetStat() >= 1000000 && GameManager.Instance.Gold <= 250)
+                    if (statistics[GameStat.MAX_GOLD_BALANCE].GetStat() >= 1000000 && GameManager.Instance.Gold <= 250)
                     {
                         UnlockAchievement(achievement);
                     }
                     break;
-                case Achievement.ACH_1K_ENEMIES:
-                    if (statistics[Stat.TOTAL_ENEMIES_DEFEATED].GetStat() >= 1000)
+                case Achievement.ACH_FIRST_ENEMY:
+                    if (statistics[GameStat.TOTAL_ENEMIES_DEFEATED].GetStat() >= 1)
                     {
                         UnlockAchievement(achievement);
                     }
@@ -188,9 +200,17 @@ public enum Stat : int
     }
 
     private void UnlockAchievement(Achievement_t achievement) {
+        Debug.Log($"Achievement {achievement.achievementName} unlocked");
 		achievement.achieved = true;
-
-		SteamUserStats.SetAchievement(achievement.achievementID.ToString());
+        if (SteamManager.Initialized)
+    		SteamUserStats.SetAchievement(achievement.achievementID.ToString());
+	}
+    public void UnlockAchievement(Achievement achievementID) { // overloaded to be able to use enum, for non stat based achievements
+        Achievement_t achievement = achievements[achievementID];
+        Debug.Log($"Achievement {achievement.achievementName} unlocked");
+		achievement.achieved = true;
+        if (SteamManager.Initialized)
+    		SteamUserStats.SetAchievement(achievement.achievementID.ToString());
 	}
 
     void OnUserStatsReceived(UserStatsReceived_t callback)
@@ -207,7 +227,7 @@ public enum Stat : int
 				statsValid = true;
 
                 // load achievements 
-                foreach (Achievement_t achievement in achievementsList)
+                foreach (Achievement_t achievement in achievements.Values)
                 {
                     bool ret = SteamUserStats.GetAchievement(achievement.achievementID.ToString(), out achievement.achieved);
                     if (ret)
@@ -222,17 +242,17 @@ public enum Stat : int
                 }
 
                 // load stats into dictionary from stored stuff
-                foreach (var statistic in statistics)
+                foreach (GameStatistic statistic in statistics.Values)
                 {
-                    switch (statistic.Value.dataType)
+                    switch (statistic.dataType)
                     {
                         case StatDataType.FLOAT:
-                            SteamUserStats.GetStat(statistic.Key.ToString(), out float floatData);
-                            statistic.Value.SetStatistic(floatData);
+                            SteamUserStats.GetStat(statistic.statID.ToString(), out float floatData);
+                            statistic.SetStatistic(floatData);
                             break;
                         case StatDataType.INT:
-                            SteamUserStats.GetStat(statistic.Key.ToString(), out int intData);
-                            statistic.Value.SetStatistic(intData);
+                            SteamUserStats.GetStat(statistic.statID.ToString(), out int intData);
+                            statistic.SetStatistic(intData);
                             break;
                     }
                 }
@@ -310,7 +330,7 @@ public enum StatDataType
 // game stat class to not have a very large amount of variables to keep track of (kinda)
 public class GameStatistic
 {
-    public StatsAndAchievementManager.Stat statID;
+    public GameStat statID;
     public string statName;
     public StatDataType dataType;
     public float floatData;
@@ -318,7 +338,7 @@ public class GameStatistic
     public float sessionCountData;
     public float sessionLength;
 
-    public GameStatistic (StatsAndAchievementManager.Stat statID, string statName, StatDataType dataType)
+    public GameStatistic (GameStat statID, string statName, StatDataType dataType)
     {
         this.statID = statID;
         this.statName = statName;
@@ -370,12 +390,15 @@ public class GameStatistic
         switch (dataType)
         {
             case StatDataType.FLOAT:
+                Debug.Log($"Sent {statID} = {floatData} to steam");
                 SteamUserStats.SetStat(statID.ToString(), floatData);
                 break;
             case StatDataType.INT:
+                Debug.Log($"Sent {statID} = {intData} to steam");
                 SteamUserStats.SetStat(statID.ToString(), intData);
                 break;
             case StatDataType.AVGRATE:
+                Debug.Log($"Sent {statID} = {sessionCountData / sessionLength} to steam");
                 SteamUserStats.UpdateAvgRateStat(statID.ToString(), sessionCountData, sessionLength);
                 break;
         }

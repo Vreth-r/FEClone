@@ -75,15 +75,14 @@ public class ShopMenuTheSecond : UIMenuBase
     {
         int price = GetBuyPrice(item);
 
-        if (GameManager.Instance.Gold < price)
-            return;
-
-        GameManager.Instance.Gold -= price;
-
-        PlayerInventory.Instance.Add(new ItemInstance(item));
-        Debug.Log($"Bought: {item.itemName}");
-        RefreshGold();
-        PopulateSell();
+        if (GameManager.Instance.SpendGold(price))
+        {
+            PlayerInventory.Instance.Add(new ItemInstance(item));
+            Debug.Log($"Bought: {item.itemName}");
+            RefreshGold();
+            PopulateSell();
+            PopulateUpgrades();
+        }
     }
 
     // =========================
@@ -107,7 +106,7 @@ public class ShopMenuTheSecond : UIMenuBase
     private void SellItem(ItemInstance instance)
     {
         PlayerInventory.Instance.Remove(instance);
-        GameManager.Instance.Gold += GetSellPrice(instance);
+        GameManager.Instance.AddGold(GetSellPrice(instance));
 
         RefreshAll();
     }
@@ -137,15 +136,13 @@ public class ShopMenuTheSecond : UIMenuBase
     {
         int cost = GetUpgradeCost(instance);
 
-        if (GameManager.Instance.Gold < cost)
-            return;
+        if (GameManager.Instance.SpendGold(GetUpgradeCost(instance)))
+        {
+            // upgrade logic goes here
+            Debug.Log("Upgraded whatever (placeholder)");
 
-        GameManager.Instance.Gold -= cost;
-
-        // upgrade logic goes here
-        Debug.Log("Upgraded whatever (placeholder)");
-
-        RefreshAll();
+            RefreshAll();
+        }
     }
 
     // =========================

@@ -1,6 +1,7 @@
 using UnityEngine;
 using Yarn.Unity;
 using System.Collections;
+using System;
 
 public class CutsceneYarnCommands : MonoBehaviour
 {
@@ -213,5 +214,12 @@ public class CutsceneYarnCommands : MonoBehaviour
     public static void StopParticles(string systemName)
     {
         ParticleController.Instance.StopPS(systemName);
+    }
+
+    [YarnCommand("UnlockAchievement")]
+    public static void UnlockAchievement(string achievement)
+    {
+        Enum.TryParse(achievement, out Achievement achievementID);
+        StatsAndAchievementManager.Instance.UnlockAchievement(achievementID);
     }
 }

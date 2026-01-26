@@ -186,7 +186,7 @@ public class CombatSceneManager : MonoBehaviour
             // Death check
             if (defender.currentHP <= 0)
             {
-                StatsAndAchievementManager.Instance.AddToStatistic(StatsAndAchievementManager.Stat.TOTAL_ENEMIES_DEFEATED, intData: (int)defender.team); // lol
+                StatsAndAchievementManager.Instance.AddToStatistic(GameStat.TOTAL_ENEMIES_DEFEATED, intData: (int)defender.team); // lol
                 await narrator.ShowMessageAsync($"{defender.unitName} was defeated!");
                 break; // this SHOULD be good enough for cancelling the rest of combat because of death but hey we'll see
             }
