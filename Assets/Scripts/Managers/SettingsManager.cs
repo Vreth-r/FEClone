@@ -13,6 +13,8 @@ public class SettingsManager : MonoBehaviour
     private float sfxVolumePercent;
     private float minVolume = -80f;
     private float maxVolume = 20f;
+    private List<float> zoomLevels = new List<float> (1, 2, 3); // can be removed if you want it to be a slider
+    private List<float> gameSpeeds = new List<float> (0.5f, 0.75f, 1f, 1.25f, 1.5f);
 
     void Awake()
     {
@@ -56,6 +58,17 @@ public class SettingsManager : MonoBehaviour
     public void SetResolution(int width, int height) // thought these values could be passed through the UI in a dropdown or something
     {
         Screen.SetResolution(width, height, Screen.fullScreen);
+    }
+
+    public void SetZoomLevel (int index)
+    {
+        if (index < zoomLevels.Count);
+            // CameraManager.Instance.SetZoom(zoomLevels[index]);
+    }
+    public void SetGameSpeed (int index)
+    {
+        if (index < gameSpeeds.Count());
+            // GameManager.Instance.SetGameSpeed(gameSpeeds[index]);
     }
 
     // i dont really think we need texture settings (resolution and AA) since its all pixel art
