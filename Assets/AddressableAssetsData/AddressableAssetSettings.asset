@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: cf4413f7ca8143843a27805f847ade6d
   m_currentHash:
     serializedVersion: 2
-    Hash: b8f94207657eea73fd4d213173f9387c
+    Hash: 174afbdd69855be3e9597bec0bb48122
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -103,6 +103,7 @@ MonoBehaviour:
     - Item
     - default
     - UnitPrefab
+    - SaveGame
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: cec5ad23d9720b64a9d128f278289d2c, type: 2}

@@ -129,6 +129,11 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
+
+    public void loadPlayerRoster (UnitRoster unitRoster)
+    {
+        PlayerRoster = unitRoster;
+    }
 }
 
 // code utilities

@@ -35,6 +35,7 @@ public class MainMenu : MonoBehaviour, IGameMenu
     public void ContinueGame()
     {
         Debug.Log("Loading save... (placeholder)");
+        Debug.Log($"Loaded game status: {SaveGameManager.Instance.LoadGame(SaveGameData.SlotName.Slot1)}");
         // if (!SaveSystem.SaveExists(0))
         // {
         //     Debug.LogWarning("No Save Data found for slot");
