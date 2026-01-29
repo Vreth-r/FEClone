@@ -8,13 +8,12 @@ public class SettingsManager : MonoBehaviour
 {
     public SettingsManager Instance;
     public AudioMixer audioMixer; // replace with your custom audio stuff later, idk if its in the proj yet
-    private float masterVolumePercent;
-    private float musicVolumePercent;
-    private float sfxVolumePercent;
-    private float minVolume = -80f;
-    private float maxVolume = 20f;
-    private List<float> zoomLevels = new List<float> (1, 2, 3); // can be removed if you want it to be a slider
-    private List<float> gameSpeeds = new List<float> (0.5f, 0.75f, 1f, 1.25f, 1.5f);
+    [Range(0f, 1f)] public float masterVolume = 1f;
+    [Range(0f, 1f)] public float uiVolume = 1f;
+    [Range(0f, 1f)] public float musicVolume = 1f;
+    [Range(0f, 1f)] public float gameplayVolume = 1f;
+    private List<float> zoomLevels = new List<float> { 1, 2, 3 }; // can be removed if you want it to be a slider
+    private List<float> gameSpeeds = new List<float> { 0.5f, 0.75f, 1f, 1.25f, 1.5f }; // ^
 
     void Awake()
     {
@@ -24,30 +23,25 @@ public class SettingsManager : MonoBehaviour
 
 
     // Audio functions
-    public void SetMasterVolume(float percent)
+    public void SetMasterVolume(float newVolume)
     {
-        if (percent >= 0 && percent <= 1)
-        {
-            masterVolumePercent = percent;
-            audioMixer.SetFloat("volume", Mathf.Lerp(minVolume, maxVolume, masterVolumePercent));
-            Debug.Log($"Master volume set to {masterVolumePercent}");
-        }
+        masterVolume = newVolume;
+        AudioManager.Instance.masterVolume = masterVolume;
     }
-
-    // these are just examples, fill in later when i know how the audio middleware works
-    public void SetMusicVolume(float percent)
+    public void SetUIVolume(float newVolume)
     {
-        if (percent >= 0 && percent <= 1)
-        {
-            // fill in as needed 
-        }
+        uiVolume = newVolume;
+        AudioManager.Instance.uiVolume = uiVolume;
     }
-    public void SetSFXVolume(float percent)
+    public void SetMusicVolume(float newVolume)
     {
-        if (percent >= 0 && percent <= 1)
-        {
-            // fill in as needed 
-        }
+        musicVolume = newVolume;
+        AudioManager.Instance.musicVolume = musicVolume;
+    }
+    public void SetGameplayVolume(float newVolume)
+    {
+        gameplayVolume = newVolume;
+        AudioManager.Instance.gameplayVolume = gameplayVolume;
     }
 
     // Screen settings
@@ -67,7 +61,7 @@ public class SettingsManager : MonoBehaviour
     }
     public void SetGameSpeed (int index)
     {
-        if (index < gameSpeeds.Count());
+        if (index < gameSpeeds.Count);
             // GameManager.Instance.SetGameSpeed(gameSpeeds[index]);
     }
 
