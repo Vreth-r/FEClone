@@ -6,7 +6,7 @@ using UnityEngine.Audio;
 
 public class SettingsManager : MonoBehaviour
 {
-    public SettingsManager Instance;
+    public static SettingsManager Instance;
     public AudioMixer audioMixer; // replace with your custom audio stuff later, idk if its in the proj yet
     [Range(0f, 1f)] public float masterVolume = 1f;
     [Range(0f, 1f)] public float uiVolume = 1f;
@@ -54,15 +54,13 @@ public class SettingsManager : MonoBehaviour
         Screen.SetResolution(width, height, Screen.fullScreen);
     }
 
-    public void SetZoomLevel (int index)
+    public void SetZoomLevel (float zoomPercent)
     {
-        if (index < zoomLevels.Count);
-            // CameraManager.Instance.SetZoom(zoomLevels[index]);
+        Debug.Log($"Set zoom to: {zoomPercent}%");
     }
-    public void SetGameSpeed (int index)
+    public void SetGameSpeed (float speedPercent)
     {
-        if (index < gameSpeeds.Count);
-            // GameManager.Instance.SetGameSpeed(gameSpeeds[index]);
+        Debug.Log($"Set speed to: {speedPercent}%");
     }
 
     // i dont really think we need texture settings (resolution and AA) since its all pixel art

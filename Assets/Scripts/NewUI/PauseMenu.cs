@@ -7,16 +7,19 @@ public class PauseMenuTheSecond : UIMenuBase
     private Button resumeButton;
     private Button saveButton;
     private Button quitButton;
+    private Button settingsButton;
 
     protected override void OnCreate()
     {
         resumeButton = Root.Q<Button>("ResumeButton");
         saveButton = Root.Q<Button>("SaveButton");
         quitButton = Root.Q<Button>("QuitButton");
+        settingsButton = Root.Q<Button>("SettingsButton");
 
         resumeButton.clicked += Resume;
         saveButton.clicked += Save;
         quitButton.clicked += Quit;
+        settingsButton.clicked += Settings;
     }
 
     public override void OnOpen()
@@ -43,5 +46,10 @@ public class PauseMenuTheSecond : UIMenuBase
     {
         Time.timeScale = 1f;
         SceneManager.LoadScene("MainMenu");
+    }
+
+    private void Settings ()
+    {
+        UIManagerTheSecond.Instance.OpenMenu<SettingsMenu>("SettingsMenu");
     }
 }
