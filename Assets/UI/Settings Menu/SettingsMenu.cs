@@ -23,7 +23,6 @@ public class SettingsMenu : UIMenuBase
         gameplayVolumeSlider = Root.Q<Slider>("GameplayVolumeSlider");
         zoomLevelSlider = Root.Q<Slider>("ZoomLevelSlider");
         gameSpeedSlider = Root.Q<Slider>("GameSpeedSlider");
-        backButton = Root.Q<Button>("BackButton");
 
         // Button event handlers
         masterVolumeSlider.RegisterValueChangedCallback(v => { SettingsManager.Instance.SetMasterVolume(v.newValue); });

@@ -52,6 +52,7 @@ public class CameraPanner : MonoBehaviour
         halfCamWidth = halfCamHeight * cam.aspect;
         LoadGridBounds();
         ControlsManager.Instance.OnContextSwitch += HandleContextSwitch;
+        gameObject.AddComponent<CameraManager>(); // this seems cringe
     }
 
     void HandleContextSwitch(InputContext newContext)

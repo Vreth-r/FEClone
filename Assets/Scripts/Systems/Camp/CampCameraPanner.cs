@@ -31,6 +31,7 @@ public class CampCameraPanner : MonoBehaviour
     {
         CalculateCameraExtents();
         UpdateBounds();
+        gameObject.AddComponent<CameraManager>();
     }
 
     private void LateUpdate()
