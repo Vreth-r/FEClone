@@ -163,5 +163,6 @@ Through whatever this is.
 Ylru: Just get to the doors. Just keep moving.
 (from here, he goes to the doors and fights again, dont have assets yet so ill just make him go to the camp rn)
 <<SaveGame>>
+<<UnlockAchievement "ACH_FINISH_LIBRARY">>
 <<LoadScene "CampScene">>
 ===

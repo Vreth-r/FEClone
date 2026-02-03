@@ -118,12 +118,20 @@ public class GameManager : MonoBehaviour
     // }
 
     // Gold Management
-    public void AddGold(int amount) => Gold += amount;
+    public void AddGold(int amount)
+    {
+        Gold += amount;
+        StatsAndAchievementManager.Instance.AddToStatistic(GameStat.TOTAL_GOLD_EARNED, intData: amount); // this is just an example
+        if (Gold > StatsAndAchievementManager.Instance.statistics[GameStat.MAX_GOLD_BALANCE].GetStat()) // maybe this is a bit long
+            StatsAndAchievementManager.Instance.UpdateStat(GameStat.MAX_GOLD_BALANCE, intData: amount);
+    
+    }
     public bool SpendGold(int amount)
     {
         if (Gold >= amount)
         {
             Gold -= amount;
+            StatsAndAchievementManager.Instance.AddToStatistic(GameStat.TOTAL_GOLD_SPENT, intData: amount); // this is just an example
             return true;
         }
         return false;
