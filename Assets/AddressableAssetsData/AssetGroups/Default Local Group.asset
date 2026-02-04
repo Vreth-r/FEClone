@@ -15,11 +15,23 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: cf4413f7ca8143843a27805f847ade6d
   m_SerializeEntries:
+  - m_GUID: 33490ce290fdf7245b99c8c79bed1d8e
+    m_Address: Assets/ScriptableObjects/SaveGameSlots/Slot3.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SaveGame
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 36b1a8b3f564659469c4954711af5bad
     m_Address: Assets/ScriptableObjects/Items/Weapons/IronSword.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8397b860520b5cd4aa46e59840e5ac97
+    m_Address: Assets/ScriptableObjects/SaveGameSlots/Slot2.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SaveGame
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9cdcf53718a25ed4ca6a4677c34dc217
     m_Address: Assets/ScriptableObjects/Items/Weapons/DEV_PowerfulSword.asset
@@ -33,6 +45,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - Item
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d7b9d2dd4d4743c45bca9291052d6896
+    m_Address: Assets/ScriptableObjects/SaveGameSlots/Slot1.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SaveGame
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: dd93d43264e2c72449403a27c6e11392
     m_Address: Assets/ScriptableObjects/Items/Weapons/Time_D.asset
     m_ReadOnly: 0
@@ -44,6 +62,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: efc69ee1cc53fd24ebc5fb74063a0ca4
+    m_Address: Assets/ScriptableObjects/SaveGameSlots/Slot4.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - SaveGame
     FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 994585ddc754f714595107f7635a31e8, type: 2}

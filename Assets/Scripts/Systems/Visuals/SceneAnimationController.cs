@@ -35,7 +35,11 @@ public class SceneAnimationController : MonoBehaviour
     public void RegisterAnimator(string key, Animator animator)
     {
         if (!animators.ContainsKey(key))
+        {
             animators.Add(key, animator);
+            animatorList.Add(new AnimEntry { objectName = key, animator = animator });
+            Debug.Log($"Registered animator {key}");
+        }
     }
 
     /// <summary>Scans the entire active scene for any objects with Animator components and registers them.</summary>
@@ -55,7 +59,7 @@ public class SceneAnimationController : MonoBehaviour
             {
                 animators.Add(key, animator);
                 animatorList.Add(new AnimEntry { objectName = key, animator = animator });
-                //Debug.Log($"Registered animator: {key}");
+                Debug.Log($"Registered animator: {key}");
             }
         }
     }
