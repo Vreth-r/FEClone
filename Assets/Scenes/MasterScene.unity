@@ -288,6 +288,10 @@ MonoBehaviour:
     uxml: {fileID: 9197481963319205126, guid: f8fcca7ecf7534045a8ef19f6b683ce2, type: 3}
     stylesheet: {fileID: 7433441132597879392, guid: 11b8cf7c18d79f64fac4b655854ec029, type: 3}
     menuType: 1
+  - id: SettingsMenu
+    uxml: {fileID: 9197481963319205126, guid: b55842685f85719428ac00b84f5af753, type: 3}
+    stylesheet: {fileID: 7433441132597879392, guid: 320cc702014d418439bd8d536d4d6b1c, type: 3}
+    menuType: 0
 --- !u!114 &105420755
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,9 +315,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 105420745}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 537fa505ae9abb84a8e677987a3bb7a1, type: 3}
+  m_Script: {fileID: 11500000, guid: 5dc2929d564d94546a56a6af2b79249a, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SaveGameManager
+  m_EditorClassIdentifier: Assembly-CSharp::SettingsManager
+  audioMixer: {fileID: 0}
+  masterVolume: 1
+  uiVolume: 1
+  musicVolume: 1
+  gameplayVolume: 1
 --- !u!1 &173640941
 GameObject:
   m_ObjectHideFlags: 0

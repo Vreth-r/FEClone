@@ -46,7 +46,7 @@ public class MainMenu : MonoBehaviour, IGameMenu
 
     public void OpenOptions()
     {
-        UIManager.Instance.OpenMenu(MenuType.OptionsMenu);
+        UIManagerTheSecond.Instance.OpenMenu<SettingsMenu>("SettingsMenu");
     }
 
     public void OpenLoadGame()

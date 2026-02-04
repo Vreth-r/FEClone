@@ -1,0 +1,77 @@
+:root {
+    height: 100%;
+    width: 100%;
+}
+
+.panel {
+    align-self: auto;
+    background-color: rgba(0, 0, 0, 0.51);
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.menu {
+    align-items: center;
+    width: 35%;
+    height: auto;
+    align-content: auto;
+    background-color: rgba(59, 70, 115, 0);
+    margin-top: 100px;
+    margin-right: 100px;
+    margin-bottom: 100px;
+    margin-left: 100px;
+    align-self: auto;
+    justify-content: flex-start;
+    background-image: url("project://database/Assets/Art/UI/Menus/RectangleBox_96x96.png?fileID=2800000&guid=66dbe14c20736724da3d28c3eeda7553&type=3#RectangleBox_96x96");
+    padding-top: 50px;
+    padding-right: 50px;
+    padding-bottom: 50px;
+    padding-left: 50px;
+    flex-grow: 1;
+}
+
+.unity-button {
+    align-self: auto;
+    align-content: auto;
+    flex-grow: 1;
+    flex-shrink: 1;
+    margin-top: 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    min-height: auto;
+    max-height: 100%;
+    min-width: auto;
+    max-width: 100%;
+    width: 80%;
+    height: 20%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border-top-width: 0;
+    border-right-width: 0;
+    border-bottom-width: 0;
+    border-left-width: 0;
+    border-left-color: rgb(0, 0, 0);
+    border-right-color: rgb(0, 0, 0);
+    border-top-color: rgb(0, 0, 0);
+    border-bottom-color: rgb(0, 0, 0);
+    font-size: 50px;
+    color: rgb(0, 0, 0);
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("project://database/Assets/Art/Fonts/InknutAntiqua-Bold.ttf?fileID=12800000&guid=6d478bcb3ec15d64092095c5a25aa0df&type=3#InknutAntiqua-Bold");
+    justify-content: space-evenly;
+    background-image: url("project://database/Assets/Art/UI/Menus/Button_52x14.png?fileID=2800000&guid=e5348510d10400c4ebc4ea57e433f8fc&type=3#Button_52x14");
+    -unity-background-image-tint-color: rgb(255, 255, 255);
+    background-color: rgba(0, 0, 0, 0);
+    background-size: 100% 50%;
+    position: relative;
+    align-items: stretch;
+}
+
+.unity-button:hover {
+    -unity-background-image-tint-color: rgb(193, 193, 193);
+    flex-grow: 1;
+}
