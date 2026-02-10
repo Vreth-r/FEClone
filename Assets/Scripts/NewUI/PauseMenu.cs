@@ -39,6 +39,7 @@ public class PauseMenuTheSecond : UIMenuBase
 
     private void Save()
     {
+        SaveGameManager.Instance.SaveGame(SaveGameData.SlotName.Slot1);
         Debug.Log("Game Saved (placeholder)");
     }
 

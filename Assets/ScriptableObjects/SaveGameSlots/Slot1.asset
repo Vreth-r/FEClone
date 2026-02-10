@@ -14,3 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SaveGameData
   slotName: 0
   hasData: 1
+  gameLevel: 0
+  gold: 10000
+  masterVolume: 1
+  uiVolume: 1
+  musicVolume: 1
+  gameplayVolume: 1
+  zoomPercent: 0.3
+  gameSpeedPercent: 1

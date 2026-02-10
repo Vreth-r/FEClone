@@ -9,18 +9,18 @@ public class SaveGameData : ScriptableObject
     public bool hasData = false;
 
     // tracked variables 
-    private int gameLevel;
-    private int gold;
+    public int gameLevel;
+    public int gold;
     private UnitRoster playerUnitRoster;
 
     // settings
-    [Range (0f, 1f)] private float masterVolume;
-    [Range (0f, 1f)] private float uiVolume;
-    [Range (0f, 1f)] private float musicVolume;
-    [Range (0f, 1f)] private float gameplayVolume;
+    [Range (0f, 1f)] public float masterVolume;
+    [Range (0f, 1f)] public float uiVolume;
+    [Range (0f, 1f)] public float musicVolume;
+    [Range (0f, 1f)] public float gameplayVolume;
 
-    private float zoomPercent;
-    private float gameSpeedPercent;
+    public float zoomPercent;
+    public float gameSpeedPercent;
 
     public bool SaveGame ()  // idk if slotName needed
     {
@@ -50,7 +50,9 @@ public class SaveGameData : ScriptableObject
 
         // GameManager.Instance.currentLevel = gameLevel // idk the implementation, edit as needed
         GameManager.Instance.Gold = gold; // not using add gold bc of steam achievements
-        GameManager.Instance.loadPlayerRoster(playerUnitRoster);
+        if (playerUnitRoster == null)
+            playerUnitRoster = new UnitRoster(); // for testing rn
+        GameManager.Instance.loadPlayerRoster(playerUnitRoster); 
 
         SettingsManager.Instance.masterVolume = masterVolume;
         SettingsManager.Instance.uiVolume = uiVolume;
