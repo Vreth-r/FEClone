@@ -177,7 +177,6 @@ MonoBehaviour:
   playerSpawnPositions: []
   unitDatabase: {fileID: 11400000, guid: b3cd5074b76d7c747830ddbebdc3a75e, type: 2}
   itemDatabase: {fileID: 11400000, guid: d18cc068facd4284c987deb4928c6c99, type: 2}
-  saveGameDatabase: {fileID: 11400000, guid: b88ea04b02c669546b4a800f43eb43e5, type: 2}
   MasterYarnRunner: {fileID: 745131629}
 --- !u!114 &105420749
 MonoBehaviour:
@@ -323,6 +322,10 @@ MonoBehaviour:
   uiVolume: 1
   musicVolume: 1
   gameplayVolume: 1
+  zoomPercent: 0.5
+  minZoom: 2.25
+  maxZoom: 7.75
+  gameSpeed: 1
 --- !u!1 &173640941
 GameObject:
   m_ObjectHideFlags: 0

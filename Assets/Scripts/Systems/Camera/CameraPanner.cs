@@ -50,9 +50,10 @@ public class CameraPanner : MonoBehaviour
         // get cam dimensions
         halfCamHeight = cam.orthographicSize;
         halfCamWidth = halfCamHeight * cam.aspect;
-        LoadGridBounds();
+        UpdateLoadGridBounds();
         ControlsManager.Instance.OnContextSwitch += HandleContextSwitch;
         gameObject.AddComponent<CameraManager>(); // this seems cringe
+        CameraManager.Instance.SetCameraPanner(this);
     }
 
     void HandleContextSwitch(InputContext newContext)
@@ -68,9 +69,11 @@ public class CameraPanner : MonoBehaviour
         }
     }
 
-    public void LoadGridBounds()
+    public void UpdateLoadGridBounds()
     {
         Bounds mapBounds = boundsCollider.bounds;
+        halfCamHeight = cam.orthographicSize;
+        halfCamWidth = halfCamHeight * cam.aspect;
         // clamp
         minCameraPos = mapBounds.min + new Vector3(halfCamWidth, halfCamHeight, 0f);
         maxCameraPos = mapBounds.max - new Vector3(halfCamWidth, halfCamHeight, 0f);
@@ -173,6 +176,7 @@ public class CameraPanner : MonoBehaviour
         }
 
         cam.orthographicSize = targetSize;
+        UpdateLoadGridBounds();
     }
 
     public async UniTask ZoomCameraAsync(float targetSize, float duration, float zoomSTime = -1)
@@ -184,6 +188,7 @@ public class CameraPanner : MonoBehaviour
     public void SetZoom(float targetSize)
     {
         cam.orthographicSize = targetSize;
+        UpdateLoadGridBounds();
     }
 }
 

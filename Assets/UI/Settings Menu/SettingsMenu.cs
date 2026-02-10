@@ -1,8 +1,5 @@
 using UnityEngine;
 using UnityEngine.UIElements;
-using System.Collections.Generic;
-using System.Linq;
-using Unity.VisualScripting;
 
 public class SettingsMenu : UIMenuBase
 {
@@ -31,6 +28,13 @@ public class SettingsMenu : UIMenuBase
         gameplayVolumeSlider.RegisterValueChangedCallback(v => { SettingsManager.Instance.SetGameplayVolume(v.newValue); });
         zoomLevelSlider.RegisterValueChangedCallback(v => { SettingsManager.Instance.SetZoomLevel(v.newValue); });
         gameSpeedSlider.RegisterValueChangedCallback(v => { SettingsManager.Instance.SetGameSpeed(v.newValue); });
+
+        masterVolumeSlider.value = SettingsManager.Instance.masterVolume;
+        musicVolumeSlider.value = SettingsManager.Instance.musicVolume;
+        fxVolumeSlider.value = SettingsManager.Instance.uiVolume;
+        gameplayVolumeSlider.value = SettingsManager.Instance.gameplayVolume;
+        zoomLevelSlider.value = SettingsManager.Instance.zoomPercent;
+        gameSpeedSlider.value = SettingsManager.Instance.gameSpeedPercent;
 
     }
 

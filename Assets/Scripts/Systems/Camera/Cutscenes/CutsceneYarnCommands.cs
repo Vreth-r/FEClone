@@ -49,9 +49,12 @@ public class CutsceneYarnCommands : MonoBehaviour
     [YarnCommand("SetControlContext")]
     public static void SetControlContext(string context)
     {
+        var panner = FindFirstObjectByType<CameraPanner>();
+        var smi = SettingsManager.Instance;
         if (context == "Gameplay")
         {
             ControlsManager.Instance.SetContext(InputContext.Gameplay);
+            CutsceneManager.Instance.YarnCoroutine(panner.ZoomCamera(Mathf.Lerp(smi.zoomPercent, smi.minZoom, smi.maxZoom), 2));
         }
         else if (context == "Menu")
         {
@@ -60,6 +63,8 @@ public class CutsceneYarnCommands : MonoBehaviour
         else if (context == "Cutscene")
         {
             ControlsManager.Instance.SetContext(InputContext.Cutscene);
+            CutsceneManager.Instance.YarnCoroutine(panner.ZoomCamera(5, 2));
+            
         }
     }
 

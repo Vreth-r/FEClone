@@ -12,7 +12,11 @@ public class SettingsManager : MonoBehaviour
     [Range(0f, 1f)] public float uiVolume = 1f;
     [Range(0f, 1f)] public float musicVolume = 1f;
     [Range(0f, 1f)] public float gameplayVolume = 1f;
+    public float zoomPercent = 0.5f;
+    public float minZoom = 2.25f;
+    public float maxZoom = 7.75f;
     public float gameSpeed = 1f;
+    public float gameSpeedPercent = 1f;
     private float minGameSpeed = 0.5f;
     private float maxGameSpeed = 2f;
     void Awake()
@@ -56,11 +60,13 @@ public class SettingsManager : MonoBehaviour
 
     public void SetZoomLevel (float zoomPercent)
     {
+        this.zoomPercent = zoomPercent;
         CameraManager.Instance.UpdateCameraZoom(zoomPercent);
     }
     public void SetGameSpeed (float speedPercent)
     {
-        gameSpeed = Mathf.Lerp(minGameSpeed, maxGameSpeed, speedPercent);
+        gameSpeedPercent = speedPercent;
+        gameSpeed = Mathf.Lerp(minGameSpeed, maxGameSpeed, gameSpeedPercent);
     }
 
     // i dont really think we need texture settings (resolution and AA) since its all pixel art

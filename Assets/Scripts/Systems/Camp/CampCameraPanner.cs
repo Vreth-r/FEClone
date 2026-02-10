@@ -32,6 +32,7 @@ public class CampCameraPanner : MonoBehaviour
         CalculateCameraExtents();
         UpdateBounds();
         gameObject.AddComponent<CameraManager>();
+        CameraManager.Instance.SetCampCameraPanner(this);
     }
 
     private void LateUpdate()
@@ -78,6 +79,12 @@ public class CampCameraPanner : MonoBehaviour
     private void UpdateBounds()
     {
         bounds = boundsCollider.bounds;
+    }
+
+    public void SetZoom(float targetSize)
+    {
+        cam.orthographicSize = targetSize;
+        CalculateCameraExtents();
     }
 
 #if UNITY_EDITOR

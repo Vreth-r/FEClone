@@ -19,8 +19,8 @@ public class SaveGameData : ScriptableObject
     [Range (0f, 1f)] private float musicVolume;
     [Range (0f, 1f)] private float gameplayVolume;
 
-    private float zoomLevel;
-    private float gameSpeed;
+    private float zoomPercent;
+    private float gameSpeedPercent;
 
     public bool SaveGame ()  // idk if slotName needed
     {
@@ -32,12 +32,12 @@ public class SaveGameData : ScriptableObject
         playerUnitRoster = GameManager.Instance.PlayerRoster;
 
         // uncomment when settings manager is in the game
-        masterVolume = 0; // SettingsManager.Instance.masterVolume
-        uiVolume = 0; // SettingsManager.Instance.uiVolume
-        musicVolume = 0; // SettingsManager.Instance.musicVolume
-        gameplayVolume = 0; // SettingsManager.Instance.gameplayVolume
-        zoomLevel = 0; // SettingsManager.Instance.zoomLevel
-        gameSpeed = 0; // SettingsManager.Instance.gameSpeed
+        masterVolume = SettingsManager.Instance.masterVolume;
+        uiVolume = SettingsManager.Instance.uiVolume;
+        musicVolume = SettingsManager.Instance.musicVolume;
+        gameplayVolume = SettingsManager.Instance.gameplayVolume;
+        zoomPercent = SettingsManager.Instance.zoomPercent;
+        gameSpeedPercent = SettingsManager.Instance.gameSpeedPercent;
 
         hasData = true;
         return true;
@@ -52,13 +52,13 @@ public class SaveGameData : ScriptableObject
         GameManager.Instance.Gold = gold; // not using add gold bc of steam achievements
         GameManager.Instance.loadPlayerRoster(playerUnitRoster);
 
-        // SettingsManager.Instance.masterVolume = masterVolume;
-        // SettingsManager.Instance.uiVolume = uiVolume;
-        // SettingsManager.Instance.musicVolume = musicVolume;
-        // SettingsManager.Instance.gameplayVolume = gameplayVolume;
+        SettingsManager.Instance.masterVolume = masterVolume;
+        SettingsManager.Instance.uiVolume = uiVolume;
+        SettingsManager.Instance.musicVolume = musicVolume;
+        SettingsManager.Instance.gameplayVolume = gameplayVolume;
 
-        // SettingsManager.Instance.zoomLevel = zoomLevel;
-        // SettingsManager.Instance.gameSpeed = gameSpeed;
+        SettingsManager.Instance.zoomPercent = zoomPercent;
+        SettingsManager.Instance.gameSpeedPercent = gameSpeedPercent;
     
         return true;
     }
