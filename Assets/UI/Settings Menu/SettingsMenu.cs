@@ -25,10 +25,10 @@ public class SettingsMenu : UIMenuBase
         gameSpeedSlider = Root.Q<Slider>("GameSpeedSlider");
 
         // Button event handlers
-        masterVolumeSlider.RegisterValueChangedCallback(v => { SettingsManager.Instance.SetMasterVolume(v.newValue); });
-        musicVolumeSlider.RegisterValueChangedCallback(v => { SettingsManager.Instance.SetMusicVolume(v.newValue); });
-        fxVolumeSlider.RegisterValueChangedCallback(v => { SettingsManager.Instance.SetUIVolume(v.newValue); });
-        gameplayVolumeSlider.RegisterValueChangedCallback(v => { SettingsManager.Instance.SetGameplayVolume(v.newValue); });
+        // masterVolumeSlider.RegisterValueChangedCallback(v => { SettingsManager.Instance.SetMasterVolume(v.newValue); });
+        // musicVolumeSlider.RegisterValueChangedCallback(v => { SettingsManager.Instance.SetMusicVolume(v.newValue); });
+        // fxVolumeSlider.RegisterValueChangedCallback(v => { SettingsManager.Instance.SetUIVolume(v.newValue); });
+        // gameplayVolumeSlider.RegisterValueChangedCallback(v => { SettingsManager.Instance.SetGameplayVolume(v.newValue); });
         zoomLevelSlider.RegisterValueChangedCallback(v => { SettingsManager.Instance.SetZoomLevel(v.newValue); });
         gameSpeedSlider.RegisterValueChangedCallback(v => { SettingsManager.Instance.SetGameSpeed(v.newValue); });
 

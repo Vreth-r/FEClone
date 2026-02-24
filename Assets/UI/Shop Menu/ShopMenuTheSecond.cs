@@ -74,6 +74,7 @@ public class ShopMenuTheSecond : UIMenuBase
     private void BuyItem(Item item)
     {
         int price = GetBuyPrice(item);
+        Debug.Log(price);
 
         if (GameManager.Instance.SpendGold(price))
         {

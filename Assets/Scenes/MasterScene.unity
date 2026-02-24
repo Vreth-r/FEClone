@@ -133,10 +133,11 @@ GameObject:
   - component: {fileID: 105420750}
   - component: {fileID: 105420751}
   - component: {fileID: 105420752}
-  - component: {fileID: 105420753}
   - component: {fileID: 105420754}
   - component: {fileID: 105420755}
   - component: {fileID: 105420756}
+  - component: {fileID: 105420757}
+  - component: {fileID: 105420758}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -177,7 +178,6 @@ MonoBehaviour:
   playerSpawnPositions: []
   unitDatabase: {fileID: 11400000, guid: b3cd5074b76d7c747830ddbebdc3a75e, type: 2}
   itemDatabase: {fileID: 11400000, guid: d18cc068facd4284c987deb4928c6c99, type: 2}
-  saveGameDatabase: {fileID: 11400000, guid: b88ea04b02c669546b4a800f43eb43e5, type: 2}
   MasterYarnRunner: {fileID: 745131629}
 --- !u!114 &105420749
 MonoBehaviour:
@@ -241,23 +241,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlsManager
   inputActions: {fileID: -944628639613478452, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
---- !u!114 &105420753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 105420745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 767e2d5a97fb0da4992f6f3f667dbe2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  soundLibrary: {fileID: 11400000, guid: f2a70ba80e49241418a822fe33d96f1b, type: 2}
-  masterVolume: 1
-  uiVolume: 1
-  musicVolume: 1
-  gameplayVolume: 1
 --- !u!114 &105420754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,6 +306,56 @@ MonoBehaviour:
   uiVolume: 1
   musicVolume: 1
   gameplayVolume: 1
+  gameSpeed: 1
+--- !u!114 &105420757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105420745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd641fc757fa221479ec1c30285fba3f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::StatsAndAchievementManager
+--- !u!114 &105420758
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105420745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: eebb39bb4995fe74da8c6ae223553743, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManagerFMOD
+  events:
+  - id: cursor_tile_click
+    eventRef:
+      Guid:
+        Data1: -657500774
+        Data2: 1199844305
+        Data3: -898497616
+        Data4: -399132873
+      Path: event:/UI/UIClick2
+  - id: cursor_tile_move
+    eventRef:
+      Guid:
+        Data1: 666992524
+        Data2: 1112351727
+        Data3: 1418264764
+        Data4: -1072266268
+      Path: event:/UI/UIClick
+  - id: time_d
+    eventRef:
+      Guid:
+        Data1: 1377516438
+        Data2: 1223813524
+        Data3: 1983996578
+        Data4: 879954139
+      Path: event:/SFX/TimeMagic
 --- !u!1 &173640941
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,23 +421,15 @@ GameObject:
   m_Component:
   - component: {fileID: 202811700}
   - component: {fileID: 202811699}
-  - component: {fileID: 202811698}
   - component: {fileID: 202811701}
+  - component: {fileID: 202811702}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!81 &202811698
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 202811697}
-  m_Enabled: 1
+  m_IsActive: 0
 --- !u!20 &202811699
 Camera:
   m_ObjectHideFlags: 0
@@ -515,6 +540,20 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
+--- !u!114 &202811702
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 202811697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86c6556701af9e04380698b89f691b6e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: FMODUnity::FMODUnity.StudioListener
+  nonRigidbodyVelocity: 0
+  attenuationObject: {fileID: 0}
 --- !u!1 &278991789
 GameObject:
   m_ObjectHideFlags: 0
@@ -1103,7 +1142,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8309902628685535410, guid: 52571f68872914e24837210513edea1d, type: 3}
       propertyPath: autoStart
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8309902628685535410, guid: 52571f68872914e24837210513edea1d, type: 3}
       propertyPath: startNode

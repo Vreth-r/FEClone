@@ -5,6 +5,7 @@ using UnityEngine;
 public class ItemInstance
 {
     [SerializeField] private string itemID;
+    public string ID => itemID;
     [System.NonSerialized] private Item definition;
 
     // runtime

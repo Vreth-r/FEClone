@@ -181,6 +181,7 @@ public class CombatSystem
         {
             Debug.Log($"{attacker.unitName} misses {defender.unitName}"); // whiff
         }
+        AudioEvents.PlayOneShot(weapon.ID);
     }
 
     private static bool InRange(Unit attacker, Unit target, ItemInstance weapon)

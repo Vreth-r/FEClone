@@ -9,7 +9,7 @@ public class CutsceneYarnCommands : MonoBehaviour
     [YarnCommand("PlaySound")]
     public static void PlaySound(string soundId)
     {
-        AudioEvents.Play(soundId);
+        AudioEvents.PlayOneShot(soundId);
     }
 
     // Loads a scene with the loading screen through the manager
