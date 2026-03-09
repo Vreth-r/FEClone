@@ -131,7 +131,7 @@ public class GameManager : MonoBehaviour
         if (Gold >= amount)
         {
             Gold -= amount;
-            StatsAndAchievementManager.Instance.AddToStatistic(GameStat.TOTAL_GOLD_SPENT, intData: amount); // this is just an example
+            //StatsAndAchievementManager.Instance.AddToStatistic(GameStat.TOTAL_GOLD_SPENT, intData: amount); // this is just an example
             return true;
         }
         return false;
