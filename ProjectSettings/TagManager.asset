@@ -41,5 +41,8 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: VFX_HeatHaze
+    uniqueID: 2472678971
+    locked: 0
   m_RenderingLayers:
   - Default

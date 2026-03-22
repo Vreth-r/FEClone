@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab771301fb345bd4abf37acfc2008bba, type: 3}
+  m_Name: FireProjectile
+  m_EditorClassIdentifier: Assembly-CSharp::ParticleEffectSequence
+  steps:
+  - effectPrefab: {fileID: 2750374341960710454, guid: 9e5a0db3543d80a479d1674947a9d37a, type: 3}
+    delay: 0
+    lifetime: 2.25
+    destination: origin
+    isTravelEffect: 0
+    speed: 0
+    groupID: 0
+  - effectPrefab: {fileID: 6702300164689281883, guid: b917b589266d5ca4c8f7f7bb79793607, type: 3}
+    delay: 0
+    lifetime: 0
+    destination: target
+    isTravelEffect: 1
+    speed: 4
+    groupID: 1
+  - effectPrefab: {fileID: 4717730626679516997, guid: b55a3af5a1eb4c94b88114982152f0f7, type: 3}
+    delay: 0
+    lifetime: 2
+    destination: target
+    isTravelEffect: 0
+    speed: 4
+    groupID: 2

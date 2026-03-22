@@ -47,6 +47,11 @@ public class ParticleEffectPlayer : MonoBehaviour
             }
 
             yield return new WaitUntil(() => done);
+
+            if (CameraShake.Instance != null)
+            {
+                CameraShake.Instance.Shake();
+            }
         }
         else
         {

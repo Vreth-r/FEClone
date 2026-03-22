@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ab771301fb345bd4abf37acfc2008bba, type: 3}
+  m_Name: WaterProjectile
+  m_EditorClassIdentifier: Assembly-CSharp::ParticleEffectSequence
+  steps:
+  - effectPrefab: {fileID: 2750374341960710454, guid: 6c6eb09ac1840ff40b3d905aeebb1f8c, type: 3}
+    delay: 0
+    lifetime: 4
+    destination: origin
+    isTravelEffect: 0
+    speed: 0
+    groupID: 0
+  - effectPrefab: {fileID: 6702300164689281883, guid: 361416996e7376f40a92d537c88e4b5c, type: 3}
+    delay: 0
+    lifetime: 0
+    destination: target
+    isTravelEffect: 1
+    speed: 1
+    groupID: 1
+  - effectPrefab: {fileID: 4717730626679516997, guid: 9145ab47050c7bd4a9c41ab4ccffbe7b, type: 3}
+    delay: 0
+    lifetime: 2
+    destination: target
+    isTravelEffect: 0
+    speed: 4
+    groupID: 2
