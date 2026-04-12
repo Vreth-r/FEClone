@@ -8,8 +8,6 @@ public class InventoryManagerMenu : UIMenuBase
     private ScrollView playerInventoryView;
     private ScrollView unitRosterView;
     private ScrollView unitInventoryView;
-    private Button addItemButton;
-    private Button removeItemButton;
     private Label goldLabel;
 
     private UnitRosterEntry selectedUnit;
@@ -20,17 +18,11 @@ public class InventoryManagerMenu : UIMenuBase
         playerInventoryView = Root.Q<ScrollView>("playerInventory");
         unitRosterView = Root.Q<ScrollView>("unitRosterList");
         unitInventoryView = Root.Q<ScrollView>("unitInventory");
-        addItemButton = Root.Q<Button>("addItemButton");
-        removeItemButton = Root.Q<Button>("removeItemButton");
         goldLabel = Root.Q<Label>("playerInventoryLabel");
 
         // Populate player inventory and unit roster
         PopulatePlayerInventory();
         PopulateUnitRoster();
-
-        // Button event handlers
-        addItemButton.clicked += AddItemToUnit;
-        removeItemButton.clicked += RemoveItemFromUnit;
     }
 
     private void PopulatePlayerInventory()
@@ -131,16 +123,6 @@ public class InventoryManagerMenu : UIMenuBase
             PopulateUnitInventory();
             PopulatePlayerInventory();
         }
-    }
-
-    private void AddItemToUnit()
-    {
-        // Logic to add selected item to selected unit
-    }
-
-    private void RemoveItemFromUnit()
-    {
-        // Logic to remove selected item from selected unit
     }
 
     public override void OnOpen()
