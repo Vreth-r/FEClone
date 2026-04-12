@@ -74,14 +74,14 @@ public class Unit : MonoBehaviour
         CalculateStats();
         ApplyPassiveEffects();
         proficiencyLevels.AddProficienciesFromOther(unitClass.proficiencies); // wont overwrite existing proficiency
-        foreach(ItemInstance item in inventory.Items)
-        {
-            if (item.IsWeapon)
-            {
-                Equip(item);
-                break;
-            }
-        }
+        // foreach(ItemInstance item in inventory.Items)
+        // {
+        //     if (item.IsWeapon)
+        //     {
+        //         Equip(item);
+        //         break;
+        //     }
+        // }
     }
 
     public void ApplyPassiveEffects()
@@ -259,15 +259,17 @@ public class Unit : MonoBehaviour
             // add functionality later
             return;
         }
-
+        proficiencyLevels.Initialize();
+        unitClass.proficiencies.Initialize();
+        proficiencyLevels.AddProficienciesFromOther(unitClass.proficiencies); // wont overwrite existing proficiency
         item.AsWeapon.proficiency.Initialize(); // look at WeaponProficiency and youll see why
         // hnnn leave this in for now.
-        if (!proficiencyLevels.CheckWeapon(item.AsWeapon) || !unitClass.proficiencies.HasProficiency(item.AsWeapon.weaponType))
-        {
-            Debug.LogWarning($"{unitName} cannot use this {item.AsWeapon.weaponType} weapons: from {item.AsWeapon.itemName}");
-            // functionality later
-            return;
-        }
+        // if (!proficiencyLevels.CheckWeapon(item.AsWeapon) || !unitClass.proficiencies.HasProficiency(item.AsWeapon.weaponType))
+        // {
+        //     Debug.LogWarning($"{unitName} cannot use this {item.AsWeapon.weaponType} weapons: from {item.AsWeapon.itemName}");
+        //     // functionality later
+        //     return;
+        // }
 
         equippedItem = item;
         attackRange = item.AsWeapon.maxRange;

@@ -75,7 +75,7 @@ public class UnitSpawner : MonoBehaviour
         {
             if (!entry.IsAlive || index >= spawnPositions.Length)
             {
-                continue;
+                continue; 
             }
 
             Vector3 worldPos = GridManager.Instance.CellToWorld(spawnPositions[index]) + new Vector3(0.5f, 0.5f, 0f);
@@ -92,6 +92,15 @@ public class UnitSpawner : MonoBehaviour
             UnitManager.Instance.RegisterUnit(unit);
             SceneAnimationController.Instance.RegisterAnimator(unit.unitName, unit.animator); // since the units get spawned after Awake is called they dont get registered with the animation controller
             index++;
+            unit.inventory.Add(new ItemInstance(GameManager.Instance.itemDatabase.GetByID("time_d_demo")));
+            foreach(ItemInstance item in unit.inventory.Items)
+            {
+                if (item.IsWeapon)
+                {
+                    unit.Equip(item);
+                    break;
+                }
+            }
         }
     }
     

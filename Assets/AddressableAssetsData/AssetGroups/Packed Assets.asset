@@ -10,24 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Units
+  m_Name: Packed Assets
   m_EditorClassIdentifier: Unity.Addressables.Editor::UnityEditor.AddressableAssets.Settings.AddressableAssetGroup
-  m_GroupName: Units
-  m_GUID: aff92699152ea2e4a84183670e002538
-  m_SerializeEntries:
-  - m_GUID: 88b1da5fdbc5f2248a8d7d49ee2b08c4
-    m_Address: Assets/Prefabs/Units/Ylru.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UnitPrefab
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: cb05eb2852534e34fb2c87b50afb863a
-    m_Address: Assets/Prefabs/Units/Enemies/Time Echo.prefab
-    m_ReadOnly: 0
-    m_SerializedLabels:
-    - UnitPrefab
-    FlaggedDuringContentUpdateRestriction: 0
+  m_GroupName: Packed Assets
+  m_GUID: 8f5d63ca0947b784aaf1f6ce049b0b36
+  m_SerializeEntries: []
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 994585ddc754f714595107f7635a31e8, type: 2}
   m_SchemaSet:
-    m_Schemas: []
+    m_Schemas:
+    - {fileID: 11400000, guid: cb78914d7d4c8114795338e7c0b907c0, type: 2}
+    - {fileID: 11400000, guid: d793589263e97a642b110e5f3f7062e7, type: 2}

@@ -232,7 +232,7 @@ public class UnitMovement : MonoBehaviour
         transform.localScale = scale;
         if (unit.state != UnitState.Cutscene)
         {
-            // no menu for enemies
+            // no menu or range for enemies
             if (unit.team == Team.Player)
             {
                 UIManagerTheSecond.Instance.OpenMenu<ActionMenuTheSecond, ActionMenuData>(
@@ -243,8 +243,8 @@ public class UnitMovement : MonoBehaviour
                         actions = unit.actions
                     }
                 );
+                movementRange.ShowAttackRange(unit.GridPosition, unit.attackRange);
             }
-            movementRange.ShowAttackRange(unit.GridPosition, unit.attackRange);
         }
     }
 

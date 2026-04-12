@@ -33,8 +33,20 @@ MonoBehaviour:
     m_SerializedLabels:
     - SaveGame
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 88b1da5fdbc5f2248a8d7d49ee2b08c4
+    m_Address: Assets/Prefabs/Units/Ylru.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UnitPrefab
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9cdcf53718a25ed4ca6a4677c34dc217
     m_Address: Assets/ScriptableObjects/Items/Weapons/DEV_PowerfulSword.asset
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a2be97f87f7af0b4d94cc648e2404d53
+    m_Address: Assets/ScriptableObjects/Items/Weapons/Time_D_Demo.asset
     m_ReadOnly: 0
     m_SerializedLabels:
     - Item
@@ -44,6 +56,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels:
     - Item
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cb05eb2852534e34fb2c87b50afb863a
+    m_Address: Assets/Prefabs/Units/Enemies/Time Echo.prefab
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - UnitPrefab
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: d7b9d2dd4d4743c45bca9291052d6896
     m_Address: Assets/ScriptableObjects/SaveGameSlots/Slot1.asset

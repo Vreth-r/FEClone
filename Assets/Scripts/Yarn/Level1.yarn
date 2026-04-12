@@ -1,0 +1,19 @@
+title: Level1
+---
+<<SetControlContext "Cutscene">>
+<<SetLevelCompleteNode "Level1Complete">>
+<<FlipTurn>>
+Use arrow or WASD keys to move cursor, hit enter to select.
+Press G to toggle the grid outline.
+Once your turn is done, enemies will automatically start their turn.
+There is unfortunately not any turn UI but the backend is there I swear.
+<<SetControlContext "Gameplay">>
+===
+
+title: Level1Complete
+---
+<<SetControlContext "Cutscene">>
+All enemies are dead, thanks for playing!
+<<SetControlContext "Gameplay">>
+<<LoadScene "CampScene">>
+===

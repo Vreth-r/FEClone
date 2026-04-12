@@ -5,7 +5,7 @@ using UnityEngine;
 public class ItemInstance
 {
     [SerializeField] private string itemID;
-    [System.NonSerialized] private Item definition;
+    [SerializeField] private Item definition;
 
     // runtime
     [SerializeField] private int currentDurability;
@@ -18,6 +18,11 @@ public class ItemInstance
             if (definition == null)
             {
                 definition = GameManager.Instance.itemDatabase.GetByID(itemID);
+
+                if (definition == null)
+                {
+                    Debug.LogError($"[ItemInstance] Failed to resolve itemID: {itemID}");
+                }
             }
 
             return definition;
@@ -51,11 +56,12 @@ public class ItemInstance
 
     // type helpers
 
-    public bool IsWeapon => definition is WeaponItem;
-    public bool IsConsumable => definition is ConsumableItem;
+    public bool IsWeapon => Definition is WeaponItem;
+    public bool IsConsumable => Definition is ConsumableItem;
+    public string ItemID => itemID;
 
-    public WeaponItem AsWeapon => definition as WeaponItem;
-    public ConsumableItem AsConsumable => definition as ConsumableItem;
+    public WeaponItem AsWeapon => Definition as WeaponItem;
+    public ConsumableItem AsConsumable => Definition as ConsumableItem;
 
     // durability
 
