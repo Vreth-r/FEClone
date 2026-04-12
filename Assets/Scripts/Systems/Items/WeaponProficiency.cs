@@ -64,6 +64,16 @@ public class WeaponProficiency // coulda named it better
             {
                 return true;
             }
+
+            Debug.LogWarning($"Weapon Key:{proficiency.Key} | Weapon Value:{proficiency.Value}");
+            if(runtimeProfDict.ContainsKey(proficiency.Key))
+            {
+                Debug.LogWarning($"Unit Value for key:{runtimeProfDict[proficiency.Key]}");
+            }
+            else
+            {
+                Debug.LogWarning("Unit does not have proficiency for this weapon");
+            }
         }
         return false;
     }

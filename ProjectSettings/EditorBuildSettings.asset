@@ -6,9 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/BootScene.unity
+    guid: 4745f5b1f10473a48a91946539dabd1e
+  - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 20a9029116f40af499f318e5b33d8535
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/DebugLevel.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
@@ -23,6 +26,12 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Levels/Tutorial/Dorms.unity
     guid: db99be534bf831a49beb6ef13c9ea426
+  - enabled: 0
+    path: Assets/Scenes/Levels/Tutorial/DevScene.unity
+    guid: 2bd3df8450e59fa4bb6c459009036bfc
+  - enabled: 1
+    path: Assets/Scenes/Levels/Level1.unity
+    guid: dec2f54fd3bcd784f8b40b2477c97ade
   m_configObjects:
     com.unity.addressableassets: {fileID: 11400000, guid: e0cf7b0b37641a346b1d0075c99b1bdf, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: f49718e4b6acf9b47b926814626fa902, type: 3}

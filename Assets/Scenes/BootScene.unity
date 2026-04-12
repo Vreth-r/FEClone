@@ -133,10 +133,10 @@ GameObject:
   - component: {fileID: 105420750}
   - component: {fileID: 105420751}
   - component: {fileID: 105420752}
-  - component: {fileID: 105420753}
   - component: {fileID: 105420754}
   - component: {fileID: 105420755}
   - component: {fileID: 105420756}
+  - component: {fileID: 105420757}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -240,23 +240,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ControlsManager
   inputActions: {fileID: -944628639613478452, guid: f49718e4b6acf9b47b926814626fa902, type: 3}
---- !u!114 &105420753
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 105420745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 767e2d5a97fb0da4992f6f3f667dbe2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
-  soundLibrary: {fileID: 11400000, guid: f2a70ba80e49241418a822fe33d96f1b, type: 2}
-  masterVolume: 1
-  uiVolume: 1
-  musicVolume: 1
-  gameplayVolume: 1
 --- !u!114 &105420754
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -323,6 +306,23 @@ MonoBehaviour:
   musicVolume: 1
   gameplayVolume: 1
   gameSpeed: 1
+--- !u!114 &105420757
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 105420745}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 767e2d5a97fb0da4992f6f3f667dbe2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::AudioManager
+  soundLibrary: {fileID: 11400000, guid: f2a70ba80e49241418a822fe33d96f1b, type: 2}
+  masterVolume: 1
+  uiVolume: 1
+  musicVolume: 1
+  gameplayVolume: 1
 --- !u!1 &173640941
 GameObject:
   m_ObjectHideFlags: 0
@@ -388,7 +388,6 @@ GameObject:
   m_Component:
   - component: {fileID: 202811700}
   - component: {fileID: 202811699}
-  - component: {fileID: 202811698}
   - component: {fileID: 202811701}
   m_Layer: 0
   m_Name: Camera
@@ -397,14 +396,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!81 &202811698
-AudioListener:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 202811697}
-  m_Enabled: 1
 --- !u!20 &202811699
 Camera:
   m_ObjectHideFlags: 0

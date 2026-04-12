@@ -7,6 +7,7 @@ using TMPro;
 using System.IO;
 using Newtonsoft.Json;
 using Yarn.Unity;
+using System;
 
 public class LoadingScreenManager : MonoBehaviour
 {
@@ -85,94 +86,185 @@ public class LoadingScreenManager : MonoBehaviour
         return false;
     }
 
-    private IEnumerator LoadSceneRoutine(string sceneName, System.Action onComplete)
+    // private IEnumerator LoadSceneRoutine(string sceneName, System.Action onComplete)
+    // {
+    //     bool databasesReady = false;
+    //     bool needsDatabaseWait = IsLeavingMainMenu(sceneName);
+    //     if (loadingScreenPrefab == null)
+    //     {
+    //         Debug.LogError("Loading screen prefab not assigned.");
+    //         yield break;
+    //     }
+
+    //     // Create screen
+    //     currentScreen = Instantiate(loadingScreenPrefab);
+    //     DontDestroyOnLoad(currentScreen);
+
+    //     canvasGroup = currentScreen.GetComponentInChildren<CanvasGroup>();
+    //     progressBar = currentScreen.GetComponentInChildren<Slider>();
+    //     loadingText = currentScreen.GetComponentInChildren<TextMeshProUGUI>();
+    //     tipText = currentScreen.transform.Find("Background").transform.Find("TipText").GetComponent<TextMeshProUGUI>();
+
+    //     GetRandomTip(); // sets tip text in method
+
+    //     canvasGroup.alpha = 0f;
+    //     canvasGroup.blocksRaycasts = true;
+
+    //     // Fade in
+    //     yield return FadeCanvas(0f, 1f, 0.5f);
+
+    //     // Begin scene load
+    //     AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+    //     asyncLoad.allowSceneActivation = false;
+
+    //     if(needsDatabaseWait)
+    //     {
+    //         yield return StartCoroutine(GameManager.Instance.InitializeAllDatabases());
+    //     }
+    //     databasesReady = true;
+
+    //     // Update progress bar
+    //     float targetProgress = 0f;
+
+    //     while (!asyncLoad.isDone)
+    //     {
+    //         // apparently, unity only loads to 0.9 b4 waiting for the scene to activate
+    //         targetProgress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
+
+    //         // smooth fill
+    //         progressBar.value = Mathf.Lerp(progressBar.value, targetProgress, Time.deltaTime * 5f);
+
+    //         // text update
+    //         int percent = Mathf.RoundToInt(progressBar.value * 100f);
+    //         loadingText.text = $"Loading... {percent}%";
+
+    //         if (asyncLoad.progress >= 0.9f && databasesReady)
+    //         {
+    //             asyncLoad.allowSceneActivation = true;
+    //         }
+
+    //         yield return null;
+    //     }
+    //     // Set progress to full and display a short message
+    //     progressBar.value = 1f;
+    //     loadingText.text = $"Loading Complete";
+
+    //     asyncLoad.allowSceneActivation = true;
+
+    //     // Wait one frame for scene to switch
+    //     yield return null;
+        
+    //     if (newGameFlag)
+    //     {
+    //         GameManager.Instance.OnNewGame();
+    //         newGameFlag = false;
+    //     }
+
+    //     if (needsDatabaseWait)
+    //     {
+    //         Debug.Log("Swapping to Gameplay Context");
+    //         ControlsManager.Instance.SetContext(InputContext.Gameplay);
+    //     }
+
+    //     onComplete?.Invoke(); // run after scene loads
+
+    //     // idk maybe move this somewhere else I just couldn't find where
+    //     //GameObject.Find("GameManager").GetComponent<UIManager>().ClearMenuMap(); // resets spawned menus tracked by UI manager
+    //     // Fade out
+    //     yield return FadeCanvas(1f, 0f, 0.5f);
+
+    //     yield return null;
+    //     Destroy(currentScreen);
+    // }
+
+    private IEnumerator LoadSceneRoutine(string sceneName, Action onComplete)
     {
-        bool databasesReady = false;
-        bool needsDatabaseWait = IsLeavingMainMenu(sceneName);
         if (loadingScreenPrefab == null)
         {
-            Debug.LogError("Loading screen prefab not assigned.");
+            Debug.LogError("Loading screen prefab missing.");
             yield break;
         }
 
-        // Create screen
         currentScreen = Instantiate(loadingScreenPrefab);
         DontDestroyOnLoad(currentScreen);
 
         canvasGroup = currentScreen.GetComponentInChildren<CanvasGroup>();
         progressBar = currentScreen.GetComponentInChildren<Slider>();
-        loadingText = currentScreen.GetComponentInChildren<TextMeshProUGUI>();
+        loadingText = currentScreen.GetComponentInChildren<TMPro.TextMeshProUGUI>();
         tipText = currentScreen.transform.Find("Background").transform.Find("TipText").GetComponent<TextMeshProUGUI>();
+
+        if (canvasGroup == null || progressBar == null || loadingText == null)
+        {
+            Debug.LogError("Loading screen UI references missing!");
+        }
 
         GetRandomTip(); // sets tip text in method
 
         canvasGroup.alpha = 0f;
         canvasGroup.blocksRaycasts = true;
 
-        // Fade in
-        yield return FadeCanvas(0f, 1f, 0.5f);
+        yield return FadeCanvas(0f, 1f, 0.3f);
 
-        // Begin scene load
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
         asyncLoad.allowSceneActivation = false;
 
-        if(needsDatabaseWait)
-        {
-            yield return StartCoroutine(GameManager.Instance.InitializeAllDatabases());
-        }
-        databasesReady = true;
+        // Start DB init
+        StartCoroutine(GameManager.Instance.InitializeAllDatabases());
 
-        // Update progress bar
-        float targetProgress = 0f;
+        float timeout = 15f;
+        float timer = 0f;
 
         while (!asyncLoad.isDone)
         {
-            // apparently, unity only loads to 0.9 b4 waiting for the scene to activate
-            targetProgress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
+            timer += Time.deltaTime;
 
-            // smooth fill
-            progressBar.value = Mathf.Lerp(progressBar.value, targetProgress, Time.deltaTime * 5f);
+            float progress = Mathf.Clamp01(asyncLoad.progress / 0.9f);
 
-            // text update
-            int percent = Mathf.RoundToInt(progressBar.value * 100f);
-            loadingText.text = $"Loading... {percent}%";
+            if (progressBar != null)
+                progressBar.value = progress;
 
-            if (asyncLoad.progress >= 0.9f && databasesReady)
+            if (loadingText != null)
+                loadingText.text = $"Loading... {Mathf.RoundToInt(progress * 100f)}%";
+
+            // FORCE CONTINUE if stuck
+            if (asyncLoad.progress >= 0.9f)
             {
+                if (timer > 1f) // small buffer so DBs can finish
+                {
+                    Debug.Log("[Loader] Allowing scene activation");
+                    asyncLoad.allowSceneActivation = true;
+                }
+            }
+
+            // HARD TIMEOUT
+            if (timer > timeout)
+            {
+                Debug.LogError("[Loader] TIMEOUT — forcing scene load");
                 asyncLoad.allowSceneActivation = true;
             }
 
             yield return null;
         }
-        // Set progress to full and display a short message
-        progressBar.value = 1f;
-        loadingText.text = $"Loading Complete";
 
-        asyncLoad.allowSceneActivation = true;
-
-        // Wait one frame for scene to switch
         yield return null;
-        
+
+        // Post-load logic
         if (newGameFlag)
         {
+            Debug.Log("[Loader] Running New Game setup");
             GameManager.Instance.OnNewGame();
             newGameFlag = false;
         }
 
-        if (needsDatabaseWait)
+        onComplete?.Invoke();
+
+        yield return FadeCanvas(1f, 0f, 0.3f);
+
+        if(sceneName == "CampScene")
         {
-            Debug.Log("Swapping to Gameplay Context");
             ControlsManager.Instance.SetContext(InputContext.Gameplay);
         }
 
-        onComplete?.Invoke(); // run after scene loads
-
-        // idk maybe move this somewhere else I just couldn't find where
-        //GameObject.Find("GameManager").GetComponent<UIManager>().ClearMenuMap(); // resets spawned menus tracked by UI manager
-        // Fade out
-        yield return FadeCanvas(1f, 0f, 0.5f);
-
-        yield return null;
         Destroy(currentScreen);
     }
 
@@ -195,13 +287,13 @@ public class LoadingScreenManager : MonoBehaviour
         {
             // Pick a random category
             List<string> categories = new List<string>(tips.Keys);
-            string randomCategory = categories[Random.Range(0, categories.Count)]; // will change this later to make jokes rarer and actual helpful tips more common later
+            string randomCategory = categories[UnityEngine.Random.Range(0, categories.Count)]; // will change this later to make jokes rarer and actual helpful tips more common later
 
             // Pick a random tip from the category
             List<string> catTips = tips[randomCategory];
             if (catTips.Count > 0)
             {
-                string randomTip = catTips[Random.Range(0, catTips.Count)];
+                string randomTip = catTips[UnityEngine.Random.Range(0, catTips.Count)];
                 tipText.text = randomTip;
             }
         }

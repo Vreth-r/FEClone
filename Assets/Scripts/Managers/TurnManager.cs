@@ -81,6 +81,7 @@ public class TurnManager : MonoBehaviour
     {
         //whateverlogic
         TurnFlip();
+        Debug.Log(UnitManager.Instance.enemyUnits.Count);
     }
     
     public async UniTask RunEnemyTurnAsync()

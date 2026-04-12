@@ -22,13 +22,14 @@ public class UnitManager : MonoBehaviour
         Debug.Log($"Registering {unit.unitName} at {unit.GridPosition}");
 
         // Track grid position
+        if (unitPositions.ContainsKey(unit.GridPosition))
+        {
+            Debug.LogWarning($"Tile {unit.GridPosition} already occupied!");
+        }
         unitPositions[unit.GridPosition] = unit;
 
-        // Assign ID if missing
-        if (string.IsNullOrEmpty(unit.unitID))
-        {
-            unit.unitID = GenerateUnitID(unit);
-        }
+        // Assign ID
+        unit.unitID = GenerateUnitID(unit);
 
         if (unit.team == Team.Player)
         {
@@ -37,6 +38,8 @@ public class UnitManager : MonoBehaviour
         else if (unit.team == Team.Enemy)
         {
             enemyUnits[unit.unitID] = unit;
+            Debug.Log("Registering Enemy");
+            Debug.Log($"Enemy Count: {enemyUnits.Count}");
         }
     }
     

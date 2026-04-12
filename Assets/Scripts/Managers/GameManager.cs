@@ -38,6 +38,8 @@ public class GameManager : MonoBehaviour
     [Header("Yarn")]
     public DialogueRunner MasterYarnRunner;
 
+    private bool databasesInitialized = false;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -59,18 +61,65 @@ public class GameManager : MonoBehaviour
     }
 
     // game stuff
-    public IEnumerator InitializeAllDatabases()
+    public IEnumerator InitializeAllDatabases(float timeout = 10f)
     {
-        bool done = false;
-        InitializeDatabases(() => done = true);
+        if (databasesInitialized)
+        {
+            Debug.Log("[GameManager] Databases already initialized.");
+            yield break;
+        }
 
-        yield return new WaitUntil(() => done);
+        Debug.Log("[GameManager] Initializing databases...");
+
+        int total = 0;
+        int completed = 0;
+
+        void RegisterDB(System.Action<System.Action> initCall)
+        {
+            total++;
+            initCall(() =>
+            {
+                completed++;
+                Debug.Log($"[GameManager] DB Initialized {completed}/{total}");
+            });
+        }
+
+        RegisterDB(cb => itemDatabase.Initialize(cb));
+        RegisterDB(cb => unitDatabase.Initialize(cb));
+
+        float timer = 0f;
+
+        while (completed < total)
+        {
+            timer += Time.deltaTime;
+
+            if (timer > timeout)
+            {
+                Debug.LogError("[GameManager] DATABASE INIT TIMEOUT — forcing continue");
+                break;
+            }
+
+            yield return null;
+        }
+
+        databasesInitialized = true;
+
+        Debug.Log($"[GameManager] Database init complete ({completed}/{total})");
     }
 
     // anything for a new game gets made here, assume everything is empty on run and load save data only when told
     public void OnNewGame()
     {
-        Instance.PlayerRoster.Add(Instance.unitDatabase.GetPrefab("ylru").GetComponent<Unit>());
+        GameObject ylruGO = Instance.unitDatabase.GetPrefab("ylru");
+        if(ylruGO != null)
+        {
+            Instance.PlayerRoster.Add(ylruGO.GetComponent<Unit>());
+            UnitRosterEntry ylru = Instance.PlayerRoster.Get("ylru");
+        }
+        else
+        {
+            Debug.Log("No Ylru in database");
+        }
     }
 
     public void InitializeDatabases(System.Action onComplete)

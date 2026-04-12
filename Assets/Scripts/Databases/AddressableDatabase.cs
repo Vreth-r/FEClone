@@ -3,83 +3,166 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
+using UnityEngine.ResourceManagement.ResourceLocations;
 
 public abstract class AddressableDatabase<T> : ScriptableObject
     where T : ScriptableObject
 {
     protected readonly List<T> items = new();
     public IReadOnlyList<T> Items => items;
+    private Dictionary<string, T> idLookup = new();
 
     public bool IsInitialized { get; private set; }
+    public bool IsInitializing { get; private set; }
 
     protected abstract string Label { get; }
 
-    public void Initialize(Action onDBINITComplete = null)
+    public void Initialize(Action onComplete = null)
     {
         if (IsInitialized)
         {
-            onDBINITComplete?.Invoke();
+            onComplete?.Invoke();
             return;
         }
 
-        Debug.Log("Intialized Database");
-
-        Addressables.LoadAssetsAsync<T>(
-            Label,
-            OnItemLoaded
-        ).Completed += handle =>
+        if (IsInitializing)
         {
-            IsInitialized = true;
-            onDBINITComplete?.Invoke();
+            Debug.LogWarning($"[{GetType().Name}] Already initializing.");
+            return;
+        }
+
+        IsInitializing = true;
+        items.Clear();
+        idLookup.Clear(); // IMPORTANT if you're using the dictionary version
+
+        Debug.Log($"[Addressables] Loading label: {Label}");
+
+        Addressables.LoadResourceLocationsAsync(Label).Completed += locHandle =>
+        {
+            if (locHandle.Status != AsyncOperationStatus.Succeeded)
+            {
+                Debug.LogError($"[Addressables] Failed to get locations for '{Label}'");
+                Finish(onComplete);
+                return;
+            }
+
+            IList<IResourceLocation> locations = locHandle.Result;
+
+            Debug.Log($"[Addressables] Label '{Label}' has {locations.Count} locations");
+
+            foreach (var loc in locations)
+            {
+                Debug.Log($" - {loc.PrimaryKey}");
+            }
+
+            if (locations == null || locations.Count == 0)
+            {
+                Debug.LogError($"[Addressables] No locations found for '{Label}'");
+                Finish(onComplete);
+                return;
+            }
+
+            int total = locations.Count;
+            int completed = 0;
+
+            Debug.Log($"[Addressables] Found {total} assets for '{Label}'");
+
+            foreach (var loc in locations)
+            {
+                Addressables.LoadAssetAsync<T>(loc).Completed += handle =>
+                {
+                    if (handle.Status == AsyncOperationStatus.Succeeded)
+                    {
+                        if (handle.Result != null)
+                        {
+                            OnItemLoaded(handle.Result); // ✅ USE THIS INSTEAD
+                        }
+                        else
+                        {
+                            Debug.LogWarning($"[Addressables] Null asset at {loc.PrimaryKey}");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogWarning($"[Addressables] Failed to load: {loc.PrimaryKey}");
+                    }
+
+                    completed++;
+
+                    if (completed >= total)
+                    {
+                        Debug.Log($"[Addressables] Finished loading '{Label}' ({items.Count}/{total} succeeded)");
+                        Finish(onComplete);
+                    }
+                };
+            }
         };
+    }
+
+    protected void OnItemLoaded(T item)
+    {
+        if (!items.Contains(item))
+        {
+            items.Add(item);
+
+            if (item is IIdentifiable identifiable)
+            {
+                if (!idLookup.ContainsKey(identifiable.ID))
+                {
+                    idLookup.Add(identifiable.ID, item);
+                }
+                else
+                {
+                    Debug.LogError($"[{GetType().Name}] Duplicate ID detected: {identifiable.ID}");
+                }
+            }
+            else
+            {
+                Debug.LogError($"[{GetType().Name}] Item {item.name} does not implement IIdentifiable");
+            }
+        }
+    }
+
+    private void Finish(Action onComplete)
+    {
+        IsInitialized = true;
+        IsInitializing = false;
+        onComplete?.Invoke();
     }
 
     protected virtual void OnEnable()
     {
         IsInitialized = false;
+        IsInitializing = false;
         items.Clear();
-    }
-
-    protected virtual void OnItemLoaded(T item)
-    {
-        if (!items.Contains(item))
-        {
-            items.Add(item);
-        }
-    }
-
-    public T GetByID(string id)
-    {
-        if (typeof(IIdentifiable).IsAssignableFrom(typeof(T)))
-        {
-            foreach (var item in items)
-            {
-                if (((IIdentifiable)item).ID == id)
-                    return item;
-            }
-        }
-
-        Debug.LogError($"Item with ID '{id}' not found in {GetType().Name}");
-        return null;
+        idLookup.Clear();
     }
 
     public void Release()
     {
-        Addressables.Release(items);
+        foreach (var item in items)
+        {
+            Addressables.Release(item);
+        }
+
         items.Clear();
         IsInitialized = false;
     }
 
-#if UNITY_EDITOR
-    public void Validate()
+    public T GetByID(string id)
     {
-        var seen = new HashSet<string>();
-
-        foreach (var item in items)
+        if (string.IsNullOrEmpty(id))
         {
-            if (!seen.Add(((IIdentifiable)item).ID))
-                Debug.LogError($"Duplicate ID: {item.name}");
+            Debug.LogError($"[{GetType().Name}] GetByID called with null or empty ID");
+            return null;
         }
+
+        if (idLookup.TryGetValue(id, out var item))
+        {
+            return item;
+        }
+
+        Debug.LogError($"[{GetType().Name}] Item with ID '{id}' not found.");
+        return null;
     }
-#endif
 }
